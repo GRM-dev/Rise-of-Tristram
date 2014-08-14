@@ -1,0 +1,16 @@
+tile.spawnBlock.name=Searing Netherrack
+tile.itemGen.name=Magic Focuser
+
+item.manaConverter.name=Mana Converter
+item.relicRepair.name=Key of Mending
+item.gunpowderInfuser.name=Gunpowder Infuser
+item.relicHeal.name=Locket of Life
+item.relicLife.name=Brooch of the Scarab
+item.manaCrystal.manaCrystal.name=Mana Crystal
+item.manaCrystal.manaShard.name=Mana Shard
+item.manaCrystal.manaFoci.name=Mana Focus
+item.itemWandMS.name=Wand of Spell Vamp
+item.itemCBR.name=Repeater Crossbow
+item.itemSwordSoul.name=Soul Rend
+
+itemGroup.RoT=Rise of Tristram
