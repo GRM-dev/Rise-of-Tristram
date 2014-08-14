@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 import ee.rot.ExtendPlayerRotManaStam;
 import ee.rot.blocks.ContainerItemGen;
-import ee.rot.blocks.GuiItemGen;
 import ee.rot.blocks.TileEntityItemGenerator;
+import ee.rot.gui.GuiItemGen;
 
 public class CommonProxy implements IGuiHandler
 {

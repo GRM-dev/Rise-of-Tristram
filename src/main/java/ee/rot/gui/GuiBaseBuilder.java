@@ -1,4 +1,4 @@
-package ee.rot.blocks;
+package ee.rot.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import ee.rot.Rot;
+import ee.rot.blocks.ContainerBaseBuilder;
+import ee.rot.blocks.TileEntityBaseBuilder;
 
 public class GuiBaseBuilder extends GuiContainer
 {

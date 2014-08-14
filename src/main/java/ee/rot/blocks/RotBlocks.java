@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ee.rot.Rot;
+import ee.rot.items.ItemBlockMultiTexWithSubtypes;
 
 public class RotBlocks 
 {
