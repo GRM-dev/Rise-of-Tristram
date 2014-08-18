@@ -16,11 +16,13 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import ee.rot.blocks.RotBlocks;
-import ee.rot.blocks.TileEntityItemGenerator;
+import ee.rot.blocks.TileEntityMagicBase;
+import ee.rot.comms.BaseBuilderPacket;
 import ee.rot.comms.CommonProxy;
 import ee.rot.comms.TextPacket;
 import ee.rot.events.RotEventHandler;
 import ee.rot.events.RotStandardEventHandler;
+import ee.rot.gui.GuiHandler;
 import ee.rot.gui.RotManaGui;
 import ee.rot.gui.RotStamGui;
 import ee.rot.items.RotItems;
@@ -57,9 +59,10 @@ public class Rot {
     public void preInit(FMLPreInitializationEvent event)
     {  	
     	net = NetworkRegistry.INSTANCE.newSimpleChannel("rpcee");
-    	net.registerMessage(TextPacket.customPacketHandler.class, TextPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(TextPacket.TextPacketHandler.class, TextPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(BaseBuilderPacket.BaseBuilderPacketHandler.class, BaseBuilderPacket.class, packetId++, Side.SERVER);
     	
-		GameRegistry.registerTileEntity(TileEntityItemGenerator.class, "itemGenRot");
+		GameRegistry.registerTileEntity(TileEntityMagicBase.class, "itemGenRot");
     	
     	RotBlocks.init();
     	RotBlocks.registerBlocks();
@@ -74,7 +77,7 @@ public class Rot {
     public void init(FMLInitializationEvent event)
     {
     	//PacketHandler.initPackets();
-    	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     }
     
     @EventHandler

@@ -26,10 +26,14 @@ public class ItemSwordSoul extends ItemSword
 				{
 					EntityPlayer player = (EntityPlayer)attacker;
 					ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
-					if (props.consumeStam(4f))
+					if (props.consumeMana(4f))
 					{
 						target.setFire(4);
-						target.heal(-1);
+					}
+					if (props.consumeStam(4f))
+					{						
+						target.heal(-4);
+						attacker.heal(2);
 					}
 				}
 				is.damageItem(1, attacker);
@@ -45,14 +49,14 @@ public class ItemSwordSoul extends ItemSword
 				{
 					EntityPlayer player = (EntityPlayer)attacker;
 					ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
-					props.regenMana(target.getMaxHealth() * 0.05f);
-					props.regenStam(target.getMaxHealth() * 0.05f);
+					props.regenMana(target.getMaxHealth() * 0.15f);
+					props.regenStam(target.getMaxHealth() * 0.15f);
 				}
 				attacker.heal(target.getMaxHealth() * 0.05f);				
 			}	
 			else
 			{
-				if (is.getItemDamage() > 5)is.setItemDamage(is.getItemDamage() - 5);
+				if (is.getItemDamage() > 9)is.setItemDamage(is.getItemDamage() - 9);
 				else is.setItemDamage(0);
 			}
 		}		

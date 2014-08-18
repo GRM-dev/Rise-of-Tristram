@@ -287,13 +287,13 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 	
 	public boolean needsMana()
 	{
-		if (currentMana < maxMana)return true;
+		if (getCurrentMana() < maxMana)return true;
 		else return false;
 	}
 	
 	public boolean needsStam()
 	{
-		if (currentStam < maxStam)return true;
+		if (getCurrentStam() < maxStam)return true;
 		else return false;
 	}
 }

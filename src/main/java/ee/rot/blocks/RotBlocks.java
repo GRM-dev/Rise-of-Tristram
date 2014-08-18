@@ -27,7 +27,7 @@ public class RotBlocks
 				setBlockName("baseBlock");
 		
 		
-		itemGen = new BlockItemGen().setBlockName("itemGen").setBlockTextureName("cauldron_inner").setCreativeTab(Rot.tabRoT);
+		itemGen = new BlockMagicBase().setBlockName("itemGen").setBlockTextureName("cauldron_inner").setCreativeTab(Rot.tabRoT);
 		
 		myPane = new BlockPaneRot("stone", "cobblestone", Material.rock, false).setHardness(1.5F).setResistance(10.0F).setBlockName("stoneSheet");
 	}

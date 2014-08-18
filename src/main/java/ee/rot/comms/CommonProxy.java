@@ -5,15 +5,9 @@ import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IGuiHandler;
 import ee.rot.ExtendPlayerRotManaStam;
-import ee.rot.blocks.ContainerItemGen;
-import ee.rot.blocks.TileEntityItemGenerator;
-import ee.rot.gui.GuiItemGen;
 
-public class CommonProxy implements IGuiHandler
+public class CommonProxy
 {
 	/** Used to store IExtendedEntityProperties data temporarily between player death and respawn */
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
@@ -22,47 +16,6 @@ public class CommonProxy implements IGuiHandler
 	{
 		
 	}	
-	
-	@Override
-	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int x, int y, int z)
-	{
-		TileEntity entity = world.getTileEntity(x, y, z);
-		switch(guiId) {
-		case 0:
-		if(entity != null && entity instanceof TileEntityItemGenerator) 
-		{
-			System.out.println("Server Gui done");
-			return new ContainerItemGen((TileEntityItemGenerator) entity);
-		} 
-		else 
-		{
-			return null;
-		}
-		default:
-			return null;
-		}
-	}
-	
-	@Override
-	public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int x, int y, int z)
-	{
-		TileEntity entity = world.getTileEntity(x, y, z);
-
-		switch(guiId) {
-		case 0:
-		if(entity != null && entity instanceof TileEntityItemGenerator) 
-		{
-			System.out.println("Client Gui done");
-			return new GuiItemGen((TileEntityItemGenerator) entity);
-		}  
-		else 
-		{
-			return null;
-		}
-		default:
-			return null;
-		}
-	}
 	
 	/**
 	* Adds an entity's custom data to the map for temporary storage

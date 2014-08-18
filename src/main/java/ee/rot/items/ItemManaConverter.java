@@ -31,10 +31,8 @@ public class ItemManaConverter extends Item {
 		
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		// TODO Auto-generated method stub		
-		
-		Rot.net.sendToServer(new TextPacket("testing"));
+			EntityPlayer par3EntityPlayer) 
+	{
 		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
 		if (par3EntityPlayer.inventory.getFirstEmptyStack() > 0)
 		{
@@ -53,11 +51,7 @@ public class ItemManaConverter extends Item {
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		// TODO Auto-generated method stub
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-		par3List.add("");
-		par3List.add("");
-		par3List.add("");
-		par3List.add("");
-		par3List.add("");
+		//par3List.add("");
 	}
 	
 	/*public boolean checkForItemsAndAmounts(ItemStack[] items, int[] amounts, InventoryPlayer invPlayer)

@@ -33,7 +33,7 @@ public class TextPacket implements IMessage
 		 ByteBufUtils.writeUTF8String(buf, text);
 	}
 	
-	public static class customPacketHandler implements IMessageHandler<TextPacket, IMessage> 
+	public static class TextPacketHandler implements IMessageHandler<TextPacket, IMessage> 
 	{
 
 		@Override
