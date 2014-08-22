@@ -59,8 +59,8 @@ public class RotItems {
 		
 		itemWandMS = new ItemWandManaSteal(ToolMaterial.WOOD)
 			.setUnlocalizedName("itemWandMS")
-			.setCreativeTab(Rot.tabRoT)
-			.setTextureName(Rot.MODID+":"+"wandMana");
+			.setCreativeTab(Rot.tabRoT);
+			//.setTextureName(Rot.MODID+":"+"wandMana");
 		
 		itemCBR = new ItemCrossbowRepater()
 			.setCreativeTab(Rot.tabRoT)

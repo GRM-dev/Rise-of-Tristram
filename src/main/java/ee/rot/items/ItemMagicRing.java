@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 
 public class ItemMagicRing extends Item
 {
@@ -37,7 +37,7 @@ public class ItemMagicRing extends Item
 			
 			This is using Seigneur_Necron's slick method (will be used from here on):
 			 */
-			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
+			ExtendPlayerRot props = ExtendPlayerRot.get(player);
 			
 			// Here we'll use the method we made to see if the player has enough mana to do something
 			// We'll print something to the console for debugging, but I'm sure you'll find a much

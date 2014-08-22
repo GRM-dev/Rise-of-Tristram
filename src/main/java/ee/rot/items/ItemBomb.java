@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 import ee.rot.RotEntityThrowableBomb;
 
 public class ItemBomb extends Item 

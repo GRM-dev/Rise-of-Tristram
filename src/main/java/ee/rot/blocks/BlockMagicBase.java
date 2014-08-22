@@ -73,6 +73,10 @@ public class BlockMagicBase extends BlockContainer
 		{
 			FMLNetworkHandler.openGui(player, Rot.instance, 0, world, x, y, z);
 		}
+		/*/else//This packet will take the x,y,z or better yet could grab the tileEntity myself and pass it?
+		{
+			Rot.net.sendTo(<Packet defined for clientside>, player);
+		}*/
 		return true;
 	}
 

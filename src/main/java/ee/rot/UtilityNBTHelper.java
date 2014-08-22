@@ -3,6 +3,7 @@ package ee.rot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+/** This is not my Class, shamefully stolen, not really stolen though it was open source but not my work nevertheless **/
 public class UtilityNBTHelper
 {
     public static boolean hasTag(ItemStack itemStack, String keyName)

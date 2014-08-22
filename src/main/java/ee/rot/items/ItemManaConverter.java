@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
 import ee.rot.comms.TextPacket;
 
@@ -33,7 +33,7 @@ public class ItemManaConverter extends Item {
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) 
 	{
-		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
+		ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
 		if (par3EntityPlayer.inventory.getFirstEmptyStack() > 0)
 		{
 			if (props.consumeMana(60f))

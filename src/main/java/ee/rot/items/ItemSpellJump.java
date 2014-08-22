@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
 
 //First item I went out on a limb to make
@@ -35,7 +35,7 @@ public class ItemSpellJump extends Item {
     	{
 		if (!world.isRemote)
 		{
-			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
+			ExtendPlayerRot props = ExtendPlayerRot.get(player);
 			
 			if (props.consumeMana(spellCost))
 			{

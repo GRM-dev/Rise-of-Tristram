@@ -9,14 +9,17 @@ import org.lwjgl.util.vector.Vector3f;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
 import ee.rot.UtilityBlockLocationType;
+import ee.rot.UtilityNBTHelper;
+import ee.rot.items.RotItems;
 
 
 public class TileEntityMagicBase extends TileEntity
@@ -43,11 +46,14 @@ public class TileEntityMagicBase extends TileEntity
 			{
 				UtilityBlockLocationType u = (UtilityBlockLocationType)locations.get(i);
 				String blockS = "";
-				if (u.block.equals(Blocks.planks))blockS = "planks";
-				if (u.block.equals(Blocks.stone))blockS = "stone";
-				if (u.block.equals(Blocks.cobblestone))blockS = "cobble";
-				if (u.block.equals(Blocks.stonebrick))blockS = "stonebrick";
-				if (u.block.equals(Blocks.air))blockS = "air";
+				for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
+				{
+					if (u.block.equals(RotBlocks.blockTypeObjects[bt]))
+					{
+						blockS = RotBlocks.blockTypes[bt];
+						break;
+					}
+				}
 				locationsS += u.x+","+u.y+","+u.z+","+blockS;
 				if (i != locations.size() -1)
 				{
@@ -74,11 +80,14 @@ public class TileEntityMagicBase extends TileEntity
 			for (int i = 0; i < locationS.length;i++)
 			{
 				String[] uS = locationS[i].split(",");
-				if (uS[3].equals("air"))blockB = Blocks.air;
-				if (uS[3].equals("planks"))blockB = Blocks.planks;
-				if (uS[3].equals("stone"))blockB = Blocks.stone;
-				if (uS[3].equals("cobble"))blockB = Blocks.cobblestone;
-				if (uS[3].equals("stonebrick"))blockB = Blocks.stonebrick;
+				for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
+				{
+					if (uS[3].equals(RotBlocks.blockTypes[bt]))
+					{
+						blockB = RotBlocks.blockTypeObjects[bt];
+						break;
+					}
+				}	
 				locations.add(new UtilityBlockLocationType(Integer.parseInt(uS[0]), Integer.parseInt(uS[1]), Integer.parseInt(uS[2]), blockB));
 			}
 		}
@@ -129,6 +138,7 @@ public class TileEntityMagicBase extends TileEntity
 									{
 										ItemStack itemStack = tec.getStackInSlot(i);
 										repairItem(itemStack, 15, 0.75f);
+										//chargeItemStackWithMana(itemStack,2f);
 										increaseStackSize(itemStack, 45.75f);
 									}								
 								}
@@ -200,7 +210,7 @@ public class TileEntityMagicBase extends TileEntity
         while (iterator.hasNext())
         {
             entityplayer = (EntityPlayer)iterator.next();
-            ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(entityplayer);
+            ExtendPlayerRot props = ExtendPlayerRot.get(entityplayer);
             if (props.needsMana())
             {
             	if (mana > 1)
@@ -264,6 +274,30 @@ public class TileEntityMagicBase extends TileEntity
 				mana -= manaCost;
 			}
 			if (mana < manaCost)return;
+		}
+	}
+	
+	public void chargeItemStackWithMana(ItemStack item,float manaGive)
+	{
+		if (item != null)
+		{
+			if (item.getItem().equals(RotItems.itemMana) && item.getItemDamage() == 2 && mana >= manaGive)
+			{												
+				float currentMana =	UtilityNBTHelper.getFloat(item, Rot.MODID+"itemMana");
+				if (currentMana < 200)
+				{
+					currentMana += manaGive;
+					if (currentMana > 200)
+					{
+						manaGive -= (currentMana - 200);
+						currentMana = 200;
+					}
+					System.out.println(currentMana);
+					UtilityNBTHelper.setFloat(item, Rot.MODID+"itemMana", currentMana);
+					mana -= manaGive;
+				}
+			}
+			if (mana < manaGive)return;
 		}
 	}
 }

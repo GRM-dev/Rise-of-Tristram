@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 
 public class CommonProxy
 {
@@ -39,7 +39,7 @@ public class CommonProxy
 	*/
 	private static String getSaveKey(EntityPlayer player) 
 	{
-		return player.getCommandSenderName() + ":" + ExtendPlayerRotManaStam.EXT_PROP_NAME;
+		return player.getCommandSenderName() + ":" + ExtendPlayerRot.EXT_PROP_NAME;
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class CommonProxy
 	*/
 	public static void saveProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRotManaStam playerData = ExtendPlayerRotManaStam.get(player);
+		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
 		NBTTagCompound savedData = new NBTTagCompound();
 		
 		playerData.saveNBTData(savedData);
@@ -64,7 +64,7 @@ public class CommonProxy
 	*/
 	public static void loadProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRotManaStam playerData = ExtendPlayerRotManaStam.get(player);
+		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
 		NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
 		
 		if(savedData != null) 

@@ -66,24 +66,14 @@ public class BaseBuilderPacket implements IMessage
 						x = Integer.parseInt(lCoords[0]);
 						y = Integer.parseInt(lCoords[1]);
 						z = Integer.parseInt(lCoords[2]);
-						switch(lCoords[3])
+						for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
 						{
-						case "stone":
-							block = Blocks.stone;
-							break;
-						case "stonebrick":
-							block = Blocks.stonebrick;
-							break;
-						case "cobble":
-							block = Blocks.cobblestone;
-							break;
-						case "planks":
-							block = Blocks.planks;
-							break;
-						case "air":
-							block = Blocks.air;
-							break;
-						}
+							if (lCoords[3].equals(RotBlocks.blockTypes[bt]))
+							{
+								block = RotBlocks.blockTypeObjects[bt];
+								break;
+							}
+						}						
 						if (block == null)block = Blocks.dirt;
 						te.addLocation(x, y, z, block);
 					}

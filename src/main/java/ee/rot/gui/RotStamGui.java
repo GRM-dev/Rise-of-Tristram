@@ -12,7 +12,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
 
 @SideOnly(Side.CLIENT)
@@ -59,7 +59,7 @@ public class RotStamGui extends Gui
 		/** Start of my tutorial */
 		
 		// Get our extended player properties and assign it locally so we can easily access it
-		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(this.mc.thePlayer);
+		ExtendPlayerRot props = ExtendPlayerRot.get(this.mc.thePlayer);
 		
 		// If for some reason these properties don't exist (perhaps in multiplayer?)
 		// or the player doesn't have mana, return. Note that I added a new method

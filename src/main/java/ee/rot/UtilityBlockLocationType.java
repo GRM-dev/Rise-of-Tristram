@@ -2,6 +2,7 @@ package ee.rot;
 
 import net.minecraft.block.Block;
 
+/** Custom Class used in base building **/
 public class UtilityBlockLocationType 
 {
 	public int x,y,z;

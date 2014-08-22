@@ -3,11 +3,12 @@ package ee.rot;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ee.rot.comms.CommonProxy;
 
-public class ExtendPlayerRotManaStam implements IExtendedEntityProperties 
+public class ExtendPlayerRot implements IExtendedEntityProperties 
 {
 
 	/*
@@ -22,18 +23,16 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 	property should have a unique name. Try to come up with something more
 	unique than the tutorial example.
 	*/
-	public final static String EXT_PROP_NAME = "EEPlayerManaStam";
+	public final static String EXT_PROP_NAME = "EEPlayerRot";
 
 	// I always include the entity to which the properties belong for easy access
 	// It's final because we won't be changing which player it is
 	private final EntityPlayer player;
 
 	// Declare other variables you want to add here
-	
-	private float bonusMana, bonusStam;
 
-	// We're adding mana to the player, so we'll need current and max mana
 	private float currentMana, maxMana, currentStam, maxStam;
+	private int strength, intelligence, dexterity, vitality;
 
 	/*
 	The default constructor takes no arguments, but I put in the Entity
@@ -46,12 +45,15 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 	public static final int MANA_WATCHER = 20;
 	public static final int STAM_WATCHER = 21;
 	
-	public ExtendPlayerRotManaStam(EntityPlayer player)
+	public ExtendPlayerRot(EntityPlayer player)
 	{
 		this.player = player;
 		
-		this.bonusMana = 0;
-		this.bonusStam = 0;
+		this.dexterity = 10;
+		this.intelligence = 10;
+		this.strength = 10;
+		this.vitality = 10;
+		
 		// Start with max mana. Every player starts with the same amount.
 		this.currentMana = this.maxMana = 200f;
 		this.currentStam = this.maxStam = 100f;
@@ -72,18 +74,18 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 	*/
 	public static void saveProxyData(EntityPlayer player) 
 	{
-	ExtendPlayerRotManaStam playerData = ExtendPlayerRotManaStam.get(player);
-	NBTTagCompound savedData = new NBTTagCompound();
-
-	playerData.saveNBTData(savedData);
-	// Note that we made the CommonProxy method storeEntityData static,
-	// so now we don't need an instance of CommonProxy to use it! Great!
-	CommonProxy.storeEntityData(getSaveKey(player), savedData);
+		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
+		NBTTagCompound savedData = new NBTTagCompound();
+	
+		playerData.saveNBTData(savedData);
+		// Note that we made the CommonProxy method storeEntityData static,
+		// so now we don't need an instance of CommonProxy to use it! Great!
+		CommonProxy.storeEntityData(getSaveKey(player), savedData);
 	}
 	
 	public static final void loadProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRotManaStam playerData = ExtendPlayerRotManaStam.get(player);
+		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
 		NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
 		if (savedData != null) { playerData.loadNBTData(savedData); }
 		// we are replacing the entire sync() method with a single line; more on packets later
@@ -99,16 +101,16 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 	 */
 	public static final void register(EntityPlayer player)
 	{
-		player.registerExtendedProperties(ExtendPlayerRotManaStam.EXT_PROP_NAME, new ExtendPlayerRotManaStam(player));
+		player.registerExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME, new ExtendPlayerRot(player));
 	}
 
 	/**
 	 * Returns ExtendedPlayer properties for player
 	 * This method is for convenience only; it will make your code look nicer
 	 */
-	public static final ExtendPlayerRotManaStam get(EntityPlayer player)
+	public static final ExtendPlayerRot get(EntityPlayer player)
 	{
-		return (ExtendPlayerRotManaStam) player.getExtendedProperties(EXT_PROP_NAME);
+		return (ExtendPlayerRot) player.getExtendedProperties(EXT_PROP_NAME);
 	}
 
 	// Save any custom data that needs saving here
@@ -123,6 +125,11 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 		properties.setFloat("MaxMana", this.maxMana);
 		properties.setFloat("CurrentStam", this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER));
 		properties.setFloat("MaxStam", this.maxStam);
+		
+		properties.setInteger("Strength", this.strength);
+		properties.setInteger("Dexterity", this.dexterity);
+		properties.setInteger("Intelligence", this.intelligence);
+		properties.setInteger("Vitality", this.vitality);
 
 		// Now add our custom tag to the player's tag with a unique name (our property's name)
 		// This will allow you to save multiple types of properties and distinguish between them
@@ -140,7 +147,11 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 		// Here we fetch the unique tag compound we set for this class of Extended Properties
 		NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
 		// Get our data from the custom tag compound
-		//this.currentMana = properties.getFloat("CurrentMana");
+		this.strength = properties.getInteger("Strength");
+		this.vitality = properties.getInteger("Vitality");
+		this.dexterity = properties.getInteger("Dexterity");
+		this.intelligence = properties.getInteger("Intelligence");
+		
 		this.player.getDataWatcher().updateObject(MANA_WATCHER, properties.getFloat("CurrentMana"));
 		this.maxMana = properties.getFloat("MaxMana");
 		this.player.getDataWatcher().updateObject(STAM_WATCHER, properties.getFloat("CurrentStam"));
@@ -295,5 +306,48 @@ public class ExtendPlayerRotManaStam implements IExtendedEntityProperties
 	{
 		if (getCurrentStam() < maxStam)return true;
 		else return false;
+	}
+	
+	public void setStrength(int value)
+	{
+		this.strength = MathHelper.clamp_int(value, 0, 20);
+		this.maxStam = 100 + (this.vitality * 45) + (this.strength * 10);
+	}
+	
+	public void setVitality(int value)
+	{
+		this.vitality = MathHelper.clamp_int(value, 0, 20);
+		this.maxStam = 100 + (this.vitality * 45) + (this.strength * 10);
+	}
+	
+	public void setDexterity(int value)
+	{
+		this.dexterity = MathHelper.clamp_int(value, 0, 20);
+	}
+	
+	public void setIntelligence(int value)
+	{
+		this.intelligence = MathHelper.clamp_int(value, 0, 20);
+		this.maxMana = 200 + (this.intelligence * 25);
+	}
+	
+	public int getStrength()
+	{
+		return this.strength;
+	}
+	
+	public int getVitality()
+	{
+		return this.vitality;
+	}
+	
+	public int getDexterity()
+	{
+		return this.dexterity;
+	}
+	
+	public int getIntelligence()
+	{
+		return this.intelligence;
 	}
 }

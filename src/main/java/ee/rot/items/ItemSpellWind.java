@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.ExtendPlayerRot;
 
 public class ItemSpellWind extends Item
 {
@@ -33,7 +33,7 @@ public class ItemSpellWind extends Item
     	{
 		if (!world.isRemote)
 		{
-			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
+			ExtendPlayerRot props = ExtendPlayerRot.get(player);
 			
 			if (props.consumeMana(spellCost))
 			{
