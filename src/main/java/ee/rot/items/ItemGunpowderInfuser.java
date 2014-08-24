@@ -5,8 +5,8 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
-import ee.rot.Rot;
+import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.RotOld;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
@@ -33,7 +33,7 @@ public class ItemGunpowderInfuser extends Item
 			EntityPlayer par3EntityPlayer) {
 		// TODO Auto-generated method stub
 		
-		ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
+		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
 		if (par3EntityPlayer.inventory.hasItem(Items.gunpowder) && !par3EntityPlayer.isSneaking())
 		{
 			if (props.consumeMana(75f))

@@ -2,7 +2,7 @@ package ee.rot.items;
 
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import ee.rot.Rot;
+import ee.rot.RotOld;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -31,54 +31,54 @@ public class RotItems {
 	{
 		itemManaConverter = new ItemManaConverter()
 			.setUnlocalizedName("manaConverter")
-			.setCreativeTab(Rot.tabRoT)
-			.setTextureName(Rot.MODID +":" + "manaConverter");
+			.setCreativeTab(RotOld.tabRoT)
+			.setTextureName(RotOld.MODID +":" + "manaConverter");
 		
 		itemRelicRepair = new ItemRelicRepair()
 			.setUnlocalizedName("relicRepair")
-			.setCreativeTab(Rot.tabRoT)
-			.setTextureName(Rot.MODID +":" + "relicRepair");
+			.setCreativeTab(RotOld.tabRoT)
+			.setTextureName(RotOld.MODID +":" + "relicRepair");
 		
 		itemGunpowderInfuser = new ItemGunpowderInfuser()
 			.setUnlocalizedName("gunpowderInfuser")
-			.setCreativeTab(Rot.tabRoT)
-			.setTextureName(Rot.MODID +":" + "gunpowderInfuser");
+			.setCreativeTab(RotOld.tabRoT)
+			.setTextureName(RotOld.MODID +":" + "gunpowderInfuser");
 		
 		itemRelicHeal = new ItemRelicHeal()
 			.setUnlocalizedName("relicHeal")
-			.setCreativeTab(Rot.tabRoT)
-			.setTextureName(Rot.MODID+":"+"relicHeal");
+			.setCreativeTab(RotOld.tabRoT)
+			.setTextureName(RotOld.MODID+":"+"relicHeal");
 		
 		itemRelicLife = new ItemRelicLife()
 			.setUnlocalizedName("relicLife")
-			.setCreativeTab(Rot.tabRoT);
+			.setCreativeTab(RotOld.tabRoT);
 		
 		itemMana = new ItemMana()
 			.setUnlocalizedName("manaCrystal")
-			.setCreativeTab(Rot.tabRoT);
+			.setCreativeTab(RotOld.tabRoT);
 		
 		itemWandMS = new ItemWandManaSteal(ToolMaterial.WOOD)
 			.setUnlocalizedName("itemWandMS")
-			.setCreativeTab(Rot.tabRoT);
-			//.setTextureName(Rot.MODID+":"+"wandMana");
+			.setCreativeTab(RotOld.tabRoT)
+			.setTextureName(RotOld.MODID+":"+"wandMana");
 		
 		itemCBR = new ItemCrossbowRepater()
-			.setCreativeTab(Rot.tabRoT)
+			.setCreativeTab(RotOld.tabRoT)
 			.setUnlocalizedName("itemCBR");
 		
 		itemSwordSoul = new ItemSwordSoul(ToolMaterial.EMERALD)
-			.setCreativeTab(Rot.tabRoT)
+			.setCreativeTab(RotOld.tabRoT)
 			.setUnlocalizedName("itemSwordSoul")
-			.setTextureName(Rot.MODID+":"+"soul_sword");
+			.setTextureName(RotOld.MODID+":"+"soul_sword");
 		
 		spellSpeed = new ItemSpellWind()
-			.setTextureName(Rot.MODID+":"+"spell_1")
-			.setCreativeTab(Rot.tabRoT)
+			.setTextureName(RotOld.MODID+":"+"spell_1")
+			.setCreativeTab(RotOld.tabRoT)
 			.setUnlocalizedName("spellSpeed");
 		
 		spellJump = new ItemSpellJump()
-			.setTextureName(Rot.MODID+":"+"spell_2")
-			.setCreativeTab(Rot.tabRoT)
+			.setTextureName(RotOld.MODID+":"+"spell_2")
+			.setCreativeTab(RotOld.tabRoT)
 			.setUnlocalizedName("spellJump");
 	}
 	

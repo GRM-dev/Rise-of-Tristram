@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.Rot;
+import ee.rot.RotOld;
 
 public class BlockBaseBuilder extends BlockContainer
 {
@@ -36,9 +36,9 @@ public class BlockBaseBuilder extends BlockContainer
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister icon) 
 	{
-		topIcon = icon.registerIcon(Rot.MODID.toLowerCase() + ":" + "repairBox_Top");
-		sideIcon = icon.registerIcon(Rot.MODID.toLowerCase() + ":" + "repairBox_Side");
-		frontIcon = icon.registerIcon(Rot.MODID.toLowerCase() + ":" + "repairBox_Side");
+		topIcon = icon.registerIcon(RotOld.MODID.toLowerCase() + ":" + "repairBox_Top");
+		sideIcon = icon.registerIcon(RotOld.MODID.toLowerCase() + ":" + "repairBox_Side");
+		frontIcon = icon.registerIcon(RotOld.MODID.toLowerCase() + ":" + "repairBox_Side");
 	}
 
 	@Override

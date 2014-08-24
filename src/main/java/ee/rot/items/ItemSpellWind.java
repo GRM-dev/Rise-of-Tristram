@@ -4,7 +4,6 @@ import ibxm.Player;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
+import ee.rot.ExtendPlayerRotManaStam;
 
 public class ItemSpellWind extends Item
 {
@@ -33,7 +32,7 @@ public class ItemSpellWind extends Item
     	{
 		if (!world.isRemote)
 		{
-			ExtendPlayerRot props = ExtendPlayerRot.get(player);
+			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
 			
 			if (props.consumeMana(spellCost))
 			{

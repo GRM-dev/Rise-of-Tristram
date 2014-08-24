@@ -2,13 +2,8 @@ package ee.rot.items;
 
 import java.util.Set;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import ee.rot.ExtendPlayerRotManaStam;
 
-import ee.rot.ExtendPlayerRot;
-import ee.rot.Rot;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityVillager;
@@ -16,82 +11,52 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemWandManaSteal extends ItemSword
 {
 
-	private IIcon[] textures;
-	private int color;
-	private int c;
-	
 	public ItemWandManaSteal(ToolMaterial mat) 
 	{
 		super(mat);
-		this.color = 0xffffff;
-		this.c = 0;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
+	public boolean hitEntity(ItemStack par1ItemStack,
+			EntityLivingBase par2EntityLivingBase,
+			EntityLivingBase par3EntityLivingBase) 
 	{
-		if (par2 == 0)
+		
+		if (par3EntityLivingBase instanceof EntityPlayer)
 		{
-			color = 0xFF0000;
+			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get((EntityPlayer)par3EntityLivingBase);
+			props.regenMana(1.3f);
 		}
-		else if (par2 == 1)
-		{
-			color = 0x00FFFF;
-		}
-		else if (par2 == 2)
-		{
-			color = 0xFFFFFF;
-		}
-		else color = 0xFFFFFF;
-		return color;
+		
+		return false;
+		
+		/*return super.hitEntity(par1ItemStack, par2EntityLivingBase,
+				par3EntityLivingBase);*/
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses()
+	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
+			EntityPlayer par3EntityPlayer) 
 	{
-		return true;
+		
+		/*ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
+		if (props.consumeMana(5f))
+		{
+			EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, 3f);
+			entityarrow.canBePickedUp = 2;
+			entityarrow.setDamage(3);
+			if (!par2World.isRemote)
+            {
+                par2World.spawnEntityInWorld(entityarrow);
+            }
+		}*/
+
+		return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
 	}
 	
-	@Override
-	public int getRenderPasses(int metadata)
-	{
-		return 3;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister ir)
-	{
-		textures = new IIcon[3];
-		textures[0] = ir.registerIcon(Rot.MODID+":"+"soul_sword");
-		textures[1] = ir.registerIcon(Rot.MODID+":"+"wandMana");
-		textures[2] = ir.registerIcon(Rot.MODID+":"+"relicRepair");
-	}
-	
-	@Override
-	public IIcon getIcon(ItemStack stack, int pass)
-	{
-		/*if (pass == 0)
-		{
-			color = 0xFF0000;
-		}
-		else if (pass == 1)
-		{
-			color = 0x00FF00;
-		}
-		else if (pass == 2)
-		{
-			color = 0x0000FF;
-		}
-		else color = 0xFFFFFF;*/
-		return textures[pass];
-	}
 }

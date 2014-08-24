@@ -2,7 +2,7 @@ package ee.rot.blocks;
 
 import java.util.Random;
 
-import ee.rot.Rot;
+import ee.rot.RotOld;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,7 +16,7 @@ public class SpawnerBlock extends Block
 
 	protected SpawnerBlock(Material p_i45394_1_, String textureName, Block bts) {
 		super(p_i45394_1_);
-		this.setBlockTextureName(Rot.MODID + ":" + textureName);
+		this.setBlockTextureName(RotOld.MODID + ":" + textureName);
 		this.setTickRandomly(true);
 		this.bts = bts;
 		

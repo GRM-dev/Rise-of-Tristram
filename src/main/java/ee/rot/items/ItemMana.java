@@ -4,13 +4,11 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
-import ee.rot.Rot;
-import ee.rot.UtilityNBTHelper;
+import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.RotOld;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -20,8 +18,7 @@ import net.minecraft.world.World;
 
 public class ItemMana extends Item
 {
-	private float manaRestore = 15;
-	private float maxMana = 75;
+	
 	private IIcon[] icons = new IIcon[3];
 	private String[] names = new String[]{"manaCrystal", "manaShard","manaFoci"};
 	
@@ -32,55 +29,22 @@ public class ItemMana extends Item
 		setMaxStackSize(4);
 	}
 
-	/*@Override
-	public void onUpdate(ItemStack item, World world,
-			Entity entity, int par4, boolean par5)
-	{
-		int type = item.getItemDamage();
-		if (type == 2)
-		{
-			float currentMana =	UtilityNBTHelper.getFloat(item, Rot.MODID+"itemMana");
-			if (entity instanceof EntityPlayer)
-			{
-				ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get((EntityPlayer)entity);
-				if (!props.needsMana())
-				{
-					if (currentMana < maxMana)
-					{
-						currentMana += 10f / (3* 60 * 10);
-						System.out.println("currentMana added: "+currentMana);
-						UtilityNBTHelper.setFloat(item, Rot.MODID+"itemMana", currentMana);
-					}					
-				}
-				else
-				{
-					if (currentMana >= 1)
-					{
-						props.regenMana(1);
-						currentMana -= 1;
-						UtilityNBTHelper.setFloat(item, Rot.MODID+"itemMana", currentMana);
-					}
-				}
-			}			
-		}
-	}*/
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) 
 	{
 		int type = item.getItemDamage();
-		ExtendPlayerRot props = ExtendPlayerRot.get(player);
-		switch (type)
+		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
+		if (type == 0)
 		{
-			case 0 :
-				props.regenMana(manaRestore * 4);					
-				--item.stackSize;
-				break;
-			case 1 :
-				props.regenMana(manaRestore);
-				--item.stackSize;
-				break;
-		}		
+			props.regenMana(40);					
+			--item.stackSize;
+		}
+		else if (type == 1)
+		{
+			props.regenMana(10);
+			--item.stackSize;
+		}
 		return item;
 	}
 	
@@ -88,9 +52,9 @@ public class ItemMana extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) 
 	{
-		icons[0] = ir.registerIcon(Rot.MODID.toLowerCase()+":"+"manaCrystal");
-		icons[1] = ir.registerIcon(Rot.MODID.toLowerCase()+":"+"manaShard");
-		icons[2] = ir.registerIcon(Rot.MODID.toLowerCase()+":"+"manaFoci");
+		icons[0] = ir.registerIcon(RotOld.MODID.toLowerCase()+":"+"manaCrystal");
+		icons[1] = ir.registerIcon(RotOld.MODID.toLowerCase()+":"+"manaShard");
+		icons[2] = ir.registerIcon(RotOld.MODID.toLowerCase()+":"+"manaFoci");
 	}
 	
 	@Override

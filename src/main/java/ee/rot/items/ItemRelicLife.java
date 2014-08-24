@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
-import ee.rot.Rot;
+import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.RotOld;
 
 public class ItemRelicLife extends Item {
 
@@ -46,7 +46,7 @@ public class ItemRelicLife extends Item {
 	{
 		for (int i = 0;i < textures.length; i++)
 		{
-			textures[i] = ir.registerIcon(Rot.MODID+":"+"relicLife_"+i);
+			textures[i] = ir.registerIcon(RotOld.MODID+":"+"relicLife_"+i);
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class ItemRelicLife extends Item {
 				player.getFoodStats().addStats(1, 1f);
 				passiveUsed = true;				
 			}
-			ExtendPlayerRot props = ExtendPlayerRot.get(player);
+			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
 			
 			switch (par1ItemStack.getItemDamage())
 			{
@@ -140,7 +140,7 @@ public class ItemRelicLife extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
+		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
 		
 		if (par1ItemStack.getItemDamage() < 2)par1ItemStack.setItemDamage(par1ItemStack.getItemDamage()+1);
 		else par1ItemStack.setItemDamage(0);

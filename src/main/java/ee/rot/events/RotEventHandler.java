@@ -3,36 +3,16 @@ package ee.rot.events;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import ee.rot.ExtendLivingBaseRot;
-import ee.rot.ExtendPlayerRot;
+import ee.rot.ExtendPlayerRotManaStam;
 
 public class RotEventHandler 
 {
 
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onDamage(LivingHurtEvent event)
-	{
-		if(event.source instanceof EntityDamageSource)
-		{
-			EntityDamageSource source = (EntityDamageSource) event.source;
-			if(source.getEntity() instanceof EntityPlayer)
-			{
-				EntityPlayer player = (EntityPlayer) source.getEntity();
-				
-				event.ammount += MathHelper.clamp_float(ExtendPlayerRot.get(player).getStrength() / 4f, 0f, 4.5f);
-				System.out.println(event.ammount);
-			}
-		}
-	}
-	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event)
 	{
@@ -42,17 +22,17 @@ public class RotEventHandler
 		The null check may not be necessary - I only use it to make sure
 		properties are only registered once per entity
 		*/
-		if (event.entity instanceof EntityPlayer && ExtendPlayerRot.get((EntityPlayer) event.entity) == null)
+		if (event.entity instanceof EntityPlayer && ExtendPlayerRotManaStam.get((EntityPlayer) event.entity) == null)
 			// This is how extended properties are registered using our convenient method from earlier
-			ExtendPlayerRot.register((EntityPlayer) event.entity);
+			ExtendPlayerRotManaStam.register((EntityPlayer) event.entity);
 			// That will call the constructor as well as cause the init() method
 			// to be called automatically
 		/*if (event.entity instanceof EntityLivingBase)
 			ExtendLivingBaseRot.register((EntityLivingBase) event.entity);*/
 		// If you didn't make the two convenient methods from earlier, your code would be
 		// much uglier:
-		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME) == null)
-			event.entity.registerExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME, new ExtendPlayerRot((EntityPlayer) event.entity));
+		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendPlayerRotManaStam.EXT_PROP_NAME) == null)
+			event.entity.registerExtendedProperties(ExtendPlayerRotManaStam.EXT_PROP_NAME, new ExtendPlayerRotManaStam((EntityPlayer) event.entity));
 	}
 	
 	@SubscribeEvent

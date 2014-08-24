@@ -2,8 +2,8 @@ package ee.rot.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
-import ee.rot.Rot;
+import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.RotOld;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -16,10 +16,6 @@ import net.minecraftforge.event.terraingen.BiomeEvent.GetWaterColor;
 
 public class ItemCrossbowRepater extends Item
 {
-	//A weapon that will use the player's stamina reserves to fire weak arrows
-	//It has different functions with different effects
-	//Will be reworked hard when a proper leveling system is created
-	//See notes on this.
 	private IIcon[] icons = new IIcon[4];
 	
 	public ItemCrossbowRepater()
@@ -34,7 +30,7 @@ public class ItemCrossbowRepater extends Item
 	{
 		for (int i = 0;i < icons.length; i++)
 		{
-			icons[i] = ir.registerIcon(Rot.MODID+":"+"crossbow_repeater_"+i);
+			icons[i] = ir.registerIcon(RotOld.MODID+":"+"crossbow_repeater_"+i);
 		}
 	}
 	
@@ -51,7 +47,7 @@ public class ItemCrossbowRepater extends Item
 	{
 		if (!par3EntityPlayer.isSneaking())
 		{			
-			ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
+			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
 			EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, 2.5f);
 			switch (par1ItemStack.getItemDamage())
 			{

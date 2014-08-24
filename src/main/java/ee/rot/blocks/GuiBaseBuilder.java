@@ -1,4 +1,4 @@
-package ee.rot.gui;
+package ee.rot.blocks;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -9,14 +9,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import ee.rot.Rot;
-import ee.rot.blocks.ContainerBaseBuilder;
-import ee.rot.blocks.TileEntityBaseBuilder;
+import ee.rot.RotOld;
 
 public class GuiBaseBuilder extends GuiContainer
 {
 	public static final ResourceLocation texture = 
-			new ResourceLocation(Rot.MODID.toLowerCase(), "textures/gui/blankGui.png");
+			new ResourceLocation(RotOld.MODID.toLowerCase(), "textures/gui/blankGui.png");
 	
 	private TileEntityBaseBuilder bb;
 	private int cw = 15; //control Width
@@ -76,7 +74,6 @@ public class GuiBaseBuilder extends GuiContainer
 	{
 		super.mouseClicked(par1, par2, par3);
 	}
-	
 	
 	@Override
 	protected void actionPerformed(GuiButton button) 

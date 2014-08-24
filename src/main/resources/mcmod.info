@@ -1,14 +1,14 @@
 [
 {
-  "modid": "RoT",
-  "name": "Rise of Tristram",
-  "description": "RPG based PvP mod.",
+  "modid": "examplemod",
+  "name": "Example Mod",
+  "description": "Example placeholder mod.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Hugo_the_Dwarf"],
-  "credits": "The Forge and FML guys, for making forge, Notch and the gang for Minecraft.",
+  "authors": ["ExampleDude"],
+  "credits": "The Forge and FML guys, for making this example",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

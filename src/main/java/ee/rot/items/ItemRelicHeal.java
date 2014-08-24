@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
-import ee.rot.Rot;
+import ee.rot.ExtendPlayerRotManaStam;
+import ee.rot.RotOld;
 
 //First item I went out on a limb to make
 public class ItemRelicHeal extends Item {
@@ -42,7 +42,7 @@ public class ItemRelicHeal extends Item {
 			if (player.getFoodStats().getFoodLevel() == 0)
 			{
 				coolDown = CD;
-				ExtendPlayerRot props = ExtendPlayerRot.get(player);
+				ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
 				if (props.consumeMana(manaCostPassive))
 				{
 					player.getFoodStats().addStats(1, 1f);
@@ -58,7 +58,7 @@ public class ItemRelicHeal extends Item {
 			float hitZ) {
 		// TODO Auto-generated method stub
 		
-		ExtendPlayerRot props = ExtendPlayerRot.get(player);
+		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
 		if (player.shouldHeal() && props.consumeMana(manaCostAction))
 		{
 			player.heal(1f);

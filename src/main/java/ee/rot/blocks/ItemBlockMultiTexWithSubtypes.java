@@ -1,6 +1,5 @@
-package ee.rot.items;
+package ee.rot.blocks;
 
-import ee.rot.blocks.BlockMultiTexWithSubSets;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
