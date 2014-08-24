@@ -14,9 +14,9 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
-import ee.rot.RotOld;
-import ee.rot.comms.customPacket;
+import ee.rot.ExtendPlayerRot;
+import ee.rot.Rot;
+import ee.rot.comms.TextPacket;
 
 public class ItemManaConverter extends Item {
 
@@ -31,9 +31,9 @@ public class ItemManaConverter extends Item {
 		
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		// TODO Auto-generated method stub		
-		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
+			EntityPlayer par3EntityPlayer) 
+	{
+		ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
 		if (par3EntityPlayer.inventory.getFirstEmptyStack() > 0)
 		{
 			if (props.consumeMana(60f))
@@ -51,11 +51,7 @@ public class ItemManaConverter extends Item {
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		// TODO Auto-generated method stub
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-		par3List.add("");
-		par3List.add("");
-		par3List.add("");
-		par3List.add("");
-		par3List.add("");
+		//par3List.add("");
 	}
 	
 	/*public boolean checkForItemsAndAmounts(ItemStack[] items, int[] amounts, InventoryPlayer invPlayer)

@@ -1,7 +1,6 @@
 package ee.rot;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiHopper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -17,20 +16,23 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import ee.rot.blocks.RotBlocks;
-import ee.rot.blocks.TileEntityItemGenerator;
+import ee.rot.blocks.TileEntityMagicBase;
+import ee.rot.comms.BaseBuilderPacket;
 import ee.rot.comms.CommonProxy;
-import ee.rot.comms.customPacket;
+import ee.rot.comms.TextPacket;
 import ee.rot.events.RotEventHandler;
 import ee.rot.events.RotStandardEventHandler;
+import ee.rot.gui.GuiHandler;
 import ee.rot.gui.RotManaGui;
 import ee.rot.gui.RotStamGui;
 import ee.rot.items.RotItems;
 
-@Mod(modid = RotOld.MODID, version = RotOld.VERSION, name= RotOld.MODNAME)
+@Mod(modid = Rot.MODID, version = Rot.VERSION, name= Rot.MODNAME)
 
-public class RotOld {
+public class Rot {
 	
-	
+	@Instance(value = "RoT")
+	public static Rot instance;
 	
 	// Says where the client and server 'proxy' code is loaded.
     @SidedProxy(clientSide="ee.rot.comms.ClientProxy", serverSide="ee.rot.comms.CommonProxy")
@@ -40,16 +42,11 @@ public class RotOld {
 	
 	public static final String MODID = "RoT";
 	public static final String MODNAME = "Rise of Tristram";
-    public static final String VERSION = "1.0"; 
+    public static final String VERSION = "1.0";   
     
-    @Instance(value = MODID)
-	public static RotOld instance = new RotOld();
-    
+    //Packets
     public static SimpleNetworkWrapper net;
-    private static int guiIndex = 0;
-    private int packetId = 0;  
-    
-    public static final int GUI_GEN = guiIndex++;
+    private int packetId = 0;   
     
     // Sending packets:
     /*
@@ -63,9 +60,10 @@ public class RotOld {
     public void preInit(FMLPreInitializationEvent event)
     {  	
     	net = NetworkRegistry.INSTANCE.newSimpleChannel("rpcee");
-    	net.registerMessage(customPacket.customPacketHandler.class, customPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(TextPacket.TextPacketHandler.class, TextPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(BaseBuilderPacket.BaseBuilderPacketHandler.class, BaseBuilderPacket.class, packetId++, Side.SERVER);
     	
-		GameRegistry.registerTileEntity(TileEntityItemGenerator.class, "itemGenRot");
+		GameRegistry.registerTileEntity(TileEntityMagicBase.class, "itemGenRot"); //This needs to be renamed, but this and it's related objects are under heavy construction
     	
     	RotBlocks.init();
     	RotBlocks.registerBlocks();
@@ -79,8 +77,7 @@ public class RotOld {
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	
-    	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     }
     
     @EventHandler

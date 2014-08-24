@@ -5,14 +5,9 @@ import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.relauncher.Side;
-import ee.rot.ExtendPlayerRotManaStam;
-import ee.rot.RotOld;
-import ee.rot.comms.customPacket.customPacketHandler;
+import ee.rot.ExtendPlayerRot;
 
-public class CommonProxy implements IGuiHandler
+public class CommonProxy
 {
 	/** Used to store IExtendedEntityProperties data temporarily between player death and respawn */
 	private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
@@ -21,23 +16,6 @@ public class CommonProxy implements IGuiHandler
 	{
 		
 	}	
-	
-	public void registerMessages() 
-	{
-		RotOld.net.registerMessage(customPacketHandler.class, customPacket.class, 0, Side.SERVER);
-	}
-	
-	@Override
-	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int x, int y, int z)
-	{
-		return null;
-	}
-	
-	@Override
-	public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int x, int y, int z)
-	{
-		return null;
-	}
 	
 	/**
 	* Adds an entity's custom data to the map for temporary storage
@@ -61,7 +39,7 @@ public class CommonProxy implements IGuiHandler
 	*/
 	private static String getSaveKey(EntityPlayer player) 
 	{
-		return player.getCommandSenderName() + ":" + ExtendPlayerRotManaStam.EXT_PROP_NAME;
+		return player.getCommandSenderName() + ":" + ExtendPlayerRot.EXT_PROP_NAME;
 	}
 	
 	/**
@@ -71,7 +49,7 @@ public class CommonProxy implements IGuiHandler
 	*/
 	public static void saveProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRotManaStam playerData = ExtendPlayerRotManaStam.get(player);
+		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
 		NBTTagCompound savedData = new NBTTagCompound();
 		
 		playerData.saveNBTData(savedData);
@@ -86,7 +64,7 @@ public class CommonProxy implements IGuiHandler
 	*/
 	public static void loadProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRotManaStam playerData = ExtendPlayerRotManaStam.get(player);
+		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
 		NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
 		
 		if(savedData != null) 

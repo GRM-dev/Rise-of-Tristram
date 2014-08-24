@@ -2,8 +2,8 @@ package ee.rot.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
-import ee.rot.RotOld;
+import ee.rot.ExtendPlayerRot;
+import ee.rot.Rot;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -16,7 +16,11 @@ import net.minecraftforge.event.terraingen.BiomeEvent.GetWaterColor;
 
 public class ItemCrossbowRepater extends Item
 {
-	private IIcon[] icons = new IIcon[4];
+	//A weapon that will use the player's stamina reserves to fire weak arrows
+	//It has different functions with different effects
+	//Will be reworked hard when a proper leveling system is created
+	//See notes on this.
+	private IIcon[] icons = new IIcon[2];
 	
 	public ItemCrossbowRepater()
 	{
@@ -28,17 +32,56 @@ public class ItemCrossbowRepater extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) 
 	{
-		for (int i = 0;i < icons.length; i++)
+		/*for (int i = 0;i < textures.length; i++)
 		{
-			icons[i] = ir.registerIcon(RotOld.MODID+":"+"crossbow_repeater_"+i);
+			textures[i] = ir.registerIcon(Rot.MODID+":"+"relicLife_"+i);
+		}*/
+		icons[0] = ir.registerIcon(Rot.MODID+":"+"cbr");
+		icons[1] = ir.registerIcon(Rot.MODID+":"+"cbr_overLay");
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
+	{
+		if (par2 == 0)return 0xFFFFFF;
+		else
+		{
+			switch (par1ItemStack.getItemDamage())
+			{
+				case 0:
+					return 0xFFFFFF;
+				case 1:
+					return 0xFF622E;
+				case 2:
+					return 0x4DC9FF;
+				case 3 :
+					return 0xFFE263;
+				default:
+					return 0xFFFFFF;
+			}
 		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) 
+	public boolean requiresMultipleRenderPasses()
 	{
-		return icons[par1];
+		return true;
+	}
+	
+	@Override
+	public int getRenderPasses(int metadata)
+	{
+		// TODO Auto-generated method stub
+		return 2;
+	}
+	
+	@Override
+	public IIcon getIcon(ItemStack stack, int pass)
+	{
+		// TODO Auto-generated method stub
+		return icons[pass];
 	}
 	
 	@Override
@@ -47,7 +90,7 @@ public class ItemCrossbowRepater extends Item
 	{
 		if (!par3EntityPlayer.isSneaking())
 		{			
-			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
+			ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
 			EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, 2.5f);
 			switch (par1ItemStack.getItemDamage())
 			{
@@ -93,7 +136,7 @@ public class ItemCrossbowRepater extends Item
 					if (props.consumeStam(5.5f))
 					{				
 						entityarrow.canBePickedUp = 2;
-						entityarrow.setDamage(2.75);
+						entityarrow.setDamage(1.15);
 						entityarrow.setIsCritical(true);
 						if (!par2World.isRemote)
 			            {

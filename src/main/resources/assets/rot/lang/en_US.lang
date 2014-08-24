@@ -6,9 +6,12 @@ item.relicRepair.name=Key of Mending
 item.gunpowderInfuser.name=Gunpowder Infuser
 item.relicHeal.name=Locket of Life
 item.relicLife.name=Brooch of the Scarab
+
 item.manaCrystal.manaCrystal.name=Mana Crystal
 item.manaCrystal.manaShard.name=Mana Shard
 item.manaCrystal.manaFoci.name=Mana Focus
+item.manaCrystal.baseNodeList.name=Base Block Placement List
+
 item.itemWandMS.name=Wand of Spell Vamp
 item.itemCBR.name=Repeater Crossbow
 item.itemSwordSoul.name=Soul Rend

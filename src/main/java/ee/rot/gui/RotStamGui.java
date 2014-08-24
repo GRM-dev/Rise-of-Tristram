@@ -12,8 +12,8 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
-import ee.rot.RotOld;
+import ee.rot.ExtendPlayerRot;
+import ee.rot.Rot;
 
 @SideOnly(Side.CLIENT)
 public class RotStamGui extends Gui
@@ -28,7 +28,7 @@ public class RotStamGui extends Gui
 	I have provided a functional (but ugly) mana_bar.png file to use with this tutorial.
 	Download it from Forge_Tutorials/textures/gui
 	 */
-	private static final ResourceLocation texturepath = new ResourceLocation(RotOld.MODID +":textures/gui/stam_bar.png"/*"tutorial", "textures/gui/mana_bar.png"*/);
+	private static final ResourceLocation texturepath = new ResourceLocation(Rot.MODID +":textures/gui/stam_bar.png"/*"tutorial", "textures/gui/mana_bar.png"*/);
 	
 	private int barWidth = 50;
 
@@ -59,7 +59,7 @@ public class RotStamGui extends Gui
 		/** Start of my tutorial */
 		
 		// Get our extended player properties and assign it locally so we can easily access it
-		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(this.mc.thePlayer);
+		ExtendPlayerRot props = ExtendPlayerRot.get(this.mc.thePlayer);
 		
 		// If for some reason these properties don't exist (perhaps in multiplayer?)
 		// or the player doesn't have mana, return. Note that I added a new method
@@ -107,9 +107,9 @@ public class RotStamGui extends Gui
 		// Why y=4 and not y=5? Y starts at 0, so 0,1,2,3 = 4 pixels for the background
 		
 		// However, we want the length to be based on current mana, so we need a new variable:
-		int manabarwidth = (int)(((float) props.getCurrentStam() / props.getMaxStam()) * barWidth);
+		int stambarwidth = (int)(((float) props.getCurrentStam() / props.getMaxStam()) * barWidth);
 		//System.out.println("[GUI MANA] Current mana bar width: " + manabarwidth);
 		// Now we can draw our mana bar at yPos+1 so it centers in the background:
-		this.drawTexturedModalRect(xPos, yPos + 1, 0, 4, manabarwidth, 2);
+		this.drawTexturedModalRect(xPos, yPos + 1, 0, 4, stambarwidth, 2);
 	}
 }

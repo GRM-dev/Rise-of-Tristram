@@ -19,18 +19,17 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRotManaStam;
-import ee.rot.RotOld;
+import ee.rot.ExtendPlayerRot;
+import ee.rot.Rot;
+import ee.rot.UtilityNBTHelper;
 
 public class ItemRelicLife extends Item {
 
 	private int CD = 40;
 	private int coolDown = 0;
 	private float manaCostPassive = 7f;
-	private float manaCostAction = 10f;
 	private boolean passiveUsed = false;
-	private String function = "";
-	private IIcon[] textures = new IIcon[3];
+	private IIcon[] textures = new IIcon[2];
 	private int levelBonus = 12;
 	
 	public ItemRelicLife() 
@@ -44,18 +43,54 @@ public class ItemRelicLife extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) 
 	{
-		for (int i = 0;i < textures.length; i++)
+		/*for (int i = 0;i < textures.length; i++)
 		{
-			textures[i] = ir.registerIcon(RotOld.MODID+":"+"relicLife_"+i);
+			textures[i] = ir.registerIcon(Rot.MODID+":"+"relicLife_"+i);
+		}*/
+		textures[0] = ir.registerIcon(Rot.MODID+":"+"relicBrooch");
+		textures[1] = ir.registerIcon(Rot.MODID+":"+"relicBrooch_overLay");
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
+	{
+		if (par2 == 0)return 0xFFFFFF;
+		else
+		{
+			switch (par1ItemStack.getItemDamage())
+			{
+				case 0:
+					return 0xFF5959;
+				case 1:
+					return 0x599EFF;
+				case 2:
+					return 0x59FF59;
+				default:
+					return 0xFFFFFF;
+			}
 		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int par1) 
+	public boolean requiresMultipleRenderPasses()
+	{
+		return true;
+	}
+	
+	@Override
+	public int getRenderPasses(int metadata)
 	{
 		// TODO Auto-generated method stub
-		return textures[par1];
+		return 2;
+	}
+	
+	@Override
+	public IIcon getIcon(ItemStack stack, int pass)
+	{
+		// TODO Auto-generated method stub
+		return textures[pass];
 	}
 	
 	@Override
@@ -77,15 +112,15 @@ public class ItemRelicLife extends Item {
 				player.getFoodStats().addStats(1, 1f);
 				passiveUsed = true;				
 			}
-			ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(player);
+			ExtendPlayerRot props = ExtendPlayerRot.get(player);
 			
 			switch (par1ItemStack.getItemDamage())
 			{
 				case 0://Heal
-					function = "Is now focused on Healing.";
+					UtilityNBTHelper.setString(par1ItemStack, Rot.MODID+"function", "Is now focused on Healing.");
 					if (player.shouldHeal())
 					{
-						if (props.consumeMana(manaCostPassive / 2 - (0.5f * (player.experienceLevel / levelBonus))))
+						if (props.consumeMana(manaCostPassive))
 						{
 							player.heal(1f);
 							passiveUsed = true;
@@ -93,7 +128,7 @@ public class ItemRelicLife extends Item {
 					}	
 					break;
 				case 1://Repair
-					function = "Is now focused on Repairing.";
+					UtilityNBTHelper.setString(par1ItemStack, Rot.MODID+"function", "Is now focused on Repairing.");
 					for (int i = 9; i < player.inventory.getSizeInventory();i++)
 					{
 						ItemStack tool = player.inventory.getStackInSlot(i);
@@ -101,7 +136,7 @@ public class ItemRelicLife extends Item {
 						{
 							if (tool.isItemDamaged())
 							{							
-								if (props.consumeMana(manaCostPassive / 2 - (0.5f * (player.experienceLevel / levelBonus))))
+								if (props.consumeMana(manaCostPassive / 4))
 								{
 									passiveUsed = true;
 									if (tool.getItemDamage() > 1) 
@@ -118,10 +153,10 @@ public class ItemRelicLife extends Item {
 					}
 					break;
 				case 2://Saturation
-					function = "Is now focused on Saturation.";
+					UtilityNBTHelper.setString(par1ItemStack, Rot.MODID+"function", "Is now focused on Saturation.");
 					if (player.getFoodStats().needFood())
 					{
-						if (props.consumeMana(manaCostPassive - (0.5f * (player.experienceLevel / levelBonus))))
+						if (props.consumeMana(manaCostPassive))
 						{
 							player.getFoodStats().addStats(1, 1f);
 							passiveUsed = true;
@@ -140,7 +175,7 @@ public class ItemRelicLife extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		ExtendPlayerRotManaStam props = ExtendPlayerRotManaStam.get(par3EntityPlayer);
+		ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
 		
 		if (par1ItemStack.getItemDamage() < 2)par1ItemStack.setItemDamage(par1ItemStack.getItemDamage()+1);
 		else par1ItemStack.setItemDamage(0);
@@ -156,9 +191,7 @@ public class ItemRelicLife extends Item {
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		par3List.add("This Relic will slowly heal");
 		par3List.add("the holder and prevent starvation.");
-		par3List.add("Based on its current function it will use "+ (manaCostPassive - (0.5f * (par2EntityPlayer.experienceLevel / levelBonus))) + " mana");
-		par3List.add("Status: "+function);
-		par3List.add("");
-		par3List.add("Mana cost reduction based on level "+(0.5f * (par2EntityPlayer.experienceLevel / levelBonus))+" every "+levelBonus+" levels");
+		par3List.add("Based on its current function it will use "+ manaCostPassive + " mana");
+		par3List.add("Status: "+UtilityNBTHelper.getString(par1ItemStack, Rot.MODID+"function"));
 	}
 }

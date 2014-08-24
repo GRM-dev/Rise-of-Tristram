@@ -6,17 +6,17 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class customPacket implements IMessage 
+public class TextPacket implements IMessage 
 {
 	
 	public String text;
 	
-	public customPacket()
+	public TextPacket()
 	{
 		
 	}
 	
-	public customPacket(String text)
+	public TextPacket(String text)
 	{
 		this.text = text;
 	}
@@ -33,11 +33,11 @@ public class customPacket implements IMessage
 		 ByteBufUtils.writeUTF8String(buf, text);
 	}
 	
-	public static class customPacketHandler implements IMessageHandler<customPacket, IMessage> 
+	public static class TextPacketHandler implements IMessageHandler<TextPacket, IMessage> 
 	{
 
 		@Override
-		public IMessage onMessage(customPacket message, MessageContext ctx) 
+		public IMessage onMessage(TextPacket message, MessageContext ctx) 
 		{
 			System.out.println(String.format("Received %s from %s", 
 					message.text, 

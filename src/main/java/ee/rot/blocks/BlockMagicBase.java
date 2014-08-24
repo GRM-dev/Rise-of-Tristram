@@ -13,17 +13,18 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.RotOld;
+import ee.rot.Rot;
 
-public class BlockItemGen extends BlockContainer
+public class BlockMagicBase extends BlockContainer
 {
 
-	public BlockItemGen() {
+	public BlockMagicBase() {
 		super(Material.iron);
 		setHardness(5f);
-		setResistance(10f);
+		setResistance(10f);		
 	}
 	
 	private IIcon[] icons = new IIcon[8];
@@ -31,7 +32,7 @@ public class BlockItemGen extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) 
 	{
-		return new TileEntityItemGenerator();
+		return new TileEntityMagicBase();
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public class BlockItemGen extends BlockContainer
 	{
 		
 		return super.onBlockPlaced(p_149660_1_, p_149660_2_, p_149660_3_, p_149660_4_,
-				p_149660_5_, p_149660_6_, p_149660_7_, p_149660_8_, 7);
+				p_149660_5_, p_149660_6_, p_149660_7_, p_149660_8_, 7);//meta 7
 	}
 	
 	@Override
@@ -51,16 +52,16 @@ public class BlockItemGen extends BlockContainer
 	{
 		for (int i = 0; i < icons.length;i++)
 		{
-			icons[i] = ir.registerIcon(RotOld.MODID+":"+"itemGen_"+(i+1)+"_8");
+			icons[i] = ir.registerIcon(Rot.MODID+":"+"itemGen_"+(i+1)+"_8");
 		}
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int p_149691_1_, int p_149691_2_) 
+	public IIcon getIcon(int p_149691_1_, int meta) 
 	{
-		if (p_149691_2_ >= 0 && p_149691_2_ <= 7)
-			return icons[p_149691_2_];
+		if (meta >= 0 && meta <= 7)
+			return icons[meta];
 		else 
 			return icons[0];
 	}
@@ -68,9 +69,14 @@ public class BlockItemGen extends BlockContainer
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) 
 	{
-		if(!world.isRemote) {
-			//FMLNetworkHandler.openGui(player, Main.instance, 0, world, x, y, z);
+		if(world.isRemote) 
+		{
+			FMLNetworkHandler.openGui(player, Rot.instance, 0, world, x, y, z);
 		}
+		/*/else//This packet will take the x,y,z or better yet could grab the tileEntity myself and pass it?
+		{
+			Rot.net.sendTo(<Packet defined for clientside>, player);
+		}*/
 		return true;
 	}
 

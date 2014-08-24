@@ -1,0 +1,112 @@
+/** GUI String Map **/
+
+//Start Rendering Off Screen Map
+        String s1 = "X", s2 = "X", s3 = "X";//These are the Letters to show what block is where on the map
+        int c1 = defaultColor, c2 = defaultColor, c3= defaultColor;//Colors for map letters
+        //Start drawing the map GridX x GridZ (sounds weird that I am using x and z instead of x and y, but you'll see why)
+        for (int x = gridSizeX; x >= -gridSizeX; x--)
+        {
+            for (int z = gridSizeZ; z >= -gridSizeZ;z--)
+            {
+                //If the list of locations has something
+                if (list != null)
+                {
+                    //Each locations is a string of x,y,z,block
+                    String[] locCoords;
+                    //Look through every Item of the list
+                    for (int l = 0; l < list.length; l++)
+                    {                       
+                        //take the concatenated location string and split it, normally 4 elements 0-3
+                        locCoords = list[l].split(",");
+                        //If the locations x and z match the displayed x and z
+                        if (x + this.x == Integer.parseInt(locCoords[0]) && z + this.z == Integer.parseInt(locCoords[2]))
+                        {
+                            //Check to see if locations y is in the displayed view
+                            //Also not sure why I start bottom to top, worked on this very late, 6am late
+                            if (this.y - 1 == Integer.parseInt(locCoords[1])) //Check y level below
+                            {       
+                                for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
+                                {
+                                    if (locCoords[3].equals(RotBlocks.blockTypes[bt]))
+                                    {
+                                        s1 = RotBlocks.blockTypeLetters[bt] + "*";
+                                        c1 = RotBlocks.blockTypeColors[bt];
+                                        break;
+                                    }
+                                }                               
+                            }
+                            /*if (this.y == Integer.parseInt(locCoords[1]))//Current y level
+                            {                               
+                                for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
+                                {
+                                    if (locCoords[3].equals(RotBlocks.blockTypes[bt]))
+                                    {
+                                        s2 = RotBlocks.blockTypeLetters[bt];
+                                        c2 = RotBlocks.blockTypeColors[bt];
+                                        break;
+                                    }
+                                }
+                            }*/
+                            if (this.y + 1 == Integer.parseInt(locCoords[1]))//Y level above
+                            {                               
+                                for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
+                                {
+                                    if (locCoords[3].equals(RotBlocks.blockTypes[bt]))
+                                    {
+                                        s3 = RotBlocks.blockTypeLetters[bt] + "*";
+                                        c3 = RotBlocks.blockTypeColors[bt];
+                                        break;
+                                    }
+                                }                                       
+                            }
+                        }                                           
+                    }
+                }
+                //Show the Tile Entity, this is so when a player is confused why their clicks don't work on that location
+                //It's because that is where the tileEntity is and it would be counter productive if it killed itself
+                if (x + this.x == 0 && z + this.z == 0 && this.y - 1 == 0)
+                {
+                    s1 = "T";
+                    c1 = 0x0000FF;
+                }
+                if (x + this.x == 0 && z + this.z == 0 && this.y == 0)
+                {
+                    s2 = "T";
+                    c2 = 0x0000FF;
+                }
+                if (x + this.x == 0 && z + this.z == 0 && this.y + 1 == 0)
+                {
+                    s3 = "T";
+                    c3 = 0x0000FF;
+                }
+                
+                
+                //Get current placed blocks;                
+                s1 = getBlockLetter(te.xCoord + x + this.x, te.yCoord + y - 1, te.zCoord + z + this.z, s1);
+                c1 = getBlockColor(te.xCoord + x + this.x, te.yCoord + y - 1, te.zCoord + z + this.z, c1);
+                s2 = getBlockLetter(te.xCoord + x + this.x, te.yCoord + y, te.zCoord + z + this.z, s2);
+                c2 = getBlockColor(te.xCoord + x + this.x, te.yCoord + y, te.zCoord + z + this.z, c2);
+                s3 = getBlockLetter(te.xCoord + x + this.x, te.yCoord + y + 1, te.zCoord + z + this.z, s3);
+                c3 = getBlockColor(te.xCoord + x + this.x, te.yCoord + y + 1, te.zCoord + z + this.z, c3);
+                
+                //Draw the map Location Status              
+                //this.drawString(fontRendererObj, s1, (posX + 220) + (12 * x + 1), posY + 12 * z + 140, c1);// -1 y up
+                //this.drawString(fontRendererObj, s2, (posX + 220) + (12 * x + 1), posY + 12 * z, c2);
+                //this.drawString(fontRendererObj, s3, (posX + 220) + (12 * x + 1), posY + 12 * z - 140, c3);// +1 y down
+                
+                
+                /*
+                 * 
+                 * 
+                 */
+                //Reset Defaults for next round
+                s1 = "X";
+                s2 = "X";
+                s3 = "X";
+                c1 = defaultColor;
+                c2 = defaultColor;
+                c3 = defaultColor;
+            }
+        }
+        
+/** End of String Map **/
