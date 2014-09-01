@@ -1,6 +1,10 @@
 package ee.rot;
 
+
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -20,6 +24,7 @@ import ee.rot.blocks.TileEntityMagicBase;
 import ee.rot.comms.BaseBuilderPacket;
 import ee.rot.comms.CommonProxy;
 import ee.rot.comms.TextPacket;
+import ee.rot.events.KeyHandleEvent;
 import ee.rot.events.RotEventHandler;
 import ee.rot.events.RotStandardEventHandler;
 import ee.rot.gui.GuiHandler;
@@ -53,6 +58,7 @@ public class Rot {
     MyMod.network.sendToServer(new MyMessage("foobar"));
     MyMod.network.sendTo(new SomeMessage(), somePlayer);
     */
+    public static KeyBinding classKey = new KeyBinding("Class Menu", Keyboard.KEY_Y, "keys.rot");
     
     public static CreativeTabs tabRoT = new CreativeTabsRoT("RoT");
     
@@ -65,6 +71,8 @@ public class Rot {
     	
 		GameRegistry.registerTileEntity(TileEntityMagicBase.class, "itemGenRot"); //This needs to be renamed, but this and it's related objects are under heavy construction
     	
+		proxy.registerKeyBindings();
+		
     	RotBlocks.init();
     	RotBlocks.registerBlocks();
     	
@@ -78,6 +86,7 @@ public class Rot {
     public void init(FMLInitializationEvent event)
     {
     	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+    	FMLCommonHandler.instance().bus().register(new KeyHandleEvent());
     }
     
     @EventHandler

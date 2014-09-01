@@ -28,7 +28,7 @@ public class ItemGunpowderInfuser extends Item
 		setMaxStackSize(1);
 	}
 	
-	@Override
+	/*@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		// TODO Auto-generated method stub
@@ -52,6 +52,18 @@ public class ItemGunpowderInfuser extends Item
 		}
 		
 		return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
+	}*/
+	
+	@Override
+	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player,
+			World world, int x, int y, int z, int side, float hitX, float hitY,
+			float hitZ)
+	{
+		
+		System.out.println(world.getBlockMetadata(x, y, z));
+		// TODO Auto-generated method stub
+		return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY,
+				hitZ);
 	}
 	
 	@Override

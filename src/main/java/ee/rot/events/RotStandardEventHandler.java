@@ -39,6 +39,11 @@ public class RotStandardEventHandler
 			ExtendPlayerRot props = ExtendPlayerRot.get(player);
 			//Mana and Stamina regeneration
 			float timeMath = 3* 60 * 10;
+			if (player.shouldHeal())
+			{
+				player.heal(1f / timeMath + (props.getVitality() / timeMath));
+			}
+			
 			if (player.isPlayerSleeping())
 			{
 				props.replenishMana();
@@ -46,12 +51,12 @@ public class RotStandardEventHandler
 			}
 			if (player.isInWater())
 			{
-				props.regenMana((5f + props.getIntelligence() * 2) / timeMath + (player.experienceLevel)/timeMath);
+				props.regenMana(5f / timeMath + (player.experienceLevel)/timeMath);
 				props.regenStam((30f + props.getVitality() * 3) / 60 + ((player.experienceLevel)*2)/timeMath);				
 			}
 			else
 			{
-				props.regenMana((5f + props.getIntelligence() * 2) / timeMath + (player.experienceLevel)/timeMath);
+				props.regenMana(5f / timeMath + (player.experienceLevel)/timeMath);
 				props.regenStam((30f + props.getVitality() * 3) / timeMath + ((player.experienceLevel)*2)/timeMath);
 			}	
 			//Adding stats to Equipment
@@ -60,67 +65,82 @@ public class RotStandardEventHandler
 				ItemStack is = player.inventory.getStackInSlot(slot);
 				if (is != null)
 				{
-					if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemArmor)
+					if (is.getItem() instanceof ItemArmor)
 					{
 						int rank = UtilityNBTHelper.getInt(is, Rot.MODID+"rankLevel");
 						if (rank == 0)
 						{
-							rank = MathHelper.clamp_int((int)(Math.random() * 100) / 50, 1, 5);
+							rank = MathHelper.clamp_int((int)(player.worldObj.rand.nextFloat() * 100 / 28), 1, 5);
 							UtilityNBTHelper.setInteger(is, Rot.MODID+"rankLevel", rank);
-							UtilityNBTHelper.setInteger(is, Rot.MODID+"strModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(1) == 0 ? 1 : -1));
-							UtilityNBTHelper.setInteger(is, Rot.MODID+"intModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(1) == 0 ? 1 : -1));
-							UtilityNBTHelper.setInteger(is, Rot.MODID+"vitModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(1) == 0 ? 1 : -1));
-							UtilityNBTHelper.setInteger(is, Rot.MODID+"dexModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(1) == 0 ? 1 : -1));
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"strModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"agiModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"intModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"vitModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"dexModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));
+						}
+					}
+					else if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool)
+					{
+						int rank = UtilityNBTHelper.getInt(is, Rot.MODID+"rankLevel");
+						if (rank == 0)
+						{
+							rank = MathHelper.clamp_int((int)(player.worldObj.rand.nextFloat() * 100 / 28), 1, 5);
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"rankLevel", rank);
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"strModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));							
+							UtilityNBTHelper.setInteger(is, Rot.MODID+"dexModifier", player.worldObj.rand.nextInt(3) + rank * (player.worldObj.rand.nextInt(2) == 0 ? 1 : -1));
 						}
 					}
 				}
 			}
 			
 			//Stat handling
-			int strMod = 0, dexMod = 0, vitMod = 0, intMod = 0;
+			int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0;
 			ItemStack held = player.getEquipmentInSlot(0), 
 					armor1 = player.getEquipmentInSlot(1), 
 					armor2 = player.getEquipmentInSlot(2),
 					armor3 = player.getEquipmentInSlot(3),
 					armor4 = player.getEquipmentInSlot(4);
 			
-			if (held != null && held.getItem() instanceof ItemSword)
+			if (held != null)
 			{
-				strMod += UtilityNBTHelper.getInt(held, Rot.MODID+"strModifier");
-				intMod += UtilityNBTHelper.getInt(held, Rot.MODID+"intModifier");
-				vitMod += UtilityNBTHelper.getInt(held, Rot.MODID+"vitModifier");
-				dexMod += UtilityNBTHelper.getInt(held, Rot.MODID+"dexModifier");
+				if (held.getItem() instanceof ItemSword || held.getItem() instanceof ItemTool)
+				{
+					strMod += UtilityNBTHelper.getInt(held, Rot.MODID+"strModifier");
+					agiMod += UtilityNBTHelper.getInt(held, Rot.MODID+"agiModifier");
+					vitMod += UtilityNBTHelper.getInt(held, Rot.MODID+"vitModifier");
+					dexMod += UtilityNBTHelper.getInt(held, Rot.MODID+"dexModifier");
+				}
 			}
 			if (armor1 != null)
 			{
 				strMod += UtilityNBTHelper.getInt(armor1, Rot.MODID+"strModifier");
-				intMod += UtilityNBTHelper.getInt(armor1, Rot.MODID+"intModifier");
+				agiMod += UtilityNBTHelper.getInt(armor1, Rot.MODID+"agiModifier");
 				vitMod += UtilityNBTHelper.getInt(armor1, Rot.MODID+"vitModifier");
 				dexMod += UtilityNBTHelper.getInt(armor1, Rot.MODID+"dexModifier");
 			}
 			if (armor2 != null)
 			{
 				strMod += UtilityNBTHelper.getInt(armor2, Rot.MODID+"strModifier");
-				intMod += UtilityNBTHelper.getInt(armor2, Rot.MODID+"intModifier");
+				agiMod += UtilityNBTHelper.getInt(armor2, Rot.MODID+"agiModifier");
 				vitMod += UtilityNBTHelper.getInt(armor2, Rot.MODID+"vitModifier");
 				dexMod += UtilityNBTHelper.getInt(armor2, Rot.MODID+"dexModifier");
 			}
 			if (armor3 != null)
 			{
 				strMod += UtilityNBTHelper.getInt(armor3, Rot.MODID+"strModifier");
-				intMod += UtilityNBTHelper.getInt(armor3, Rot.MODID+"intModifier");
+				agiMod += UtilityNBTHelper.getInt(armor3, Rot.MODID+"agiModifier");
 				vitMod += UtilityNBTHelper.getInt(armor3, Rot.MODID+"vitModifier");
 				dexMod += UtilityNBTHelper.getInt(armor3, Rot.MODID+"dexModifier");
 			}
 			if (armor4 != null)
 			{
 				strMod += UtilityNBTHelper.getInt(armor4, Rot.MODID+"strModifier");
-				intMod += UtilityNBTHelper.getInt(armor4, Rot.MODID+"intModifier");
+				agiMod += UtilityNBTHelper.getInt(armor4, Rot.MODID+"agiModifier");
 				vitMod += UtilityNBTHelper.getInt(armor4, Rot.MODID+"vitModifier");
 				dexMod += UtilityNBTHelper.getInt(armor4, Rot.MODID+"dexModifier");
 			}
 			props.setDexterity(dexMod);
-			props.setIntelligence(intMod);
+			props.setAgility(agiMod);
 			props.setStrength(strMod);
 			props.setVitality(vitMod);
 			

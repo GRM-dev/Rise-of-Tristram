@@ -19,7 +19,7 @@ public class ItemSwordSoul extends ItemSword
 		super(mat);
 	}
 	
-	@Override
+	/*@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5)
 	{
@@ -56,7 +56,7 @@ public class ItemSwordSoul extends ItemSword
 				}
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public boolean hitEntity(ItemStack is,EntityLivingBase target,EntityLivingBase attacker) 

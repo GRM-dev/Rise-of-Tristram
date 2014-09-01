@@ -2,17 +2,22 @@ package ee.rot.events;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import ee.rot.ExtendLivingBaseRot;
 import ee.rot.ExtendPlayerRot;
+import ee.rot.Rot;
+import ee.rot.UtilityNBTHelper;
 
 public class RotEventHandler 
 {
@@ -40,6 +45,31 @@ public class RotEventHandler
 	}
 	
 	@SubscribeEvent
+	public void EntityBlockBreakSpeed(BreakSpeed e)
+	{
+		e.newSpeed += ((ExtendPlayerRot.get(e.entityPlayer).getDexterity() / 3) + (ExtendPlayerRot.get(e.entityPlayer).getStrength() * 2));
+	}	
+	
+	@SubscribeEvent
+	public void onItemToolTipUpdate(ItemTooltipEvent e)
+	{
+		int rank = UtilityNBTHelper.getInt(e.itemStack, Rot.MODID+"rankLevel"), 
+				str = UtilityNBTHelper.getInt(e.itemStack, Rot.MODID+"strModifier"), 
+				agi = UtilityNBTHelper.getInt(e.itemStack, Rot.MODID+"agiModifier"), 
+				vit = UtilityNBTHelper.getInt(e.itemStack, Rot.MODID+"vitModifier"), 
+				dex = UtilityNBTHelper.getInt(e.itemStack, Rot.MODID+"dexModifier");
+
+		if (e.itemStack.getItem() instanceof ItemTool || e.itemStack.getItem() instanceof ItemSword || e.itemStack.getItem() instanceof ItemArmor)
+		{
+			if(rank != 0)e.toolTip.add(EnumChatFormatting.YELLOW+"Rank: "+rank);
+			if (str != 0)e.toolTip.add((str > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)+"Strength Modifier: "+str);
+			if (agi != 0)e.toolTip.add((agi > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)+"Agility Modifier: "+agi);
+			if (vit != 0)e.toolTip.add((vit > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)+"Vitality Modifier: "+vit);
+			if (dex != 0)e.toolTip.add((dex > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)+"Dexterity Modifier: "+dex);
+		}
+	}
+	
+	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event)
 	{
 		/*
@@ -57,8 +87,8 @@ public class RotEventHandler
 			ExtendLivingBaseRot.register((EntityLivingBase) event.entity);*/
 		// If you didn't make the two convenient methods from earlier, your code would be
 		// much uglier:
-		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME) == null)
-			event.entity.registerExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME, new ExtendPlayerRot((EntityPlayer) event.entity));
+		/*if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME) == null)
+			event.entity.registerExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME, new ExtendPlayerRot((EntityPlayer) event.entity));*/
 	}
 	
 	@SubscribeEvent

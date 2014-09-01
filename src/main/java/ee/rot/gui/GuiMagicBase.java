@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -30,30 +31,82 @@ public class GuiMagicBase extends GuiContainer
 	public static final ResourceLocation texture = 
 			new ResourceLocation(Rot.MODID.toLowerCase(), "textures/gui/magicBase.png");
 	
+	private EntityPlayer player;
 	private TileEntityMagicBase te;
 	private int cw = 12; //control Width
 	private int ch = 12; //control Height
-	private int gridSizeX = 5;
-	private int gridSizeZ = 5;
+	
+	//Grid Values
+	private int gridSizeX = 0;
+	private int gridSizeZ = 0;
+	private int gX = 6, gZ = 6;
 	private int gridXOffset = 0;
 	private int gridZOffset = 0;
-	private int x = 0;
-	private int y = 0;
-	private int z = 0;
+	private int xOffset = 0;
+	private int yOffset = 0;
+	private int zOffset = 0;
+	
+	//Block Placement Valuse
 	private int currentBlock = 0;
+	private int currentMeta = 0;
 	private String block = RotBlocks.blockTypes[currentBlock];
 	private int blockColor = RotBlocks.blockTypeColors[currentBlock];
+	
+	//Selection and List Values
 	private String[] list;
+	private Boolean listGotten = false;
 	private int defaultColor = 0x444444;
 	private int selectionMode = 0;
 	private String[] selectionTitle = {"Single","Rectangle A - B"};
 	private Vector3f[] AB = new Vector3f[2];
-	private EntityPlayer player;
-	private Boolean listGotten = false;
+	
+	//Misc.	
 	private GuiBaseBuilderButton[] coordButtons;
-	private int indexCounter = 16;
+	private int INDEX_START = 16;
+	private int indexCounter = INDEX_START;
 	private int startLeft = Minecraft.getMinecraft().displayWidth / (Minecraft.getMinecraft().displayWidth / 10), 
 			startTop = Minecraft.getMinecraft().displayHeight / (Minecraft.getMinecraft().displayHeight / 16);
+	
+	@Override
+	protected void keyTyped(char par1, int par2)
+	{
+		if (par1 == 'a')
+		{
+			xOffset--;
+			updateButtons();
+		}
+		else if (par1 == 'd')
+		{
+			xOffset++;
+			updateButtons();
+		}
+		else if (par1 == 'w')
+		{
+			zOffset--;
+			updateButtons();
+		}
+		else if (par1 == 's')
+		{
+			zOffset++;
+			updateButtons();
+		}
+		else if (par2 == this.mc.gameSettings.keyBindJump.getKeyCode())
+		{
+			yOffset++;
+			updateButtons();
+		}
+		else if (par2 == this.mc.gameSettings.keyBindSneak.getKeyCode())
+		{
+			yOffset--;
+			updateButtons();
+		}
+		
+		if (par2 == 1 || par2 == this.mc.gameSettings.keyBindInventory.getKeyCode())
+        {
+            this.mc.thePlayer.closeScreen();
+        }
+		
+	}
 	
 	public GuiMagicBase(TileEntityMagicBase tileEntity, EntityPlayer player)
 	{
@@ -63,7 +116,7 @@ public class GuiMagicBase extends GuiContainer
 		te = tileEntity;
 		xSize = 227;
 		ySize = 226;
-	}	
+	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) 
@@ -83,19 +136,22 @@ public class GuiMagicBase extends GuiContainer
 	    		}
 	    	}
 		}
+		
+		startLeft = Minecraft.getMinecraft().displayWidth / (Minecraft.getMinecraft().displayWidth / 10); 
+		startTop = Minecraft.getMinecraft().displayHeight / (Minecraft.getMinecraft().displayHeight / 16);
+		
+		gridSizeX = gX + gridXOffset;
+		gridSizeZ = gZ + gridZOffset;
+		
 		if (coordButtons == null)
 		{
 			updateButtons();
 		}
-		startLeft = Minecraft.getMinecraft().displayWidth / (Minecraft.getMinecraft().displayWidth / 10); 
-		startTop = Minecraft.getMinecraft().displayHeight / (Minecraft.getMinecraft().displayHeight / 16);
 		
-		gridSizeX = 5 + gridXOffset;
-		gridSizeZ = 5 + gridZOffset;
 		
-		int posX = (this.width) / 2;
+		/*int posX = (this.width) / 2;
 		int posY = (this.height) / 2;
-		int xBuffer = 29;
+		int xBuffer = 29;*/
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		/*Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);*/
@@ -113,9 +169,9 @@ public class GuiMagicBase extends GuiContainer
 		this.buttonList.add(new GuiButton(7, (startLeft + ((gridSizeX * 2) * cw)) + cw * 4, (startTop + (gridSizeZ * ch)) + ch / 2, cw, ch, "Y-"));//Y down
 		
 		//Visual information on location
-				this.drawString(fontRendererObj, "X: "+(x+te.xCoord)+" offSet: "+x, (startLeft + ((gridSizeX * 2) * cw)) + cw * 5, (startTop + (gridSizeZ * ch) + 4) - ch, 0xFFFFFF);
-				this.drawString(fontRendererObj, "Y: "+(y+te.yCoord)+" offSet: "+y, (startLeft + ((gridSizeX * 2) * cw)) + cw * 5, (startTop + (gridSizeZ * ch) + 4), 0xFFFFFF);
-				this.drawString(fontRendererObj, "Z: "+(z+te.zCoord)+" offSet: "+z, (startLeft + ((gridSizeX * 2) * cw)) + cw * 5, (startTop + (gridSizeZ * ch) + 4) + ch, 0xFFFFFF);
+				this.drawString(fontRendererObj, "X: "+(xOffset+te.xCoord)+" offSet: "+xOffset, (startLeft + ((gridSizeX * 2) * cw)) + cw * 5, (startTop + (gridSizeZ * ch) + 4) - ch, 0xFFFFFF);
+				this.drawString(fontRendererObj, "Y: "+(yOffset+te.yCoord)+" offSet: "+yOffset, (startLeft + ((gridSizeX * 2) * cw)) + cw * 5, (startTop + (gridSizeZ * ch) + 4), 0xFFFFFF);
+				this.drawString(fontRendererObj, "Z: "+(zOffset+te.zCoord)+" offSet: "+zOffset, (startLeft + ((gridSizeX * 2) * cw)) + cw * 5, (startTop + (gridSizeZ * ch) + 4) + ch, 0xFFFFFF);
 		
 		this.buttonList.add(new GuiButton(11, (startLeft + ((gridSizeX * 2) * cw)) + cw, startTop, 75, ch, "Grid Width +"));//prev block
 		this.buttonList.add(new GuiButton(12, (startLeft + ((gridSizeX * 2) * cw)) + cw, startTop + ch, 75, ch, "Grid Width -"));//next block
@@ -123,6 +179,9 @@ public class GuiMagicBase extends GuiContainer
 		this.buttonList.add(new GuiButton(14, (startLeft + ((gridSizeX * 2) * cw)) + cw, startTop + ch * 3, 75, ch, "Grid Height -"));//next block
 		
 		this.buttonList.add(new GuiButton(15, (startLeft + ((gridSizeX * 2) * cw)) + cw, (startTop + ((gridSizeZ * 2) * ch)) - ch * 3, 75, ch, selectionTitle[selectionMode]));//selection mode
+		this.drawString(fontRendererObj, (AB == null ? "single Mode":(AB[0] == null ? "Point A not selected" : AB[0])).toString(), 
+				(startLeft + ((gridSizeX * 2) * cw)) + cw * 8, (startTop + ((gridSizeZ * 2) * ch)) - ch * 3, blockColor); // What block is selected
+		
 		this.buttonList.add(new GuiButton(0, (startLeft + ((gridSizeX * 2) * cw)) + cw, (startTop + ((gridSizeZ * 2) * ch)) - ch * 2, 75, ch, "Start Building")); //right now does nothing, as it was hit and miss
 		this.buttonList.add(new GuiButton(1, (startLeft + ((gridSizeX * 2) * cw)) + cw, (startTop + ((gridSizeZ * 2) * ch)) - ch, 75, ch, "Send List")); //Adds the location based on x,y,z
 		this.buttonList.add(new GuiButton(8, (startLeft + ((gridSizeX * 2) * cw)) + cw, (startTop + ((gridSizeZ * 2) * ch)), 75, ch, "Clear")); //Clears all the locations
@@ -142,17 +201,17 @@ public class GuiMagicBase extends GuiContainer
 	protected void actionPerformed(GuiButton button) 
 	{	
 		//Anything below the generated buttons for grid clicking
-		if (button.id < 16)
+		if (button.id < indexCounter)
 		{
 			switch (button.id)
 			{
 			case 0: //Start Building
-				Rot.net.sendToServer(new BaseBuilderPacket("START;"+te.xCoord+","+te.yCoord+","+te.zCoord));
+				Rot.net.sendToServer(new BaseBuilderPacket("2;"+te.xCoord+","+te.yCoord+","+te.zCoord));
 				break;
 			case 1: // Send List
 				if (list != null)
 				{
-					String locations ="";
+					/*String locations ="";
 					for (int l = 0; l < list.length; l++)
 					{
 						locations += list[l];
@@ -160,30 +219,34 @@ public class GuiMagicBase extends GuiContainer
 						{
 							locations += ";";
 						}
+					}*/
+					int listIndex = 0;
+					while (listIndex != list.length)
+					{
+						Rot.net.sendToServer(new BaseBuilderPacket("0;"+te.xCoord+","+te.yCoord+","+te.zCoord+";"+list[listIndex++]));	
 					}
-					Rot.net.sendToServer(new BaseBuilderPacket("ADD;"+te.xCoord+","+te.yCoord+","+te.zCoord+";"+locations));
 				}				
 				break;
 			case 2: // -X left/west
-				x--;
+				xOffset--;
 				break;
 			case 3: // +X right/east
-				x++;
+				xOffset++;
 				break;
 			case 4: // -Z forward/north
-				z--;
+				zOffset--;
 				break;
 			case 5: // +Z backwards/south
-				z++;
+				zOffset++;
 				break;
 			case 6: // +Y up
-				y++;
+				yOffset++;
 				break;
 			case 7: // -Y down
-				y--;
+				yOffset--;
 				break;
 			case 8: // Clear, clears tileEntity list and this gui's List
-				Rot.net.sendToServer(new BaseBuilderPacket("CLEAR;"+te.xCoord+","+te.yCoord+","+te.zCoord));
+				Rot.net.sendToServer(new BaseBuilderPacket("1;"+te.xCoord+","+te.yCoord+","+te.zCoord));
 				list = null;
 				break;
 			case 9: // < moves block array left
@@ -231,6 +294,7 @@ public class GuiMagicBase extends GuiContainer
 		//Start code for generated buttons
 		else
 		{
+			System.out.println("clicked a multi Button.");
 			String[] loc = ((GuiBaseBuilderButton)button).coords.split(",");
 			//If the list is blank, create the list and add first option
 			//Yes I know I should just use an ArrayList/List but for some reason
@@ -241,13 +305,13 @@ public class GuiMagicBase extends GuiContainer
 			{
 				if (AB[0] == null)
 				{						
-					AB[0] = new Vector3f(Float.parseFloat(loc[0]), (float)this.y, Float.parseFloat(loc[1]));
+					AB[0] = new Vector3f(Float.parseFloat(loc[0]), (float)this.yOffset, Float.parseFloat(loc[1]));
 				}
 				else if (AB[1] == null)
 				{
-					if (new Vector3f(Float.parseFloat(loc[0]), (float)this.y, Float.parseFloat(loc[1])) != AB[0])
+					if (new Vector3f(Float.parseFloat(loc[0]), (float)this.yOffset, Float.parseFloat(loc[1])) != AB[0])
 					{
-						AB[1] = new Vector3f(Float.parseFloat(loc[0]), (float)this.y, Float.parseFloat(loc[1]));
+						AB[1] = new Vector3f(Float.parseFloat(loc[0]), (float)this.yOffset, Float.parseFloat(loc[1]));
 					}						
 				}				
 				if (AB[0] != null && AB[1] != null)
@@ -309,10 +373,11 @@ public class GuiMagicBase extends GuiContainer
 			}
 			else//single select
 			{
+				System.out.println("clicked solo button.");
 				if (list == null)
 				{
 					list = new String[1];
-					list[0] = loc[0]+","+y+","+loc[1]+","+block;
+					list[0] = loc[0]+","+yOffset+","+loc[1]+","+block;
 				}
 				else
 				{
@@ -322,10 +387,10 @@ public class GuiMagicBase extends GuiContainer
 					{
 						String[] listCoords = list[l].split(",");
 						if (listCoords[0] == loc[0] && 
-								Integer.parseInt(listCoords[1]) == this.y && 
+								Integer.parseInt(listCoords[1]) == this.yOffset && 
 								listCoords[2] == loc[1])
 						{
-							list[l] = loc[0]+","+y+","+loc[1]+","+block;
+							list[l] = loc[0]+","+yOffset+","+loc[1]+","+block;
 							dupeObject = true;
 						}
 					}
@@ -336,7 +401,7 @@ public class GuiMagicBase extends GuiContainer
 						for (int l = 0; l < newPreList.length;l++)
 						{
 							if (l == newPreList.length-1)
-								newPreList[l] = loc[0]+","+y+","+loc[1]+","+block;
+								newPreList[l] = loc[0]+","+yOffset+","+loc[1]+","+block;
 							else
 								newPreList[l] = list[l];
 						}
@@ -355,8 +420,7 @@ public class GuiMagicBase extends GuiContainer
 		if (s.equals("X"))
 		{
 			boolean chosenBlocks = false;
-			Block worldBlock =
-			te.getWorldObj().getBlock(x, y, z);
+			Block worldBlock = te.getWorldObj().getBlock(x, y, z);
 			if (worldBlock.equals(Blocks.air))
 			{
 				s = ".";
@@ -434,7 +498,10 @@ public class GuiMagicBase extends GuiContainer
 	//Updates the buttons
 	private void updateButtons()
 	{
-		coordButtons = new GuiBaseBuilderButton[(gridSizeX * 2 + 1) * (gridSizeZ * 2 + 1)];
+		if (coordButtons == null || coordButtons.length != (gridSizeX * 2 + 1) * (gridSizeZ * 2 + 1))
+		{
+			coordButtons = new GuiBaseBuilderButton[(gridSizeX * 2 + 1) * (gridSizeZ * 2 + 1)];
+		}
 		
 		int buttonArrayIndex = 0;		
 		for (int x = gridSizeX; x >= -gridSizeX; x--)
@@ -451,9 +518,9 @@ public class GuiMagicBase extends GuiContainer
 					for (int l = 0; l < list.length; l++)
 					{			
 						locCoords = list[l].split(",");
-						if (x + this.x == Integer.parseInt(locCoords[0]) && z + this.z == Integer.parseInt(locCoords[2]))
+						if (x + this.xOffset == Integer.parseInt(locCoords[0]) && z + this.zOffset == Integer.parseInt(locCoords[2]))
 						{
-							if (this.y == Integer.parseInt(locCoords[1]))
+							if (this.yOffset == Integer.parseInt(locCoords[1]))
 							{								
 								for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
 								{
@@ -462,10 +529,6 @@ public class GuiMagicBase extends GuiContainer
 										s = RotBlocks.blockTypeLetters[bt] +"*";
 										c = RotBlocks.blockTypeColors[bt];
 										break;
-									}
-									else 
-									{
-										c = defaultColor;
 									}
 								}	
 							}
@@ -477,12 +540,13 @@ public class GuiMagicBase extends GuiContainer
 						(startTop + (gridSizeZ * ch)) + ((ch * z)), 
 						cw, 
 						ch, 
-						getBlockLetter(te.xCoord + x + this.x, te.yCoord + y, te.zCoord + z + this.z, s) ,
-						(x + this.x)+","+(z + this.z));
-				if (x + this.x == 0 && y == 0 && z + this.z == 0)coordButtons[buttonArrayIndex].packedFGColour = 0x0000FF;
-				else coordButtons[buttonArrayIndex].packedFGColour = getBlockColor(te.xCoord + x + this.x, te.yCoord + y, te.zCoord + z + this.z, c);
+						s = getBlockLetter(x + this.xOffset + te.xCoord, yOffset + te.yCoord, z + this.zOffset + te.zCoord, s) ,
+						(x + this.xOffset)+","+(z + this.zOffset));
+				if (x + this.xOffset == 0 && yOffset == 0 && z + this.zOffset == 0)coordButtons[buttonArrayIndex].packedFGColour = 0x0000FF;
+				else coordButtons[buttonArrayIndex].packedFGColour = c = getBlockColor(x + this.xOffset + te.xCoord,yOffset + te.yCoord, z + this.zOffset + te.zCoord, c);
 				buttonArrayIndex++;
 			}
 		}
+		indexCounter = INDEX_START;
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 
 public class RotItems {
 
@@ -23,6 +24,11 @@ public class RotItems {
     
     public static Item itemMana;
 	
+    public static Item tutHelmet;
+    public static Item tutPlate;
+    public static Item tutPants;
+    public static Item tutBoots;
+    
 	public static void init()
 	{
 		itemManaConverter = new ItemManaConverter()

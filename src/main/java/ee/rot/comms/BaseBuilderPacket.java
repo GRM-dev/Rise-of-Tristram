@@ -14,7 +14,7 @@ import ee.rot.blocks.TileEntityMagicBase;
 public class BaseBuilderPacket implements IMessage 
 {
 	
-	public String msg;
+	public String msg;	
 	
 	public BaseBuilderPacket()
 	{
@@ -44,17 +44,15 @@ public class BaseBuilderPacket implements IMessage
 		@Override
 		public IMessage onMessage(BaseBuilderPacket message, MessageContext ctx) 
 		{
-			/*System.out.println(String.format("Received %s from %s", 
-					message.text, 
-					ctx.getServerHandler().playerEntity.getDisplayName()));*/
 			String[] messagePieces = message.msg.split(";");
 			String[] teCoords = messagePieces[1].split(","); 
 			int x,y,z;
 			TileEntityMagicBase te;
-			switch (messagePieces[0])
+			// 0 = add, 1 = clear, 2 = start, 3 = set grid sizes
+			switch (Integer.parseInt(messagePieces[0]))
 			{
 			
-				case "ADD":
+				case 0:
 					x = Integer.parseInt(teCoords[0]);
 					y = Integer.parseInt(teCoords[1]);
 					z = Integer.parseInt(teCoords[2]);
@@ -78,7 +76,7 @@ public class BaseBuilderPacket implements IMessage
 						te.addLocation(x, y, z, block);
 					}
 					break;
-				case "CLEAR":
+				case 1:
 					teCoords = messagePieces[1].split(",");
 					x = Integer.parseInt(teCoords[0]);
 					y = Integer.parseInt(teCoords[1]);
@@ -86,7 +84,7 @@ public class BaseBuilderPacket implements IMessage
 					te = (TileEntityMagicBase)ctx.getServerHandler().playerEntity.getEntityWorld().getTileEntity(x, y, z);
 					te.clearLocations();
 					break;
-				case "START":
+				case 2:
 					teCoords = messagePieces[1].split(",");
 					x = Integer.parseInt(teCoords[0]);
 					y = Integer.parseInt(teCoords[1]);

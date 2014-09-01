@@ -22,17 +22,8 @@ public class ItemArmorCustom extends ItemArmor
 
 	private void setTextureName(String type, int armorPart)
 	{
-		switch(armorType)
-		{
-			case 0:
-			case 1:
-			case 3:
-				this.texturePath += type + "_layer_1.png";
-				break;
-			case 2:
-				this.texturePath += type + "_layer_2.png";
-				break;
-		}
+		if (armorPart != 2) this.texturePath += type + "_layer_1.png";
+		else this.texturePath += type + "_layer_2.png";		
 	}
 	
 	@Override

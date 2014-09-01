@@ -21,4 +21,16 @@ public class ContainerNull extends Container
 	{
 		return true;
 	}
+	
+	@Override
+	public Slot getSlot(int par1)
+	{
+		return null;
+	}
+	
+	@Override
+	public void putStackInSlot(int par1, ItemStack par2ItemStack)
+	{
+		
+	}
 }

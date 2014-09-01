@@ -31,6 +31,7 @@ public class TileEntityMagicBase extends TileEntity
 	private int range = 4;
 	private int flag = 2;
 	private boolean building = false;
+	public int gX = 6, gZ = 6;
 	private ArrayList locations = new ArrayList<UtilityBlockLocationType>();
 	
 	@Override
@@ -118,7 +119,7 @@ public class TileEntityMagicBase extends TileEntity
 
 			if (cd == 0)
 			{			
-				shareManaAndRepairItems();
+				restorePlayers();
 				updateBlockStatus();
 				cd = ACTION_CD;			
 				TileEntity te;
@@ -169,6 +170,24 @@ public class TileEntityMagicBase extends TileEntity
 		locations.add(location);
 	}
 	
+	public void addLocation(int x, int y, int z, Block block, int meta)
+	{
+		if (x + xCoord == xCoord && y + yCoord == yCoord && z + zCoord == zCoord)return;
+		UtilityBlockLocationType location = new UtilityBlockLocationType(x + xCoord, y + yCoord, z + zCoord, block, meta);
+		if (locations.size() > 0)
+		{
+			for (int l = 0;l < locations.size();l++)
+			{
+				if (locations.get(l).equals(location))
+				{
+					locations.set(l, location);
+					return;
+				}				
+			}			
+		}
+		locations.add(location);
+	}
+	
 	public void clearLocations()
 	{
 		locations.clear();
@@ -202,7 +221,7 @@ public class TileEntityMagicBase extends TileEntity
 		if (mana < manaCap)mana += ((5.2755f + redStoneBlocks) / (60));	
 	}
 	
-	public void shareManaAndRepairItems()
+	public void restorePlayers()
 	{
 		List players = getWorldObj().getEntitiesWithinAABB(EntityPlayer.class, this.getRenderBoundingBox().expand(range, range, range));
 		Iterator iterator = players.iterator();
@@ -211,14 +230,30 @@ public class TileEntityMagicBase extends TileEntity
         {
             entityplayer = (EntityPlayer)iterator.next();
             ExtendPlayerRot props = ExtendPlayerRot.get(entityplayer);
-            if (props.needsMana())
+            if (entityplayer.shouldHeal())
             {
             	if (mana > 1)
             	{
-            		props.regenMana(1f);
+            		entityplayer.heal(.25f);
             		mana -= 1;            		
             	}
             }
+            if (entityplayer.getFoodStats().needFood())
+            {
+            	if (mana > 1)
+            	{
+            		entityplayer.getFoodStats().addStats(1, 1f);
+            		mana-=1;
+            	}
+            }
+            /*if (props.needsMana())
+            {
+            	if (mana > 15)
+            	{
+            		props.regenMana(15f);
+            		mana -= 15;            		
+            	}
+            }*/
             //Save the locations list on the special parchment
             if (entityplayer.getHeldItem() != null 
         			&& entityplayer.getHeldItem().getItem().equals(RotItems.itemMana))

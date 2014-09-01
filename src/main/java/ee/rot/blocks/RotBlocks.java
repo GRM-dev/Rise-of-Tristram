@@ -19,7 +19,7 @@ public class RotBlocks
 		Blocks.stone,Blocks.stonebrick,Blocks.glass,
 		Blocks.glass_pane,Blocks.brick_block};
 	public static String[] blockTypeLetters =
-		{"A","P","C",
+		{".","P","C",
 		"S","SB","G",
 		"GP","BR"};
 	public static int[] blockTypeColors =
