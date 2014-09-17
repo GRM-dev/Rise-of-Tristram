@@ -1,12 +1,13 @@
 package ee.rot;
 
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
+
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,10 +21,11 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import ee.rot.blocks.RotBlocks;
-import ee.rot.blocks.TileEntityMagicBase;
-import ee.rot.comms.BaseBuilderPacket;
+import ee.rot.blocks.TileEntityBaseNode;
+import ee.rot.comms.BaseNodeRequestPacket;
+import ee.rot.comms.ClassRequestPacket;
+import ee.rot.comms.ClassResponsePacket;
 import ee.rot.comms.CommonProxy;
-import ee.rot.comms.TextPacket;
 import ee.rot.events.KeyHandleEvent;
 import ee.rot.events.RotEventHandler;
 import ee.rot.events.RotStandardEventHandler;
@@ -31,6 +33,7 @@ import ee.rot.gui.GuiHandler;
 import ee.rot.gui.RotManaGui;
 import ee.rot.gui.RotStamGui;
 import ee.rot.items.RotItems;
+import ee.rot.libs.CreativeTabsRoT;
 
 @Mod(modid = Rot.MODID, version = Rot.VERSION, name= Rot.MODNAME)
 
@@ -66,10 +69,13 @@ public class Rot {
     public void preInit(FMLPreInitializationEvent event)
     {  	
     	net = NetworkRegistry.INSTANCE.newSimpleChannel("rpcee");
-    	net.registerMessage(TextPacket.TextPacketHandler.class, TextPacket.class, packetId++, Side.SERVER);
-    	net.registerMessage(BaseBuilderPacket.BaseBuilderPacketHandler.class, BaseBuilderPacket.class, packetId++, Side.SERVER);
+    	//net.registerMessage(TextPacket.TextPacketHandler.class, TextPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(BaseNodeRequestPacket.BaseNodeRequestPacketHandler.class, BaseNodeRequestPacket.class, packetId++, Side.SERVER);
     	
-		GameRegistry.registerTileEntity(TileEntityMagicBase.class, "itemGenRot"); //This needs to be renamed, but this and it's related objects are under heavy construction
+    	net.registerMessage(ClassRequestPacket.ClassRequestPacketHandler.class, ClassRequestPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(ClassResponsePacket.ClassResponsePacketHandler.class, ClassResponsePacket.class, packetId++, Side.CLIENT);
+    	
+		GameRegistry.registerTileEntity(TileEntityBaseNode.class, "itemGenRot"); //This needs to be renamed, but this and it's related objects are under heavy construction
     	
 		proxy.registerKeyBindings();
 		
@@ -94,7 +100,8 @@ public class Rot {
     {
     	MinecraftForge.EVENT_BUS.register(new RotStandardEventHandler());
     	MinecraftForge.EVENT_BUS.register(new RotEventHandler());
-    	if (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge.EVENT_BUS.register(new RotManaGui(Minecraft.getMinecraft()));
-    	if (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge.EVENT_BUS.register(new RotStamGui(Minecraft.getMinecraft()));
+    	proxy.registerRenderers();
+    	/*if (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge.EVENT_BUS.register(new RotManaGui(Minecraft.getMinecraft()));
+    	if (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge.EVENT_BUS.register(new RotStamGui(Minecraft.getMinecraft()));*/
     }
 }

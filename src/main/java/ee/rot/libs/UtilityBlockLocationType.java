@@ -1,4 +1,4 @@
-package ee.rot;
+package ee.rot.libs;
 
 import net.minecraft.block.Block;
 

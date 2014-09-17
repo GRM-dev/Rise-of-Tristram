@@ -2,8 +2,8 @@ package ee.rot.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
+import ee.rot.libs.ExtendPlayer;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -32,12 +32,8 @@ public class ItemCrossbowRepater extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) 
 	{
-		/*for (int i = 0;i < textures.length; i++)
-		{
-			textures[i] = ir.registerIcon(Rot.MODID+":"+"relicLife_"+i);
-		}*/
-		icons[0] = ir.registerIcon(Rot.MODID+":"+"cbr");
-		icons[1] = ir.registerIcon(Rot.MODID+":"+"cbr_overLay");
+		icons[0] = ir.registerIcon(Rot.MODID+":"+"weapons/cbr");
+		icons[1] = ir.registerIcon(Rot.MODID+":"+"weapons/cbr_overLay");
 	}
 	
 	@Override
@@ -90,7 +86,8 @@ public class ItemCrossbowRepater extends Item
 	{
 		if (!par3EntityPlayer.isSneaking())
 		{			
-			ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
+			par3EntityPlayer.swingItem();
+			ExtendPlayer props = ExtendPlayer.get(par3EntityPlayer);
 			EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, 2.5f);
 			switch (par1ItemStack.getItemDamage())
 			{

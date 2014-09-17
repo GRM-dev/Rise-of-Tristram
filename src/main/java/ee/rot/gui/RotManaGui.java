@@ -2,6 +2,7 @@ package ee.rot.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -12,18 +13,17 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
+import ee.rot.libs.ExtendPlayer;
 
 @SideOnly(Side.CLIENT)
 public class RotManaGui extends Gui
 {
 	private Minecraft mc;
-	private static final ResourceLocation texturepath = new ResourceLocation(Rot.MODID +":textures/gui/mana_bar.png"/*"tutorial", "textures/gui/mana_bar.png"*/);
+	private static final ResourceLocation texturepath = new ResourceLocation(Rot.MODID +":textures/gui/mana_bar_final.png");
 	
-	private int barWidth = 50;
-
-	//I left all the comments in "RotStamGui"
+	private int barW = 55, barH = 9;
+	
 	public RotManaGui(Minecraft mc)
 	{
 		super();
@@ -37,19 +37,40 @@ public class RotManaGui extends Gui
 		{
 			return;
 		}
-		ExtendPlayerRot props = ExtendPlayerRot.get(this.mc.thePlayer);
+		ExtendPlayer props = ExtendPlayer.get(this.mc.thePlayer);
 
 		if (props == null || props.getMaxMana() == 0)
 		{
 			return;
 		}
-		int xPos = 2;
-		int yPos = 2;
+		
+		int xPos = 3, yPos = 3;
+		mc.getTextureManager().bindTexture(texturepath);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		this.mc.getTextureManager().bindTexture(texturepath);
-		this.drawTexturedModalRect(xPos, yPos, 0, 0, barWidth, 4);
-		int manabarwidth = (int)(((float) props.getCurrentMana() / props.getMaxMana()) * barWidth);
-		this.drawTexturedModalRect(xPos, yPos + 1, 0, 4, manabarwidth, 2);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		/**
+		 * Draw the background bar which contains a transparent section; note
+		 * the new size
+		 */
+		drawTexturedModalRect(xPos, yPos, 0, 0, barW, barH);
+
+		int manabarwidth = (int) (((float) props.getCurrentMana() / props.getMaxMana()) * barW);
+		
+		drawTexturedModalRect(xPos, yPos, 0, barH, manabarwidth, barH);
+		String s = (int)props.getCurrentMana() + "/" + (int)props.getMaxMana();
+		
+		yPos += barH + 2;
+		mc.fontRenderer.drawString(s, xPos + 1, yPos, 0);
+		mc.fontRenderer.drawString(s, xPos - 1, yPos, 0);
+		mc.fontRenderer.drawString(s, xPos, yPos + 1, 0);
+		mc.fontRenderer.drawString(s, xPos, yPos - 1, 0);
+		mc.fontRenderer.drawString(s, xPos, yPos, 0x0097d9);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
 	}
 }

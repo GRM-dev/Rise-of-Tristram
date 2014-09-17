@@ -4,9 +4,9 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
-import ee.rot.UtilityNBTHelper;
+import ee.rot.libs.ExtendPlayer;
+import ee.rot.libs.UtilityNBTHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -49,7 +49,7 @@ public class ItemMana extends Item
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) 
 	{
 		int type = item.getItemDamage();
-		ExtendPlayerRot props = ExtendPlayerRot.get(player);
+		ExtendPlayer props = ExtendPlayer.get(player);
 		switch (type)
 		{
 			case 0 :

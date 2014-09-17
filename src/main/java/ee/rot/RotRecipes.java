@@ -67,7 +67,7 @@ public class RotRecipes {
     				'y',
     				new ItemStack(RotItems.itemMana,1,2)});
 		
-		GameRegistry.addRecipe(new ItemStack(RotItems.itemSwordSoul), 
+		GameRegistry.addRecipe(new ItemStack(RotItems.weaponSwordSoul), 
     			new Object[]{
 					"  x",
 					"ay ",
@@ -87,7 +87,7 @@ public class RotRecipes {
     				'x', Blocks.planks,
     				'y', Items.emerald});
 		
-		GameRegistry.addRecipe(new ItemStack(RotItems.itemCBR,1,0), 
+		GameRegistry.addRecipe(new ItemStack(RotItems.weaponCBR,1,0), 
     			new Object[]{
 					"zz ",
 					"zx ",

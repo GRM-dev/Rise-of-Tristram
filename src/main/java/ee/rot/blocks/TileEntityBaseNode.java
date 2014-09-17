@@ -15,14 +15,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
-import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
-import ee.rot.UtilityBlockLocationType;
-import ee.rot.UtilityNBTHelper;
+import ee.rot.comms.BaseNodeRequestPacket;
 import ee.rot.items.RotItems;
+import ee.rot.libs.ExtendPlayer;
+import ee.rot.libs.UtilityBlockLocationType;
+import ee.rot.libs.UtilityNBTHelper;
 
 
-public class TileEntityMagicBase extends TileEntity
+public class TileEntityBaseNode extends TileEntity
 {
 	private int ACTION_CD = 25;
 	private int cd = ACTION_CD;
@@ -32,7 +33,7 @@ public class TileEntityMagicBase extends TileEntity
 	private int flag = 2;
 	private boolean building = false;
 	public int gX = 6, gZ = 6;
-	private ArrayList locations = new ArrayList<UtilityBlockLocationType>();
+	public ArrayList locations = new ArrayList<UtilityBlockLocationType>();
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtTag) 
@@ -154,8 +155,8 @@ public class TileEntityMagicBase extends TileEntity
 	
 	public void addLocation(int x, int y, int z, Block block)
 	{
-		if (x + xCoord == xCoord && y + yCoord == yCoord && z + zCoord == zCoord)return;
-		UtilityBlockLocationType location = new UtilityBlockLocationType(x + xCoord, y + yCoord, z + zCoord, block);
+		if (x == xCoord && y == yCoord && z == zCoord)return;
+		UtilityBlockLocationType location = new UtilityBlockLocationType(x, y , z , block);
 		if (locations.size() > 0)
 		{
 			for (int l = 0;l < locations.size();l++)
@@ -172,8 +173,8 @@ public class TileEntityMagicBase extends TileEntity
 	
 	public void addLocation(int x, int y, int z, Block block, int meta)
 	{
-		if (x + xCoord == xCoord && y + yCoord == yCoord && z + zCoord == zCoord)return;
-		UtilityBlockLocationType location = new UtilityBlockLocationType(x + xCoord, y + yCoord, z + zCoord, block, meta);
+		if (x == xCoord && y == yCoord && z == zCoord)return;
+		UtilityBlockLocationType location = new UtilityBlockLocationType(x, y, z, block, meta);
 		if (locations.size() > 0)
 		{
 			for (int l = 0;l < locations.size();l++)
@@ -186,6 +187,20 @@ public class TileEntityMagicBase extends TileEntity
 			}			
 		}
 		locations.add(location);
+	}
+	
+	public void updateClient()
+	{
+		if (!locations.isEmpty())
+		{
+			int listIndex = 0;
+			UtilityBlockLocationType ublt;
+			for (int l = 0; l < locations.size(); l++)
+			{
+				ublt = (UtilityBlockLocationType) locations.get(l);
+				Rot.net.sendToServer(new BaseNodeRequestPacket(0,xCoord,yCoord,zCoord,ublt.x,ublt.y,ublt.z,new ItemStack(ublt.block)));
+			}
+		}	
 	}
 	
 	public void clearLocations()
@@ -229,7 +244,7 @@ public class TileEntityMagicBase extends TileEntity
         while (iterator.hasNext())
         {
             entityplayer = (EntityPlayer)iterator.next();
-            ExtendPlayerRot props = ExtendPlayerRot.get(entityplayer);
+            ExtendPlayer props = ExtendPlayer.get(entityplayer);
             if (entityplayer.shouldHeal())
             {
             	if (mana > 1)

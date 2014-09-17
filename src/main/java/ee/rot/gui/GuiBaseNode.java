@@ -9,51 +9,52 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import scala.collection.immutable.List;
-
 import ee.rot.Rot;
-import ee.rot.UtilityNBTHelper;
-import ee.rot.blocks.ContainerNull;
 import ee.rot.blocks.RotBlocks;
-import ee.rot.blocks.TileEntityMagicBase;
-import ee.rot.comms.BaseBuilderPacket;
+import ee.rot.blocks.TileEntityBaseNode;
+import ee.rot.comms.BaseNodeRequestPacket;
 import ee.rot.items.RotItems;
+import ee.rot.libs.UtilityBlockLocationType;
+import ee.rot.libs.UtilityNBTHelper;
 
-public class GuiMagicBase extends GuiContainer
+public class GuiBaseNode extends GuiContainer
 {
 	public static final ResourceLocation texture = 
 			new ResourceLocation(Rot.MODID.toLowerCase(), "textures/gui/magicBase.png");
 	
 	private EntityPlayer player;
-	private TileEntityMagicBase te;
-	private int cw = 12; //control Width
-	private int ch = 12; //control Height
+	private TileEntityBaseNode te;
+	private int cw = 16; //control Width
+	private int ch = 16; //control Height
 	
 	//Grid Values
 	private int gridSizeX = 0;
 	private int gridSizeZ = 0;
-	private int gX = 6, gZ = 6;
+	private int gX = 7, gZ = 7;
 	private int gridXOffset = 0;
 	private int gridZOffset = 0;
 	private int xOffset = 0;
 	private int yOffset = 0;
 	private int zOffset = 0;
 	
-	//Block Placement Valuse
+	//Block Placement Values
 	private int currentBlock = 0;
 	private int currentMeta = 0;
 	private String block = RotBlocks.blockTypes[currentBlock];
 	private int blockColor = RotBlocks.blockTypeColors[currentBlock];
 	
 	//Selection and List Values
-	private String[] list;
+	private ArrayList locations = new ArrayList<UtilityBlockLocationType>();
 	private Boolean listGotten = false;
 	private int defaultColor = 0x444444;
 	private int selectionMode = 0;
@@ -61,7 +62,7 @@ public class GuiMagicBase extends GuiContainer
 	private Vector3f[] AB = new Vector3f[2];
 	
 	//Misc.	
-	private GuiBaseBuilderButton[] coordButtons;
+	private GuiBaseNodeButton[] coordButtons;
 	private int INDEX_START = 16;
 	private int indexCounter = INDEX_START;
 	private int startLeft = Minecraft.getMinecraft().displayWidth / (Minecraft.getMinecraft().displayWidth / 10), 
@@ -92,12 +93,14 @@ public class GuiMagicBase extends GuiContainer
 		}
 		else if (par2 == this.mc.gameSettings.keyBindJump.getKeyCode())
 		{
-			yOffset++;
+			if (yOffset + te.yCoord == 255)return;
+			else yOffset++;
 			updateButtons();
 		}
 		else if (par2 == this.mc.gameSettings.keyBindSneak.getKeyCode())
 		{
-			yOffset--;
+			if (yOffset + te.yCoord == 0)return;
+			else yOffset--;
 			updateButtons();
 		}
 		
@@ -108,12 +111,13 @@ public class GuiMagicBase extends GuiContainer
 		
 	}
 	
-	public GuiMagicBase(TileEntityMagicBase tileEntity, EntityPlayer player)
+	public GuiBaseNode(TileEntityBaseNode tileEntity, EntityPlayer player)
 	{
 		super(new ContainerNull());
 		
 		this.player = player;
 		te = tileEntity;
+		this.locations = te.locations;
 		xSize = 227;
 		ySize = 226;
 	}
@@ -121,22 +125,6 @@ public class GuiMagicBase extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) 
 	{	
-		if (!listGotten)
-		{
-			if (player.getHeldItem() != null 
-	    			&& player.getHeldItem().getItem().equals(RotItems.itemMana))
-	    	{
-	    		if (player.getHeldItem().getItemDamage() == 3)
-	    		{
-	    			if (UtilityNBTHelper.getString(player.getHeldItem(), Rot.MODID+"baseNodeListCoords").trim() != "")
-	        		{
-	    				list = UtilityNBTHelper.getString(player.getHeldItem(), Rot.MODID+"baseNodeListCoords").split(";");
-	    				listGotten = true;
-	        		}
-	    		}
-	    	}
-		}
-		
 		startLeft = Minecraft.getMinecraft().displayWidth / (Minecraft.getMinecraft().displayWidth / 10); 
 		startTop = Minecraft.getMinecraft().displayHeight / (Minecraft.getMinecraft().displayHeight / 16);
 		
@@ -146,18 +134,11 @@ public class GuiMagicBase extends GuiContainer
 		if (coordButtons == null)
 		{
 			updateButtons();
-		}
-		
-		
-		/*int posX = (this.width) / 2;
-		int posY = (this.height) / 2;
-		int xBuffer = 29;*/
+		}		
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		/*Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);*/
 
 		this.buttonList.clear();
-		//Start with main control buttons	
+		//Start with main control buttons
 		
 		this.buttonList.add(new GuiButton(2, (startLeft + ((gridSizeX * 2) * cw)) + cw, (startTop + (gridSizeZ * ch)), cw, ch, "-X"));//X left
 		this.buttonList.add(new GuiButton(3, (startLeft + ((gridSizeX * 2) * cw)) + cw * 3, (startTop + (gridSizeZ * ch)), cw, ch, "+X"));//X right
@@ -206,24 +187,18 @@ public class GuiMagicBase extends GuiContainer
 			switch (button.id)
 			{
 			case 0: //Start Building
-				Rot.net.sendToServer(new BaseBuilderPacket("2;"+te.xCoord+","+te.yCoord+","+te.zCoord));
+				Rot.net.sendToServer(new BaseNodeRequestPacket(2,te.xCoord, te.yCoord, te.zCoord, 0, 0, 0, null));
 				break;
 			case 1: // Send List
-				if (list != null)
+				if (!locations.isEmpty())
 				{
-					/*String locations ="";
-					for (int l = 0; l < list.length; l++)
-					{
-						locations += list[l];
-						if (list.length > 1 && l != list.length - 1)
-						{
-							locations += ";";
-						}
-					}*/
 					int listIndex = 0;
-					while (listIndex != list.length)
+					UtilityBlockLocationType ublt;
+					for (int l = 0; l < locations.size(); l++)
 					{
-						Rot.net.sendToServer(new BaseBuilderPacket("0;"+te.xCoord+","+te.yCoord+","+te.zCoord+";"+list[listIndex++]));	
+						ublt = (UtilityBlockLocationType) locations.get(l);
+						System.out.println("Sending: "+ublt.x+";"+ublt.y+";"+ublt.z);
+						Rot.net.sendToServer(new BaseNodeRequestPacket(0,te.xCoord,te.yCoord,te.zCoord,ublt.x,ublt.y,ublt.z,new ItemStack(ublt.block)));
 					}
 				}				
 				break;
@@ -240,14 +215,16 @@ public class GuiMagicBase extends GuiContainer
 				zOffset++;
 				break;
 			case 6: // +Y up
-				yOffset++;
+				if (yOffset + te.yCoord == 255)break;
+				else yOffset++;
 				break;
 			case 7: // -Y down
-				yOffset--;
+				if (yOffset + te.yCoord == 0)break;
+				else yOffset--;
 				break;
 			case 8: // Clear, clears tileEntity list and this gui's List
-				Rot.net.sendToServer(new BaseBuilderPacket("1;"+te.xCoord+","+te.yCoord+","+te.zCoord));
-				list = null;
+				Rot.net.sendToServer(new BaseNodeRequestPacket(1,te.xCoord, te.yCoord, te.zCoord, 0, 0, 0, null));
+				locations.clear();
 				break;
 			case 9: // < moves block array left
 				if (currentBlock == 0)
@@ -294,24 +271,18 @@ public class GuiMagicBase extends GuiContainer
 		//Start code for generated buttons
 		else
 		{
-			System.out.println("clicked a multi Button.");
-			String[] loc = ((GuiBaseBuilderButton)button).coords.split(",");
-			//If the list is blank, create the list and add first option
-			//Yes I know I should just use an ArrayList/List but for some reason
-			//when I tried to use it, I messed up or it messed up
-			//so instead of wasting time figuring it out I just brute
-			//forced my own arrayList.
+			int xB = ((GuiBaseNodeButton)button).x, zB = ((GuiBaseNodeButton)button).z;
 			if (selectionMode == 1)// Range Mode
 			{
 				if (AB[0] == null)
 				{						
-					AB[0] = new Vector3f(Float.parseFloat(loc[0]), (float)this.yOffset, Float.parseFloat(loc[1]));
+					AB[0] = new Vector3f((float)xB, (float)this.yOffset, (float)zB);
 				}
 				else if (AB[1] == null)
 				{
-					if (new Vector3f(Float.parseFloat(loc[0]), (float)this.yOffset, Float.parseFloat(loc[1])) != AB[0])
+					if (new Vector3f((float)xB, (float)this.yOffset, (float)zB) != AB[0])
 					{
-						AB[1] = new Vector3f(Float.parseFloat(loc[0]), (float)this.yOffset, Float.parseFloat(loc[1]));
+						AB[1] = new Vector3f((float)xB, (float)this.yOffset, (float)zB);
 					}						
 				}				
 				if (AB[0] != null && AB[1] != null)
@@ -330,40 +301,7 @@ public class GuiMagicBase extends GuiContainer
 						{
 							for (int ys = yh; ys >= yl; ys--)
 							{
-								if (list == null)
-								{
-									list = new String[1];
-									list[0] = xs+","+ys+","+zs+","+block;
-								}
-								else
-								{
-									//First check to make sure that this coordinate is not in the list already
-									boolean dupeObject = false;
-									for (int l = 0; l < list.length; l++)
-									{
-										String[] listCoords = list[l].split(",");
-										if (Integer.parseInt(listCoords[0]) == xs && 
-												Integer.parseInt(listCoords[1]) == ys && 
-														Integer.parseInt(listCoords[2]) == zs)
-										{
-											list[l] = xs+","+ys+","+zs+","+block;
-											dupeObject = true;
-										}
-									}
-									//If the coordinate is fresh add it in
-									if (!dupeObject)
-									{
-										String[] newPreList = new String[list.length+1];
-										for (int l = 0; l < newPreList.length;l++)
-										{
-											if (l == newPreList.length-1)
-												newPreList[l] = xs+","+ys+","+zs+","+block;
-											else
-												newPreList[l] = list[l];
-										}
-										list = newPreList;
-									}
-								}								
+								addLocation(xs + te.xCoord, ys + te.yCoord, zs + te.zCoord);								
 							}
 						}
 					}
@@ -373,126 +311,37 @@ public class GuiMagicBase extends GuiContainer
 			}
 			else//single select
 			{
-				System.out.println("clicked solo button.");
-				if (list == null)
-				{
-					list = new String[1];
-					list[0] = loc[0]+","+yOffset+","+loc[1]+","+block;
-				}
-				else
-				{
-					//First check to make sure that this coordinate is not in the list already
-					boolean dupeObject = false;
-					for (int l = 0; l < list.length; l++)
-					{
-						String[] listCoords = list[l].split(",");
-						if (listCoords[0] == loc[0] && 
-								Integer.parseInt(listCoords[1]) == this.yOffset && 
-								listCoords[2] == loc[1])
-						{
-							list[l] = loc[0]+","+yOffset+","+loc[1]+","+block;
-							dupeObject = true;
-						}
-					}
-					//If the coordinate is fresh add it in
-					if (!dupeObject)
-					{
-						String[] newPreList = new String[list.length+1];
-						for (int l = 0; l < newPreList.length;l++)
-						{
-							if (l == newPreList.length-1)
-								newPreList[l] = loc[0]+","+yOffset+","+loc[1]+","+block;
-							else
-								newPreList[l] = list[l];
-						}
-						list = newPreList;
-					}
-				}
+				addLocation(xB + te.xCoord, this.yOffset + te.yCoord, zB + te.zCoord);
 			}			
 		}
 		updateButtons();
 	}	
 	
-	//Like the static reference inside this method look in "RotBlocks" for the arrays used
-	//This is to get a single or pair of Letters to show on the GUI map
-	private String getBlockLetter(int x,int y,int z,String s)
+	private void addLocation(int x, int y, int z)
 	{
-		if (s.equals("X"))
+		if (locations.isEmpty())
 		{
-			boolean chosenBlocks = false;
-			Block worldBlock = te.getWorldObj().getBlock(x, y, z);
-			if (worldBlock.equals(Blocks.air))
+			locations.add(new UtilityBlockLocationType(x, y, z, RotBlocks.blockTypeObjects[currentBlock]));
+		}
+		else
+		{
+			boolean dupeObject = false;
+			for (int l = 0; l < locations.size(); l++)
 			{
-				s = ".";
-			}
-			for (int bt = 0; bt < RotBlocks.blockTypeObjects.length;bt++)
-			{
-				if (worldBlock.equals(RotBlocks.blockTypeObjects[bt]))
+				UtilityBlockLocationType ublt = (UtilityBlockLocationType) locations.get(l);
+				if (ublt.x == x && ublt.y == y && ublt.z == z)
 				{
-					s = RotBlocks.blockTypeLetters[bt];
-					chosenBlocks = true;
-					break;
+					ublt.block = RotBlocks.blockTypeObjects[currentBlock];
+					locations.set(l, ublt);
+					dupeObject = true;
 				}
 			}
-			if (!chosenBlocks)
+			//If the coordinate is fresh add it in
+			if (!dupeObject)
 			{
-				for (int bt = 0; bt < RotBlocks.naturalBlockTypeObjects.length;bt++)
-				{
-					if (worldBlock.equals(RotBlocks.naturalBlockTypeObjects[bt]))
-					{
-						s = RotBlocks.naturalBlockTypeLetters[bt];
-						chosenBlocks = true;
-						break;
-					}
-				}
-			}
-			if (s.equals("X"))
-			{
-				s = worldBlock.getLocalizedName().substring(0, 1);
+				locations.add(new UtilityBlockLocationType(x, y, z, RotBlocks.blockTypeObjects[currentBlock]));
 			}
 		}
-		return s;
-	}
-	
-	//Like the above method only for getting a color to render with
-	private int getBlockColor(int x, int y, int z, int c)
-	{
-		if (c == defaultColor)
-		{
-			boolean chosenBlocks = false;
-			Block worldBlock =
-			te.getWorldObj().getBlock(x, y, z);
-			if (worldBlock.equals(Blocks.air))
-			{
-				c = 0x00FFFF;
-			}
-			for (int bt = 0; bt < RotBlocks.blockTypeObjects.length;bt++)
-			{
-				if (worldBlock.equals(RotBlocks.blockTypeObjects[bt]))
-				{
-					c = RotBlocks.blockTypeColors[bt];
-					chosenBlocks = true;
-					break;
-				}
-			}
-			if (!chosenBlocks)
-			{
-				for (int bt = 0; bt < RotBlocks.naturalBlockTypeObjects.length;bt++)
-				{
-					if (worldBlock.equals(RotBlocks.naturalBlockTypeObjects[bt]))
-					{
-						c = RotBlocks.naturalBlockTypeColors[bt];
-						chosenBlocks = true;
-						break;
-					}
-				}
-			}
-			if (c == defaultColor)
-			{
-				c = worldBlock.getMaterial().getMaterialMapColor().colorValue;
-			}
-		}
-		return c;
 	}
 	
 	//Updates the buttons
@@ -500,50 +349,60 @@ public class GuiMagicBase extends GuiContainer
 	{
 		if (coordButtons == null || coordButtons.length != (gridSizeX * 2 + 1) * (gridSizeZ * 2 + 1))
 		{
-			coordButtons = new GuiBaseBuilderButton[(gridSizeX * 2 + 1) * (gridSizeZ * 2 + 1)];
+			coordButtons = new GuiBaseNodeButton[(gridSizeX * 2 + 1) * (gridSizeZ * 2 + 1)];
 		}
 		
-		int buttonArrayIndex = 0;		
+		int buttonArrayIndex = 0;
+		UtilityBlockLocationType ublt;
 		for (int x = gridSizeX; x >= -gridSizeX; x--)
 		{
 			for (int z = gridSizeZ; z >= -gridSizeZ;z--)
 			{
-				int c = defaultColor;
-				String s = "X";
-				if (list != null)
+				IIcon t = null;
+				int c = defaultColor;	
+				Block worldBlock = te.getWorldObj().getBlock( x + te.xCoord + xOffset, yOffset + te.yCoord , z + te.zCoord + zOffset);
+				String s = worldBlock.equals(Blocks.air) ? "." : "+";				
+				if (!locations.isEmpty())
 				{
-					//Each locations is a string of x,y,z,block
-					String[] locCoords;
 					//Look through every Item of the list
-					for (int l = 0; l < list.length; l++)
-					{			
-						locCoords = list[l].split(",");
-						if (x + this.xOffset == Integer.parseInt(locCoords[0]) && z + this.zOffset == Integer.parseInt(locCoords[2]))
+					for (int ubltl = 0; ubltl < locations.size(); ubltl++)
+					{
+						ublt = (UtilityBlockLocationType) locations.get(ubltl);
+						if (ublt.y == this.yOffset + te.yCoord)
 						{
-							if (this.yOffset == Integer.parseInt(locCoords[1]))
-							{								
-								for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
-								{
-									if (locCoords[3].equals(RotBlocks.blockTypes[bt]))
-									{
-										s = RotBlocks.blockTypeLetters[bt] +"*";
-										c = RotBlocks.blockTypeColors[bt];
-										break;
-									}
-								}	
+							if (ublt.x == x + this.xOffset + te.xCoord && ublt.z == z + this.zOffset + te.zCoord)
+							{
+								s = "*";
+								c = ublt.block.getMapColor(0).colorValue;
+								t = ublt.block.getIcon(1, 0);
+								break;
 							}
 						}
 					}
 				}
-				coordButtons[buttonArrayIndex] = new GuiBaseBuilderButton(indexCounter++, 
+				coordButtons[buttonArrayIndex] = new GuiBaseNodeButton(indexCounter++, 
 						(startLeft + (gridSizeX * cw)) + ((cw * x)), 
 						(startTop + (gridSizeZ * ch)) + ((ch * z)), 
 						cw, 
 						ch, 
-						s = getBlockLetter(x + this.xOffset + te.xCoord, yOffset + te.yCoord, z + this.zOffset + te.zCoord, s) ,
-						(x + this.xOffset)+","+(z + this.zOffset));
+						s);
 				if (x + this.xOffset == 0 && yOffset == 0 && z + this.zOffset == 0)coordButtons[buttonArrayIndex].packedFGColour = 0x0000FF;
-				else coordButtons[buttonArrayIndex].packedFGColour = c = getBlockColor(x + this.xOffset + te.xCoord,yOffset + te.yCoord, z + this.zOffset + te.zCoord, c);
+				else coordButtons[buttonArrayIndex].packedFGColour = c == defaultColor ? (worldBlock.equals(Blocks.air) ? 0x00CCFF : worldBlock.getMapColor(0).colorValue) : c;				
+				float b = 1.0f;
+				int depth = 0;
+				while (t == null)
+				{
+					t = te.getWorldObj().getBlock(x + te.xCoord + xOffset, yOffset + te.yCoord - depth, z + te.zCoord + zOffset).getIcon(1, 0);					
+					if (t == null)
+					{
+						MathHelper.clamp_float(b -= 0.2f, 0, 1f);
+						depth++;
+					}
+				}
+				coordButtons[buttonArrayIndex].tex = t;
+				coordButtons[buttonArrayIndex].x = x + this.xOffset;
+				coordButtons[buttonArrayIndex].z = z + this.zOffset;
+				coordButtons[buttonArrayIndex].brightness = b;
 				buttonArrayIndex++;
 			}
 		}

@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ee.rot.ExtendPlayerRot;
 import ee.rot.Rot;
+import ee.rot.libs.ExtendPlayer;
 
 //First item I went out on a limb to make
 public class ItemRelicRepair extends Item {
@@ -38,7 +38,7 @@ public class ItemRelicRepair extends Item {
 		if (coolDown == 0 && !par2World.isRemote)
 		{
 			EntityPlayer player = (EntityPlayer)par3Entity;	
-			ExtendPlayerRot props = ExtendPlayerRot.get(player);
+			ExtendPlayer props = ExtendPlayer.get(player);
 			coolDown = CD / 4;
 			for (int i = 9; i < player.inventory.getSizeInventory() - 4;i++)
 			{

@@ -1,4 +1,4 @@
-package ee.rot.blocks;
+package ee.rot.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

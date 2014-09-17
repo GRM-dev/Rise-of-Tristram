@@ -1,9 +1,9 @@
-package ee.rot;
+package ee.rot.libs;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-/** This is not my Class, shamefully stolen, not really stolen though it was open source but not my work nevertheless **/
+/** This is not my Class, Pahimar has made this public **/
 public class UtilityNBTHelper
 {
     public static boolean hasTag(ItemStack itemStack, String keyName)

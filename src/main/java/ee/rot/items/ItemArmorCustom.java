@@ -3,6 +3,7 @@ package ee.rot.items;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
+import ee.rot.comms.ClientProxy;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
@@ -18,6 +19,7 @@ public class ItemArmorCustom extends ItemArmor
 		super(mat, 0, wornSlot);
 		this.setMaxStackSize(1);
 		this.setTextureName(type, wornSlot);
+		Rot.proxy.addArmor(type);
 	}
 
 	private void setTextureName(String type, int armorPart)

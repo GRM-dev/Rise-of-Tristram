@@ -3,9 +3,11 @@ package ee.rot.comms;
 import java.util.HashMap;
 import java.util.Map;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import ee.rot.ExtendPlayerRot;
+import ee.rot.libs.ExtendPlayer;
 
 public class CommonProxy
 {
@@ -20,6 +22,11 @@ public class CommonProxy
 	public void registerKeyBindings()
 	{
 	}
+	
+	public int addArmor(String armor)
+    {
+    	return 0;
+    }
 	
 //	/**
 //	* Adds an entity's custom data to the map for temporary storage

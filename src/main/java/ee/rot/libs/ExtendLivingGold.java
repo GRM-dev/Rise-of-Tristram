@@ -1,4 +1,4 @@
-package ee.rot;
+package ee.rot.libs;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class ExtendLivingBaseRot implements IExtendedEntityProperties
+public class ExtendLivingGold implements IExtendedEntityProperties
 {
 	public final static String EXT_PROP_NAME = "ExtendLivingBaseRot";
 	
@@ -14,19 +14,19 @@ public class ExtendLivingBaseRot implements IExtendedEntityProperties
 	
 	private int gold;
 	
-	public ExtendLivingBaseRot (EntityLivingBase entity)
+	public ExtendLivingGold (EntityLivingBase entity)
 	{
 		this.entity = entity;
 	}
 	
 	public static final void register(EntityLivingBase entity)
 	{
-		entity.registerExtendedProperties(ExtendLivingBaseRot.EXT_PROP_NAME, new ExtendLivingBaseRot(entity));
+		entity.registerExtendedProperties(ExtendLivingGold.EXT_PROP_NAME, new ExtendLivingGold(entity));
 	}
 	
-	public static final ExtendLivingBaseRot get(EntityLivingBase entity)
+	public static final ExtendLivingGold get(EntityLivingBase entity)
 	{
-		return (ExtendLivingBaseRot) entity.getExtendedProperties(EXT_PROP_NAME);
+		return (ExtendLivingGold) entity.getExtendedProperties(EXT_PROP_NAME);
 	}
 	
 	@Override

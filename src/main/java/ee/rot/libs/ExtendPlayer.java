@@ -1,4 +1,4 @@
-package ee.rot;
+package ee.rot.libs;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -8,9 +8,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import ee.rot.Rot;
 import ee.rot.comms.CommonProxy;
 
-public class ExtendPlayerRot implements IExtendedEntityProperties 
+public class ExtendPlayer implements IExtendedEntityProperties 
 {
 
 	/*
@@ -31,15 +32,17 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 	// It's final because we won't be changing which player it is
 	private final EntityPlayer player;
 	
+	public static String[] classNames = new String[]{"Peasent","Fighter","Mage","Tank","Builder","Ranger","Thief"};
+	
 	private enum playerClass
 	{
-		NOCLASS("Peasent",0,0,0,0,0,200f,200f),
-		FIGHTER("Fighter",3,1,-3,1,-2,50f,350f),
-		MAGE("Mage",-2,0,5,-2,-1,350f,50f),
-		TANK("Tank",1,-2,-2,4,-1,25f,375f),
-		BUILDER("Builder",-1,3,-3,2,-1,200f,200f),
-		RANGER("Ranger",-3,2,-1,-1,3,25f,375f),
-		THIEF("Thief",-2,4,-1,-2,1,125f,275f);
+		NOCLASS(classNames[0],0,0,0,0,0,200f,200f),
+		FIGHTER(classNames[1],3,1,-3,1,-2,50f,350f),
+		MAGE(classNames[2],-2,0,5,-2,-1,350f,50f),
+		TANK(classNames[3],1,-2,-2,4,-1,25f,375f),
+		BUILDER(classNames[4],0,2,-3,2,-1,200f,200f),
+		RANGER(classNames[5],-3,2,-1,-1,3,25f,375f),
+		THIEF(classNames[6],-2,4,-1,-2,1,125f,275f);
 		
 		private int str,agi,inte,vit,dex;
 		private float maxMana, maxStam;
@@ -78,6 +81,34 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 			return NOCLASS;
 		}
 		
+		public static playerClass getClass(int classIndex)
+		{
+			int counter = 0;
+			for (playerClass pc : playerClass.values())
+			{
+				if (counter == classIndex)
+				{
+					return pc;
+				}
+				counter++;
+			}
+			return NOCLASS;
+		}
+		
+		public static int getClassIndex(String className)
+		{
+			int index = -1;
+			for (playerClass pc : playerClass.values())
+			{
+				index++;
+				if (pc.getClassName().equals(className))
+				{
+					break;
+				}
+			}
+			return index;
+		}
+		
 		@Override
 		public String toString()
 		{
@@ -92,6 +123,14 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 			sb.append(" Base Stamina: " + maxStam);
 			return sb.toString();
 		}
+		
+		/*public static String[] getClasses()
+		{
+			String[] classNames = new String[playerClass.values().length];
+			for (int i = 0; i < playerClass.values().length; i++)
+			{
+			}
+		}*/
 	}
 	
 	private playerClass currentClass;
@@ -113,7 +152,7 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 	public static final int MANA_WATCHER = 20;
 	public static final int STAM_WATCHER = 21;
 	
-	public ExtendPlayerRot(EntityPlayer player)
+	public ExtendPlayer(EntityPlayer player)
 	{
 		this.player = player;
 		
@@ -144,7 +183,7 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 	*/
 	public static void saveProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
+		ExtendPlayer playerData = ExtendPlayer.get(player);
 		NBTTagCompound savedData = new NBTTagCompound();
 	
 		playerData.saveNBTData(savedData);
@@ -155,7 +194,7 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 	
 	public static final void loadProxyData(EntityPlayer player) 
 	{
-		ExtendPlayerRot playerData = ExtendPlayerRot.get(player);
+		ExtendPlayer playerData = ExtendPlayer.get(player);
 		//NBTTagCompound savedData = CommonProxy.getEntityData(getSaveKey(player));
 		//if (savedData != null) { playerData.loadNBTData(savedData); }
 		// we are replacing the entire sync() method with a single line; more on packets later
@@ -171,16 +210,16 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 	 */
 	public static final void register(EntityPlayer player)
 	{
-		player.registerExtendedProperties(ExtendPlayerRot.EXT_PROP_NAME, new ExtendPlayerRot(player));
+		player.registerExtendedProperties(ExtendPlayer.EXT_PROP_NAME, new ExtendPlayer(player));
 	}
 
 	/**
 	 * Returns ExtendedPlayer properties for player
 	 * This method is for convenience only; it will make your code look nicer
 	 */
-	public static final ExtendPlayerRot get(EntityPlayer player)
+	public static final ExtendPlayer get(EntityPlayer player)
 	{
-		return (ExtendPlayerRot) player.getExtendedProperties(EXT_PROP_NAME);
+		return (ExtendPlayer) player.getExtendedProperties(EXT_PROP_NAME);
 	}
 
 	// Save any custom data that needs saving here
@@ -201,7 +240,7 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 		properties.setInteger(Rot.MODID+"Intelligence", this.intelligence);
 		properties.setInteger(Rot.MODID+"Agility", this.agility);
 		properties.setInteger(Rot.MODID+"Vitality", this.vitality);
-		
+
 		properties.setString(Rot.MODID+"Class", currentClass.getClassName());
 
 		// Now add our custom tag to the player's tag with a unique name (our property's name)
@@ -230,7 +269,7 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 		this.maxMana = properties.getFloat(Rot.MODID+"MaxMana");
 		this.player.getDataWatcher().updateObject(STAM_WATCHER, properties.getFloat(Rot.MODID+"CurrentStam"));
 		this.maxStam = properties.getFloat(Rot.MODID+"MaxStam");
-		
+
 		this.currentClass = playerClass.getClass(properties.getString(Rot.MODID+"Class"));
 		// Just so you know it's working, add this line:
 		//System.out.println("[TUT PROPS] Mana from NBT: " + this.currentMana + "/" + this.maxMana);
@@ -314,15 +353,11 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 		
 		if (mana != this.maxMana)
 		{
+			int decayMod = 45;
 			mana += amount;
-			if (mana > this.maxMana)this.player.getDataWatcher().updateObject(MANA_WATCHER, this.maxMana);
+			if (mana > this.maxMana)this.player.getDataWatcher().updateObject(MANA_WATCHER, mana - amount * decayMod < this.maxMana ? this.maxMana : mana - amount * decayMod);
 			else this.player.getDataWatcher().updateObject(MANA_WATCHER, mana);
-		}
-		/*else if (mana > this.maxMana)
-		{
-			mana = this.maxMana;
-		}*/
-			
+		}			
 	}
 	
 	public void regenStam(float amount)
@@ -331,8 +366,9 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 		
 		if (stam != this.maxStam)
 		{
+			int decayMod = 45;
 			stam += amount;
-			if (stam > this.maxStam)this.player.getDataWatcher().updateObject(STAM_WATCHER, this.maxStam);
+			if (stam > this.maxStam)this.player.getDataWatcher().updateObject(STAM_WATCHER, stam - amount * decayMod < this.maxStam ? this.maxStam : stam - amount * decayMod);
 			else this.player.getDataWatcher().updateObject(STAM_WATCHER, stam);
 		}
 	}
@@ -359,12 +395,12 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 
 	public void setMaxMana(float readFloat) 
 	{
-		this.maxMana = readFloat + ((currentClass == playerClass.MAGE ? 45 : 20) * this.intelligence);		
+		this.maxMana = MathHelper.clamp_float(readFloat + ((currentClass == playerClass.MAGE ? 45 : 20) * this.intelligence), currentClass.getMaxMana(), 1000f);
 	}
 	
 	public void setMaxStam(float readFloat) 
 	{
-		this.maxStam = readFloat + (15 * this.strength) + (25 * this.vitality);		
+		this.maxStam = MathHelper.clamp_float(readFloat + (15 * this.strength) + (25 * this.vitality), currentClass.getMaxStam(), 1000f);
 	}
 
 	public void setCurrentMana(float readFloat) {
@@ -410,15 +446,10 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 		this.intelligence = MathHelper.clamp_int(value + currentClass.getInte(), -20, 20);
 		setMaxMana(currentClass.getMaxMana());
 	}
+	
 	public void setAgility(int value)
 	{
 		this.agility = MathHelper.clamp_int(value + currentClass.getAgi(), -20, 20);
-		if (player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() == 2)
-		{
-			player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(2);
-			System.out.println("set speed");			
-		}
-		//System.out.println(player.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
 	}
 	
 	public int getStrength()
@@ -444,5 +475,40 @@ public class ExtendPlayerRot implements IExtendedEntityProperties
 	public int getIntelligence()
 	{
 		return this.intelligence;
+	}
+	
+	public String getCurrentClassName()
+	{
+		return currentClass.getClassName();
+	}
+	
+	public int getCurrentClassIndex()
+	{
+		return currentClass.getClassIndex(currentClass.getClassName());
+	}
+	
+	public void setCurrentClass(String className)
+	{
+		this.currentClass = playerClass.getClass(className);
+	}
+	
+	/**Returns Str, Agi, Int, Vit, Dex**/
+	public int[] getClassModifers()
+	{
+		return new int[]{currentClass.getStr(),currentClass.getAgi(),currentClass.getInte(),currentClass.getVit(),currentClass.getDex()};
+	}
+	
+	public void setValues(Object[] data)
+	{
+		setCurrentClass((String)data[0]);
+		setCurrentMana((float)data[1]);
+		setCurrentStam((float)data[2]);
+	}
+	
+	/** outputs an Object array of String className, Float currentMana, Float currentStamina**/
+	public Object[] getValues()
+	{
+		Object[] data = new Object[]{getCurrentClassName(),getCurrentMana(),getCurrentStam()};
+		return data;
 	}
 }

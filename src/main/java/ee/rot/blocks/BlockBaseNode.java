@@ -18,10 +18,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
 
-public class BlockMagicBase extends BlockContainer
+public class BlockBaseNode extends BlockContainer
 {
 
-	public BlockMagicBase() {
+	public BlockBaseNode() {
 		super(Material.iron);
 		setHardness(5f);
 		setResistance(10f);		
@@ -32,7 +32,7 @@ public class BlockMagicBase extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) 
 	{
-		return new TileEntityMagicBase();
+		return new TileEntityBaseNode();
 	}
 	
 	@Override
