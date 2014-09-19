@@ -8,15 +8,18 @@ import org.lwjgl.util.vector.Vector3f;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import ee.rot.Rot;
 import ee.rot.comms.BaseNodeRequestPacket;
+import ee.rot.comms.BaseNodeResponsePacket;
 import ee.rot.items.RotItems;
 import ee.rot.libs.ExtendPlayer;
 import ee.rot.libs.UtilityBlockLocationType;
@@ -41,28 +44,26 @@ public class TileEntityBaseNode extends TileEntity
 		super.writeToNBT(nbtTag);
 		nbtTag.setFloat(Rot.MODID+"magicBaseMana", mana);
 		nbtTag.setInteger(Rot.MODID+"magicBaseCd", cd);
+		NBTTagList ls = new NBTTagList();
 		if (locations.size() > 0)
 		{
-			String locationsS = "";
 			for (int i = 0; i < locations.size();i++)
 			{
 				UtilityBlockLocationType u = (UtilityBlockLocationType)locations.get(i);
-				String blockS = "";
-				for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
+				NBTTagCompound l = new NBTTagCompound();
+				int blockId = 0;
+				for (int bt = 0; bt < RotBlocks.blockTypeObjects.length;bt++)
 				{
 					if (u.block.equals(RotBlocks.blockTypeObjects[bt]))
 					{
-						blockS = RotBlocks.blockTypes[bt];
+						blockId = Block.getIdFromBlock(RotBlocks.blockTypeObjects[bt]);
 						break;
 					}
 				}
-				locationsS += u.x+","+u.y+","+u.z+","+blockS;
-				if (i != locations.size() -1)
-				{
-					locationsS += ";";
-				}
-			}
-			nbtTag.setString(Rot.MODID+"magicBaseLocations", locationsS);
+				l.setString(Rot.MODID+"location", u.x+","+u.y+","+u.z+","+blockId);
+				ls.appendTag(l);
+			}			
+			nbtTag.setTag(Rot.MODID+"locations", ls);
 		}		
 	}
 	
@@ -72,25 +73,16 @@ public class TileEntityBaseNode extends TileEntity
 		super.readFromNBT(nbtTag);
 		mana = nbtTag.getFloat(Rot.MODID+"magicBaseMana");
 		cd = nbtTag.getInteger(Rot.MODID+"magicBaseCd");
-		String locationsS = nbtTag.getString(Rot.MODID+"magicBaseLocations");
-		if (locationsS != "")
-		{
-			String[] locationS = locationsS.split(";");
-			Block blockB = null;
-			locations.clear();
-			for (int i = 0; i < locationS.length;i++)
-			{
-				String[] uS = locationS[i].split(",");
-				for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
-				{
-					if (uS[3].equals(RotBlocks.blockTypes[bt]))
-					{
-						blockB = RotBlocks.blockTypeObjects[bt];
-						break;
-					}
-				}	
-				locations.add(new UtilityBlockLocationType(Integer.parseInt(uS[0]), Integer.parseInt(uS[1]), Integer.parseInt(uS[2]), blockB));
-			}
+		NBTTagList ls = nbtTag.getTagList(Rot.MODID+"locations", nbtTag.getId());
+		for (int i = 0; i < ls.tagCount(); ++i) {
+			NBTTagCompound l = ls.getCompoundTagAt(i);
+			String[] ubltParts = l.getString(Rot.MODID+"location").split(",");
+			locations.add(new UtilityBlockLocationType(
+					Integer.parseInt(ubltParts[0]), 
+					Integer.parseInt(ubltParts[1]), 
+					Integer.parseInt(ubltParts[2]), 
+					Block.getBlockById(Integer.parseInt(ubltParts[3]))
+					));
 		}
 	}
 	
@@ -189,16 +181,15 @@ public class TileEntityBaseNode extends TileEntity
 		locations.add(location);
 	}
 	
-	public void updateClient()
+	public void updateClient(EntityPlayerMP pmp)
 	{
 		if (!locations.isEmpty())
 		{
-			int listIndex = 0;
 			UtilityBlockLocationType ublt;
 			for (int l = 0; l < locations.size(); l++)
 			{
 				ublt = (UtilityBlockLocationType) locations.get(l);
-				Rot.net.sendToServer(new BaseNodeRequestPacket(0,xCoord,yCoord,zCoord,ublt.x,ublt.y,ublt.z,new ItemStack(ublt.block)));
+				Rot.net.sendTo(new BaseNodeResponsePacket(0,xCoord,yCoord,zCoord,ublt.x,ublt.y,ublt.z,Block.getIdFromBlock(ublt.block)), pmp);
 			}
 		}	
 	}
@@ -268,45 +259,7 @@ public class TileEntityBaseNode extends TileEntity
             		props.regenMana(15f);
             		mana -= 15;            		
             	}
-            }*/
-            //Save the locations list on the special parchment
-            if (entityplayer.getHeldItem() != null 
-        			&& entityplayer.getHeldItem().getItem().equals(RotItems.itemMana))
-        	{
-        		if (entityplayer.getHeldItem().getItemDamage() == 3)
-        		{
-        			if (locations.size() > 0)
-        			{
-        				String locationsS = "";
-        				for (int i = 0; i < locations.size();i++)
-        				{
-        					UtilityBlockLocationType u = (UtilityBlockLocationType)locations.get(i);
-        					String blockS = "";
-        					for (int bt = 0; bt < RotBlocks.blockTypes.length;bt++)
-        					{
-        						if (u.block.equals(RotBlocks.blockTypeObjects[bt]))
-        						{
-        							blockS = RotBlocks.blockTypes[bt];
-        							break;
-        						}
-        					}
-        					locationsS += (u.x - xCoord)+","+(u.y - yCoord)+","+(u.z - zCoord)+","+blockS;
-        					if (i != locations.size() -1)
-        					{
-        						locationsS += ";";
-        					}
-        				}
-        				if (UtilityNBTHelper.getString(entityplayer.getHeldItem(), Rot.MODID+"baseNodeListCoords") != locationsS)
-        				{
-        					UtilityNBTHelper.setString(entityplayer.getHeldItem(), Rot.MODID+"baseNodeListCoords", locationsS);
-        				}
-        			}
-        			else
-        			{
-        				UtilityNBTHelper.setString(entityplayer.getHeldItem(), Rot.MODID+"baseNodeListCoords", "");
-        			}
-        		}
-        	}
+            }*/            
         }
         repairItemsOnPlayers(players);
 	}

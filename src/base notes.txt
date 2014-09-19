@@ -1,0 +1,157 @@
+When I get focused I can figure pretty much anything out :P
+
+I'm free today until my friend sends me over his half of our combined assignment (History, ugh), so until then I can help. :P
+
+Anyway Block#getDrops returns an ArrayList<ItemStack> containg all the itemstacks of what is dropped by the block when broken, so that should work. So you'd just go something like
+
+Code: [Select]
+ListIterator<ItemStack> iterator = SOMEBLOCK.getDrops(world, x, y, z, metadata, fortuneLevel).listIterator();
+
+while(iterator.hasNext())
+{
+    ItemStack stack = iterator.next();
+    
+    //Some logic to see if stack can fit in some inventory, probably just iterating through the slots and seeing if it fits
+    
+    if(logic that was done is true)
+    {
+        someInventory.setStackInSlot(slotFromLogic, stack);
+    }
+    else
+    {
+        //Spawn the itemstack as an entity item in the world.
+    }
+}
+
+Well, every object has a hash code. The rules of a hash code is that if the object doesn't change, neither does it's hash code, if a.equals(b), a and b will have the same hashcode, and generally if you remake the object that's the same in another runtime the hashcode will be the same. 
+
+The rules for equals for a.equals(b) are
+
+If b is null, return false. 
+If a and b are the SAME object (by reference) return true. 
+If a.equals(b) is true, then b.equals(a) is true. 
+If a.equals(b) is true, and b.equals(c) is true, then a.equals(c) is true. 
+If the objects are unchanged they should return the same thing. 
+
+Writing a good hashCode method is hard, but luckily for us w have the HashCodeBuilder class (like I used). It just puts it through a simple formula, feel free to look at it. 
+
+Equals is easy to write by yourself, but you still have the EqualsBuilder for help and I get lazy. 
+
+You don't actually need any sort of map, but the reason I used the hashcode and equals methods is so that you don't end up with changing hashcodes due to the compiler being funny, and then the tile entity never gets removed from the list. 
+
+Looking back, you could probably get away with an ArraySet too (since you're never going to have two time entities in the same position). 
+
+A way to revert them to none could probably be threaded for performance. Rather than having to check every tick from every tile entity if the team is empty, you can just have a thread checking every now and then if the team is empty, and if it is iterator through the notNone list/set and remove anything that belongs to that team, and set it's team to None. 
+
+And yes, it does need to be a class variable, you don't want a different list for every tile entity. 
+
+You could probably make it an instance variable of your main mod class if you want (then just call YourMod.instance.list) but I think that's kinda pointless. 
+
+With the teams, you can just make like 20 teams (+ none), so that way you have a maximum number of teams. (I doubt you'd ever need more than 20 teams).
+
+I have finished! :D
+
+Okay so basically what I did is:
+
+1. Create an enum called Team, and it must contain all your Teams (as they are singletons, and final). Make sure to also include an UNKOWN or NONE team, for things that aren't set yet.
+
+2. Create a block that implements ITileEntityProvider and a class that extends TileEntity. Your tile entity needs to have a instance variable of Team, which you set to NONE in the constructor. Make sure to keep it synchronized with readFromNBT and writeToNBT and remember to call the super methods! You can do that by saving it as a byte and using ordinal(), and retrieving with values()[]. Create your getter and setter methods for team, and call markDirty() after you set the team through the setter. This ensures it gets saved to the disk. Also override canUpdate and return false, as the TileEntity doesn't actually do any computation on its own, and the entityUpdate() method won't be used.
+
+3. Now you need a way to track all existing TileEntities of your type. As you probably know, Lists work best with hashCode implementation, so what I did was create this class:
+
+Code: [Select]
+public class TileEntityLocation
+{
+	public final int x, y, z;
+	public final World world;
+	
+	public TileEntityLocation(TileEntity tileEntity)
+	{
+		this.x = tileEntity.xCoord;
+		this.y = tileEntity.yCoord;
+		this.z = tileEntity.zCoord;
+		this.world = tileEntity.getWorldObj();
+	}
+	
+	/**
+	 * Convience method.
+	 */
+	public TileEntity getTileEntity()
+	{
+		return this.world.getTileEntity(this.x, this.y, this.z);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return new HashCodeBuilder()
+		.append(this.x)
+		.append(this.y)
+		.append(this.z)
+		.append(this.world.provider.dimensionId)
+		.toHashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == this) return true;
+		if(o == null || !(o instanceof TileEntityLocation)) return false;
+		
+		TileEntityLocation location = (TileEntityLocation) o;
+		
+		return new EqualsBuilder()
+		.append(location.x, this.x)
+		.append(location.z, this.z)
+		.append(location.y, this.y)
+		.append(location.world.provider.dimensionId, this.world.provider.dimensionId)
+		.isEquals();
+	}
+}
+
+The ArrayList should be of that type, and should be a class variable. I stored mine in the TileEntity class.
+
+4. In your block, you return a new instance of your tileEntity in your createNewTileEntity() method that you must implement.
+
+5. Back to the list - There's no point in storing the tileEntities that haven't been assigned a team yet - so I named my list notNoneList or something like that. My code for adding it to the list and assigning it a team was done in the onBlockActivated method.
+Code: [Select]
+public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+{
+	TileEntityProtector tileEntity = (TileEntityProtector) world.getTileEntity(x, y, z);
+
+	if(tileEntity.getTeam() == Team.NONE)
+	{
+		ExtendedPlayer properties = ExtendedPlayer.get(player);
+		if(properties.getTeam() != Team.NONE)
+		{
+
+			tileEntity.setTeam(properties.getTeam());
+			if(!world.isRemote)
+			{
+				TileEntityProtector.notNoneList.add(new TileEntityLocation(tileEntity));
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+Note how I only added it to the instance of the list located on the server (with my !world.isRemote check). There's no need to have two lists (or even have that list on the client).
+
+6. Removing from the list:
+Code: [Select]
+@Override
+public void breakBlock(World world, int x, int y, int z, Block block, int meta)
+{
+	TileEntityProtector tileEntity = (TileEntityProtector) world.getTileEntity(x, y, z);
+	if(tileEntity.getTeam() != Team.NONE && !world.isRemote)
+	{
+		TileEntityProtector.notNoneList.remove(new TileEntityLocation(tileEntity));
+	}
+	world.removeTileEntity(x, y, z);
+}
+Again, only on the server.
+
+7. Now for the actual block-break prevention. Using a BlockEvent.BreakEvent I firstly got an instance of the player through the BreakEvent#getPlayer() method. I checked if the player was creative, and if it is, then I return (I assume creative players should be unaffected by the 'teams'). Then I check if the list isn't empty. If it isn't I get the ListIterator for it, and get the tile entity for each location on the list (simple iterating, while loop, normal stuff). Then I check if the absolute value of the difference between the event's x position and the TileEntity's x position is less than or equal to a radius, and do the same for the z-coorinates. I didn't bother with the Y coordinates. Then it's a simple matter of comparing the player's team to the TileEntities' team. If they aren't equal, cancel the event, and break from the while loop (as it is redundant).
+
+8. The last thing I realised is that the list doesn't get saved when the world is exited. To fix this, I added another method to handle WorldEvent.Load. I iterator over the loadedTileEntityList, then I check for each tile entity if it's an instance of my TileEntity, and that is not already on the list, and if both conditions are true, I add it to the list.

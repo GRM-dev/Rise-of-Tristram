@@ -23,6 +23,7 @@ import cpw.mods.fml.relauncher.Side;
 import ee.rot.blocks.RotBlocks;
 import ee.rot.blocks.TileEntityBaseNode;
 import ee.rot.comms.BaseNodeRequestPacket;
+import ee.rot.comms.BaseNodeResponsePacket;
 import ee.rot.comms.ClassRequestPacket;
 import ee.rot.comms.ClassResponsePacket;
 import ee.rot.comms.CommonProxy;
@@ -71,11 +72,12 @@ public class Rot {
     	net = NetworkRegistry.INSTANCE.newSimpleChannel("rpcee");
     	//net.registerMessage(TextPacket.TextPacketHandler.class, TextPacket.class, packetId++, Side.SERVER);
     	net.registerMessage(BaseNodeRequestPacket.BaseNodeRequestPacketHandler.class, BaseNodeRequestPacket.class, packetId++, Side.SERVER);
+    	net.registerMessage(BaseNodeResponsePacket.BaseNodeResponsePacketHandler.class, BaseNodeResponsePacket.class, packetId++, Side.CLIENT);
     	
     	net.registerMessage(ClassRequestPacket.ClassRequestPacketHandler.class, ClassRequestPacket.class, packetId++, Side.SERVER);
     	net.registerMessage(ClassResponsePacket.ClassResponsePacketHandler.class, ClassResponsePacket.class, packetId++, Side.CLIENT);
     	
-		GameRegistry.registerTileEntity(TileEntityBaseNode.class, "itemGenRot"); //This needs to be renamed, but this and it's related objects are under heavy construction
+		GameRegistry.registerTileEntity(TileEntityBaseNode.class, MODID+"baseNode"); //This needs to be renamed, but this and it's related objects are under heavy construction
     	
 		proxy.registerKeyBindings();
 		

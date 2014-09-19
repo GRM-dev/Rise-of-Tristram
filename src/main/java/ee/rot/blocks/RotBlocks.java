@@ -11,20 +11,12 @@ import ee.rot.items.ItemModIcon;
 public class RotBlocks 
 {
 	//Block Types that are considered placeable by a base node
-	public static String[] blockTypes = 
-		{"planks","cobble",
-		"stone","stonebrick","glass",
-		"glasspane","redbrick"};
 	public static Block[] blockTypeObjects = 
-		{Blocks.planks,Blocks.cobblestone,
+		{Blocks.air,Blocks.planks,Blocks.cobblestone,
 		Blocks.stone,Blocks.stonebrick,Blocks.glass,
 		Blocks.glass_pane,Blocks.brick_block};
-	public static String[] blockTypeLetters =
-		{"P","C",
-		"S","SB","G",
-		"GP","BR"};
 	public static int[] blockTypeColors =
-		{0xFFBB00,0xAAAAAA,
+		{0x00CCFF,0xFFBB00,0xAAAAAA,
 		0xBBBBBB,0xBBBBBB,0xFFFFFF,
 		0xFFFFFF,0xAA0000};
 	

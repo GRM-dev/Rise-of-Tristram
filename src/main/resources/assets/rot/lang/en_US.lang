@@ -1,5 +1,6 @@
 tile.spawnBlock.name=Searing Netherrack
-tile.itemGen.name=Magic Focuser
+tile.itemGen.name=Base Node
+tile.air.name=Air
 
 item.manaConverter.name=Mana Converter
 item.relicRepair.name=Key of Mending
@@ -10,7 +11,6 @@ item.relicLife.name=Brooch of the Scarab
 item.manaCrystal.manaCrystal.name=Mana Crystal
 item.manaCrystal.manaShard.name=Mana Shard
 item.manaCrystal.manaFoci.name=Mana Focus
-item.manaCrystal.baseNodeList.name=Base Block Placement List
 
 item.itemWandMS.name=Wand of Spell Vamp
 item.itemCBR.name=Repeater Crossbow

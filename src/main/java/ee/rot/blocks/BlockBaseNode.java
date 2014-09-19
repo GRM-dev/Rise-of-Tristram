@@ -2,9 +2,11 @@ package ee.rot.blocks;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -17,6 +19,9 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
+import ee.rot.comms.BaseNodeRequestPacket;
+import ee.rot.comms.BaseNodeResponsePacket;
+import ee.rot.libs.UtilityBlockLocationType;
 
 public class BlockBaseNode extends BlockContainer
 {
@@ -71,12 +76,9 @@ public class BlockBaseNode extends BlockContainer
 	{
 		if(world.isRemote) 
 		{
+			Rot.net.sendToServer(new BaseNodeRequestPacket(3,x,y,z,0,0,0,0));
 			FMLNetworkHandler.openGui(player, Rot.instance, 0, world, x, y, z);
 		}
-		/*/else//This packet will take the x,y,z or better yet could grab the tileEntity myself and pass it?
-		{
-			Rot.net.sendTo(<Packet defined for clientside>, player);
-		}*/
 		return true;
 	}
 

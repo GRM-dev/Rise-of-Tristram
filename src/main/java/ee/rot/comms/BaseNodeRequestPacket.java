@@ -17,14 +17,14 @@ public class BaseNodeRequestPacket implements IMessage
 	public int actionType;//0 is add, 1 is clear, 2 is build
 	public int xTe,yTe,zTe;
 	public int xB,yB,zB;
-	public ItemStack is;
+	public int blockId;
 	
 	public BaseNodeRequestPacket()
 	{
 		
 	}
 	
-	public BaseNodeRequestPacket(int action,int xTe, int yTe, int zTe, int xB, int yB, int zB, ItemStack is)
+	public BaseNodeRequestPacket(int action,int xTe, int yTe, int zTe, int xB, int yB, int zB, int blockId)
 	{
 		this.actionType = action;
 		this.xTe = xTe;
@@ -33,7 +33,7 @@ public class BaseNodeRequestPacket implements IMessage
 		this.xB = xB;
 		this.yB = yB;
 		this.zB = zB;
-		this.is = is;
+		this.blockId = blockId;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class BaseNodeRequestPacket implements IMessage
 		xB = buf.readInt();
 		yB = buf.readInt();
 		zB = buf.readInt();
-		is = ByteBufUtils.readItemStack(buf);
+		blockId = buf.readInt();
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class BaseNodeRequestPacket implements IMessage
 		buf.writeInt(xB);
 		buf.writeInt(yB);
 		buf.writeInt(zB);
-		ByteBufUtils.writeItemStack(buf, is);
+		buf.writeInt(blockId);
 	}
 	
 	public static class BaseNodeRequestPacketHandler implements IMessageHandler<BaseNodeRequestPacket, IMessage> 
@@ -73,9 +73,8 @@ public class BaseNodeRequestPacket implements IMessage
 			switch (message.actionType)
 			{			
 				case 0:
-					Block bl = Block.getBlockFromItem(message.is.getItem());
 					te = (TileEntityBaseNode)ctx.getServerHandler().playerEntity.getEntityWorld().getTileEntity(message.xTe, message.yTe, message.zTe);
-					te.addLocation(message.xB, message.yB, message.zB, Block.getBlockFromItem(message.is.getItem()));
+					te.addLocation(message.xB, message.yB, message.zB, Block.getBlockById(message.blockId));
 					break;
 				case 1:
 					te = (TileEntityBaseNode)ctx.getServerHandler().playerEntity.getEntityWorld().getTileEntity(message.xTe, message.yTe, message.zTe);
@@ -84,6 +83,10 @@ public class BaseNodeRequestPacket implements IMessage
 				case 2:
 					te = (TileEntityBaseNode)ctx.getServerHandler().playerEntity.getEntityWorld().getTileEntity(message.xTe, message.yTe, message.zTe);
 					te.startBuilding();
+					break;
+				case 3:
+					te = (TileEntityBaseNode)ctx.getServerHandler().playerEntity.getEntityWorld().getTileEntity(message.xTe, message.yTe, message.zTe);
+					te.updateClient(ctx.getServerHandler().playerEntity);
 					break;
 			}
 			return null;
