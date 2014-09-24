@@ -51,6 +51,10 @@ public class GuiHandler implements IGuiHandler
 			{
 				return new GuiClassSelection(player);
 			}
+			case 2:
+			{
+				return new GuiItemCustom(player);
+			}
 			default:
 				return null;
 		}

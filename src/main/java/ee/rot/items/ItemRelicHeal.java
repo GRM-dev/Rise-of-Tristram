@@ -33,7 +33,6 @@ public class ItemRelicHeal extends Item {
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
-		// TODO Auto-generated method stub
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		
 		if (coolDown == 0)
@@ -56,7 +55,6 @@ public class ItemRelicHeal extends Item {
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player,
 			World world, int x, int y, int z, int side, float hitX, float hitY,
 			float hitZ) {
-		// TODO Auto-generated method stub
 		
 		ExtendPlayer props = ExtendPlayer.get(player);
 		if (player.shouldHeal() && props.consumeMana(manaCostAction))
@@ -71,7 +69,6 @@ public class ItemRelicHeal extends Item {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		// TODO Auto-generated method stub
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		par3List.add("This Relic will prevent the holder");
 		par3List.add("from entering a state of starvation,");

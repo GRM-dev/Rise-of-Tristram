@@ -69,14 +69,12 @@ public class ItemCrossbowRepater extends Item
 	@Override
 	public int getRenderPasses(int metadata)
 	{
-		// TODO Auto-generated method stub
 		return 2;
 	}
 	
 	@Override
 	public IIcon getIcon(ItemStack stack, int pass)
 	{
-		// TODO Auto-generated method stub
 		return icons[pass];
 	}
 	

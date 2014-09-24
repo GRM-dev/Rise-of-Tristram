@@ -1,30 +1,41 @@
 package ee.rot.items;
 
-import ee.rot.Rot;
-import ee.rot.libs.UtilityNBTHelper;
-import net.minecraft.entity.Entity;
+import java.util.List;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import ee.rot.Rot;
+import ee.rot.libs.UtilityNBTHelper;
+import ee.rot.libs.WeaponsNBTKeyNames;
 
-public class WeaponStaff extends ItemSword
+public class WeaponStaff extends WeaponCustom
 {
-
+	public static int numOfTypes = 2;
+	IIcon[] blades = new IIcon[numOfTypes];
+	IIcon[] guards = new IIcon[numOfTypes];
+	IIcon[] handles = new IIcon[numOfTypes];
+	IIcon defaultIcon;
+	
 	public WeaponStaff()
 	{
 		super(ToolMaterial.WOOD);
 	}
 	
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World,
-			Entity par3Entity, int par4, boolean par5)
+	public void onCreated(ItemStack par1ItemStack, World par2World,
+			EntityPlayer par3EntityPlayer)
 	{
-		UtilityNBTHelper.setString(par1ItemStack, Rot.MODID+"weaponType", "staff");
-		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
+		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.type, "staff");
 	}
 
 	@Override
@@ -56,4 +67,58 @@ public class WeaponStaff extends ItemSword
 		return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ir)
+	{
+		for (int i = 0; i < numOfTypes; i++)
+		{
+			blades[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/staff_"+i);
+			guards[i] = ir.registerIcon(Rot.MODID+":"+"weapons/guards/cradle_"+i);
+			handles[i] = ir.registerIcon(Rot.MODID+":"+"weapons/handles/rod_"+i);
+		}
+		defaultIcon = ir.registerIcon(Rot.MODID+":"+"weapons/fighter_slash_icon");
+	}
+	
+	@Override
+	public IIcon getIcon(ItemStack stack, int pass)
+	{
+		switch(pass)
+		{
+			case 0: 
+				return handles[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.handle)];
+			case 1:
+				return blades[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)];
+			case 2:
+				return guards[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.guard)];
+			default:
+				break;
+		}
+		return defaultIcon;
+	}
+	
+	public IIcon[] getIcons(ItemStack stack)
+	{
+		return new IIcon[]{
+				handles[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.handle)],
+				blades[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)],
+				guards[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.guard)]};
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_,
+			List p_150895_3_)
+	{
+		ItemStack[] staves = new ItemStack[numOfTypes];
+		for (int i = 0; i < numOfTypes; i++)
+		{
+			staves[i] = new ItemStack(p_150895_1_,1,0);
+			UtilityNBTHelper.setString(staves[i], WeaponsNBTKeyNames.type, "staff");
+			UtilityNBTHelper.setInteger(staves[i], WeaponsNBTKeyNames.handle, i);
+			UtilityNBTHelper.setInteger(staves[i], WeaponsNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setInteger(staves[i], WeaponsNBTKeyNames.guard, i);
+			p_150895_3_.add(staves[i]);
+		}
+	}
 }

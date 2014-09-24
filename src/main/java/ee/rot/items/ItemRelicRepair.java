@@ -31,7 +31,6 @@ public class ItemRelicRepair extends Item {
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
-		// TODO Auto-generated method stub
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		if (coolDown != 0)coolDown--;
 		
@@ -69,7 +68,6 @@ public class ItemRelicRepair extends Item {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, java.util.List par3List, boolean par4) {
-		// TODO Auto-generated method stub
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		par3List.add("This Relic will slowly repair");
 		par3List.add("non worn, non hotbar items");

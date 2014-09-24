@@ -31,7 +31,6 @@ public class ItemGunpowderInfuser extends Item
 	/*@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		// TODO Auto-generated method stub
 		
 		ExtendPlayerRot props = ExtendPlayerRot.get(par3EntityPlayer);
 		if (par3EntityPlayer.inventory.hasItem(Items.gunpowder) && !par3EntityPlayer.isSneaking())
@@ -61,7 +60,6 @@ public class ItemGunpowderInfuser extends Item
 	{
 		
 		System.out.println(world.getBlockMetadata(x, y, z));
-		// TODO Auto-generated method stub
 		return super.onItemUseFirst(stack, player, world, x, y, z, side, hitX, hitY,
 				hitZ);
 	}
@@ -70,7 +68,6 @@ public class ItemGunpowderInfuser extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		// TODO Auto-generated method stub
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		par3List.add("The infuser can take");
 		par3List.add("gunpowder and infuse it");

@@ -1,7 +1,6 @@
 package ee.rot;
 
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,8 +30,6 @@ import ee.rot.events.KeyHandleEvent;
 import ee.rot.events.RotEventHandler;
 import ee.rot.events.RotStandardEventHandler;
 import ee.rot.gui.GuiHandler;
-import ee.rot.gui.RotManaGui;
-import ee.rot.gui.RotStamGui;
 import ee.rot.items.RotItems;
 import ee.rot.libs.CreativeTabsRoT;
 
@@ -63,6 +60,7 @@ public class Rot {
     MyMod.network.sendTo(new SomeMessage(), somePlayer);
     */
     public static KeyBinding classKey = new KeyBinding("Class Menu", Keyboard.KEY_Y, "keys.rot");
+    public static KeyBinding customizeItemKey = new KeyBinding("Item Customization Menu", Keyboard.KEY_I, "keys.rot");
     
     public static CreativeTabs tabRoT = new CreativeTabsRoT("RoT");
     

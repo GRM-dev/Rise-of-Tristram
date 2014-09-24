@@ -19,8 +19,6 @@ public class SpawnerBlock extends Block
 		this.setBlockTextureName(Rot.MODID + ":" + textureName);
 		this.setTickRandomly(true);
 		this.bts = bts;
-		
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**

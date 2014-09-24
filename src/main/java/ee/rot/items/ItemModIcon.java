@@ -9,7 +9,6 @@ public class ItemModIcon extends Block
 	public ItemModIcon()
 	{
 		super(Material.rock);
-		// TODO Auto-generated constructor stub
 	}
 
 }

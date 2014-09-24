@@ -17,6 +17,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import ee.rot.Rot;
@@ -40,8 +41,7 @@ public class GuiBaseNode extends GuiContainer
 	//Grid Values
 	private int gridSize = 0;
 	private int gS = 5;
-	private int gridXOffset = 0;
-	private int gridZOffset = 0;
+	private int gridSizeOffset = 0;
 	private int xOffset = 0;
 	private int yOffset1 = 0, yOffset2 = 0;
 	private int zOffset = 0;
@@ -62,10 +62,10 @@ public class GuiBaseNode extends GuiContainer
 	//Misc.	
 	private GuiBaseNodeButton[] coordButtons1;
 	private GuiBaseNodeButton[] coordButtons2;
-	private int INDEX_START = 18;
+	private int INDEX_START = 17;
 	private int indexCounter = INDEX_START;
-	private int startLeft = 100, 
-			startTop = 25;
+	private int startLeft = cw * 2, 
+			startTop = ch * 2;
 	
 	@Override
 	protected void keyTyped(char par1, int par2)
@@ -96,6 +96,18 @@ public class GuiBaseNode extends GuiContainer
 			else yOffset1++;
 			updateButtons();
 		}
+		else if (par2 == Keyboard.KEY_DOWN)
+		{
+			if (yOffset2 + te.yCoord == 0)return;
+			else yOffset2--;
+			updateButtons();
+		}
+		else if (par2 == Keyboard.KEY_UP)
+		{
+			if (yOffset2 + te.yCoord == 255)return;
+			else yOffset2++;
+			updateButtons();
+		}
 		else if (par2 == this.mc.gameSettings.keyBindSneak.getKeyCode())
 		{
 			if (yOffset1 + te.yCoord == 0)return;
@@ -124,7 +136,7 @@ public class GuiBaseNode extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) 
 	{			
-		gridSize = gS + gridXOffset;
+		gridSize = gS + gridSizeOffset;
 		
 		if (locations.isEmpty())
 		{
@@ -136,60 +148,77 @@ public class GuiBaseNode extends GuiContainer
 		}		
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-		int gx = startLeft - 3, gy = startTop - 3;
-		int gw = (gridSize * 2) * cw + (cw + 6), gh = (gridSize * 2) * ch + (ch + 6);
+		int gx1 = startLeft - 3, 
+				gx2 = (startLeft + (gridSize * cw)) + (gridSize * cw) + cw + 3, 
+				gy1 = startTop - 3,
+				gy2 = gy1 + (gridSize * ch) + (gridSize * ch) + ch + 6;
+		int gw = (gridSize * 2) * cw + (cw + 6), 
+				gh = (gridSize * 2) * ch + (ch + 6);
 		//Drawing Map boarders
 		//Map 1
-		drawTexturedModalRect(gx, gy, 
+		drawTexturedModalRect(gx1, gy1, 
 				0, 0, 
 				gw / 2, gh / 2);// upper left
-		drawTexturedModalRect(gx + gw / 2, gy, 
+		drawTexturedModalRect(gx1 + gw / 2, gy1, 
 				227 - gw / 2, 0, 
 				gw / 2, gh / 2);// upper right
 		
-		drawTexturedModalRect(gx, gy + gh / 2, 
+		drawTexturedModalRect(gx1, gy1 + gh / 2, 
 				0, 226 - gh / 2, 
 				gw / 2, gh / 2);// lower left
-		drawTexturedModalRect(gx + gw / 2, gy + gh / 2, 
+		drawTexturedModalRect(gx1 + gw / 2, gy1 + gh / 2, 
+				227 - gw / 2, 226 - gh / 2, 
+				gw / 2, gh / 2);// lower right
+		
+		//Map 2
+		drawTexturedModalRect(gx2, gy1, 
+				0, 0, 
+				gw / 2, gh / 2);// upper left
+		drawTexturedModalRect(gx2 + gw / 2, gy1, 
+				227 - gw / 2, 0, 
+				gw / 2, gh / 2);// upper right
+		
+		drawTexturedModalRect(gx2, gy1 + gh / 2, 
+				0, 226 - gh / 2, 
+				gw / 2, gh / 2);// lower left
+		drawTexturedModalRect(gx2 + gw / 2, gy1 + gh / 2, 
 				227 - gw / 2, 226 - gh / 2, 
 				gw / 2, gh / 2);// lower right
 
 		this.buttonList.clear();
 		//Start with main control buttons
 		
-		this.buttonList.add(new GuiButton(2, (startLeft + ((gridSize * 2) * cw)) + cw, (startTop + (gridSize * ch)), cw, ch, "-X"));//X left
-		this.buttonList.add(new GuiButton(3, (startLeft + ((gridSize * 2) * cw)) + cw * 3, (startTop + (gridSize * ch)), cw, ch, "+X"));//X right
+		this.buttonList.add(new GuiButton(0, gx1, gy2, 75, ch, "Start Building")); //right now does nothing, as it was hit and miss
+		this.buttonList.add(new GuiButton(1, gx1 + 75, gy2, 75, ch, "Send List")); //Adds the location based on x,y,z
+		this.buttonList.add(new GuiButton(2, gx1 + 75 * 2, gy2, 75, ch, "Clear")); //Clears all the locations
+		this.buttonList.add(new GuiButton(3, gx1, gy2 + ch, 60, ch, "< Block"));//prev block
+		this.buttonList.add(new GuiButton(4, gx1 + 60, gy2 + ch, 60, ch, "Block >"));//next block
+		this.buttonList.add(new GuiButton(5, gx1 + 75 * 3, gy2, 60, ch, "Grid +"));//prev block
+		this.buttonList.add(new GuiButton(6, gx1 + 75 * 3 + 60, gy2, 60, ch, "Grid -"));//next block
+		this.buttonList.add(new GuiButton(7, gx1 + 60 * 2, gy2 + ch, 90, ch, selectionTitle[selectionMode]));//selection mode
+		this.buttonList.add(new GuiButton(16, gx1 + 60 * 2 + 90, gy2 + ch, 75, ch, "Get List"));//selection mode
 		
-		this.buttonList.add(new GuiButton(4, (startLeft + ((gridSize * 2) * cw)) + cw * 2, (startTop + (gridSize * ch)) - ch, cw, ch, "-Z"));//Z up confusing should be 'forward'
-		this.buttonList.add(new GuiButton(5, (startLeft + ((gridSize * 2) * cw)) + cw * 2, (startTop + (gridSize * ch)) + ch, cw, ch, "+Z"));//Z down confusing should be 'back'
+		this.buttonList.add(new GuiButton(8, (gx1 + gx2 + gw) / 2, gy1 - ch, cw, ch, "<"));//X left
+		this.buttonList.add(new GuiButton(9, (gx1 + gx2 + gw) / 2 + (cw * 3), gy1 - ch, cw, ch, ">"));//X right
+		this.buttonList.add(new GuiButton(10, (gx1 + gx2 + gw) / 2 + cw, gy1 - ch, cw, ch, "^"));//Z 'forward'
+		this.buttonList.add(new GuiButton(11, (gx1 + gx2 + gw) / 2 + (cw * 2), gy1 - ch, cw, ch, "v"));//Z 'back'
+		this.buttonList.add(new GuiButton(12, gx1 - cw, (startTop + (gridSize * ch)) - ch / 2, cw, ch, "Y1+"));//Y1 up
+		this.buttonList.add(new GuiButton(13, gx1 - cw, (startTop + (gridSize * ch)) + ch / 2, cw, ch, "Y1-"));//Y1 down
+		this.buttonList.add(new GuiButton(14, gx2 + gw, (startTop + (gridSize * ch)) - ch / 2, cw, ch, "Y2+"));//Y2 up
+		this.buttonList.add(new GuiButton(15, gx2 + gw, (startTop + (gridSize * ch)) + ch / 2, cw, ch, "Y2-"));//Y2 down
 		
-		this.buttonList.add(new GuiButton(6, (startLeft + ((gridSize * 2) * cw)) + cw * 4, (startTop + (gridSize * ch)) - ch / 2, cw, ch, "Y1+"));//Y up
-		this.buttonList.add(new GuiButton(7, (startLeft + ((gridSize * 2) * cw)) + cw * 4, (startTop + (gridSize * ch)) + ch / 2, cw, ch, "Y1-"));//Y down
-		this.buttonList.add(new GuiButton(16, (startLeft + ((gridSize * 2) * cw)) + cw * 5, (startTop + (gridSize * ch)) - ch / 2, cw, ch, "Y2+"));//Y up
-		this.buttonList.add(new GuiButton(17, (startLeft + ((gridSize * 2) * cw)) + cw * 5, (startTop + (gridSize * ch)) + ch / 2, cw, ch, "Y2-"));//Y down
+		
 		
 		//Visual information on location
-			this.drawString(fontRendererObj, "X: "+(xOffset+te.xCoord)+" offSet: "+xOffset, (startLeft + ((gridSize * 2) * cw)) + cw * 6, (startTop + (gridSize * ch) + 4) - ch, 0xFFFFFF);
-			this.drawString(fontRendererObj, "Y1: "+(yOffset1+te.yCoord)+" offSet: "+yOffset1, (startLeft + ((gridSize * 2) * cw)) + cw * 6, (startTop + (gridSize * ch) + 4), 0xFFFFFF);
-			this.drawString(fontRendererObj, "Y2: "+(yOffset2+te.yCoord)+" offSet: "+yOffset2, (startLeft + ((gridSize * 2) * cw)) + cw * 11, (startTop + (gridSize * ch) + 4), 0xFFFFFF);
-			this.drawString(fontRendererObj, "Z: "+(zOffset+te.zCoord)+" offSet: "+zOffset, (startLeft + ((gridSize * 2) * cw)) + cw * 6, (startTop + (gridSize * ch) + 4) + ch, 0xFFFFFF);
-		
-		this.buttonList.add(new GuiButton(11, (startLeft + ((gridSize * 2) * cw)) + cw, startTop, 75, ch, "Grid Width +"));//prev block
-		this.buttonList.add(new GuiButton(12, (startLeft + ((gridSize * 2) * cw)) + cw, startTop + ch, 75, ch, "Grid Width -"));//next block
-		this.buttonList.add(new GuiButton(13, (startLeft + ((gridSize * 2) * cw)) + cw, startTop + ch * 2, 75, ch, "Grid Height +"));//prev block
-		this.buttonList.add(new GuiButton(14, (startLeft + ((gridSize * 2) * cw)) + cw, startTop + ch * 3, 75, ch, "Grid Height -"));//next block
-		
-		this.buttonList.add(new GuiButton(15, (startLeft + ((gridSize * 2) * cw)) + cw, (startTop + ((gridSize * 2) * ch)) - ch * 3, 75, ch, selectionTitle[selectionMode]));//selection mode
+			/*this.drawString(fontRendererObj, "OffSet: "+xOffset, (startLeft + ((gridSize * 2) * cw)) + cw * 6, (startTop + (gridSize * ch) + 4) - ch, 0xFFFFFF);
+			this.drawString(fontRendererObj, "OffSet: "+yOffset1, (startLeft + ((gridSize * 2) * cw)) + cw * 6, (startTop + (gridSize * ch) + 4), 0xFFFFFF);
+			this.drawString(fontRendererObj, "OffSet: "+yOffset2, (startLeft + ((gridSize * 2) * cw)) + cw * 11, (startTop + (gridSize * ch) + 4), 0xFFFFFF);
+			this.drawString(fontRendererObj, "OffSet: "+zOffset, (startLeft + ((gridSize * 2) * cw)) + cw * 6, (startTop + (gridSize * ch) + 4) + ch, 0xFFFFFF);
+
 		this.drawString(fontRendererObj, (AB == null ? "single Mode":(AB[0] == null ? "Point A not selected" : AB[0])).toString(), 
-				(startLeft + ((gridSize * 2) * cw)) + cw * 8, (startTop + ((gridSize * 2) * ch)) - ch * 3, blockColor); // What block is selected
-		
-		this.buttonList.add(new GuiButton(0, (startLeft + ((gridSize * 2) * cw)) + cw, (startTop + ((gridSize * 2) * ch)) - ch * 2, 75, ch, "Start Building")); //right now does nothing, as it was hit and miss
-		this.buttonList.add(new GuiButton(1, (startLeft + ((gridSize * 2) * cw)) + cw, (startTop + ((gridSize * 2) * ch)) - ch, 75, ch, "Send List")); //Adds the location based on x,y,z
-		this.buttonList.add(new GuiButton(8, (startLeft + ((gridSize * 2) * cw)) + cw, (startTop + ((gridSize * 2) * ch)), 75, ch, "Clear")); //Clears all the locations
-		
-		this.buttonList.add(new GuiButton(9, (startLeft + ((gridSize * 2) * cw)) + cw + 75, startTop, 60, ch, "< Block"));//prev block
-		this.buttonList.add(new GuiButton(10, (startLeft + ((gridSize * 2) * cw)) + cw * 6 + 75 + 60, startTop, 60, ch, "Block >"));//next block
-		this.drawString(fontRendererObj, RotBlocks.blockTypeObjects[currentBlock].getLocalizedName(), (startLeft + ((gridSize * 2) * cw)) + cw + 75 + 60, startTop, blockColor); // What block is selected
+				(startLeft + ((gridSize * 2) * cw)) + cw * 8, (startTop + ((gridSize * 2) * ch)) - ch * 3, blockColor); // What block is selected*/
+
+		this.drawString(fontRendererObj, RotBlocks.blockTypeObjects[currentBlock].getLocalizedName(), gx1, gy2 + ch * 2, blockColor); // What block is selected
 		
 		
 		for (int button = 0; button < coordButtons1.length;button++)
@@ -223,33 +252,14 @@ public class GuiBaseNode extends GuiContainer
 						ublt = (UtilityBlockLocationType) locations.get(l);
 						Rot.net.sendToServer(new BaseNodeRequestPacket(0,te.xCoord,te.yCoord,te.zCoord,ublt.x,ublt.y,ublt.z,Block.getIdFromBlock(ublt.block)));
 					}
-				}				
+				}			
+				locations.clear();
 				break;
 			case 2: // -X left/west
-				xOffset--;
-				break;
-			case 3: // +X right/east
-				xOffset++;
-				break;
-			case 4: // -Z forward/north
-				zOffset--;
-				break;
-			case 5: // +Z backwards/south
-				zOffset++;
-				break;
-			case 6: // +Y up
-				if (yOffset1 + te.yCoord == 255)break;
-				else yOffset1++;
-				break;
-			case 7: // -Y down
-				if (yOffset1 + te.yCoord == 0)break;
-				else yOffset1--;
-				break;
-			case 8: // Clear, clears tileEntity list and this gui's List
 				Rot.net.sendToServer(new BaseNodeRequestPacket(1,te.xCoord, te.yCoord, te.zCoord, 0, 0, 0, 0));
 				locations.clear();
 				break;
-			case 9: // < moves block array left
+			case 3: // +X right/east
 				if (currentBlock == 0)
 				{
 					currentBlock = RotBlocks.blockTypeObjects.length -1;
@@ -260,7 +270,7 @@ public class GuiBaseNode extends GuiContainer
 				}
 				blockColor = RotBlocks.blockTypeColors[currentBlock];
 				break;
-			case 10: // > moves block array right
+			case 4: // -Z forward/north
 				if (currentBlock == RotBlocks.blockTypeObjects.length -1)
 				{
 					currentBlock = 0;
@@ -271,39 +281,64 @@ public class GuiBaseNode extends GuiContainer
 				}
 				blockColor = RotBlocks.blockTypeColors[currentBlock];
 				break;
-			case 11: //Increase grid width
-				gridXOffset++;
+			case 5: // +Z backwards/south
+				gridSizeOffset++;
 				break;
-			case 12: //Decrease
-				gridXOffset--;
+			case 6: // +Y up
+				gridSizeOffset--;
 				break;
-			case 13: //Increase grid height
-				gridZOffset++;
-				break;
-			case 14: //Decrease
-				gridZOffset--;
-				break;
-			case 15:
+			case 7: // -Y down
 				selectionMode = selectionMode == 0 ? 1 : 0;
 				if (selectionMode == 0) AB = new Vector3f[2];
 				break;
-			}
+			case 8: // Clear, clears tileEntity list and this gui's List
+				xOffset--;
+				break;
+			case 9: // < moves block array left
+				xOffset++;
+				break;
+			case 10: // > moves block array right
+				zOffset--;
+				break;
+			case 11: //Increase grid width
+				zOffset++;
+				break;
+			case 12: //Decrease
+				if (yOffset1 + te.yCoord == 255)break;
+				else yOffset1++;
+				break;
+			case 13:
+				if (yOffset1 + te.yCoord == 0)break;
+				else yOffset1--;
+				break;
+			case 14:
+				if (yOffset2 + te.yCoord == 255)break;
+				else yOffset2++;
+				break;
+			case 15:
+				if (yOffset2 + te.yCoord == 0)break;
+				else yOffset2--;
+				break;
+			case 16:
+				Rot.net.sendToServer(new BaseNodeRequestPacket(3,te.xCoord,te.yCoord,te.zCoord,0,0,0,0));
+				break;
+			}			
 		}
 		//Start code for generated buttons
 		else
 		{
-			int xB = ((GuiBaseNodeButton)button).x, zB = ((GuiBaseNodeButton)button).z;
+			int xB = ((GuiBaseNodeButton)button).x, yB = ((GuiBaseNodeButton)button).y, zB = ((GuiBaseNodeButton)button).z;
 			if (selectionMode == 1)// Range Mode
 			{
 				if (AB[0] == null)
 				{						
-					AB[0] = new Vector3f((float)xB, (float)this.yOffset1, (float)zB);
+					AB[0] = new Vector3f((float)xB, (float)yB, (float)zB);
 				}
 				else if (AB[1] == null)
 				{
-					if (new Vector3f((float)xB, (float)this.yOffset1, (float)zB) != AB[0])
+					if (new Vector3f((float)xB, (float)yB, (float)zB) != AB[0])
 					{
-						AB[1] = new Vector3f((float)xB, (float)this.yOffset1, (float)zB);
+						AB[1] = new Vector3f((float)xB, (float)yB, (float)zB);
 					}						
 				}				
 				if (AB[0] != null && AB[1] != null)
@@ -332,10 +367,11 @@ public class GuiBaseNode extends GuiContainer
 			}
 			else//single select
 			{
-				addLocation(xB + te.xCoord, this.yOffset1 + te.yCoord, zB + te.zCoord);
+				addLocation(xB + te.xCoord, yB + te.yCoord, zB + te.zCoord);
 			}			
 		}
 		updateButtons();
+		this.updateScreen();
 	}	
 	
 	private void addLocation(int x, int y, int z)
@@ -388,10 +424,28 @@ public class GuiBaseNode extends GuiContainer
 				IIcon t2 = null;
 				int c1 = defaultColor;	
 				int c2 = defaultColor;
+				String s1 = "x";
+				String s2 = "x";
 				Block worldBlock1 = te.getWorldObj().getBlock( x + te.xCoord + xOffset, yOffset1 + te.yCoord , z + te.zCoord + zOffset);
 				Block worldBlock2 = te.getWorldObj().getBlock( x + te.xCoord + xOffset, yOffset2 + te.yCoord , z + te.zCoord + zOffset);
-				String s1 = worldBlock1.equals(Blocks.air) ? "." : "+";		
-				String s2 = worldBlock2.equals(Blocks.air) ? "." : "+";	
+				if (selectionMode == 1)
+				{
+					if (AB != null && AB[0] != null && x + xOffset == (int)AB[0].x && z + zOffset == (int)AB[0].z)
+					{
+						s1 = "X";
+						s2 = "X";
+					}
+					else
+					{
+						s1 = worldBlock1.equals(Blocks.air) ? "." : "+";		
+						s2 = worldBlock2.equals(Blocks.air) ? "." : "+";
+					}
+				}
+				else
+				{
+					s1 = worldBlock1.equals(Blocks.air) ? "." : "+";		
+					s2 = worldBlock2.equals(Blocks.air) ? "." : "+";	
+				}
 				if (!locations.isEmpty())
 				{
 					UtilityBlockLocationType ubltS;
@@ -433,7 +487,7 @@ public class GuiBaseNode extends GuiContainer
 						s1);
 				
 				coordButtons2[buttonArrayIndex] = new GuiBaseNodeButton(indexCounter++, 
-						((startLeft + (gridSize * cw)) + ((gridSize * cw) * 2) + cw + 3) + ((cw * x)), 
+						((startLeft + (gridSize * cw)) + ((gridSize * cw) * 2) + cw + 6) + ((cw * x)), 
 						(startTop + (gridSize * ch)) + ((ch * z)), 
 						cw, 
 						ch, 
@@ -480,7 +534,7 @@ public class GuiBaseNode extends GuiContainer
 							for (int ubltl = 0; ubltl < locations.size(); ubltl++)
 							{
 								ublt = (UtilityBlockLocationType) locations.get(ubltl);
-								if (ublt.y == this.yOffset2 + te.yCoord - depth1)
+								if (ublt.y == this.yOffset2 + te.yCoord - depth2)
 								{
 									if (ublt.x == x + this.xOffset + te.xCoord && ublt.z == z + this.zOffset + te.zCoord)
 									{
@@ -496,15 +550,18 @@ public class GuiBaseNode extends GuiContainer
 				}
 				coordButtons1[buttonArrayIndex].tex = t1;
 				coordButtons1[buttonArrayIndex].x = x + this.xOffset;
+				coordButtons1[buttonArrayIndex].y = this.yOffset1;
 				coordButtons1[buttonArrayIndex].z = z + this.zOffset;
 				coordButtons1[buttonArrayIndex].brightness = b1;
 				coordButtons2[buttonArrayIndex].tex = t2;
 				coordButtons2[buttonArrayIndex].x = x + this.xOffset;
+				coordButtons2[buttonArrayIndex].y = this.yOffset2;
 				coordButtons2[buttonArrayIndex].z = z + this.zOffset;
 				coordButtons2[buttonArrayIndex].brightness = b2;
 				buttonArrayIndex++;
 			}
 		}
 		indexCounter = INDEX_START;
+		this.updateScreen();
 	}
 }

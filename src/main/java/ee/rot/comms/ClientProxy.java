@@ -22,10 +22,10 @@ public class ClientProxy extends CommonProxy {
     	MinecraftForge.EVENT_BUS.register(new GuiExtendedPlayerStats(Minecraft.getMinecraft()));
     	//MinecraftForgeClient.registerItemRenderer(RotItems.itemSwordSoul, new ItemRendererScaled(.75f));
     	MinecraftForgeClient.registerItemRenderer(RotItems.weaponSwordSoul, new ItemRendererSizeable(0.5f));
-    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponFighterSlash, new ItemRendererSizeType());
-    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponFighterHack, new ItemRendererSizeType());
-    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponFighterBlunt, new ItemRendererSizeType());
-    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponFighterPierce, new ItemRendererSizeType());
+    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponSlash, new ItemRendererSizeType());
+    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponHack, new ItemRendererSizeType());
+    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponBlunt, new ItemRendererSizeType());
+    	MinecraftForgeClient.registerItemRenderer(RotItems.weaponPierce, new ItemRendererSizeType());
     	MinecraftForgeClient.registerItemRenderer(RotItems.weaponStaffBlue, new ItemRendererSizeType());
     }
     
@@ -33,6 +33,7 @@ public class ClientProxy extends CommonProxy {
     public void registerKeyBindings()
     {
     	ClientRegistry.registerKeyBinding(Rot.classKey);
+    	ClientRegistry.registerKeyBinding(Rot.customizeItemKey);
     }
     
     public int addArmor(String armor)

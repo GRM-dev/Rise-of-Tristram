@@ -82,21 +82,18 @@ public class ItemRelicLife extends Item {
 	@Override
 	public int getRenderPasses(int metadata)
 	{
-		// TODO Auto-generated method stub
 		return 2;
 	}
 	
 	@Override
 	public IIcon getIcon(ItemStack stack, int pass)
 	{
-		// TODO Auto-generated method stub
 		return textures[pass];
 	}
 	
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World,
 			Entity par3Entity, int par4, boolean par5) {
-		// TODO Auto-generated method stub
 		super.onUpdate(par1ItemStack, par2World, par3Entity, par4, par5);
 		
 		if (coolDown == 0)
@@ -187,7 +184,6 @@ public class ItemRelicLife extends Item {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack par1ItemStack,
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		// TODO Auto-generated method stub
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		par3List.add("This Relic will slowly heal");
 		par3List.add("the holder and prevent starvation.");

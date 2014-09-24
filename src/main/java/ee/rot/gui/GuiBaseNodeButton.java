@@ -13,7 +13,7 @@ import net.minecraft.util.IIcon;
 /** Just a GuiButton with an extra variable, really wanted this in the normal button **/
 public class GuiBaseNodeButton extends GuiButton
 {
-	public int x,z;
+	public int x,y,z;
 	public IIcon tex;
 	public float brightness = 1.0f;
 	public GuiBaseNodeButton(int par1, int par2, int par3, int par4,

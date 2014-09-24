@@ -92,21 +92,18 @@ public class InventoryMagicTrinkets implements IInventory
 	@Override
 	public String getInventoryName()
 	{
-		// TODO Auto-generated method stub
 		return name;
 	}
 
 	@Override
 	public boolean hasCustomInventoryName()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public int getInventoryStackLimit()
 	{
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
@@ -123,28 +120,24 @@ public class InventoryMagicTrinkets implements IInventory
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer var1)
 	{
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void openInventory()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closeInventory()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int var1, ItemStack var2)
 	{
-		// TODO Auto-generated method stub
 		return true;
 	}
 	

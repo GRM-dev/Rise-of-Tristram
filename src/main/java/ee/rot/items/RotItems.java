@@ -19,10 +19,10 @@ public class RotItems
     public static Item itemRelicLife;
     
     public static Item weaponSwordSoul;
-    public static Item weaponFighterSlash;
-    public static Item weaponFighterHack;
-    public static Item weaponFighterBlunt;
-    public static Item weaponFighterPierce;
+    public static Item weaponSlash;
+    public static Item weaponHack;
+    public static Item weaponBlunt;
+    public static Item weaponPierce;
     public static Item weaponCBR;
     
     public static Item itemMana;
@@ -72,26 +72,25 @@ public class RotItems
 			.setUnlocalizedName("weaponSwordSoul")
 			.setTextureName(Rot.MODID+":"+"weapons/soul_sword");
 		
-		weaponFighterSlash = new WeaponFighterSlash(ToolMaterial.IRON)
+		weaponSlash = new WeaponSlash(ToolMaterial.IRON)
 			.setCreativeTab(Rot.tabRoT)
-			.setUnlocalizedName("weaponFighterSlash");
+			.setUnlocalizedName("weaponSlash");
 		
-		weaponFighterHack = new WeaponFighterHack(ToolMaterial.IRON)
+		weaponHack = new WeaponHack(ToolMaterial.IRON)
 		.setCreativeTab(Rot.tabRoT)
-		.setUnlocalizedName("weaponFighterHack");
+		.setUnlocalizedName("weaponHack");
 		
-		weaponFighterBlunt = new WeaponFighterBlunt(ToolMaterial.IRON)
+		weaponBlunt = new WeaponBlunt(ToolMaterial.IRON)
 		.setCreativeTab(Rot.tabRoT)
-		.setUnlocalizedName("weaponFighterBlunt");
+		.setUnlocalizedName("weaponBlunt");
 		
-		weaponFighterPierce = new WeaponFighterPierce(ToolMaterial.IRON)
+		weaponPierce = new WeaponPierce(ToolMaterial.IRON)
 		.setCreativeTab(Rot.tabRoT)
-		.setUnlocalizedName("weaponFighterPierce");
+		.setUnlocalizedName("weaponPierce");
 		
 		weaponStaffBlue = new WeaponStaff()
 			.setCreativeTab(Rot.tabRoT)
-			.setUnlocalizedName("weaponStaffBlue")
-			.setTextureName(Rot.MODID+":"+"weapons/staffBlue");
+			.setUnlocalizedName("weaponStaff");
 		
 		tutHelmet = new ItemArmorCustom(ArmorMaterial.CLOTH, 0, "mage2").setUnlocalizedName("ta").setCreativeTab(Rot.tabRoT);
 		tutPlate = new ItemArmorCustom(ArmorMaterial.CLOTH, 1, "mage2").setUnlocalizedName("taa").setCreativeTab(Rot.tabRoT);
@@ -109,10 +108,10 @@ public class RotItems
     	
     	GameRegistry.registerItem(weaponCBR, weaponCBR.getUnlocalizedName().substring(5));
     	GameRegistry.registerItem(weaponSwordSoul, weaponSwordSoul.getUnlocalizedName().substring(5));
-    	GameRegistry.registerItem(weaponFighterSlash, weaponFighterSlash.getUnlocalizedName().substring(5));
-    	GameRegistry.registerItem(weaponFighterHack, weaponFighterHack.getUnlocalizedName().substring(5));
-    	GameRegistry.registerItem(weaponFighterBlunt, weaponFighterBlunt.getUnlocalizedName().substring(5));
-    	GameRegistry.registerItem(weaponFighterPierce, weaponFighterPierce.getUnlocalizedName().substring(5));
+    	GameRegistry.registerItem(weaponSlash, weaponSlash.getUnlocalizedName().substring(5));
+    	GameRegistry.registerItem(weaponHack, weaponHack.getUnlocalizedName().substring(5));
+    	GameRegistry.registerItem(weaponBlunt, weaponBlunt.getUnlocalizedName().substring(5));
+    	GameRegistry.registerItem(weaponPierce, weaponPierce.getUnlocalizedName().substring(5));
     	GameRegistry.registerItem(weaponStaffBlue, weaponStaffBlue.getUnlocalizedName().substring(5));
     	
     	GameRegistry.registerItem(itemMana, itemMana.getUnlocalizedName().substring(5));

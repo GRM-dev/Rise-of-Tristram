@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.chunk.Chunk;
 import ee.rot.Rot;
 import ee.rot.comms.BaseNodeRequestPacket;
 import ee.rot.comms.BaseNodeResponsePacket;
@@ -112,6 +113,8 @@ public class TileEntityBaseNode extends TileEntity
 
 			if (cd == 0)
 			{			
+				Chunk ch = getWorldObj().getChunkFromBlockCoords(xCoord, yCoord);
+				getWorldObj().getChunkProvider().loadChunk(ch.xPosition, ch.zPosition);
 				restorePlayers();
 				updateBlockStatus();
 				cd = ACTION_CD;			

@@ -9,7 +9,6 @@ public class BlockPaneRot extends BlockPane
 	public BlockPaneRot(String flatFaceTextureName, String rimTextureName,
 			Material mat, boolean bool) {
 		super(flatFaceTextureName, rimTextureName, mat, bool);
-		// TODO Auto-generated constructor stub
 	}
 
 }

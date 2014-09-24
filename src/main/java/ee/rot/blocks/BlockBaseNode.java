@@ -75,8 +75,7 @@ public class BlockBaseNode extends BlockContainer
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) 
 	{
 		if(world.isRemote) 
-		{
-			Rot.net.sendToServer(new BaseNodeRequestPacket(3,x,y,z,0,0,0,0));
+		{			
 			FMLNetworkHandler.openGui(player, Rot.instance, 0, world, x, y, z);
 		}
 		return true;
