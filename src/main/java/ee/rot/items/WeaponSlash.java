@@ -85,7 +85,7 @@ public class WeaponSlash extends WeaponCustom
 		for (int i = 0; i < numOfTypes; i++)
 		{
 			swords[i] = new ItemStack(p_150895_1_,1,0);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.layerColor+1, 0xffffbb);
+			//UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.layerColor+1, 0xffffbb);
 			UtilityNBTHelper.setString(swords[i], UtilityWeaponNBTKeyNames.type, "slash");
 			UtilityNBTHelper.setString(swords[i], UtilityWeaponNBTKeyNames.size, "normal");
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handle, i);
