@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
 import ee.rot.libs.UtilityNBTHelper;
-import ee.rot.libs.WeaponsNBTKeyNames;
+import ee.rot.libs.UtilityWeaponNBTKeyNames;
 
 public class WeaponBlunt extends WeaponCustom
 {
@@ -30,8 +30,8 @@ public class WeaponBlunt extends WeaponCustom
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer)
 	{
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.type, "blunt");
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.size, "normal");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "blunt");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class WeaponBlunt extends WeaponCustom
 			case 0: 
 				return handle;
 			case 1:
-				return heads[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)];
+				return heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
 			case 2:
 				return null;
 			default:
@@ -67,7 +67,7 @@ public class WeaponBlunt extends WeaponCustom
 	{
 		return new IIcon[]{
 				handle,
-				heads[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)]};
+				heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)]};
 	}
 	
 	@Override
@@ -79,9 +79,9 @@ public class WeaponBlunt extends WeaponCustom
 		for (int i = 0; i < numOfTypes; i++)
 		{
 			blunts[i] = new ItemStack(p_150895_1_,1,0);
-			UtilityNBTHelper.setString(blunts[i], WeaponsNBTKeyNames.type, "blunt");
-			UtilityNBTHelper.setString(blunts[i], WeaponsNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(blunts[i], WeaponsNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setString(blunts[i], UtilityWeaponNBTKeyNames.type, "blunt");
+			UtilityNBTHelper.setString(blunts[i], UtilityWeaponNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(blunts[i], UtilityWeaponNBTKeyNames.bladeHead, i);
 			p_150895_3_.add(blunts[i]);
 		}
 	}

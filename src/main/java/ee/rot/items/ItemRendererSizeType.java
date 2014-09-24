@@ -96,31 +96,40 @@ public class ItemRendererSizeType implements IItemRenderer
 		
 		boolean isInventory = type == ItemRenderType.INVENTORY;
 		int iconParts = toolIcons;
+		int [] partColors = null;
+		float f5;
+        float f6;
+        float f7;
 		IIcon[] parts = new IIcon[iconParts];
 		if (fs != null)
 		{
 			parts = fs.getIcons(item);
 			iconParts = parts.length;
+			partColors = fs.getLayerColors(item, WeaponSlash.numOfTypes);
 		}
 		else if (fh != null)
 		{
 			parts = fh.getIcons(item);
 			iconParts = parts.length;
+			partColors = fh.getLayerColors(item, WeaponHack.numOfTypes);
 		}
 		else if (fb != null)
 		{
 			parts = fb.getIcons(item);
 			iconParts = parts.length;
+			partColors = fb.getLayerColors(item, WeaponBlunt.numOfTypes);
 		}
 		else if (fp != null)
 		{
 			parts = fp.getIcons(item);
 			iconParts = parts.length;
+			partColors = fp.getLayerColors(item, WeaponPierce.numOfTypes);
 		}
 		else if (staff != null)
 		{
 			parts = staff.getIcons(item);
 			iconParts = parts.length;
+			partColors = staff.getLayerColors(item);
 		}
 		else
 		{
@@ -199,10 +208,24 @@ public class ItemRendererSizeType implements IItemRenderer
         if (type == ItemRenderType.INVENTORY)
         {
             GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glEnable(GL11.GL_BLEND);            
             tess.startDrawingQuads();
             for (int i = 0; i < iconParts; ++i)
             {
+            	if (partColors != null)
+            	{
+            		try {
+	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+	                f7 = (float)(partColors[i] & 255) / 255.0F;
+	                tess.setColorOpaque_F(f5, f6, f7);
+            		}
+            		catch (IndexOutOfBoundsException e)
+            		{
+            			System.out.println(e.getMessage());
+            			System.out.println(item.getDisplayName());
+            		}
+            	}
                 tess.addVertexWithUV(0, 16, 0, xMin[i], yMax[i]);
                 tess.addVertexWithUV(16, 16, 0, xMax[i], yMax[i]);
                 tess.addVertexWithUV(16, 0, 0, xMax[i], yMin[i]);
@@ -339,6 +362,13 @@ public class ItemRendererSizeType implements IItemRenderer
             tess.setNormal(0, 0, 1);
             for (int i = 0; i < iconParts; ++i)
             {
+            	if (partColors != null)
+            	{
+	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+	                f7 = (float)(partColors[i] & 255) / 255.0F;
+	                tess.setColorOpaque_F(f5, f6, f7);
+            	}
                 tess.addVertexWithUV(0, 0, 0, xMax[i], yMax[i]);
                 tess.addVertexWithUV(1, 0, 0, xMin[i], yMax[i]);
                 tess.addVertexWithUV(1, 1, 0, xMin[i], yMin[i]);
@@ -351,6 +381,13 @@ public class ItemRendererSizeType implements IItemRenderer
             tess.setNormal(0, 0, -1);
             for (int i = 0; i < iconParts; ++i)
             {
+            	if (partColors != null)
+            	{
+	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+	                f7 = (float)(partColors[i] & 255) / 255.0F;
+	                tess.setColorOpaque_F(f5, f6, f7);
+            	}
                 tess.addVertexWithUV(0, 1, -depth, xMax[i], yMin[i]);
                 tess.addVertexWithUV(1, 1, -depth, xMin[i], yMin[i]);
                 tess.addVertexWithUV(1, 0, -depth, xMin[i], yMax[i]);
@@ -371,6 +408,13 @@ public class ItemRendererSizeType implements IItemRenderer
                 {
                     pos = k / w;
                     iconPos = m + d * pos - s;
+                    if (partColors != null)
+                	{
+    	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+    	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+    	                f7 = (float)(partColors[i] & 255) / 255.0F;
+    	                tess.setColorOpaque_F(f5, f6, f7);                		
+                	}
                     tess.addVertexWithUV(pos, 0, -depth, iconPos, yMax[i]);
                     tess.addVertexWithUV(pos, 0, 0, iconPos, yMax[i]);
                     tess.addVertexWithUV(pos, 1, 0, iconPos, yMin[i]);
@@ -392,6 +436,13 @@ public class ItemRendererSizeType implements IItemRenderer
                     pos = k / w;
                     iconPos = m + d * pos - s;
                     posEnd = pos + d2;
+                    if (partColors != null)
+                	{
+    	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+    	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+    	                f7 = (float)(partColors[i] & 255) / 255.0F;
+    	                tess.setColorOpaque_F(f5, f6, f7);                		
+                	}
                     tess.addVertexWithUV(posEnd, 1, -depth, iconPos, yMin[i]);
                     tess.addVertexWithUV(posEnd, 1, 0, iconPos, yMin[i]);
                     tess.addVertexWithUV(posEnd, 0, 0, iconPos, yMax[i]);
@@ -412,6 +463,13 @@ public class ItemRendererSizeType implements IItemRenderer
                     pos = k / h;
                     iconPos = m + d * pos - s;
                     posEnd = pos + d2;
+                    if (partColors != null)
+                	{
+    	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+    	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+    	                f7 = (float)(partColors[i] & 255) / 255.0F;
+    	                tess.setColorOpaque_F(f5, f6, f7);
+                	}
                     tess.addVertexWithUV(0, posEnd, 0, xMax[i], iconPos);
                     tess.addVertexWithUV(1, posEnd, 0, xMin[i], iconPos);
                     tess.addVertexWithUV(1, posEnd, -depth, xMin[i], iconPos);
@@ -430,6 +488,13 @@ public class ItemRendererSizeType implements IItemRenderer
                 {
                     pos = k / h;
                     iconPos = m + d * pos - s;
+                    if (partColors != null)
+                	{
+    	            	f5 = (float)(partColors[i] >> 16 & 255) / 255.0F;
+    	                f6 = (float)(partColors[i] >> 8 & 255) / 255.0F;
+    	                f7 = (float)(partColors[i] & 255) / 255.0F;
+    	                tess.setColorOpaque_F(f5, f6, f7);                		
+                	}
                     tess.addVertexWithUV(1, pos, 0, xMin[i], iconPos);
                     tess.addVertexWithUV(0, pos, 0, xMax[i], iconPos);
                     tess.addVertexWithUV(0, pos, -depth, xMax[i], iconPos);

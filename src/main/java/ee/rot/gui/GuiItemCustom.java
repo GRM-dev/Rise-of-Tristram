@@ -19,7 +19,7 @@ import ee.rot.items.WeaponPierce;
 import ee.rot.items.WeaponSlash;
 import ee.rot.items.WeaponStaff;
 import ee.rot.libs.UtilityNBTHelper;
-import ee.rot.libs.WeaponsNBTKeyNames;
+import ee.rot.libs.UtilityWeaponNBTKeyNames;
 
 public class GuiItemCustom extends GuiContainer
 {
@@ -43,9 +43,9 @@ public class GuiItemCustom extends GuiContainer
 		item = player.getHeldItem();
 		xSize = 176;
 		ySize = 166;
-		selectedBladeHead = UtilityNBTHelper.getInt(item, WeaponsNBTKeyNames.bladeHead);
-		selectedGuard = UtilityNBTHelper.getInt(item, WeaponsNBTKeyNames.guard);
-		selectedHandle = UtilityNBTHelper.getInt(item, WeaponsNBTKeyNames.handle);
+		selectedBladeHead = UtilityNBTHelper.getInt(item, UtilityWeaponNBTKeyNames.bladeHead);
+		selectedGuard = UtilityNBTHelper.getInt(item, UtilityWeaponNBTKeyNames.guard);
+		selectedHandle = UtilityNBTHelper.getInt(item, UtilityWeaponNBTKeyNames.handle);
 
 		if (item.getItem() instanceof WeaponSlash)
 			weaponStyles = ((WeaponSlash)item.getItem()).numOfTypes;
@@ -134,9 +134,9 @@ public class GuiItemCustom extends GuiContainer
 					else
 						selectedHandle = 0;
 				}
-				UtilityNBTHelper.setInteger(item, WeaponsNBTKeyNames.bladeHead, selectedBladeHead);
-				UtilityNBTHelper.setInteger(item, WeaponsNBTKeyNames.handle, selectedHandle);
-				UtilityNBTHelper.setInteger(item, WeaponsNBTKeyNames.guard, selectedGuard);
+				UtilityNBTHelper.setInteger(item, UtilityWeaponNBTKeyNames.bladeHead, selectedBladeHead);
+				UtilityNBTHelper.setInteger(item, UtilityWeaponNBTKeyNames.handle, selectedHandle);
+				UtilityNBTHelper.setInteger(item, UtilityWeaponNBTKeyNames.guard, selectedGuard);
 				break;
 			case 1: // Class Back
 				if (button.displayString.contains("Blade") || button.displayString.contains("Head"))
@@ -160,9 +160,9 @@ public class GuiItemCustom extends GuiContainer
 					else
 						selectedHandle = weaponStyles - 1;
 				}
-				UtilityNBTHelper.setInteger(item, WeaponsNBTKeyNames.bladeHead, selectedBladeHead);
-				UtilityNBTHelper.setInteger(item, WeaponsNBTKeyNames.handle, selectedHandle);
-				UtilityNBTHelper.setInteger(item, WeaponsNBTKeyNames.guard, selectedGuard);
+				UtilityNBTHelper.setInteger(item, UtilityWeaponNBTKeyNames.bladeHead, selectedBladeHead);
+				UtilityNBTHelper.setInteger(item, UtilityWeaponNBTKeyNames.handle, selectedHandle);
+				UtilityNBTHelper.setInteger(item, UtilityWeaponNBTKeyNames.guard, selectedGuard);
 				break;
 			case 2: 
 				break;			

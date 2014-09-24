@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
 import ee.rot.libs.UtilityNBTHelper;
-import ee.rot.libs.WeaponsNBTKeyNames;
+import ee.rot.libs.UtilityWeaponNBTKeyNames;
 
 public class WeaponHack extends WeaponCustom
 {
@@ -30,9 +30,9 @@ public class WeaponHack extends WeaponCustom
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer)
 	{
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.type, "hack");
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.size, "normal");
-		UtilityNBTHelper.setInteger(par1ItemStack, WeaponsNBTKeyNames.bladeHead, 1);
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "hack");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.bladeHead, 1);
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class WeaponHack extends WeaponCustom
 			case 0: 
 				return handle;
 			case 1:
-				return heads[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)];
+				return heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
 			case 2:
 				return null;
 			default:
@@ -68,7 +68,7 @@ public class WeaponHack extends WeaponCustom
 	{
 		return new IIcon[]{
 				handle,
-				heads[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)]};
+				heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)]};
 	}
 	
 	@Override
@@ -80,9 +80,9 @@ public class WeaponHack extends WeaponCustom
 		for (int i = 0; i < numOfTypes; i++)
 		{
 			hacks[i] = new ItemStack(p_150895_1_,1,0);
-			UtilityNBTHelper.setString(hacks[i], WeaponsNBTKeyNames.type, "hack");
-			UtilityNBTHelper.setString(hacks[i], WeaponsNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(hacks[i], WeaponsNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setString(hacks[i], UtilityWeaponNBTKeyNames.type, "hack");
+			UtilityNBTHelper.setString(hacks[i], UtilityWeaponNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(hacks[i], UtilityWeaponNBTKeyNames.bladeHead, i);
 			p_150895_3_.add(hacks[i]);
 		}
 	}

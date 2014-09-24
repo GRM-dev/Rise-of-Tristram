@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
 import ee.rot.libs.UtilityNBTHelper;
-import ee.rot.libs.WeaponsNBTKeyNames;
+import ee.rot.libs.UtilityWeaponNBTKeyNames;
 
 public class WeaponPierce extends WeaponCustom
 {
@@ -30,8 +30,8 @@ public class WeaponPierce extends WeaponCustom
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer)
 	{
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.type, "pierce");
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.size, "normal");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "pierce");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class WeaponPierce extends WeaponCustom
 			case 0: 
 				return handle;
 			case 1:
-				return heads[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)];
+				return heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
 			case 2:
 				return null;
 			default:
@@ -67,7 +67,7 @@ public class WeaponPierce extends WeaponCustom
 	{
 		return new IIcon[]{
 				handle,
-				heads[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)]};
+				heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)]};
 	}
 	
 	@Override
@@ -79,9 +79,9 @@ public class WeaponPierce extends WeaponCustom
 		for (int i = 0; i < numOfTypes; i++)
 		{
 			pierces[i] = new ItemStack(p_150895_1_,1,0);
-			UtilityNBTHelper.setString(pierces[i], WeaponsNBTKeyNames.type, "pierce");
-			UtilityNBTHelper.setString(pierces[i], WeaponsNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(pierces[i], WeaponsNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setString(pierces[i], UtilityWeaponNBTKeyNames.type, "pierce");
+			UtilityNBTHelper.setString(pierces[i], UtilityWeaponNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(pierces[i], UtilityWeaponNBTKeyNames.bladeHead, i);
 			p_150895_3_.add(pierces[i]);
 		}
 	}

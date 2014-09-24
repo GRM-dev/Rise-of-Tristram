@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
 import ee.rot.libs.UtilityNBTHelper;
-import ee.rot.libs.WeaponsNBTKeyNames;
+import ee.rot.libs.UtilityWeaponNBTKeyNames;
 
 public class WeaponSlash extends WeaponCustom
 {
@@ -31,11 +31,11 @@ public class WeaponSlash extends WeaponCustom
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer)
 	{
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.type, "slash");
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.size, "normal");
-		UtilityNBTHelper.setInteger(par1ItemStack, WeaponsNBTKeyNames.bladeHead, 3);
-		UtilityNBTHelper.setInteger(par1ItemStack, WeaponsNBTKeyNames.guard, 3);
-		UtilityNBTHelper.setInteger(par1ItemStack, WeaponsNBTKeyNames.handle, 3);
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "slash");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.bladeHead, 3);
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.guard, 3);
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.handle, 3);
 	}
 	
 	@Override
@@ -57,11 +57,11 @@ public class WeaponSlash extends WeaponCustom
 		switch(pass)
 		{
 			case 0: 
-				return handles[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.handle)];
+				return handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)];
 			case 1:
-				return blades[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)];
+				return blades[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
 			case 2:
-				return guards[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.guard)];
+				return guards[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guard)];
 			default:
 				break;
 		}
@@ -71,9 +71,9 @@ public class WeaponSlash extends WeaponCustom
 	public IIcon[] getIcons(ItemStack stack)
 	{
 		return new IIcon[]{
-				handles[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.handle)],
-				blades[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)],
-				guards[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.guard)]};
+				handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)],
+				blades[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)],
+				guards[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guard)]};
 	}
 	
 	@Override
@@ -85,11 +85,12 @@ public class WeaponSlash extends WeaponCustom
 		for (int i = 0; i < numOfTypes; i++)
 		{
 			swords[i] = new ItemStack(p_150895_1_,1,0);
-			UtilityNBTHelper.setString(swords[i], WeaponsNBTKeyNames.type, "slash");
-			UtilityNBTHelper.setString(swords[i], WeaponsNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(swords[i], WeaponsNBTKeyNames.handle, i);
-			UtilityNBTHelper.setInteger(swords[i], WeaponsNBTKeyNames.bladeHead, i);
-			UtilityNBTHelper.setInteger(swords[i], WeaponsNBTKeyNames.guard, i);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.layerColor+1, 0xffffbb);
+			UtilityNBTHelper.setString(swords[i], UtilityWeaponNBTKeyNames.type, "slash");
+			UtilityNBTHelper.setString(swords[i], UtilityWeaponNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handle, i);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guard, i);
 			p_150895_3_.add(swords[i]);
 		}
 	}

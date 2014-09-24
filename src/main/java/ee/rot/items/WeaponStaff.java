@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ee.rot.Rot;
 import ee.rot.libs.UtilityNBTHelper;
-import ee.rot.libs.WeaponsNBTKeyNames;
+import ee.rot.libs.UtilityWeaponNBTKeyNames;
 
 public class WeaponStaff extends WeaponCustom
 {
@@ -29,13 +29,14 @@ public class WeaponStaff extends WeaponCustom
 	public WeaponStaff()
 	{
 		super(ToolMaterial.WOOD);
+		setNumberOfColorLayers(3);
 	}
 	
 	@Override
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer)
 	{
-		UtilityNBTHelper.setString(par1ItemStack, WeaponsNBTKeyNames.type, "staff");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "staff");
 	}
 
 	@Override
@@ -86,11 +87,11 @@ public class WeaponStaff extends WeaponCustom
 		switch(pass)
 		{
 			case 0: 
-				return handles[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.handle)];
+				return handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)];
 			case 1:
-				return blades[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)];
+				return blades[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
 			case 2:
-				return guards[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.guard)];
+				return guards[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guard)];
 			default:
 				break;
 		}
@@ -100,9 +101,9 @@ public class WeaponStaff extends WeaponCustom
 	public IIcon[] getIcons(ItemStack stack)
 	{
 		return new IIcon[]{
-				handles[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.handle)],
-				blades[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.bladeHead)],
-				guards[UtilityNBTHelper.getInt(stack, WeaponsNBTKeyNames.guard)]};
+				handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)],
+				blades[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)],
+				guards[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guard)]};
 	}
 	
 	@Override
@@ -114,10 +115,10 @@ public class WeaponStaff extends WeaponCustom
 		for (int i = 0; i < numOfTypes; i++)
 		{
 			staves[i] = new ItemStack(p_150895_1_,1,0);
-			UtilityNBTHelper.setString(staves[i], WeaponsNBTKeyNames.type, "staff");
-			UtilityNBTHelper.setInteger(staves[i], WeaponsNBTKeyNames.handle, i);
-			UtilityNBTHelper.setInteger(staves[i], WeaponsNBTKeyNames.bladeHead, i);
-			UtilityNBTHelper.setInteger(staves[i], WeaponsNBTKeyNames.guard, i);
+			UtilityNBTHelper.setString(staves[i], UtilityWeaponNBTKeyNames.type, "staff");
+			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.handle, i);
+			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.guard, i);
 			p_150895_3_.add(staves[i]);
 		}
 	}
