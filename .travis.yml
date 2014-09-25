@@ -1,0 +1,18 @@
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk7
+
+before_install:
+ - chmod +x gradlew
+ - ./gradlew check
+ 
+
+install: ./gradlew setupCIWorkspace -S
+script: ./gradlew build -S
+
+
+    
+branches:
+  only:
+    - master

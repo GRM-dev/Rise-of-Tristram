@@ -16,14 +16,21 @@ buildscript {
 }
 
 apply plugin: 'forge'
+apply plugin: 'pmd'
+apply plugin: "findbugs"
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+ENV = System.getenv()
+
+version = "1.7.2-1147-0.1"
+group= "ca.grm.rot"
+archivesBaseName = "RiseOfTristram_Mod"
 
 minecraft {
     version = "1.7.2-10.12.2.1147"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse"
 }
 
 dependencies {
@@ -60,4 +67,50 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+
+task writePom << {
+  pom {
+    project {
+      inceptionYear '2014'
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+        }
+      }
+    }
+  }.writeTo("$projectDir/pom.xml")
+}
+
+findbugs {
+  ignoreFailures = true
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/findbugs")
+  effort = "max"
+}
+ 
+pmd {
+  ignoreFailures = true
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  ruleSets = [
+    "basic",
+    "braces"
+  ]
+}
+
+check << {
+  File outDir = new File('build/reports/pmd/')
+  outDir.mkdirs()
+  ant.taskdef(name: 'cpd', classname: 'net.sourceforge.pmd.cpd.CPDTask',
+    classpath: configurations.pmd.asPath)
+  ant.cpd(minimumTokenCount: '100', format: 'xml',
+    outputFile: new File(outDir , 'cpd.xml')) {
+    fileset(dir: "src/main/java") {
+      include(name: '**/*.java')
+    }
+  }
 }
