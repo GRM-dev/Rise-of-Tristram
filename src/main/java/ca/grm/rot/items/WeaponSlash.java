@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WeaponSlash extends WeaponCustom {
-	public static int	numOfTypes	= 7;
+	public static int	numOfTypes	= 8;
 	IIcon[]				blades		= new IIcon[numOfTypes];
 	IIcon[]				guards		= new IIcon[numOfTypes];
 	IIcon[]				handles		= new IIcon[numOfTypes];
