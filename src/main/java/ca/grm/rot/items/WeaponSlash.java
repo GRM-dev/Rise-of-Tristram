@@ -25,6 +25,7 @@ public class WeaponSlash extends WeaponCustom {
 	public WeaponSlash(ToolMaterial mat) {
 		super(mat);
 	}
+	//TODO add in weapon effects, and effect Icons
 
 	@Override
 	public IIcon getIcon(ItemStack stack, int pass) {
