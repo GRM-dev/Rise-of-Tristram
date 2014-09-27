@@ -64,14 +64,6 @@ public class Rot {
 	 * MyMod.network.sendToServer(new MyMessage("foobar"));
 	 * MyMod.network.sendTo(new SomeMessage(), somePlayer);
 	 */
-	public static KeyBinding			classKey			= new KeyBinding(
-																	"Class Menu",
-																	Keyboard.KEY_Y,
-																	"keys.rot");
-	public static KeyBinding			customizeItemKey	= new KeyBinding(
-																	"Item Customization Menu",
-																	Keyboard.KEY_I,
-																	"keys.rot");
 	
 	public static CreativeTabs			tabRoT				= new CreativeTabsRoT("RoT");
 	

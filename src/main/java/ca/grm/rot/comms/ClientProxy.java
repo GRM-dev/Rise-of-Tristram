@@ -1,17 +1,29 @@
 package ca.grm.rot.comms;
 
+import org.lwjgl.input.Keyboard;
+
 import ca.grm.rot.Rot;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
 import ca.grm.rot.items.ItemRendererSizeType;
 import ca.grm.rot.items.ItemRendererSizeable;
 import ca.grm.rot.items.RotItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
+	
+	public static KeyBinding			classKey			= new KeyBinding(
+			"Class Menu",
+			Keyboard.KEY_Y,
+			"keys.rot");
+	public static KeyBinding			customizeItemKey	= new KeyBinding(
+			"Item Customization Menu",
+			Keyboard.KEY_I,
+			"keys.rot");
 	
 	@Override
 	public int addArmor(String armor) {
@@ -20,8 +32,8 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerKeyBindings() {
-		ClientRegistry.registerKeyBinding(Rot.classKey);
-		ClientRegistry.registerKeyBinding(Rot.customizeItemKey);
+		ClientRegistry.registerKeyBinding(classKey);
+		ClientRegistry.registerKeyBinding(customizeItemKey);
 	}
 	
 	@Override

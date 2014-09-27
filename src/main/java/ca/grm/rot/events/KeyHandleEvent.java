@@ -1,6 +1,7 @@
 package ca.grm.rot.events;
 
 import ca.grm.rot.Rot;
+import ca.grm.rot.comms.ClientProxy;
 import ca.grm.rot.items.WeaponCustom;
 import ca.grm.rot.libs.ExtendPlayer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,11 +16,11 @@ public class KeyHandleEvent {
 	public void keyHandler(InputEvent.KeyInputEvent e) {
 		EntityPlayer player = FMLClientHandler.instance().getClient().thePlayer;
 		ExtendPlayer props = ExtendPlayer.get(player);
-		if (Rot.classKey.isPressed()) {
+		if (ClientProxy.classKey.isPressed()) {
 			FMLNetworkHandler.openGui(player, Rot.instance, 1, player.worldObj,
 					(int) player.posX, (int) player.posY, (int) player.posZ);
 		}
-		if (Rot.customizeItemKey.isPressed()) {
+		if (ClientProxy.customizeItemKey.isPressed()) {
 			if (player.getHeldItem() != null) {
 				if (player.getHeldItem().getItem() instanceof WeaponCustom) {
 					FMLNetworkHandler.openGui(player, Rot.instance, 2, player.worldObj,

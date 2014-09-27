@@ -22,7 +22,10 @@ public class WeaponSlash extends WeaponCustom {
 	IIcon[]				bladeEffectsBleed		= new IIcon[numOfTypes];
 	IIcon[]				bladeEffectsVamp		= new IIcon[numOfTypes];
 	IIcon[]				guards		= new IIcon[numOfTypes];
+	IIcon[]				guardEffects0		= new IIcon[numOfTypes];
 	IIcon[]				handles		= new IIcon[numOfTypes];
+	IIcon[]				handleEffects0		= new IIcon[numOfTypes];
+	IIcon				nullIcon;
 	IIcon				defaultIcon;
 	
 	public WeaponSlash(ToolMaterial mat) {
@@ -49,15 +52,54 @@ public class WeaponSlash extends WeaponCustom {
 	}
 
 	public IIcon[] getIcons(ItemStack stack) {
-		return new IIcon[]{
-				this.handles[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.handle)],
-				this.blades[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)],
-				this.bladeEffectsVamp[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)],
-				this.guards[UtilityNBTHelper
-						.getInt(stack, UtilityWeaponNBTKeyNames.guard)]};
+		//0 is handle, 2 is blade, 4 is guard
+		//1 he, 3 be, and 5 ge; are effects
+		IIcon[] icons = new IIcon[6];
+		
+		icons[0] = this.handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)];
+		icons[2] = this.blades[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
+		icons[4] = this.guards[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guard)];
+
+		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHeadEffect))
+		{
+		case 1:
+			icons[3] = this.bladeEffectsFrost[UtilityNBTHelper.getInt(stack,
+					UtilityWeaponNBTKeyNames.bladeHead)];
+			break;
+		case 2:
+			icons[3] = this.bladeEffectsBleed[UtilityNBTHelper.getInt(stack,
+					UtilityWeaponNBTKeyNames.bladeHead)];
+			break;
+		case 3:
+			icons[3] = this.bladeEffectsVamp[UtilityNBTHelper.getInt(stack,
+					UtilityWeaponNBTKeyNames.bladeHead)];
+			break;
+		default:	
+			icons[3] = nullIcon;
+			break;
+		}
+		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handleEffect))
+		{
+		case 1:
+			icons[1] = this.handleEffects0[UtilityNBTHelper.getInt(stack,
+					UtilityWeaponNBTKeyNames.handle)];
+			break;
+		default:	
+			icons[1] = nullIcon;
+			break;
+		}
+		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guardEffect))
+		{
+		case 1:
+			icons[5] = this.guardEffects0[UtilityNBTHelper.getInt(stack,
+					UtilityWeaponNBTKeyNames.guard)];
+			break;
+		default:	
+			icons[5] = nullIcon;
+			break;
+		}
+		
+		return icons;
 	}
 
 	@Override
@@ -66,14 +108,19 @@ public class WeaponSlash extends WeaponCustom {
 		ItemStack[] swords = new ItemStack[numOfTypes];
 		for (int i = 0; i < numOfTypes; i++) {
 			swords[i] = new ItemStack(p_150895_1_, 1, 0);
-			// UtilityNBTHelper.setInteger(swords[i],
-			// UtilityWeaponNBTKeyNames.layerColor+1, 0xffffbb);
+			UtilityNBTHelper.setInteger(swords[i],
+					UtilityWeaponNBTKeyNames.layerColor+2, 0xd9d100);
+			UtilityNBTHelper.setInteger(swords[i],
+					UtilityWeaponNBTKeyNames.layerColor+4, 0xffBBbb);
 			UtilityNBTHelper.setString(swords[i], UtilityWeaponNBTKeyNames.type, "slash");
 			UtilityNBTHelper
-					.setString(swords[i], UtilityWeaponNBTKeyNames.size, "normal");
+					.setString(swords[i], UtilityWeaponNBTKeyNames.size, "large");
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handle, i);
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHead, i);
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guard, i);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handleEffect, 1);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHeadEffect, 3);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guardEffect, 1);
 			p_150895_3_.add(swords[i]);
 		}
 	}
@@ -97,17 +144,22 @@ public class WeaponSlash extends WeaponCustom {
 					+ i);
 			this.bladeEffectsFrost[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
 					+ i +"_e_0");
-				this.bladeEffectsBleed[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
-						+ i +"_e_1");
-				this.bladeEffectsVamp[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
-						+ i +"_e_2"); 
+			this.bladeEffectsBleed[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+					+ i +"_e_1");
+			this.bladeEffectsVamp[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+					+ i +"_e_2"); 
 			this.guards[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/guards/guard_"
 					+ i);
+			this.guardEffects0[i] = ir.registerIcon(Rot.MODID+":"+"weapons/guards/effects/guard_"
+					+ i +"_e_0");
 			this.handles[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/handle_"
 					+ i);
+			this.handleEffects0[i] = ir.registerIcon(Rot.MODID+":"+"weapons/handles/effects/handle_"
+					+ i +"_e_0");
 		}
 		this.defaultIcon = ir
 				.registerIcon(Rot.MODID + ":" + "weapons/fighter_slash_icon");
+		this.nullIcon = ir.registerIcon(Rot.MODID + ":" + "weapons/32x32Null");
 	}
 	
 }
