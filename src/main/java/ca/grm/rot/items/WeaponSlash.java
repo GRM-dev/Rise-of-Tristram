@@ -18,7 +18,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class WeaponSlash extends WeaponCustom {
 	public static int	numOfTypes	= 8;
 	IIcon[]				blades		= new IIcon[numOfTypes];
-	IIcon[]				bladeEffects		= new IIcon[numOfTypes];
+	IIcon[]				bladeEffectsFrost		= new IIcon[numOfTypes];
+	IIcon[]				bladeEffectsBleed		= new IIcon[numOfTypes];
+	IIcon[]				bladeEffectsVamp		= new IIcon[numOfTypes];
 	IIcon[]				guards		= new IIcon[numOfTypes];
 	IIcon[]				handles		= new IIcon[numOfTypes];
 	IIcon				defaultIcon;
@@ -52,7 +54,8 @@ public class WeaponSlash extends WeaponCustom {
 						UtilityWeaponNBTKeyNames.handle)],
 				this.blades[UtilityNBTHelper.getInt(stack,
 						UtilityWeaponNBTKeyNames.bladeHead)],
-				this.bladeEffects[0],
+				this.bladeEffectsVamp[UtilityNBTHelper.getInt(stack,
+						UtilityWeaponNBTKeyNames.bladeHead)],
 				this.guards[UtilityNBTHelper
 						.getInt(stack, UtilityWeaponNBTKeyNames.guard)]};
 	}
@@ -92,8 +95,12 @@ public class WeaponSlash extends WeaponCustom {
 		for (int i = 0; i < numOfTypes; i++) {
 			this.blades[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/blades/blade_"
 					+ i);
-			if (i == 0)
-			this.bladeEffects[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/blade_"+i+"_e_1"); 
+			this.bladeEffectsFrost[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+					+ i +"_e_0");
+				this.bladeEffectsBleed[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+						+ i +"_e_1");
+				this.bladeEffectsVamp[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+						+ i +"_e_2"); 
 			this.guards[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/guards/guard_"
 					+ i);
 			this.handles[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/handle_"
