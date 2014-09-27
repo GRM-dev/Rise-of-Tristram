@@ -1,24 +1,45 @@
 tile.spawnBlock.name=Searing Netherrack
+
 tile.itemGen.name=Base Node
+
 tile.air.name=Air
 
+
+
 item.manaConverter.name=Mana Converter
+
 item.relicRepair.name=Key of Mending
+
 item.gunpowderInfuser.name=Gunpowder Infuser
+
 item.relicHeal.name=Locket of Life
+
 item.relicLife.name=Brooch of the Scarab
 
+
 item.manaCrystal.manaCrystal.name=Mana Crystal
+
 item.manaCrystal.manaShard.name=Mana Shard
+
 item.manaCrystal.manaFoci.name=Mana Focus
 
+
 item.itemWandMS.name=Wand of Spell Vamp
+
 item.weaponCBR.name=Repeater Crossbow
+
 item.weaponBlunt.name=Mace
+
 item.weaponHack.name=Battle Axe
+
 item.weaponPierce.name=Spear
+
 item.weaponSlash.name=Sword
+
 item.weaponStaff.name=Staff
+
 item.itemSwordSoul.name=Soul Rend
+
+
 
 itemGroup.RoT=Rise of Tristram

@@ -178,7 +178,7 @@ public class ItemRendererSizeType implements IItemRenderer {
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glEnable(GL11.GL_BLEND);
 			tess.startDrawingQuads();
-			for (int i = 0; i < iconParts; ++i) {
+			for (int i = 0; i < iconParts; ++i) {				
 				if (partColors != null) {
 					try {
 						f5 = ((partColors[i] >> 16) & 255) / 255.0F;
@@ -194,7 +194,7 @@ public class ItemRendererSizeType implements IItemRenderer {
 				tess.addVertexWithUV(0, 16, 0, xMin[i], yMax[i]);
 				tess.addVertexWithUV(16, 16, 0, xMax[i], yMax[i]);
 				tess.addVertexWithUV(16, 0, 0, xMax[i], yMin[i]);
-				tess.addVertexWithUV(0, 0, 0, xMin[i], yMin[i]);
+				tess.addVertexWithUV(0, 0, 0, xMin[i], yMin[i]);				
 			}
 			tess.draw();
 			GL11.glEnable(GL11.GL_LIGHTING);
