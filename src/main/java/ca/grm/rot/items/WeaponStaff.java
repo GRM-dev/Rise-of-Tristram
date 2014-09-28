@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WeaponStaff extends WeaponCustom {
-	public static int	numOfTypes	= 2;
+	private int	numOfTypes	= 2;
 	IIcon[]				blades		= new IIcon[numOfTypes];
 	IIcon[]				guards		= new IIcon[numOfTypes];
 	IIcon[]				handles		= new IIcon[numOfTypes];
@@ -27,7 +27,7 @@ public class WeaponStaff extends WeaponCustom {
 
 	public WeaponStaff() {
 		super(ToolMaterial.WOOD);
-		setNumberOfColorLayers(3);
+		setNumberOfTypes(numOfTypes);
 	}
 
 	@Override
@@ -65,6 +65,8 @@ public class WeaponStaff extends WeaponCustom {
 		for (int i = 0; i < numOfTypes; i++) {
 			staves[i] = new ItemStack(p_150895_1_, 1, 0);
 			UtilityNBTHelper.setString(staves[i], UtilityWeaponNBTKeyNames.type, "staff");
+			UtilityNBTHelper
+			.setString(staves[i], UtilityWeaponNBTKeyNames.size, "normal");
 			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.handle, i);
 			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.bladeHead, i);
 			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.guard, i);

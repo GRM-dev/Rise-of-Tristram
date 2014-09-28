@@ -1,5 +1,6 @@
 package ca.grm.rot.comms;
 
+import ca.grm.rot.Rot;
 import ca.grm.rot.libs.ExtendPlayer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -14,9 +15,7 @@ public class ClassResponsePacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ClassResponsePacket message, MessageContext ctx) {
-			System.out.println("got a response about changing to: " + message.className);
-			ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentClass(
-					message.className);
+			Rot.proxy.handleClassMessage(message, ctx);
 			return null;
 		}
 		

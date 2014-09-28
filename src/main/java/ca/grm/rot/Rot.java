@@ -70,7 +70,7 @@ public class Rot {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-		FMLCommonHandler.instance().bus().register(new KeyHandleEvent());
+		proxy.registerKeyBindings();
 	}
 	
 	@EventHandler

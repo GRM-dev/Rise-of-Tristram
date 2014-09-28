@@ -53,6 +53,7 @@ public class ClassRequestPacket implements IMessage {
 		
 	}
 
+	//TODO Somehow use this to use bytes
 	public String	className;
 
 	public ClassRequestPacket() {

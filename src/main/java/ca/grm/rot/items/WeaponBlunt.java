@@ -16,13 +16,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WeaponBlunt extends WeaponCustom {
-	public static int	numOfTypes	= 2;
+	private int	numOfTypes	= 2;
 	IIcon[]				heads		= new IIcon[numOfTypes];
 	IIcon				handle;
 	IIcon				defaultIcon;
 	
 	public WeaponBlunt(ToolMaterial mat) {
 		super(mat);
+		setNumberOfTypes(numOfTypes);
 	}
 
 	@Override

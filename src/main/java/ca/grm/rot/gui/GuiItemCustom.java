@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.items.WeaponBlunt;
+import ca.grm.rot.items.WeaponCustom;
 import ca.grm.rot.items.WeaponHack;
 import ca.grm.rot.items.WeaponPierce;
 import ca.grm.rot.items.WeaponSlash;
@@ -49,7 +50,12 @@ public class GuiItemCustom extends GuiContainer {
 		this.selectedHandle = UtilityNBTHelper.getInt(this.item,
 				UtilityWeaponNBTKeyNames.handle);
 		
-		if (this.item.getItem() instanceof WeaponSlash) {
+		if (this.item.getItem() instanceof WeaponCustom)
+		{
+			weaponStyles = ((WeaponCustom) this.item.getItem()).getNumberOfTypes();
+		}
+		
+		/*if (this.item.getItem() instanceof WeaponSlash) {
 			this.weaponStyles = ((WeaponSlash) this.item.getItem()).numOfTypes;
 		} else if (this.item.getItem() instanceof WeaponPierce) {
 			this.weaponStyles = ((WeaponPierce) this.item.getItem()).numOfTypes;
@@ -59,7 +65,7 @@ public class GuiItemCustom extends GuiContainer {
 			this.weaponStyles = ((WeaponHack) this.item.getItem()).numOfTypes;
 		} else if (this.item.getItem() instanceof WeaponStaff) {
 			this.weaponStyles = ((WeaponStaff) this.item.getItem()).numOfTypes;
-		}
+		}*/
 	}
 
 	/** Button Clicks **/

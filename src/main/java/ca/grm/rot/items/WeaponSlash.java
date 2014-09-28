@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WeaponSlash extends WeaponCustom {
-	public static int	numOfTypes	= 8;
+	private int	numOfTypes	= 8;
 	IIcon[]				blades		= new IIcon[numOfTypes];
 	IIcon[]				bladeEffectsFrost		= new IIcon[numOfTypes];
 	IIcon[]				bladeEffectsBleed		= new IIcon[numOfTypes];
@@ -30,6 +30,7 @@ public class WeaponSlash extends WeaponCustom {
 	
 	public WeaponSlash(ToolMaterial mat) {
 		super(mat);
+		setNumberOfTypes(numOfTypes);
 	}
 	//TODO add in weapon effects, and effect Icons
 
@@ -119,7 +120,7 @@ public class WeaponSlash extends WeaponCustom {
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHead, i);
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guard, i);
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handleEffect, 1);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHeadEffect, 3);
+			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHeadEffect, 0);
 			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guardEffect, 1);
 			p_150895_3_.add(swords[i]);
 		}
