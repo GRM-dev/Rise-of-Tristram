@@ -52,6 +52,7 @@ public class WeaponSlash extends WeaponCustom {
 		return this.defaultIcon;
 	}
 
+	@Override
 	public IIcon[] getIcons(ItemStack stack) {
 		//0 is handle, 2 is blade, 4 is guard
 		//1 he, 3 be, and 5 ge; are effects

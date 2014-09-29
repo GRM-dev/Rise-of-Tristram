@@ -54,18 +54,6 @@ public class GuiItemCustom extends GuiContainer {
 		{
 			weaponStyles = ((WeaponCustom) this.item.getItem()).getNumberOfTypes();
 		}
-		
-		/*if (this.item.getItem() instanceof WeaponSlash) {
-			this.weaponStyles = ((WeaponSlash) this.item.getItem()).numOfTypes;
-		} else if (this.item.getItem() instanceof WeaponPierce) {
-			this.weaponStyles = ((WeaponPierce) this.item.getItem()).numOfTypes;
-		} else if (this.item.getItem() instanceof WeaponBlunt) {
-			this.weaponStyles = ((WeaponBlunt) this.item.getItem()).numOfTypes;
-		} else if (this.item.getItem() instanceof WeaponHack) {
-			this.weaponStyles = ((WeaponHack) this.item.getItem()).numOfTypes;
-		} else if (this.item.getItem() instanceof WeaponStaff) {
-			this.weaponStyles = ((WeaponStaff) this.item.getItem()).numOfTypes;
-		}*/
 	}
 
 	/** Button Clicks **/
@@ -166,6 +154,7 @@ public class GuiItemCustom extends GuiContainer {
 					(x1 + 50 + x2) / 2, this.guiTop + this.pad + 5 + 20, 0xffffff);
 			this.buttonList.add(new GuiButton(1, x1, this.guiTop + this.pad + 20, 50,
 					this.ch, "<- Guard"));
+		}
 			
 			this.buttonList.add(new GuiButton(0, x2, this.guiTop + this.pad + (20 * 2),
 					50, this.ch, "Handle ->"));
@@ -173,9 +162,9 @@ public class GuiItemCustom extends GuiContainer {
 					(x1 + 50 + x2) / 2, this.guiTop + this.pad + 5 + (20 * 2), 0xffffff);
 			this.buttonList.add(new GuiButton(1, x1, this.guiTop + this.pad + (20 * 2),
 					50, this.ch, "<- Handle"));
-		}
+		
 		this.buttonList.add(new GuiButton(2, x1, this.guiTop + this.pad
-				+ (20 * (swordStaff ? 3 : 1)), 50, this.ch, "Save"));
+				+ (20 * (swordStaff ? 3 : 2)), 50, this.ch, "Save"));
 
 		manager.bindTexture(manager.getResourceLocation(1));
 		// RENDER ITEMS

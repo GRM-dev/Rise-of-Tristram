@@ -1,11 +1,16 @@
 package ca.grm.rot.events;
 
+import java.lang.reflect.Field;
+
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassRequestPacket;
+import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.UtilityNBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
@@ -306,8 +311,7 @@ public class RotEventHandler {
 			}
 			if (props.getAgility() != (agiMod - props.getClassModifers()[1])) {
 				props.setAgility(agiMod);
-				player.capabilities.setPlayerWalkSpeed(MathHelper.clamp_float(
-						0.1F + ((float) props.getAgility() / 142), 0.04f, 0.3f));
+				ExtendPlayer.get(player).updateMoveSpeed();				
 			}
 			if (props.getIntelligence() != (intMod - props.getClassModifers()[2])) {
 				props.setIntelligence(intMod);
@@ -336,7 +340,12 @@ public class RotEventHandler {
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent e) {
 		if (e.entity instanceof EntityPlayer) {
-			Rot.net.sendToServer(new ClassRequestPacket("whatAmI"));
+			if(!e.entity.worldObj.isRemote)
+			{
+				ExtendPlayer props = ExtendPlayer.get((EntityPlayer)e.entity);
+				Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassName()), (EntityPlayerMP)e.entity);
+			}
+			//Rot.net.sendToServer(new ClassRequestPacket("whatAmI"));
 		}
 	}
 	

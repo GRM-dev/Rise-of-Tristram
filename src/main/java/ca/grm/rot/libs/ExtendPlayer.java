@@ -1,8 +1,11 @@
 package ca.grm.rot.libs;
 
+import java.lang.reflect.Field;
+
 import ca.grm.rot.Rot;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -583,5 +586,21 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	public void setVitality(int value) {
 		this.vitality = MathHelper.clamp_int(value + this.currentClass.getVit(), -20, 20);
 		setMaxStam(this.currentClass.getMaxStam());
+	}
+	
+	public void updateMoveSpeed()
+	{
+		PlayerCapabilities pc = player.capabilities;
+		try {
+			Field walkSpeed = PlayerCapabilities.class.getDeclaredField("walkSpeed");
+			walkSpeed.setAccessible(true);
+			walkSpeed.setFloat(pc, MathHelper.clamp_float(0.1F + ((float) this.agility / 142), 0.04f, 0.3f));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
 	}
 }

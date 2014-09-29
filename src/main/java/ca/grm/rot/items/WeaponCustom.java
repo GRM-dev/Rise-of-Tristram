@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 public class WeaponCustom extends ItemSword {
@@ -29,9 +30,11 @@ public class WeaponCustom extends ItemSword {
 		if ((size != "normal") && (size != "")) {
 			par3List.set(0, size.substring(0, 1).toUpperCase() + size.substring(1) + " " + name);
 		}
-		
-		
-		 
+	}
+	
+	public IIcon[] getIcons(ItemStack stack)
+	{
+		return null;
 	}
 
 	public int[] getLayerColors(ItemStack is) {
