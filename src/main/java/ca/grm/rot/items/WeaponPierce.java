@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityWeaponNBTKeyNames;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +33,7 @@ public class WeaponPierce extends WeaponCustom {
 				return this.handle;
 			case 1 :
 				return this.heads[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)];
+						UtilityNBTKeyNames.bladeHead)];
 			case 2 :
 				return null;
 			default :
@@ -46,7 +46,7 @@ public class WeaponPierce extends WeaponCustom {
 		return new IIcon[]{
 				this.handle,
 				this.heads[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)]};
+						UtilityNBTKeyNames.bladeHead)]};
 	}
 
 	@Override
@@ -55,12 +55,12 @@ public class WeaponPierce extends WeaponCustom {
 		ItemStack[] pierces = new ItemStack[numOfTypes];
 		for (int i = 0; i < numOfTypes; i++) {
 			pierces[i] = new ItemStack(p_150895_1_, 1, 0);
-			UtilityNBTHelper.setString(pierces[i], UtilityWeaponNBTKeyNames.type,
+			UtilityNBTHelper.setString(pierces[i], UtilityNBTKeyNames.type,
 					"pierce");
-			UtilityNBTHelper.setString(pierces[i], UtilityWeaponNBTKeyNames.size,
+			UtilityNBTHelper.setString(pierces[i], UtilityNBTKeyNames.size,
 					"normal");
 			UtilityNBTHelper
-					.setInteger(pierces[i], UtilityWeaponNBTKeyNames.bladeHead, i);
+					.setInteger(pierces[i], UtilityNBTKeyNames.bladeHead, i);
 			p_150895_3_.add(pierces[i]);
 		}
 	}
@@ -69,9 +69,9 @@ public class WeaponPierce extends WeaponCustom {
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
 		UtilityNBTHelper
-				.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "pierce");
+				.setString(par1ItemStack, UtilityNBTKeyNames.type, "pierce");
 		UtilityNBTHelper
-				.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
+				.setString(par1ItemStack, UtilityNBTKeyNames.size, "normal");
 	}
 
 	@Override

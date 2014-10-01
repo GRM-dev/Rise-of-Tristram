@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityWeaponNBTKeyNames;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,13 +35,13 @@ public class WeaponStaff extends WeaponCustom {
 		switch (pass) {
 			case 0 :
 				return this.handles[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.handle)];
+						UtilityNBTKeyNames.handle)];
 			case 1 :
 				return this.blades[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)];
+						UtilityNBTKeyNames.bladeHead)];
 			case 2 :
 				return this.guards[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.guard)];
+						UtilityNBTKeyNames.guard)];
 			default :
 				break;
 		}
@@ -51,11 +51,11 @@ public class WeaponStaff extends WeaponCustom {
 	public IIcon[] getIcons(ItemStack stack) {
 		return new IIcon[]{
 				this.handles[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.handle)],
+						UtilityNBTKeyNames.handle)],
 				this.blades[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)],
+						UtilityNBTKeyNames.bladeHead)],
 				this.guards[UtilityNBTHelper
-						.getInt(stack, UtilityWeaponNBTKeyNames.guard)]};
+						.getInt(stack, UtilityNBTKeyNames.guard)]};
 	}
 
 	@Override
@@ -64,12 +64,12 @@ public class WeaponStaff extends WeaponCustom {
 		ItemStack[] staves = new ItemStack[numOfTypes];
 		for (int i = 0; i < numOfTypes; i++) {
 			staves[i] = new ItemStack(p_150895_1_, 1, 0);
-			UtilityNBTHelper.setString(staves[i], UtilityWeaponNBTKeyNames.type, "staff");
+			UtilityNBTHelper.setString(staves[i], UtilityNBTKeyNames.type, "staff");
 			UtilityNBTHelper
-			.setString(staves[i], UtilityWeaponNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.handle, i);
-			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.bladeHead, i);
-			UtilityNBTHelper.setInteger(staves[i], UtilityWeaponNBTKeyNames.guard, i);
+			.setString(staves[i], UtilityNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(staves[i], UtilityNBTKeyNames.handle, i);
+			UtilityNBTHelper.setInteger(staves[i], UtilityNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setInteger(staves[i], UtilityNBTKeyNames.guard, i);
 			p_150895_3_.add(staves[i]);
 		}
 	}
@@ -77,7 +77,7 @@ public class WeaponStaff extends WeaponCustom {
 	@Override
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "staff");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityNBTKeyNames.type, "staff");
 	}
 
 	@Override

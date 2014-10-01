@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityWeaponNBTKeyNames;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,27 +25,26 @@ public class WeaponSlash extends WeaponCustom {
 	IIcon[]				guardEffects0		= new IIcon[numOfTypes];
 	IIcon[]				handles		= new IIcon[numOfTypes];
 	IIcon[]				handleEffects0		= new IIcon[numOfTypes];
-	IIcon				nullIcon;
+	IIcon nullIcon;
 	IIcon				defaultIcon;
 	
 	public WeaponSlash(ToolMaterial mat) {
 		super(mat);
 		setNumberOfTypes(numOfTypes);
 	}
-	//TODO add in weapon effects, and effect Icons
 
 	@Override
 	public IIcon getIcon(ItemStack stack, int pass) {
 		switch (pass) {
 			case 0 :
 				return this.handles[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.handle)];
+						UtilityNBTKeyNames.handle)];
 			case 1 :
 				return this.blades[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)];
+						UtilityNBTKeyNames.bladeHead)];
 			case 2 :
 				return this.guards[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.guard)];
+						UtilityNBTKeyNames.guard)];
 			default :
 				break;
 		}
@@ -58,43 +57,43 @@ public class WeaponSlash extends WeaponCustom {
 		//1 he, 3 be, and 5 ge; are effects
 		IIcon[] icons = new IIcon[6];
 		
-		icons[0] = this.handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)];
-		icons[2] = this.blades[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
-		icons[4] = this.guards[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guard)];
+		icons[0] = this.handles[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.handle)];
+		icons[2] = this.blades[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.bladeHead)];
+		icons[4] = this.guards[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.guard)];
 
-		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHeadEffect))
+		switch(UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.bladeHeadEffect))
 		{
 		case 1:
 			icons[3] = this.bladeEffectsFrost[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.bladeHead)];
+					UtilityNBTKeyNames.bladeHead)];
 			break;
 		case 2:
 			icons[3] = this.bladeEffectsBleed[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.bladeHead)];
+					UtilityNBTKeyNames.bladeHead)];
 			break;
 		case 3:
 			icons[3] = this.bladeEffectsVamp[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.bladeHead)];
+					UtilityNBTKeyNames.bladeHead)];
 			break;
 		default:	
 			icons[3] = nullIcon;
 			break;
 		}
-		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handleEffect))
+		switch(UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.handleEffect))
 		{
 		case 1:
 			icons[1] = this.handleEffects0[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.handle)];
+					UtilityNBTKeyNames.handle)];
 			break;
 		default:	
 			icons[1] = nullIcon;
 			break;
 		}
-		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guardEffect))
+		switch(UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.guardEffect))
 		{
 		case 1:
 			icons[5] = this.guardEffects0[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.guard)];
+					UtilityNBTKeyNames.guard)];
 			break;
 		default:	
 			icons[5] = nullIcon;
@@ -110,19 +109,12 @@ public class WeaponSlash extends WeaponCustom {
 		ItemStack[] swords = new ItemStack[numOfTypes];
 		for (int i = 0; i < numOfTypes; i++) {
 			swords[i] = new ItemStack(p_150895_1_, 1, 0);
-			UtilityNBTHelper.setInteger(swords[i],
-					UtilityWeaponNBTKeyNames.layerColor+2, 0xd9d100);
-			UtilityNBTHelper.setInteger(swords[i],
-					UtilityWeaponNBTKeyNames.layerColor+4, 0xffBBbb);
-			UtilityNBTHelper.setString(swords[i], UtilityWeaponNBTKeyNames.type, "slash");
+			UtilityNBTHelper.setString(swords[i], UtilityNBTKeyNames.type, "slash");
 			UtilityNBTHelper
-					.setString(swords[i], UtilityWeaponNBTKeyNames.size, "large");
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handle, i);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHead, i);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guard, i);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.handleEffect, 1);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.bladeHeadEffect, 0);
-			UtilityNBTHelper.setInteger(swords[i], UtilityWeaponNBTKeyNames.guardEffect, 1);
+					.setString(swords[i], UtilityNBTKeyNames.size, "large");
+			UtilityNBTHelper.setInteger(swords[i], UtilityNBTKeyNames.handle, i);
+			UtilityNBTHelper.setInteger(swords[i], UtilityNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setInteger(swords[i], UtilityNBTKeyNames.guard, i);
 			p_150895_3_.add(swords[i]);
 		}
 	}
@@ -130,12 +122,12 @@ public class WeaponSlash extends WeaponCustom {
 	@Override
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "slash");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityNBTKeyNames.type, "slash");
 		UtilityNBTHelper
-				.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
-		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.bladeHead, 3);
-		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.guard, 3);
-		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.handle, 3);
+				.setString(par1ItemStack, UtilityNBTKeyNames.size, "normal");
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityNBTKeyNames.bladeHead, 3);
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityNBTKeyNames.guard, 3);
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityNBTKeyNames.handle, 3);
 	}
 
 	@Override

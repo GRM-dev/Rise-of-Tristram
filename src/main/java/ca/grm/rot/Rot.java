@@ -13,6 +13,7 @@ import ca.grm.rot.comms.BaseNodeResponsePacket;
 import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CommonProxy;
+import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.events.KeyHandleEvent;
 import ca.grm.rot.events.RotEventHandler;
 import ca.grm.rot.events.RotStandardEventHandler;
@@ -102,6 +103,9 @@ public class Rot {
 				ClassRequestPacket.class, this.packetId++, Side.SERVER);
 		net.registerMessage(ClassResponsePacket.ClassResponsePacketHandler.class,
 				ClassResponsePacket.class, this.packetId++, Side.CLIENT);
+		
+		net.registerMessage(CustomItemPacket.CustomItemPacketHandler.class,
+				CustomItemPacket.class, this.packetId++, Side.SERVER);
 		
 		GameRegistry.registerTileEntity(TileEntityBaseNode.class, MODID + "baseNode"); // This
 																						// needs

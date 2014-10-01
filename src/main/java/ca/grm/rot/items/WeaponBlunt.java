@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityWeaponNBTKeyNames;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,7 +33,7 @@ public class WeaponBlunt extends WeaponCustom {
 				return this.handle;
 			case 1 :
 				return this.heads[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)];
+						UtilityNBTKeyNames.bladeHead)];
 			case 2 :
 				return null;
 			default :
@@ -46,7 +46,7 @@ public class WeaponBlunt extends WeaponCustom {
 		return new IIcon[]{
 				this.handle,
 				this.heads[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)]};
+						UtilityNBTKeyNames.bladeHead)]};
 	}
 
 	@Override
@@ -55,10 +55,10 @@ public class WeaponBlunt extends WeaponCustom {
 		ItemStack[] blunts = new ItemStack[numOfTypes];
 		for (int i = 0; i < numOfTypes; i++) {
 			blunts[i] = new ItemStack(p_150895_1_, 1, 0);
-			UtilityNBTHelper.setString(blunts[i], UtilityWeaponNBTKeyNames.type, "blunt");
+			UtilityNBTHelper.setString(blunts[i], UtilityNBTKeyNames.type, "blunt");
 			UtilityNBTHelper
-					.setString(blunts[i], UtilityWeaponNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(blunts[i], UtilityWeaponNBTKeyNames.bladeHead, i);
+					.setString(blunts[i], UtilityNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(blunts[i], UtilityNBTKeyNames.bladeHead, i);
 			p_150895_3_.add(blunts[i]);
 		}
 	}
@@ -66,9 +66,9 @@ public class WeaponBlunt extends WeaponCustom {
 	@Override
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "blunt");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityNBTKeyNames.type, "blunt");
 		UtilityNBTHelper
-				.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
+				.setString(par1ItemStack, UtilityNBTKeyNames.size, "normal");
 	}
 
 	@Override

@@ -67,13 +67,11 @@ public class InventoryMagicTrinkets implements IInventory {
 	
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
 		return this.inventory.length;
 	}
 	
 	@Override
 	public ItemStack getStackInSlot(int var1) {
-		// TODO Auto-generated method stub
 		return this.inventory[var1];
 	}
 	

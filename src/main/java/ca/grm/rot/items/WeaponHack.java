@@ -4,7 +4,7 @@ import java.util.List;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityWeaponNBTKeyNames;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,9 +28,7 @@ public class WeaponHack extends WeaponCustom {
 	IIcon[]				handles		= new IIcon[numOfTypes];
 	IIcon[]				handleEffects0		= new IIcon[numOfTypes];
 	IIcon				nullIcon;
-	IIcon				defaultIcon;
-	
-	public String showExtraBlade = Rot.MODID + "bladeHeadExtra";
+	IIcon				defaultIcon;	
 	
 	public WeaponHack(ToolMaterial mat) {
 		super(mat);
@@ -41,14 +39,14 @@ public class WeaponHack extends WeaponCustom {
 	public IIcon getIcon(ItemStack stack, int pass) {
 		switch (pass) {
 			case 0 :
-				return this.handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)];
+				return this.handles[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.handle)];
 			case 1 :
 				return this.heads[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.bladeHead)];
+						UtilityNBTKeyNames.bladeHead)];
 			case 2 :
-				if (UtilityNBTHelper.getBoolean(stack, showExtraBlade))
+				if (UtilityNBTHelper.getBoolean(stack, UtilityNBTKeyNames.showExtra))
 					return this.headsE[UtilityNBTHelper.getInt(stack,
-							UtilityWeaponNBTKeyNames.bladeHead)];
+							UtilityNBTKeyNames.bladeHead)];
 				else 
 					return null;
 			default :
@@ -61,56 +59,56 @@ public class WeaponHack extends WeaponCustom {
 	public IIcon[] getIcons(ItemStack stack) {
 		IIcon[] icons = new IIcon[6];
 		
-		icons[0] = this.handles[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handle)];
-		icons[2] = this.heads[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
-		if (UtilityNBTHelper.getBoolean(stack, showExtraBlade))
-			icons[4] = this.headsE[UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHead)];
+		icons[0] = this.handles[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.handle)];
+		icons[2] = this.heads[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.bladeHead)];
+		if (UtilityNBTHelper.getBoolean(stack, UtilityNBTKeyNames.showExtra))
+			icons[4] = this.headsE[UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.bladeHead)];
 		else
 			icons[4] = nullIcon;
 		
-		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.bladeHeadEffect))
+		switch(UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.bladeHeadEffect))
 		{
 		case 1:
 			icons[3] = this.headEffectsFrost[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.bladeHead)];
+					UtilityNBTKeyNames.bladeHead)];
 			break;
 		case 2:
 			icons[3] = this.headEffectsBleed[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.bladeHead)];
+					UtilityNBTKeyNames.bladeHead)];
 			break;
 		case 3:
 			icons[3] = this.headEffectsVamp[UtilityNBTHelper.getInt(stack,
-					UtilityWeaponNBTKeyNames.bladeHead)];
+					UtilityNBTKeyNames.bladeHead)];
 			break;
 		default:	
 			icons[3] = nullIcon;
 			break;
 		}
-		switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.handleEffect))
+		switch(UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.handleEffect))
 		{
 			case 1:
 				icons[1] = this.handleEffects0[UtilityNBTHelper.getInt(stack,
-						UtilityWeaponNBTKeyNames.handle)];
+						UtilityNBTKeyNames.handle)];
 				break;
 			default:	
 				icons[1] = nullIcon;
 				break;
 			}
-		if (UtilityNBTHelper.getBoolean(stack, showExtraBlade))
+		if (UtilityNBTHelper.getBoolean(stack, UtilityNBTKeyNames.showExtra))
 		{
-			switch(UtilityNBTHelper.getInt(stack, UtilityWeaponNBTKeyNames.guardEffect))
+			switch(UtilityNBTHelper.getInt(stack, UtilityNBTKeyNames.guardEffect))
 			{
 				case 1:
 					icons[5] = this.headEffectsFrostE[UtilityNBTHelper.getInt(stack,
-							UtilityWeaponNBTKeyNames.bladeHead)];
+							UtilityNBTKeyNames.bladeHead)];
 					break;
 				case 2:
 					icons[5] = this.headEffectsBleedE[UtilityNBTHelper.getInt(stack,
-							UtilityWeaponNBTKeyNames.bladeHead)];
+							UtilityNBTKeyNames.bladeHead)];
 					break;
 				case 3:
 					icons[5] = this.headEffectsVampE[UtilityNBTHelper.getInt(stack,
-							UtilityWeaponNBTKeyNames.bladeHead)];
+							UtilityNBTKeyNames.bladeHead)];
 					break;
 				default:	
 					icons[5] = nullIcon;
@@ -129,11 +127,11 @@ public class WeaponHack extends WeaponCustom {
 		ItemStack[] hacks = new ItemStack[numOfTypes];
 		for (int i = 0; i < numOfTypes; i++) {
 			hacks[i] = new ItemStack(p_150895_1_, 1, 0);
-			UtilityNBTHelper.setString(hacks[i], UtilityWeaponNBTKeyNames.type, "hack");
-			UtilityNBTHelper.setString(hacks[i], UtilityWeaponNBTKeyNames.size, "normal");
-			UtilityNBTHelper.setInteger(hacks[i], UtilityWeaponNBTKeyNames.bladeHead, i);
-			UtilityNBTHelper.setInteger(hacks[i], UtilityWeaponNBTKeyNames.handle, i);
-			UtilityNBTHelper.setBoolean(hacks[i], showExtraBlade, false);
+			UtilityNBTHelper.setString(hacks[i], UtilityNBTKeyNames.type, "hack");
+			UtilityNBTHelper.setString(hacks[i], UtilityNBTKeyNames.size, "normal");
+			UtilityNBTHelper.setInteger(hacks[i], UtilityNBTKeyNames.bladeHead, i);
+			UtilityNBTHelper.setInteger(hacks[i], UtilityNBTKeyNames.handle, i);
+			UtilityNBTHelper.setBoolean(hacks[i], UtilityNBTKeyNames.showExtra, false);
 			p_150895_3_.add(hacks[i]);
 		}
 	}
@@ -141,11 +139,11 @@ public class WeaponHack extends WeaponCustom {
 	@Override
 	public void onCreated(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
-		UtilityNBTHelper.setString(par1ItemStack, UtilityWeaponNBTKeyNames.type, "hack");
+		UtilityNBTHelper.setString(par1ItemStack, UtilityNBTKeyNames.type, "hack");
 		UtilityNBTHelper
-				.setString(par1ItemStack, UtilityWeaponNBTKeyNames.size, "normal");
-		UtilityNBTHelper.setInteger(par1ItemStack, UtilityWeaponNBTKeyNames.bladeHead, 1);
-		UtilityNBTHelper.setBoolean(par1ItemStack, showExtraBlade, false);
+				.setString(par1ItemStack, UtilityNBTKeyNames.size, "normal");
+		UtilityNBTHelper.setInteger(par1ItemStack, UtilityNBTKeyNames.bladeHead, 1);
+		UtilityNBTHelper.setBoolean(par1ItemStack, UtilityNBTKeyNames.showExtra, false);
 	}
 
 	@Override

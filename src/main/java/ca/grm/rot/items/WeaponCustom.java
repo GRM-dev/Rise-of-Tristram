@@ -3,7 +3,10 @@ package ca.grm.rot.items;
 import java.util.List;
 
 import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityWeaponNBTKeyNames;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -25,7 +28,7 @@ public class WeaponCustom extends ItemSword {
 			EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
 		String size = UtilityNBTHelper.getString(par1ItemStack,
-				UtilityWeaponNBTKeyNames.size);
+				UtilityNBTKeyNames.size);
 		String name = (String) par3List.get(0);
 		if ((size != "normal") && (size != "")) {
 			par3List.set(0, size.substring(0, 1).toUpperCase() + size.substring(1) + " " + name);
@@ -36,11 +39,12 @@ public class WeaponCustom extends ItemSword {
 	{
 		return null;
 	}
+	
 
 	public int[] getLayerColors(ItemStack is) {
 		int[] colorList = new int[this.numberOfLayers];
 		for (int c = 0; c < this.numberOfLayers; c++) {
-			int color = UtilityNBTHelper.getInt(is, UtilityWeaponNBTKeyNames.layerColor
+			int color = UtilityNBTHelper.getInt(is, UtilityNBTKeyNames.layerColor
 					+ c);
 			colorList[c] = (color == 0 ? 0xFFFFFF : color);
 		}
