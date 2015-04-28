@@ -2,7 +2,6 @@ package ca.grm.rot.libs;
 
 import java.lang.reflect.Field;
 
-import ca.grm.rot.Rot;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
@@ -10,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import ca.grm.rot.Rot;
 
 public class ExtendPlayer implements IExtendedEntityProperties {
 	

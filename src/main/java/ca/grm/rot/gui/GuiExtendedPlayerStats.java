@@ -6,13 +6,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.ExtendPlayer;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class GuiExtendedPlayerStats extends Gui {
 	private Minecraft						mc;

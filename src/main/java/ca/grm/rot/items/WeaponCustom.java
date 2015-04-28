@@ -2,17 +2,11 @@ package ca.grm.rot.items;
 
 import java.util.List;
 
-import ca.grm.rot.libs.UtilityNBTHelper;
-import ca.grm.rot.libs.UtilityNBTKeyNames;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.StatCollector;
+import ca.grm.rot.libs.UtilityNBTHelper;
+import ca.grm.rot.libs.UtilityNBTKeyNames;
 
 public class WeaponCustom extends ItemSword {
 	

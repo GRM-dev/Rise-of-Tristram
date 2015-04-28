@@ -1,14 +1,14 @@
 package ca.grm.rot.events;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClientProxy;
 import ca.grm.rot.items.WeaponCustom;
 import ca.grm.rot.libs.ExtendPlayer;
-import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
 public class KeyHandleEvent {
 	

@@ -1,11 +1,11 @@
 package ca.grm.rot;
 
-import ca.grm.rot.blocks.RotBlocks;
-import ca.grm.rot.items.RotItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import ca.grm.rot.blocks.RotBlocks;
+import ca.grm.rot.items.RotItems;
 
 public class RotRecipes {
 	

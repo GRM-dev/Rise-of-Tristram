@@ -1,11 +1,18 @@
 package ca.grm.rot;
 
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
-
-import org.lwjgl.input.Keyboard;
-
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import ca.grm.rot.blocks.RotBlocks;
 import ca.grm.rot.blocks.TileEntityBaseNode;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
@@ -14,24 +21,11 @@ import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CommonProxy;
 import ca.grm.rot.comms.CustomItemPacket;
-import ca.grm.rot.events.KeyHandleEvent;
 import ca.grm.rot.events.RotEventHandler;
 import ca.grm.rot.events.RotStandardEventHandler;
 import ca.grm.rot.gui.GuiHandler;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.libs.CreativeTabsRoT;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(
 		modid = Rot.MODID,

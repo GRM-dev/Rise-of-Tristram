@@ -1,12 +1,12 @@
 package ca.grm.rot.items;
 
-import ca.grm.rot.Rot;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import ca.grm.rot.Rot;
 
 public class RotItems {
 	public static Item	itemManaConverter;

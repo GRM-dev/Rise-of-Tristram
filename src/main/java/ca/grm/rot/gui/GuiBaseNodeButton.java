@@ -5,7 +5,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.IIcon;
 
 import org.lwjgl.opengl.GL11;
 

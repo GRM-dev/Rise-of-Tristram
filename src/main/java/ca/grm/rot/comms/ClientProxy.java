@@ -1,22 +1,22 @@
 package ca.grm.rot.comms;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
 import org.lwjgl.input.Keyboard;
 
-import ca.grm.rot.Rot;
 import ca.grm.rot.events.KeyHandleEvent;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
 import ca.grm.rot.items.ItemRendererSizeType;
 import ca.grm.rot.items.ItemRendererSizeable;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.libs.ExtendPlayer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
 	

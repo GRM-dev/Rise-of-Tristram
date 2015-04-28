@@ -6,17 +6,13 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.CustomItemPacket;
-import ca.grm.rot.items.WeaponBlunt;
 import ca.grm.rot.items.WeaponCustom;
-import ca.grm.rot.items.WeaponHack;
-import ca.grm.rot.items.WeaponPierce;
 import ca.grm.rot.items.WeaponSlash;
 import ca.grm.rot.items.WeaponStaff;
 import ca.grm.rot.libs.UtilityNBTHelper;

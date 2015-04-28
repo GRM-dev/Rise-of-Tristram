@@ -1,16 +1,8 @@
 package ca.grm.rot.events;
 
-import java.lang.reflect.Field;
-
-import ca.grm.rot.Rot;
-import ca.grm.rot.comms.ClassRequestPacket;
-import ca.grm.rot.comms.ClassResponsePacket;
-import ca.grm.rot.libs.ExtendPlayer;
-import ca.grm.rot.libs.UtilityNBTHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
@@ -27,8 +19,13 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ca.grm.rot.Rot;
+import ca.grm.rot.comms.ClassRequestPacket;
+import ca.grm.rot.comms.ClassResponsePacket;
+import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventHandler {
 	

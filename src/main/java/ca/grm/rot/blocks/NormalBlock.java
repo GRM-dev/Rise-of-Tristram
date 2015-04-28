@@ -1,8 +1,8 @@
 package ca.grm.rot.blocks;
 
-import ca.grm.rot.Rot;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import ca.grm.rot.Rot;
 
 public class NormalBlock extends Block {
 	

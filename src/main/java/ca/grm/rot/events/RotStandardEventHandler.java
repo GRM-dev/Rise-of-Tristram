@@ -1,6 +1,5 @@
 package ca.grm.rot.events;
 
-import ca.grm.rot.libs.ExtendPlayer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -11,7 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ca.grm.rot.libs.ExtendPlayer;
 
 public class RotStandardEventHandler {
 	// In your TutEventHandler class - the name of the method doesn't matter

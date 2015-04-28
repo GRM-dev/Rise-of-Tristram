@@ -2,10 +2,10 @@ package ca.grm.rot.blocks;
 
 import java.util.Random;
 
-import ca.grm.rot.Rot;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
+import ca.grm.rot.Rot;
 
 public class SpawnerBlock extends Block {
 

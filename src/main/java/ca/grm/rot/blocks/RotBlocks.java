@@ -1,12 +1,12 @@
 package ca.grm.rot.blocks;
 
-import ca.grm.rot.Rot;
-import ca.grm.rot.items.ItemBlockMultiTexWithSubtypes;
-import ca.grm.rot.items.ItemModIcon;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import ca.grm.rot.Rot;
+import ca.grm.rot.items.ItemBlockMultiTexWithSubtypes;
+import ca.grm.rot.items.ItemModIcon;
 
 public class RotBlocks {
 	// Block Types that are considered placeable by a base node

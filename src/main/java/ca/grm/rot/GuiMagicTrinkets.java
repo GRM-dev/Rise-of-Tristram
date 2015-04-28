@@ -70,7 +70,7 @@ public class GuiMagicTrinkets extends GuiContainer {
 		entity.rotationPitch = -((float) Math.atan(pitch / 40.0F)) * 20.0F;
 		entity.rotationYawHead = entity.rotationYaw;
 		entity.prevRotationYawHead = entity.rotationYaw;
-		GL11.glTranslatef(0.0F, entity.yOffset, 0.0F);
+		GL11.glTranslatef(0.0F, (float) entity.getYOffset(), 0.0F);
 		RenderManager.instance.playerViewY = 180.0F;
 		RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F,
 				1.0F);
