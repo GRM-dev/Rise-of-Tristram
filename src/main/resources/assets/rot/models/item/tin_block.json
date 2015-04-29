@@ -1,5 +1,5 @@
 {
-    "parent": "tm:block/tin_block",
+    "parent": "RoT:block/tin_block",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

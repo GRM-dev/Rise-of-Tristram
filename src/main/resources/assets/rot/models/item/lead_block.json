@@ -1,5 +1,5 @@
 {
-    "parent": "tm:block/lead_block",
+    "parent": "RoT:block/lead_block",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

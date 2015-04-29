@@ -17,14 +17,14 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.Rot;
-import ca.grm.rot.blocks.RotBlocks;
+import ca.grm.rot.blocks.RotBlocksOld;
 import ca.grm.rot.blocks.TileEntityBaseNode;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.libs.UtilityBlockLocationType;
 
 public class GuiBaseNode extends GuiContainer {
 	public static final ResourceLocation	texture			= new ResourceLocation(
-																	Rot.MODID
+																	Rot.MOD_ID
 																			.toLowerCase(),
 																	"textures/gui/largeBase.png");
 
@@ -46,7 +46,7 @@ public class GuiBaseNode extends GuiContainer {
 	// Block Placement Values
 	private int								currentBlock	= 0;
 	private int								currentMeta		= 0;
-	private int								blockColor		= RotBlocks.blockTypeColors[this.currentBlock];
+	private int								blockColor		= RotBlocksOld.blockTypeColors[this.currentBlock];
 
 	// Selection and List Values
 	private ArrayList						locations		= new ArrayList<UtilityBlockLocationType>();
@@ -105,19 +105,19 @@ public class GuiBaseNode extends GuiContainer {
 					break;
 				case 3 : // +X right/east
 					if (this.currentBlock == 0) {
-						this.currentBlock = RotBlocks.blockTypeObjects.length - 1;
+						this.currentBlock = RotBlocksOld.blockTypeObjects.length - 1;
 					} else {
 						this.currentBlock--;
 					}
-					this.blockColor = RotBlocks.blockTypeColors[this.currentBlock];
+					this.blockColor = RotBlocksOld.blockTypeColors[this.currentBlock];
 					break;
 				case 4 : // -Z forward/north
-					if (this.currentBlock == (RotBlocks.blockTypeObjects.length - 1)) {
+					if (this.currentBlock == (RotBlocksOld.blockTypeObjects.length - 1)) {
 						this.currentBlock = 0;
 					} else {
 						this.currentBlock++;
 					}
-					this.blockColor = RotBlocks.blockTypeColors[this.currentBlock];
+					this.blockColor = RotBlocksOld.blockTypeColors[this.currentBlock];
 					break;
 				case 5 : // +Z backwards/south
 					this.gridSizeOffset++;
@@ -340,7 +340,7 @@ public class GuiBaseNode extends GuiContainer {
 		 */
 		
 		this.drawString(this.fontRendererObj,
-				RotBlocks.blockTypeObjects[this.currentBlock].getLocalizedName(), gx1,
+				RotBlocksOld.blockTypeObjects[this.currentBlock].getLocalizedName(), gx1,
 				gy2 + (this.ch * 2), this.blockColor); // What block is selected
 		
 		for (GuiBaseNodeButton element : this.coordButtons1) {
@@ -404,14 +404,14 @@ public class GuiBaseNode extends GuiContainer {
 	private void addLocation(int x, int y, int z) {
 		if (this.locations.isEmpty()) {
 			this.locations.add(new UtilityBlockLocationType(x, y, z,
-					RotBlocks.blockTypeObjects[this.currentBlock]));
+					RotBlocksOld.blockTypeObjects[this.currentBlock]));
 		} else {
 			boolean dupeObject = false;
 			for (int l = 0; l < this.locations.size(); l++) {
 				UtilityBlockLocationType ublt = (UtilityBlockLocationType) this.locations
 						.get(l);
 				if ((ublt.x == x) && (ublt.y == y) && (ublt.z == z)) {
-					ublt.block = RotBlocks.blockTypeObjects[this.currentBlock];
+					ublt.block = RotBlocksOld.blockTypeObjects[this.currentBlock];
 					this.locations.set(l, ublt);
 					dupeObject = true;
 				}
@@ -419,7 +419,7 @@ public class GuiBaseNode extends GuiContainer {
 			// If the coordinate is fresh add it in
 			if (!dupeObject) {
 				this.locations.add(new UtilityBlockLocationType(x, y, z,
-						RotBlocks.blockTypeObjects[this.currentBlock]));
+						RotBlocksOld.blockTypeObjects[this.currentBlock]));
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "tm:steel_block"}
+        "normal": {"model": "RoT:steel_block"}
     }
 }

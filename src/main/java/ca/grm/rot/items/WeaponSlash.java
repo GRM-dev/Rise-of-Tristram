@@ -132,26 +132,26 @@ public class WeaponSlash extends WeaponCustom {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
 		for (int i = 0; i < numOfTypes; i++) {
-			this.blades[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/blades/blade_"
+			this.blades[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/blades/blade_"
 					+ i);
-			this.bladeEffectsFrost[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+			this.bladeEffectsFrost[i] = ir.registerIcon(Rot.MOD_ID+":"+"weapons/blades/effects/blade_"
 					+ i +"_e_0");
-			this.bladeEffectsBleed[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+			this.bladeEffectsBleed[i] = ir.registerIcon(Rot.MOD_ID+":"+"weapons/blades/effects/blade_"
 					+ i +"_e_1");
-			this.bladeEffectsVamp[i] = ir.registerIcon(Rot.MODID+":"+"weapons/blades/effects/blade_"
+			this.bladeEffectsVamp[i] = ir.registerIcon(Rot.MOD_ID+":"+"weapons/blades/effects/blade_"
 					+ i +"_e_2"); 
-			this.guards[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/guards/guard_"
+			this.guards[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/guards/guard_"
 					+ i);
-			this.guardEffects0[i] = ir.registerIcon(Rot.MODID+":"+"weapons/guards/effects/guard_"
+			this.guardEffects0[i] = ir.registerIcon(Rot.MOD_ID+":"+"weapons/guards/effects/guard_"
 					+ i +"_e_0");
-			this.handles[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/handle_"
+			this.handles[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/handles/handle_"
 					+ i);
-			this.handleEffects0[i] = ir.registerIcon(Rot.MODID+":"+"weapons/handles/effects/handle_"
+			this.handleEffects0[i] = ir.registerIcon(Rot.MOD_ID+":"+"weapons/handles/effects/handle_"
 					+ i +"_e_0");
 		}
 		this.defaultIcon = ir
-				.registerIcon(Rot.MODID + ":" + "weapons/fighter_slash_icon");
-		this.nullIcon = ir.registerIcon(Rot.MODID + ":" + "weapons/32x32Null");
+				.registerIcon(Rot.MOD_ID + ":" + "weapons/fighter_slash_icon");
+		this.nullIcon = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/32x32Null");
 	}
 	
 }

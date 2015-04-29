@@ -199,13 +199,13 @@ public class ItemRendererSizeType implements IItemRenderer {
 			GL11.glEnable(GL11.GL_LIGHTING);
 		} else {
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-			String size = UtilityNBTHelper.getString(item, Rot.MODID + "weaponSize");
+			String size = UtilityNBTHelper.getString(item, Rot.MOD_ID + "weaponSize");
 			switch (type) {
 				case EQUIPPED_FIRST_PERSON :
 					break;
 				case EQUIPPED :
 					// GL11.glTranslatef(0, -4 / 16f, 0);
-					String weaponType = UtilityNBTHelper.getString(item, Rot.MODID
+					String weaponType = UtilityNBTHelper.getString(item, Rot.MOD_ID
 							+ "weaponType");
 					float weaponSize = 1.0f;
 					Vector3f trans3f = new Vector3f(-0.15f, 0f, 0f);

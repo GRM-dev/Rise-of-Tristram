@@ -1,6 +1,6 @@
 package ca.grm.rot;
 
-import ca.grm.rot.items.TutorialItems;
+import ca.grm.rot.items.RotItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -13,7 +13,7 @@ public class RotTab extends CreativeTabs{
 	@Override
 	public Item getTabIconItem() {
 		// TODO Auto-generated method stub
-		return TutorialItems.bronze_nugget;
+		return RotItems.bronze_nugget;
 	}
 	
 }

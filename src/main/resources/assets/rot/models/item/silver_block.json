@@ -1,5 +1,5 @@
 {
-    "parent": "tm:block/silver_block",
+    "parent": "RoT:block/silver_block",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

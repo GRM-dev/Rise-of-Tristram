@@ -16,7 +16,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.chunk.Chunk;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.BaseNodeResponsePacket;
-import ca.grm.rot.items.RotItems;
+import ca.grm.rot.items.RotItemsOld;
 import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.UtilityBlockLocationType;
 import ca.grm.rot.libs.UtilityNBTHelper;
@@ -68,9 +68,9 @@ public class TileEntityBaseNode extends TileEntity {
 	
 	public void chargeItemStackWithMana(ItemStack item, float manaGive) {
 		if (item != null) {
-			if (item.getItem().equals(RotItems.itemMana) && (item.getItemDamage() == 2)
+			if (item.getItem().equals(RotItemsOld.itemMana) && (item.getItemDamage() == 2)
 					&& (this.mana >= manaGive)) {
-				float currentMana = UtilityNBTHelper.getFloat(item, Rot.MODID
+				float currentMana = UtilityNBTHelper.getFloat(item, Rot.MOD_ID
 						+ "itemMana");
 				if (currentMana < 200) {
 					currentMana += manaGive;
@@ -79,7 +79,7 @@ public class TileEntityBaseNode extends TileEntity {
 						currentMana = 200;
 					}
 					System.out.println(currentMana);
-					UtilityNBTHelper.setFloat(item, Rot.MODID + "itemMana", currentMana);
+					UtilityNBTHelper.setFloat(item, Rot.MOD_ID + "itemMana", currentMana);
 					this.mana -= manaGive;
 				}
 			}
@@ -126,12 +126,12 @@ public class TileEntityBaseNode extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTag) {
 		super.readFromNBT(nbtTag);
-		this.mana = nbtTag.getFloat(Rot.MODID + "magicBaseMana");
-		this.cd = nbtTag.getInteger(Rot.MODID + "magicBaseCd");
-		NBTTagList ls = nbtTag.getTagList(Rot.MODID + "locations", nbtTag.getId());
+		this.mana = nbtTag.getFloat(Rot.MOD_ID + "magicBaseMana");
+		this.cd = nbtTag.getInteger(Rot.MOD_ID + "magicBaseCd");
+		NBTTagList ls = nbtTag.getTagList(Rot.MOD_ID + "locations", nbtTag.getId());
 		for (int i = 0; i < ls.tagCount(); ++i) {
 			NBTTagCompound l = ls.getCompoundTagAt(i);
-			String[] ubltParts = l.getString(Rot.MODID + "location").split(",");
+			String[] ubltParts = l.getString(Rot.MOD_ID + "location").split(",");
 			this.locations.add(new UtilityBlockLocationType(Integer
 					.parseInt(ubltParts[0]), Integer.parseInt(ubltParts[1]), Integer
 					.parseInt(ubltParts[2]), Block.getBlockById(Integer
@@ -277,8 +277,8 @@ public class TileEntityBaseNode extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound nbtTag) {
 		super.writeToNBT(nbtTag);
-		nbtTag.setFloat(Rot.MODID + "magicBaseMana", this.mana);
-		nbtTag.setInteger(Rot.MODID + "magicBaseCd", this.cd);
+		nbtTag.setFloat(Rot.MOD_ID + "magicBaseMana", this.mana);
+		nbtTag.setInteger(Rot.MOD_ID + "magicBaseCd", this.cd);
 		NBTTagList ls = new NBTTagList();
 		if (this.locations.size() > 0) {
 			for (int i = 0; i < this.locations.size(); i++) {
@@ -286,17 +286,17 @@ public class TileEntityBaseNode extends TileEntity {
 						.get(i);
 				NBTTagCompound l = new NBTTagCompound();
 				int blockId = 0;
-				for (int bt = 0; bt < RotBlocks.blockTypeObjects.length; bt++) {
-					if (u.block.equals(RotBlocks.blockTypeObjects[bt])) {
-						blockId = Block.getIdFromBlock(RotBlocks.blockTypeObjects[bt]);
+				for (int bt = 0; bt < RotBlocksOld.blockTypeObjects.length; bt++) {
+					if (u.block.equals(RotBlocksOld.blockTypeObjects[bt])) {
+						blockId = Block.getIdFromBlock(RotBlocksOld.blockTypeObjects[bt]);
 						break;
 					}
 				}
-				l.setString(Rot.MODID + "location", u.x + "," + u.y + "," + u.z + ","
+				l.setString(Rot.MOD_ID + "location", u.x + "," + u.y + "," + u.z + ","
 						+ blockId);
 				ls.appendTag(l);
 			}
-			nbtTag.setTag(Rot.MODID + "locations", ls);
+			nbtTag.setTag(Rot.MOD_ID + "locations", ls);
 		}
 	}
 }

@@ -148,15 +148,15 @@ public class WeaponHack extends WeaponCustom {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
 		for (int i = 0; i < numOfTypes; i++) {
-			this.heads[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/blades/head_hack_"
+			this.heads[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/blades/head_hack_"
 					+ i);
-			this.headsE[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/guards/head_hack_"
+			this.headsE[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/guards/head_hack_"
 					+ i);
-			this.handles[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/handle_hack_"+i);
+			this.handles[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/handles/handle_hack_"+i);
 		}
 		
-		this.defaultIcon = ir.registerIcon(Rot.MODID + ":" + "weapons/fighter_hack_icon");
-		this.nullIcon = ir.registerIcon(Rot.MODID + ":" + "weapons/32x32Null");
+		this.defaultIcon = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/fighter_hack_icon");
+		this.nullIcon = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/32x32Null");
 	}
 	
 }

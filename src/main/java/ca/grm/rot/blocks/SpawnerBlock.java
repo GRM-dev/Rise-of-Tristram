@@ -13,7 +13,7 @@ public class SpawnerBlock extends Block {
 	
 	protected SpawnerBlock(Material p_i45394_1_, String textureName, Block bts) {
 		super(p_i45394_1_);
-		this.setBlockTextureName(Rot.MODID + ":" + textureName);
+		this.setBlockTextureName(Rot.MOD_ID + ":" + textureName);
 		this.setTickRandomly(true);
 		this.bts = bts;
 	}

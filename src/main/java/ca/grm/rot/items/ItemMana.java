@@ -80,10 +80,10 @@ public class ItemMana extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
-		this.icons[0] = ir.registerIcon(Rot.MODID.toLowerCase() + ":" + "manaCrystal");
-		this.icons[1] = ir.registerIcon(Rot.MODID.toLowerCase() + ":" + "manaShard");
-		this.icons[2] = ir.registerIcon(Rot.MODID.toLowerCase() + ":" + "manaFoci");
-		this.icons[3] = ir.registerIcon(Rot.MODID.toLowerCase() + ":" + "null");
+		this.icons[0] = ir.registerIcon(Rot.MOD_ID.toLowerCase() + ":" + "manaCrystal");
+		this.icons[1] = ir.registerIcon(Rot.MOD_ID.toLowerCase() + ":" + "manaShard");
+		this.icons[2] = ir.registerIcon(Rot.MOD_ID.toLowerCase() + ":" + "manaFoci");
+		this.icons[3] = ir.registerIcon(Rot.MOD_ID.toLowerCase() + ":" + "null");
 	}
 	
 	@Override

@@ -54,7 +54,7 @@ public class ItemRendererSizeable implements IItemRenderer {
 			f = this.scale < 0 ? f : 1 + (this.scale / 2);
 		} else {
 			if (this.scale < 0) {
-				if (UtilityNBTHelper.getBoolean(stack, Rot.MODID + "rFlip")) {
+				if (UtilityNBTHelper.getBoolean(stack, Rot.MOD_ID + "rFlip")) {
 					GL11.glRotatef(-170, 0, 0, 0);
 					GL11.glTranslatef(-0.55F - f, 1.625F * this.scale, 0.05F * this.scale);
 				} else {

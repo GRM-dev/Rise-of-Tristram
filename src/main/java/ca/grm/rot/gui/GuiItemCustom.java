@@ -20,7 +20,7 @@ import ca.grm.rot.libs.UtilityNBTKeyNames;
 
 public class GuiItemCustom extends GuiContainer {
 	public static final ResourceLocation	texture				= new ResourceLocation(
-																		Rot.MODID
+																		Rot.MOD_ID
 																				.toLowerCase(),
 																		"textures/gui/base.png");
 

@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-import ca.grm.rot.blocks.TutorialBlocks;
+import ca.grm.rot.blocks.RotBlocks;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.comms.BaseNodeResponsePacket;
 import ca.grm.rot.comms.ClassRequestPacket;
@@ -21,12 +21,12 @@ import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.events.RotEventHandler;
 import ca.grm.rot.events.RotStandardEventHandler;
 import ca.grm.rot.gui.GuiHandler;
-import ca.grm.rot.items.TutorialItems;
+import ca.grm.rot.items.RotItems;
 
 @Mod(
-		modid = Rot.MODID,
+		modid = Rot.MOD_ID,
 		version = Rot.VERSION,
-		name = Rot.MODNAME)
+		name = Rot.MOD_NAME)
 public class Rot {
 	
 	@Instance(
@@ -42,8 +42,8 @@ public class Rot {
 	// @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels =
 	// {"rot"}, packetHandler = OpenGuiPacket.class)
 	
-	public static final String			MODID				= "RoT";
-	public static final String			MODNAME				= "Rise of Tristram";
+	public static final String			MOD_ID				= "RoT";
+	public static final String			MOD_NAME				= "Rise of Tristram";
 	public static final String			VERSION				= "1.0";
 	
 	// Packets
@@ -116,10 +116,10 @@ public class Rot {
 		
 		proxy.registerKeyBindings();
 		
-		TutorialBlocks.init();
-		TutorialBlocks.register();
-		TutorialItems.init();
-		TutorialItems.register();
+		RotBlocks.init();
+		RotBlocks.register();
+		RotItems.init();
+		RotItems.register();
 		
 		//RotBlocks.init();
 		//RotBlocks.registerBlocks();

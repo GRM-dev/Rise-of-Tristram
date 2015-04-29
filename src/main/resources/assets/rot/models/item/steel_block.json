@@ -1,5 +1,5 @@
 {
-    "parent": "tm:block/steel_block",
+    "parent": "RoT:block/steel_block",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

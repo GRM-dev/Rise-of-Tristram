@@ -19,7 +19,7 @@ import ca.grm.rot.libs.ExtendPlayer;
 public class RotStamGui extends Gui {
 	private Minecraft						mc;
 	private static final ResourceLocation	texturepath	= new ResourceLocation(
-																Rot.MODID
+																Rot.MOD_ID
 																		+ ":textures/gui/stam_bar_final.png");
 
 	private int								barW		= 55, barH = 9;

@@ -4,7 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ca.grm.rot.blocks.RotBlocks;
+import ca.grm.rot.blocks.RotBlocksOld;
 
 public class CreativeTabsRoT extends CreativeTabs {
 	
@@ -15,7 +15,7 @@ public class CreativeTabsRoT extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return Item.getItemFromBlock(RotBlocks.itemModIcon);
+		return Item.getItemFromBlock(RotBlocksOld.itemModIcon);
 	}
 	
 }

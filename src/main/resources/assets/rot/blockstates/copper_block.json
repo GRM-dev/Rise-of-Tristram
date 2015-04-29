@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "tm:copper_block"}
+        "normal": {"model": "RoT:copper_block"}
     }
 }

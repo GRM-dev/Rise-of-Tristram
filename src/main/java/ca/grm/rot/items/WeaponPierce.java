@@ -76,11 +76,11 @@ public class WeaponPierce extends WeaponCustom {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
 		for (int i = 0; i < numOfTypes; i++) {
-			this.heads[i] = ir.registerIcon(Rot.MODID + ":"
+			this.heads[i] = ir.registerIcon(Rot.MOD_ID + ":"
 					+ "weapons/blades/head_pierce_" + i);
 		}
-		this.handle = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/handle_pierce");
-		this.defaultIcon = ir.registerIcon(Rot.MODID + ":"
+		this.handle = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/handles/handle_pierce");
+		this.defaultIcon = ir.registerIcon(Rot.MOD_ID + ":"
 				+ "weapons/fighter_pierce_icon");
 	}
 	

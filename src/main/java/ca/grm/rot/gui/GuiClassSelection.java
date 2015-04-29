@@ -14,7 +14,7 @@ import ca.grm.rot.libs.ExtendPlayer;
 
 public class GuiClassSelection extends GuiContainer {
 	public static final ResourceLocation	texture			= new ResourceLocation(
-																	Rot.MODID
+																	Rot.MOD_ID
 																			.toLowerCase(),
 																	"textures/gui/base.png");
 

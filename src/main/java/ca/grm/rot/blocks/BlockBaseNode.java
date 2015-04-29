@@ -58,7 +58,7 @@ public class BlockBaseNode extends BlockContainer {
 	public void registerBlockIcons(IIconRegister ir) {
 		for (int i = 0; i < this.icons.length; i++) {
 			this.icons[i] = ir
-					.registerIcon(Rot.MODID + ":" + "itemGen_" + (i + 1) + "_8");
+					.registerIcon(Rot.MOD_ID + ":" + "itemGen_" + (i + 1) + "_8");
 		}
 	}
 

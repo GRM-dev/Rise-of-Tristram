@@ -7,8 +7,8 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import ca.grm.rot.items.RotItems;
 import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.libs.UtilityFunctions;
 
 public class ClassRequestPacket implements IMessage {
 
@@ -31,14 +31,14 @@ public class ClassRequestPacket implements IMessage {
 				System.out.println("Player has a class, gonna cost him/her 27g");
 				System.out.println("Current Class is: "
 						+ ExtendPlayer.get(player).getCurrentClassName());
-				if (RotItems.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory)) {
+				if (UtilityFunctions.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory)) {
 					System.out.println("Player has 3 ingots");
 					for (int i = 0; i < 3; i++) {
 						player.inventory.consumeInventoryItem(Items.gold_ingot);
 					}
 					ExtendPlayer.get(player).setCurrentClass(message.className);
 					return new ClassResponsePacket(message.className);
-				} else if (RotItems.checkForItemAndAmount(Items.gold_nugget, 27,
+				} else if (UtilityFunctions.checkForItemAndAmount(Items.gold_nugget, 27,
 						player.inventory)) {
 					System.out.println("Player has 27 nuggets");
 					for (int i = 0; i < 27; i++) {

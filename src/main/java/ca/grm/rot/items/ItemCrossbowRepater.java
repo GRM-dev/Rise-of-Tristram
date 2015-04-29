@@ -123,8 +123,8 @@ public class ItemCrossbowRepater extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
-		this.icons[0] = ir.registerIcon(Rot.MODID + ":" + "weapons/cbr");
-		this.icons[1] = ir.registerIcon(Rot.MODID + ":" + "weapons/cbr_overLay");
+		this.icons[0] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/cbr");
+		this.icons[1] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/cbr_overLay");
 	}
 
 	@Override

@@ -420,21 +420,21 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		// Extended Properties
 		NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
 		// Get our data from the custom tag compound
-		this.strength = properties.getInteger(Rot.MODID + "Strength");
-		this.vitality = properties.getInteger(Rot.MODID + "Vitality");
-		this.dexterity = properties.getInteger(Rot.MODID + "Dexterity");
-		this.intelligence = properties.getInteger(Rot.MODID + "Intelligence");
-		this.agility = properties.getInteger(Rot.MODID + "Agility");
+		this.strength = properties.getInteger(Rot.MOD_ID + "Strength");
+		this.vitality = properties.getInteger(Rot.MOD_ID + "Vitality");
+		this.dexterity = properties.getInteger(Rot.MOD_ID + "Dexterity");
+		this.intelligence = properties.getInteger(Rot.MOD_ID + "Intelligence");
+		this.agility = properties.getInteger(Rot.MOD_ID + "Agility");
 
 		this.player.getDataWatcher().updateObject(MANA_WATCHER,
-				properties.getFloat(Rot.MODID + "CurrentMana"));
-		this.maxMana = properties.getFloat(Rot.MODID + "MaxMana");
+				properties.getFloat(Rot.MOD_ID + "CurrentMana"));
+		this.maxMana = properties.getFloat(Rot.MOD_ID + "MaxMana");
 		this.player.getDataWatcher().updateObject(STAM_WATCHER,
-				properties.getFloat(Rot.MODID + "CurrentStam"));
-		this.maxStam = properties.getFloat(Rot.MODID + "MaxStam");
+				properties.getFloat(Rot.MOD_ID + "CurrentStam"));
+		this.maxStam = properties.getFloat(Rot.MOD_ID + "MaxStam");
 		
 		this.currentClass = playerClass.getClass(properties
-				.getString(Rot.MODID + "Class"));
+				.getString(Rot.MOD_ID + "Class"));
 		// Just so you know it's working, add this line:
 		// System.out.println("[TUT PROPS] Mana from NBT: " + this.currentMana +
 		// "/" + this.maxMana);
@@ -509,20 +509,20 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		NBTTagCompound properties = new NBTTagCompound();
 		
 		// We only have 2 variables currently; save them both to the new tag
-		properties.setFloat(Rot.MODID + "CurrentMana", this.player.getDataWatcher()
+		properties.setFloat(Rot.MOD_ID + "CurrentMana", this.player.getDataWatcher()
 				.getWatchableObjectFloat(MANA_WATCHER));
-		properties.setFloat(Rot.MODID + "MaxMana", this.maxMana);
-		properties.setFloat(Rot.MODID + "CurrentStam", this.player.getDataWatcher()
+		properties.setFloat(Rot.MOD_ID + "MaxMana", this.maxMana);
+		properties.setFloat(Rot.MOD_ID + "CurrentStam", this.player.getDataWatcher()
 				.getWatchableObjectFloat(STAM_WATCHER));
-		properties.setFloat(Rot.MODID + "MaxStam", this.maxStam);
+		properties.setFloat(Rot.MOD_ID + "MaxStam", this.maxStam);
 
-		properties.setInteger(Rot.MODID + "Strength", this.strength);
-		properties.setInteger(Rot.MODID + "Dexterity", this.dexterity);
-		properties.setInteger(Rot.MODID + "Intelligence", this.intelligence);
-		properties.setInteger(Rot.MODID + "Agility", this.agility);
-		properties.setInteger(Rot.MODID + "Vitality", this.vitality);
+		properties.setInteger(Rot.MOD_ID + "Strength", this.strength);
+		properties.setInteger(Rot.MOD_ID + "Dexterity", this.dexterity);
+		properties.setInteger(Rot.MOD_ID + "Intelligence", this.intelligence);
+		properties.setInteger(Rot.MOD_ID + "Agility", this.agility);
+		properties.setInteger(Rot.MOD_ID + "Vitality", this.vitality);
 		
-		properties.setString(Rot.MODID + "Class", this.currentClass.getClassName());
+		properties.setString(Rot.MOD_ID + "Class", this.currentClass.getClassName());
 		
 		// Now add our custom tag to the player's tag with a unique name (our
 		// property's name)

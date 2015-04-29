@@ -1,5 +1,5 @@
 {
-    "parent": "tm:block/copper_block",
+    "parent": "RoT:block/copper_block",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

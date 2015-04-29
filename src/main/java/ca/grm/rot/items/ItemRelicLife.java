@@ -38,7 +38,7 @@ public class ItemRelicLife extends Item {
 		par3List.add("Based on its current function it will use " + this.manaCostPassive
 				+ " mana");
 		par3List.add("Status: "
-				+ UtilityNBTHelper.getString(par1ItemStack, Rot.MODID + "function"));
+				+ UtilityNBTHelper.getString(par1ItemStack, Rot.MOD_ID + "function"));
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class ItemRelicLife extends Item {
 
 			switch (par1ItemStack.getItemDamage()) {
 				case 0 :// Heal
-					UtilityNBTHelper.setString(par1ItemStack, Rot.MODID + "function",
+					UtilityNBTHelper.setString(par1ItemStack, Rot.MOD_ID + "function",
 							"Is now focused on Healing.");
 					if (player.shouldHeal()) {
 						if (props.consumeMana(this.manaCostPassive)) {
@@ -113,7 +113,7 @@ public class ItemRelicLife extends Item {
 					}
 					break;
 				case 1 :// Repair
-					UtilityNBTHelper.setString(par1ItemStack, Rot.MODID + "function",
+					UtilityNBTHelper.setString(par1ItemStack, Rot.MOD_ID + "function",
 							"Is now focused on Repairing.");
 					for (int i = 9; i < player.inventory.getSizeInventory(); i++) {
 						ItemStack tool = player.inventory.getStackInSlot(i);
@@ -135,7 +135,7 @@ public class ItemRelicLife extends Item {
 					}
 					break;
 				case 2 :// Saturation
-					UtilityNBTHelper.setString(par1ItemStack, Rot.MODID + "function",
+					UtilityNBTHelper.setString(par1ItemStack, Rot.MOD_ID + "function",
 							"Is now focused on Saturation.");
 					if (player.getFoodStats().needFood()) {
 						if (props.consumeMana(this.manaCostPassive)) {
@@ -165,8 +165,8 @@ public class ItemRelicLife extends Item {
 		 * textures[i] = ir.registerIcon(Rot.MODID+":"+"relicLife_"+i);
 		 * }
 		 */
-		this.textures[0] = ir.registerIcon(Rot.MODID + ":" + "relicBrooch");
-		this.textures[1] = ir.registerIcon(Rot.MODID + ":" + "relicBrooch_overLay");
+		this.textures[0] = ir.registerIcon(Rot.MOD_ID + ":" + "relicBrooch");
+		this.textures[1] = ir.registerIcon(Rot.MOD_ID + ":" + "relicBrooch_overLay");
 	}
 
 	@Override

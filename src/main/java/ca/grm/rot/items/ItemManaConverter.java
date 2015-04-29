@@ -36,7 +36,7 @@ public class ItemManaConverter extends Item {
 		if (par3EntityPlayer.inventory.getFirstEmptyStack() > 0) {
 			if (props.consumeMana(60f)) {
 				par3EntityPlayer.inventory.addItemStackToInventory(new ItemStack(
-						RotItems.itemMana, 1, 1));
+						RotItemsOld.itemMana, 1, 1));
 			}
 		}
 

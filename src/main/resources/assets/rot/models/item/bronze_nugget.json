@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "tm:items/bronze_nugget"
+        "layer0": "RoT:items/bronze_nugget"
     },
     "display": {
         "thirdperson": {

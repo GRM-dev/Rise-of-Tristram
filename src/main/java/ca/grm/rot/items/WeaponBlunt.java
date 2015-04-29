@@ -73,12 +73,12 @@ public class WeaponBlunt extends WeaponCustom {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
 		for (int i = 0; i < numOfTypes; i++) {
-			this.heads[i] = ir.registerIcon(Rot.MODID + ":"
+			this.heads[i] = ir.registerIcon(Rot.MOD_ID + ":"
 					+ "weapons/blades/head_blunt_" + i);
 		}
-		this.handle = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/handle_blunt");
+		this.handle = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/handles/handle_blunt");
 		this.defaultIcon = ir
-				.registerIcon(Rot.MODID + ":" + "weapons/fighter_blunt_icon");
+				.registerIcon(Rot.MOD_ID + ":" + "weapons/fighter_blunt_icon");
 	}
 	
 }

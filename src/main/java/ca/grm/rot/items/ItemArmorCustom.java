@@ -9,7 +9,7 @@ import ca.grm.rot.Rot;
 
 public class ItemArmorCustom extends ItemArmor {
 	
-	private String	texturePath	= Rot.MODID + ":textures/model/armor/";
+	private String	texturePath	= Rot.MOD_ID + ":textures/model/armor/";
 
 	public ItemArmorCustom(ItemArmor.ArmorMaterial mat, int wornSlot, String type) {
 		super(mat, 0, wornSlot);
@@ -26,7 +26,7 @@ public class ItemArmorCustom extends ItemArmor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
-		this.itemIcon = ir.registerIcon(Rot.MODID
+		this.itemIcon = ir.registerIcon(Rot.MOD_ID
 				+ ":"
 				+ this.getUnlocalizedName().substring(
 						this.getUnlocalizedName().indexOf('.') + 1));

@@ -2,6 +2,7 @@ package ca.grm.rot.comms;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -17,27 +18,27 @@ public class BaseNodeRequestPacket implements IMessage {
 			switch (message.actionType) {
 				case 0 :
 					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
-							.getEntityWorld().getTileEntity(message.xTe, message.yTe,
-									message.zTe);
+							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
+									message.zTe));
 					te.addLocation(message.xB, message.yB, message.zB,
 							Block.getBlockById(message.blockId));
 					break;
 				case 1 :
 					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
-							.getEntityWorld().getTileEntity(message.xTe, message.yTe,
-									message.zTe);
+							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
+									message.zTe));
 					te.clearLocations();
 					break;
 				case 2 :
 					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
-							.getEntityWorld().getTileEntity(message.xTe, message.yTe,
-									message.zTe);
+							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
+									message.zTe));
 					te.startBuilding();
 					break;
 				case 3 :
 					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
-							.getEntityWorld().getTileEntity(message.xTe, message.yTe,
-									message.zTe);
+							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
+									message.zTe));
 					te.updateClient(ctx.getServerHandler().playerEntity);
 					break;
 			}

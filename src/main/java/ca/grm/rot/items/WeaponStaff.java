@@ -107,14 +107,14 @@ public class WeaponStaff extends WeaponCustom {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir) {
 		for (int i = 0; i < numOfTypes; i++) {
-			this.blades[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/blades/staff_"
+			this.blades[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/blades/staff_"
 					+ i);
-			this.guards[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/guards/cradle_"
+			this.guards[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/guards/cradle_"
 					+ i);
-			this.handles[i] = ir.registerIcon(Rot.MODID + ":" + "weapons/handles/rod_"
+			this.handles[i] = ir.registerIcon(Rot.MOD_ID + ":" + "weapons/handles/rod_"
 					+ i);
 		}
 		this.defaultIcon = ir
-				.registerIcon(Rot.MODID + ":" + "weapons/fighter_slash_icon");
+				.registerIcon(Rot.MOD_ID + ":" + "weapons/fighter_slash_icon");
 	}
 }

@@ -17,10 +17,10 @@ import ca.grm.rot.libs.ExtendPlayer;
 public class GuiExtendedPlayerStats extends Gui {
 	private Minecraft						mc;
 	private static final ResourceLocation	manaTexture		= new ResourceLocation(
-																	Rot.MODID
+																	Rot.MOD_ID
 																			+ ":textures/gui/mana_bar_final.png");
 	private static final ResourceLocation	staminaTexture	= new ResourceLocation(
-																	Rot.MODID
+																	Rot.MOD_ID
 																			+ ":textures/gui/stam_bar_final.png");
 	
 	private int								barW			= 55, barH = 9;

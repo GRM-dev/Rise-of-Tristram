@@ -2,58 +2,58 @@ package ca.grm.rot.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import ca.grm.rot.Rot;
-import ca.grm.rot.items.ItemBlockMultiTexWithSubtypes;
-import ca.grm.rot.items.ItemModIcon;
 
 public class RotBlocks {
-	// Block Types that are considered placeable by a base node
-	public static Block[]	blockTypeObjects	= {
-			Blocks.air, Blocks.planks, Blocks.cobblestone, Blocks.stone,
-			Blocks.stonebrick, Blocks.glass, Blocks.glass_pane, Blocks.brick_block};
-	public static int[]		blockTypeColors		= {
-			0x00CCFF, 0xFFBB00, 0xAAAAAA, 0xBBBBBB, 0xBBBBBB, 0xFFFFFF, 0xFFFFFF,
-			0xAA0000							};
-
-	// Blocks to be registered
-	public static Block		SB;
-	public static Block		baseBlock;
-	public static Block		itemGen;
-	public static Block		myPane;
-
-	public static Block		itemModIcon;
 	
-	public static void init() {
-		itemModIcon = new ItemModIcon().setBlockName("rotmodicon")
-				.setCreativeTab(Rot.tabRoT)
-				.setBlockTextureName(Rot.MODID + ":" + "rotDiablo2");
-
-		SB = new SpawnerBlock(Material.rock, "netherrack_hot", Blocks.flowing_lava)
-				.setCreativeTab(Rot.tabRoT).setBlockName("spawnBlock");
-
-		baseBlock = new BlockMultiTexWithSubSets(Material.rock, new String[]{
-				"cobblestone", "stone"}, "stonebrick", "Builder's Block").setCreativeTab(
-				Rot.tabRoT).setBlockName("baseBlock");
-		
-		itemGen = new BlockBaseNode().setBlockName("itemGen")
-				.setBlockTextureName("cauldron_inner").setCreativeTab(Rot.tabRoT);
-
-		myPane = new BlockPaneRot("stone", "cobblestone", Material.rock, false)
-				.setHardness(1.5F).setResistance(10.0F).setBlockName("stoneSheet");
+	public static Block silver_block;
+	public static Block bronze_block;
+	public static Block copper_block;
+	public static Block lead_block;
+	public static Block platinum_block;
+	public static Block steel_block;
+	public static Block tin_block;
+	
+	public static void init()
+	{
+		silver_block = new MetalBlocks(Material.iron).setUnlocalizedName("silver_block").setCreativeTab(Rot.tabRot);
+		bronze_block = new MetalBlocks(Material.iron).setUnlocalizedName("bronze_block").setCreativeTab(Rot.tabRot);
+		copper_block = new MetalBlocks(Material.iron).setUnlocalizedName("copper_block").setCreativeTab(Rot.tabRot);
+		lead_block = new MetalBlocks(Material.iron).setUnlocalizedName("lead_block").setCreativeTab(Rot.tabRot);
+		platinum_block = new MetalBlocks(Material.iron).setUnlocalizedName("platinum_block").setCreativeTab(Rot.tabRot);
+		steel_block = new MetalBlocks(Material.iron).setUnlocalizedName("steel_block").setCreativeTab(Rot.tabRot);
+		tin_block = new MetalBlocks(Material.iron).setUnlocalizedName("tin_block").setCreativeTab(Rot.tabRot);
 	}
-
-	public static void registerBlocks() {
-		GameRegistry.registerBlock(SB, SB.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(baseBlock, ItemBlockMultiTexWithSubtypes.class,
-				baseBlock.getUnlocalizedName().substring(5));
-		
-		GameRegistry.registerBlock(itemGen, itemGen.getUnlocalizedName().substring(5));
-
-		GameRegistry.registerBlock(myPane, myPane.getUnlocalizedName().substring(5));
-
-		GameRegistry.registerBlock(itemModIcon, itemModIcon.getUnlocalizedName()
-				.substring(5));
+	
+	public static void register()
+	{
+		GameRegistry.registerBlock(silver_block, silver_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(bronze_block, bronze_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(copper_block, copper_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(lead_block, lead_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(platinum_block, platinum_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(steel_block, steel_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(tin_block, tin_block.getUnlocalizedName().substring(5));
+	}
+	
+	public static void registerRenders()
+	{
+		registerRender(silver_block);
+		registerRender(bronze_block);
+		registerRender(copper_block);
+		registerRender(lead_block);
+		registerRender(platinum_block);
+		registerRender(steel_block);
+		registerRender(tin_block);
+	}
+	
+	public static void registerRender(Block block)
+	{
+		Item item = Item.getItemFromBlock(block);
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Rot.MOD_ID + ":" + item.getUnlocalizedName().substring(5), "inventory"));
 	}
 }

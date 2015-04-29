@@ -8,7 +8,7 @@ public class NormalBlock extends Block {
 	
 	protected NormalBlock(Material p_i45394_1_, String textureName) {
 		super(p_i45394_1_);
-		this.setBlockTextureName(Rot.MODID + ":" + textureName);
+		this.setBlockTextureName(Rot.MOD_ID + ":" + textureName);
 	}
 
 }
