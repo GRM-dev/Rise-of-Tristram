@@ -1,6 +1,5 @@
 package ca.grm.rot;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -11,10 +10,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import ca.grm.rot.blocks.RotBlocks;
-import ca.grm.rot.blocks.TileEntityBaseNode;
+import ca.grm.rot.blocks.TutorialBlocks;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.comms.BaseNodeResponsePacket;
 import ca.grm.rot.comms.ClassRequestPacket;
@@ -24,8 +21,7 @@ import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.events.RotEventHandler;
 import ca.grm.rot.events.RotStandardEventHandler;
 import ca.grm.rot.gui.GuiHandler;
-import ca.grm.rot.items.RotItems;
-import ca.grm.rot.libs.CreativeTabsRoT;
+import ca.grm.rot.items.TutorialItems;
 
 @Mod(
 		modid = Rot.MODID,
@@ -60,19 +56,20 @@ public class Rot {
 	 * MyMod.network.sendTo(new SomeMessage(), somePlayer);
 	 */
 	
-	public static CreativeTabs			tabRoT				= new CreativeTabsRoT("RoT");
+	//public static CreativeTabs			tabRoT				= new CreativeTabsRoT("RoT");
+	public static final RotTab tabRot = new RotTab("tabRot");
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		proxy.registerKeyBindings();
+		proxy.registerRenderers();
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new RotStandardEventHandler());
-		MinecraftForge.EVENT_BUS.register(new RotEventHandler());
-		proxy.registerRenderers();
+		MinecraftForge.EVENT_BUS.register(new RotEventHandler());	
 		/*
 		 * if
 		 * (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge
@@ -118,6 +115,11 @@ public class Rot {
 																						// construction
 		
 		proxy.registerKeyBindings();
+		
+		TutorialBlocks.init();
+		TutorialBlocks.register();
+		TutorialItems.init();
+		TutorialItems.register();
 		
 		//RotBlocks.init();
 		//RotBlocks.registerBlocks();

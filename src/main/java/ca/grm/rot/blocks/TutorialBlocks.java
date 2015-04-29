@@ -1,4 +1,4 @@
-package com.gmail.trystancaffey.learningmod.init;
+package ca.grm.rot.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -6,10 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.gmail.trystancaffey.learningmod.Reference;
-import com.gmail.trystancaffey.learningmod.TutorialMod;
-import com.gmail.trystancaffey.learningmod.blocks.MetalBlocks;
+import ca.grm.rot.Rot;
 
 public class TutorialBlocks {
 	
@@ -23,13 +20,13 @@ public class TutorialBlocks {
 	
 	public static void init()
 	{
-		silver_block = new MetalBlocks(Material.iron).setUnlocalizedName("silver_block").setCreativeTab(TutorialMod.tabRot);
-		bronze_block = new MetalBlocks(Material.iron).setUnlocalizedName("bronze_block").setCreativeTab(TutorialMod.tabRot);
-		copper_block = new MetalBlocks(Material.iron).setUnlocalizedName("copper_block").setCreativeTab(TutorialMod.tabRot);
-		lead_block = new MetalBlocks(Material.iron).setUnlocalizedName("lead_block").setCreativeTab(TutorialMod.tabRot);
-		platinum_block = new MetalBlocks(Material.iron).setUnlocalizedName("platinum_block").setCreativeTab(TutorialMod.tabRot);
-		steel_block = new MetalBlocks(Material.iron).setUnlocalizedName("steel_block").setCreativeTab(TutorialMod.tabRot);
-		tin_block = new MetalBlocks(Material.iron).setUnlocalizedName("tin_block").setCreativeTab(TutorialMod.tabRot);
+		silver_block = new MetalBlocks(Material.iron).setUnlocalizedName("silver_block").setCreativeTab(Rot.tabRot);
+		bronze_block = new MetalBlocks(Material.iron).setUnlocalizedName("bronze_block").setCreativeTab(Rot.tabRot);
+		copper_block = new MetalBlocks(Material.iron).setUnlocalizedName("copper_block").setCreativeTab(Rot.tabRot);
+		lead_block = new MetalBlocks(Material.iron).setUnlocalizedName("lead_block").setCreativeTab(Rot.tabRot);
+		platinum_block = new MetalBlocks(Material.iron).setUnlocalizedName("platinum_block").setCreativeTab(Rot.tabRot);
+		steel_block = new MetalBlocks(Material.iron).setUnlocalizedName("steel_block").setCreativeTab(Rot.tabRot);
+		tin_block = new MetalBlocks(Material.iron).setUnlocalizedName("tin_block").setCreativeTab(Rot.tabRot);
 	}
 	
 	public static void register()
@@ -57,6 +54,6 @@ public class TutorialBlocks {
 	public static void registerRender(Block block)
 	{
 		Item item = Item.getItemFromBlock(block);
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Reference.MOD_ID + ":" + item.getUnlocalizedName().substring(5), "inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Rot.MODID + ":" + item.getUnlocalizedName().substring(5), "inventory"));
 	}
 }

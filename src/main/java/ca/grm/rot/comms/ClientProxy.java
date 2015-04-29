@@ -5,17 +5,18 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import org.lwjgl.input.Keyboard;
 
+import ca.grm.rot.blocks.TutorialBlocks;
 import ca.grm.rot.events.KeyHandleEvent;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
 import ca.grm.rot.items.ItemRendererSizeType;
 import ca.grm.rot.items.ItemRendererSizeable;
 import ca.grm.rot.items.RotItems;
+import ca.grm.rot.items.TutorialItems;
 import ca.grm.rot.libs.ExtendPlayer;
 
 public class ClientProxy extends CommonProxy {
@@ -51,6 +52,8 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerRenderers() {
+		TutorialBlocks.registerRenders();
+		TutorialItems.registerRenders();
 		/*
 		 * MinecraftForge.EVENT_BUS.register(new
 		 * RotManaGui(Minecraft.getMinecraft()));

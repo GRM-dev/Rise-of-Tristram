@@ -1,13 +1,12 @@
-package com.gmail.trystancaffey.learningmod;
+package ca.grm.rot;
 
-import com.gmail.trystancaffey.learningmod.init.TutorialItems;
-
+import ca.grm.rot.items.TutorialItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-public class rotTab extends CreativeTabs{
+public class RotTab extends CreativeTabs{
 
-	public rotTab(String label) {
+	public RotTab(String label) {
 		super(label);
 	}
 
