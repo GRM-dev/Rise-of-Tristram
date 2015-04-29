@@ -24,7 +24,7 @@ targetCompatibility = JavaVersion.VERSION_1_7
 
 ENV = System.getenv()
 
-version = "1.7.2-1147-0.1"
+version = "1.8-11.14.1.1397"
 group= "ca.grm.rot"
 archivesBaseName = "RiseOfTristram_Mod"
 

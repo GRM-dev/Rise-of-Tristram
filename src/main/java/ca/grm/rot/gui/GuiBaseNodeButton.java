@@ -28,13 +28,13 @@ public class GuiBaseNodeButton extends GuiButton {
 			TextureManager manager = Minecraft.getMinecraft().renderEngine;
 			manager.bindTexture(manager.getResourceLocation(0));
 			// RENDER ITEMS
-			FontRenderer fontrenderer = p_146112_1_.fontRenderer;
+			FontRenderer fontrenderer = p_146112_1_.fontRendererObj;
 			GL11.glColor4f(this.brightness, this.brightness, this.brightness, 1.0F);
-			this.field_146123_n = (p_146112_2_ >= this.xPosition)
+			this.hovered = (p_146112_2_ >= this.xPosition)
 					&& (p_146112_3_ >= this.yPosition)
 					&& (p_146112_2_ < (this.xPosition + this.width))
 					&& (p_146112_3_ < (this.yPosition + this.height));
-			int k = this.getHoverState(this.field_146123_n);
+			int k = this.getHoverState(this.hovered);
 			
 			GL11.glEnable(GL11.GL_BLEND);
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -50,7 +50,7 @@ public class GuiBaseNodeButton extends GuiButton {
 				l = this.packedFGColour;
 			} else if (!this.enabled) {
 				l = 10526880;
-			} else if (this.field_146123_n) {
+			} else if (this.hovered) {
 				l = 16777120;
 			}
 			

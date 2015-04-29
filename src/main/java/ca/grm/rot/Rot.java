@@ -101,7 +101,7 @@ public class Rot {
 		net.registerMessage(CustomItemPacket.CustomItemPacketHandler.class,
 				CustomItemPacket.class, this.packetId++, Side.SERVER);
 		
-		GameRegistry.registerTileEntity(TileEntityBaseNode.class, MODID + "baseNode"); // This
+		//GameRegistry.registerTileEntity(TileEntityBaseNode.class, MODID + "baseNode"); // This
 																						// needs
 																						// to
 																						// be
@@ -119,12 +119,12 @@ public class Rot {
 		
 		proxy.registerKeyBindings();
 		
-		RotBlocks.init();
-		RotBlocks.registerBlocks();
+		//RotBlocks.init();
+		//RotBlocks.registerBlocks();
 		
-		RotItems.init();
-		RotItems.registerItems();
+		//RotItems.init();
+		//RotItems.registerItems();
 		
-		RotRecipes.init();
+		//RotRecipes.init();
 	}
 }

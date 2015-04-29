@@ -93,10 +93,10 @@ public class GuiExtendedPlayerStats extends Gui {
 	}
 
 	private void drawText(String text, int x, int y, int hexColor) {
-		this.mc.fontRenderer.drawString(text, x + 1, y, 0);
-		this.mc.fontRenderer.drawString(text, x - 1, y, 0);
-		this.mc.fontRenderer.drawString(text, x, y + 1, 0);
-		this.mc.fontRenderer.drawString(text, x, y - 1, 0);
-		this.mc.fontRenderer.drawString(text, x, y, hexColor);
+		this.mc.fontRendererObj.drawString(text, x + 1, y, 0);
+		this.mc.fontRendererObj.drawString(text, x - 1, y, 0);
+		this.mc.fontRendererObj.drawString(text, x, y + 1, 0);
+		this.mc.fontRendererObj.drawString(text, x, y - 1, 0);
+		this.mc.fontRendererObj.drawString(text, x, y, hexColor);
 	}
 }

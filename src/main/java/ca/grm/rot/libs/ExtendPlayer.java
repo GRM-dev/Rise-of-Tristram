@@ -238,7 +238,15 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	 * This method is for convenience only; it will make your code look nicer
 	 */
 	public static final ExtendPlayer get(EntityPlayer player) {
-		return (ExtendPlayer) player.getExtendedProperties(EXT_PROP_NAME);
+		try
+		{
+			return (ExtendPlayer) player.getExtendedProperties(EXT_PROP_NAME);
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 
 	public static final void loadProxyData(EntityPlayer player) {
@@ -283,7 +291,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	
 	private static final String getSaveKey(EntityPlayer player) {
 		// no longer a username field, so use the command sender name instead:
-		return player.getCommandSenderName() + ":" + EXT_PROP_NAME;
+		return player.getName() + ":" + EXT_PROP_NAME;
 	}
 	
 	/**
@@ -595,7 +603,9 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 			Field walkSpeed = PlayerCapabilities.class.getDeclaredField("walkSpeed");
 			walkSpeed.setAccessible(true);
 			walkSpeed.setFloat(pc, MathHelper.clamp_float(0.1F + ((float) this.agility / 142), 0.04f, 0.3f));
-		} catch (IllegalArgumentException | IllegalAccessException e) {
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e){
 			e.printStackTrace();
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();

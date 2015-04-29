@@ -33,14 +33,14 @@ public class ClientProxy extends CommonProxy {
 	public void handleClassMessage(ClassResponsePacket message,
 			MessageContext ctx) {
 		System.out.println("got a response about changing to: " + message.className);
-		ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentClass(
-				message.className);
+		ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentClass(message.className);
 	}
 	
-	@Override
+	/*@Override
 	public int addArmor(String armor) {
 		return RenderingRegistry.addNewArmourRendererPrefix(armor);
-	}
+	}*/
+	//TODO fix this
 	
 	@Override
 	public void registerKeyBindings() {

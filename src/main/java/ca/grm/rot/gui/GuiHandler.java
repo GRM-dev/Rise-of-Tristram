@@ -2,6 +2,7 @@ package ca.grm.rot.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import ca.grm.rot.blocks.TileEntityBaseNode;
@@ -10,7 +11,7 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int x,
 			int y, int z) {
-		TileEntity entity = world.getTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
 		switch (guiId) {
 			case 0 :
 				if (entity instanceof TileEntityBaseNode) {
@@ -34,7 +35,7 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int x,
 			int y, int z) {
-		TileEntity entity = world.getTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
 		
 		switch (guiId) {
 			case 0 :

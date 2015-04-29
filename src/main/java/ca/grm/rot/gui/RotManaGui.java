@@ -57,11 +57,11 @@ public class RotManaGui extends Gui {
 		String s = (int) props.getCurrentMana() + "/" + (int) props.getMaxMana();
 
 		yPos += this.barH + 2;
-		this.mc.fontRenderer.drawString(s, xPos + 1, yPos, 0);
-		this.mc.fontRenderer.drawString(s, xPos - 1, yPos, 0);
-		this.mc.fontRenderer.drawString(s, xPos, yPos + 1, 0);
-		this.mc.fontRenderer.drawString(s, xPos, yPos - 1, 0);
-		this.mc.fontRenderer.drawString(s, xPos, yPos, 0x0097d9);
+		this.mc.fontRendererObj.drawString(s, xPos + 1, yPos, 0);
+		this.mc.fontRendererObj.drawString(s, xPos - 1, yPos, 0);
+		this.mc.fontRendererObj.drawString(s, xPos, yPos + 1, 0);
+		this.mc.fontRendererObj.drawString(s, xPos, yPos - 1, 0);
+		this.mc.fontRendererObj.drawString(s, xPos, yPos, 0x0097d9);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
