@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.chunk.Chunk;
@@ -21,7 +22,7 @@ import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.UtilityBlockLocationType;
 import ca.grm.rot.libs.UtilityNBTHelper;
 
-public class TileEntityBaseNode extends TileEntity {
+public class TileEntityBaseNode extends TileEntity implements IUpdatePlayerListBox {
 	private int			ACTION_CD	= 25;
 	private int			cd			= this.ACTION_CD;
 	private float		mana		= 0;
@@ -228,8 +229,8 @@ public class TileEntityBaseNode extends TileEntity {
 	}
 
 	@Override
-	public void updateEntity() {
-		if (!getWorldObj().isRemote) {
+	public void update() {
+		if (!getWorld().isRemote) {
 			if (this.building) {
 				this.building = false;
 				for (int l = 0; l < this.locations.size(); l++) {
