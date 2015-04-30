@@ -1,6 +1,7 @@
 package ca.grm.rot.events;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.passive.EntityHorse;
@@ -130,12 +131,16 @@ public class RotStandardEventHandler {
 			EntityHorse horse = (EntityHorse) event.entity;
 			horse.heal(0.05f);
 		} else {
-			EntityLiving e = (EntityLiving) event.entity;
-			if (e.hurtResistantTime != 5) {
-				e.hurtResistantTime = 5;
-				e.arrowHitTimer = 1;
+			if (event.entity instanceof EntityArmorStand){}
+			else
+			{
+				EntityLiving e = (EntityLiving) event.entity;
+				if (e.hurtResistantTime != 5) {
+					e.hurtResistantTime = 5;
+					e.arrowHitTimer = 1;
+				}
+				e.heal(0.0025f);
 			}
-			e.heal(0.0025f);
 		}
 	}
 }

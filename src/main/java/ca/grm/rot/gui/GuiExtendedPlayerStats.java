@@ -63,7 +63,9 @@ public class GuiExtendedPlayerStats extends Gui {
 		String s = (int) props.getCurrentMana() + "/" + (int) props.getMaxMana();
 		drawText(s, xPos + 2, yPos + this.barH + 2, 0x0097d9);
 		
+		
 		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
 
@@ -88,6 +90,7 @@ public class GuiExtendedPlayerStats extends Gui {
 		drawText(s, xPos + this.barW + 2, yPos + this.barH + 2, 0xdbdd15);
 		
 		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
 	}
