@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import ca.grm.rot.blocks.RotBlocks;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
@@ -64,6 +65,7 @@ public class Rot {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		proxy.registerKeyBindings();
 		proxy.registerRenderers();
+		
 	}
 	
 	@EventHandler
@@ -129,5 +131,7 @@ public class Rot {
 		
 		//RotRecipes.init();
 		RotBlocksItemsRecipes.init();
+		
+		GameRegistry.registerWorldGenerator(new RotWorldGenerator(), packetId);
 	}
 }
