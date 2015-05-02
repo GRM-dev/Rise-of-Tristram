@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "RoT:items/lead_nugget"
+        "layer0": "RoT:items/leadNugget"
     },
     "display": {
         "thirdperson": {

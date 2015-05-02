@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "RoT:blocks/steel_block"
+        "all": "RoT:blocks/steelBlock"
     }
 }
