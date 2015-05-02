@@ -17,10 +17,10 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.Rot;
+import ca.grm.rot.blocks.RotBlocksOld;
 import ca.grm.rot.blocks.TileEntityBaseNode;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.libs.UtilityBlockLocationType;
-import ca.grm.rot.libs.UtilityFunctions;
 
 public class GuiBaseNode extends GuiContainer {
 	public static final ResourceLocation	texture			= new ResourceLocation(
@@ -46,7 +46,7 @@ public class GuiBaseNode extends GuiContainer {
 	// Block Placement Values
 	private int								currentBlock	= 0;
 	private int								currentMeta		= 0;
-	private int								blockColor		= UtilityFunctions.blockTypeColors[this.currentBlock];
+	private int								blockColor		= RotBlocksOld.blockTypeColors[this.currentBlock];
 
 	// Selection and List Values
 	private ArrayList						locations		= new ArrayList<UtilityBlockLocationType>();
@@ -82,8 +82,8 @@ public class GuiBaseNode extends GuiContainer {
 		if (button.id < this.indexCounter) {
 			switch (button.id) {
 				case 0 : // Start Building
-					Rot.net.sendToServer(new BaseNodeRequestPacket(2, this.te.getPos().getX(),
-							this.te.getPos().getY(), this.te.getPos().getZ(), 0, 0, 0, 0));
+					Rot.net.sendToServer(new BaseNodeRequestPacket(2, this.te.xCoord,
+							this.te.yCoord, this.te.zCoord, 0, 0, 0, 0));
 					break;
 				case 1 : // Send List
 					if (!this.locations.isEmpty()) {
@@ -91,7 +91,7 @@ public class GuiBaseNode extends GuiContainer {
 						for (int l = 0; l < this.locations.size(); l++) {
 							ublt = (UtilityBlockLocationType) this.locations.get(l);
 							Rot.net.sendToServer(new BaseNodeRequestPacket(0,
-									this.te.getPos().getX(), this.te.getPos().getY(), this.te.getPos().getZ(),
+									this.te.xCoord, this.te.yCoord, this.te.zCoord,
 									ublt.x, ublt.y, ublt.z, Block
 											.getIdFromBlock(ublt.block)));
 						}
@@ -99,25 +99,25 @@ public class GuiBaseNode extends GuiContainer {
 					this.locations.clear();
 					break;
 				case 2 : // -X left/west
-					Rot.net.sendToServer(new BaseNodeRequestPacket(1, this.te.getPos().getX(),
-							this.te.getPos().getY(), this.te.getPos().getZ(), 0, 0, 0, 0));
+					Rot.net.sendToServer(new BaseNodeRequestPacket(1, this.te.xCoord,
+							this.te.yCoord, this.te.zCoord, 0, 0, 0, 0));
 					this.locations.clear();
 					break;
 				case 3 : // +X right/east
 					if (this.currentBlock == 0) {
-						this.currentBlock = UtilityFunctions.blockTypeObjects.length - 1;
+						this.currentBlock = RotBlocksOld.blockTypeObjects.length - 1;
 					} else {
 						this.currentBlock--;
 					}
-					this.blockColor = UtilityFunctions.blockTypeColors[this.currentBlock];
+					this.blockColor = RotBlocksOld.blockTypeColors[this.currentBlock];
 					break;
 				case 4 : // -Z forward/north
-					if (this.currentBlock == (UtilityFunctions.blockTypeObjects.length - 1)) {
+					if (this.currentBlock == (RotBlocksOld.blockTypeObjects.length - 1)) {
 						this.currentBlock = 0;
 					} else {
 						this.currentBlock++;
 					}
-					this.blockColor = UtilityFunctions.blockTypeColors[this.currentBlock];
+					this.blockColor = RotBlocksOld.blockTypeColors[this.currentBlock];
 					break;
 				case 5 : // +Z backwards/south
 					this.gridSizeOffset++;
@@ -144,36 +144,36 @@ public class GuiBaseNode extends GuiContainer {
 					this.zOffset++;
 					break;
 				case 12 : // Decrease
-					if ((this.yOffset1 + this.te.getPos().getY()) == 255) {
+					if ((this.yOffset1 + this.te.yCoord) == 255) {
 						break;
 					} else {
 						this.yOffset1++;
 					}
 					break;
 				case 13 :
-					if ((this.yOffset1 + this.te.getPos().getY()) == 0) {
+					if ((this.yOffset1 + this.te.yCoord) == 0) {
 						break;
 					} else {
 						this.yOffset1--;
 					}
 					break;
 				case 14 :
-					if ((this.yOffset2 + this.te.getPos().getY()) == 255) {
+					if ((this.yOffset2 + this.te.yCoord) == 255) {
 						break;
 					} else {
 						this.yOffset2++;
 					}
 					break;
 				case 15 :
-					if ((this.yOffset2 + this.te.getPos().getY()) == 0) {
+					if ((this.yOffset2 + this.te.yCoord) == 0) {
 						break;
 					} else {
 						this.yOffset2--;
 					}
 					break;
 				case 16 :
-					Rot.net.sendToServer(new BaseNodeRequestPacket(3, this.te.getPos().getX(),
-							this.te.getPos().getY(), this.te.getPos().getZ(), 0, 0, 0, 0));
+					Rot.net.sendToServer(new BaseNodeRequestPacket(3, this.te.xCoord,
+							this.te.yCoord, this.te.zCoord, 0, 0, 0, 0));
 					break;
 			}
 		}
@@ -207,8 +207,8 @@ public class GuiBaseNode extends GuiContainer {
 					for (int xs = xh; xs >= xl; xs--) {
 						for (int zs = zh; zs >= zl; zs--) {
 							for (int ys = yh; ys >= yl; ys--) {
-								addLocation(xs + this.te.getPos().getX(), ys + this.te.getPos().getY(), zs
-										+ this.te.getPos().getZ());
+								addLocation(xs + this.te.xCoord, ys + this.te.yCoord, zs
+										+ this.te.zCoord);
 							}
 						}
 					}
@@ -217,7 +217,7 @@ public class GuiBaseNode extends GuiContainer {
 
 			} else// single select
 			{
-				addLocation(xB + this.te.getPos().getX(), yB + this.te.getPos().getY(), zB + this.te.getPos().getZ());
+				addLocation(xB + this.te.xCoord, yB + this.te.yCoord, zB + this.te.zCoord);
 			}
 		}
 		updateButtons();
@@ -340,7 +340,7 @@ public class GuiBaseNode extends GuiContainer {
 		 */
 		
 		this.drawString(this.fontRendererObj,
-				UtilityFunctions.blockTypeObjects[this.currentBlock].getLocalizedName(), gx1,
+				RotBlocksOld.blockTypeObjects[this.currentBlock].getLocalizedName(), gx1,
 				gy2 + (this.ch * 2), this.blockColor); // What block is selected
 		
 		for (GuiBaseNodeButton element : this.coordButtons1) {
@@ -366,28 +366,28 @@ public class GuiBaseNode extends GuiContainer {
 			this.zOffset++;
 			updateButtons();
 		} else if (par2 == this.mc.gameSettings.keyBindJump.getKeyCode()) {
-			if ((this.yOffset1 + this.te.getPos().getY()) == 255) {
+			if ((this.yOffset1 + this.te.yCoord) == 255) {
 				return;
 			} else {
 				this.yOffset1++;
 			}
 			updateButtons();
 		} else if (par2 == Keyboard.KEY_DOWN) {
-			if ((this.yOffset2 + this.te.getPos().getY()) == 0) {
+			if ((this.yOffset2 + this.te.yCoord) == 0) {
 				return;
 			} else {
 				this.yOffset2--;
 			}
 			updateButtons();
 		} else if (par2 == Keyboard.KEY_UP) {
-			if ((this.yOffset2 + this.te.getPos().getY()) == 255) {
+			if ((this.yOffset2 + this.te.yCoord) == 255) {
 				return;
 			} else {
 				this.yOffset2++;
 			}
 			updateButtons();
 		} else if (par2 == this.mc.gameSettings.keyBindSneak.getKeyCode()) {
-			if ((this.yOffset1 + this.te.getPos().getY()) == 0) {
+			if ((this.yOffset1 + this.te.yCoord) == 0) {
 				return;
 			} else {
 				this.yOffset1--;
@@ -404,14 +404,14 @@ public class GuiBaseNode extends GuiContainer {
 	private void addLocation(int x, int y, int z) {
 		if (this.locations.isEmpty()) {
 			this.locations.add(new UtilityBlockLocationType(x, y, z,
-					UtilityFunctions.blockTypeObjects[this.currentBlock]));
+					RotBlocksOld.blockTypeObjects[this.currentBlock]));
 		} else {
 			boolean dupeObject = false;
 			for (int l = 0; l < this.locations.size(); l++) {
 				UtilityBlockLocationType ublt = (UtilityBlockLocationType) this.locations
 						.get(l);
 				if ((ublt.x == x) && (ublt.y == y) && (ublt.z == z)) {
-					ublt.block = UtilityFunctions.blockTypeObjects[this.currentBlock];
+					ublt.block = RotBlocksOld.blockTypeObjects[this.currentBlock];
 					this.locations.set(l, ublt);
 					dupeObject = true;
 				}
@@ -419,7 +419,7 @@ public class GuiBaseNode extends GuiContainer {
 			// If the coordinate is fresh add it in
 			if (!dupeObject) {
 				this.locations.add(new UtilityBlockLocationType(x, y, z,
-						UtilityFunctions.blockTypeObjects[this.currentBlock]));
+						RotBlocksOld.blockTypeObjects[this.currentBlock]));
 			}
 		}
 	}
@@ -442,17 +442,17 @@ public class GuiBaseNode extends GuiContainer {
 		UtilityBlockLocationType ublt;
 		for (int x = this.gridSize; x >= -this.gridSize; x--) {
 			for (int z = this.gridSize; z >= -this.gridSize; z--) {
-//				IIcon t1 = null;
-//				IIcon t2 = null;
+				IIcon t1 = null;
+				IIcon t2 = null;
 				int c1 = this.defaultColor;
 				int c2 = this.defaultColor;
 				String s1 = "x";
 				String s2 = "x";
-				Block worldBlock1 = this.te.getWorld()
+				Block worldBlock1 = this.te.getWorldObj()
 						.getBlock(x + this.te.xCoord + this.xOffset,
 								this.yOffset1 + this.te.yCoord,
 								z + this.te.zCoord + this.zOffset);
-				Block worldBlock2 = this.te.getWorld()
+				Block worldBlock2 = this.te.getWorldObj()
 						.getBlock(x + this.te.xCoord + this.xOffset,
 								this.yOffset2 + this.te.yCoord,
 								z + this.te.zCoord + this.zOffset);
