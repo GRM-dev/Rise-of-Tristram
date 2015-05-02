@@ -4,8 +4,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import ca.grm.rot.blocks.RotBlocksOld;
-import ca.grm.rot.items.RotItemsOld;
+import ca.grm.rot.blocks.RotBlocks;
+import ca.grm.rot.items.RotItems;
 
 public class RotRecipes {
 	
@@ -44,6 +44,7 @@ public class RotRecipes {
 
 		GameRegistry.addRecipe(new ItemStack(RotBlocksOld.SB), new Object[]{
 				"xxx", "xyx", "xxx", 'x', Items.blaze_rod, 'y', Blocks.netherrack});
+		
 	}
 
 	public static void init() {

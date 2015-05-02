@@ -57,6 +57,7 @@ tile.copperOre.name=Copper Ore
 tile.leadOre.name=Lead Ore
 tile.platinumOre.name=Platinum Ore
 tile.tinOre.name=Tin Ore
+tile.galenaOre.name=Galena Ore
 
 item.silver_nugget.name=Silver Nugget
 item.bronze_nugget.name=Bronze Nugget
@@ -65,3 +66,11 @@ item.lead_nugget.name=Lead Nugget
 item.platinum_nugget.name=Platinum Nugget
 item.steel_nugget.name=Steel Nugget
 item.tin_nugget.name=Tin Nugget
+
+item.silverIngot.name=Silver Ingot
+item.bronzeIngot.name=Bronze Ingot
+item.copperIngot.name=Copper Ingot
+item.leadIngot.name=Lead Ingot
+item.platinumIngot.name=Platinum Ingot
+item.steelIngot.name=Steel Ingot
+item.tinIngot.name=Tin Ingot

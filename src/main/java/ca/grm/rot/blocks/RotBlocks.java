@@ -25,24 +25,26 @@ public class RotBlocks {
 	public static Block leadOre;
 	public static Block platinumOre;
 	public static Block tinOre;
+	public static Block galenaOre;
 	
 	public static void init()
 	{
 		// Metals
-		silver_block = new MetalBlocks(Material.iron).setUnlocalizedName("silver_block").setCreativeTab(Rot.tabRot).setHardness(9);
-		bronze_block = new MetalBlocks(Material.iron).setUnlocalizedName("bronze_block").setCreativeTab(Rot.tabRot).setHardness(9);
-		copper_block = new MetalBlocks(Material.iron).setUnlocalizedName("copper_block").setCreativeTab(Rot.tabRot).setHardness(9);
-		lead_block = new MetalBlocks(Material.iron).setUnlocalizedName("lead_block").setCreativeTab(Rot.tabRot).setHardness(9);
-		platinum_block = new MetalBlocks(Material.iron).setUnlocalizedName("platinum_block").setCreativeTab(Rot.tabRot).setHardness(9);
-		steel_block = new MetalBlocks(Material.iron).setUnlocalizedName("steel_block").setCreativeTab(Rot.tabRot).setHardness(9);
-		tin_block = new MetalBlocks(Material.iron).setUnlocalizedName("tin_block").setCreativeTab(Rot.tabRot).setHardness(9);
+		silver_block = new MetalBlocks(Material.iron).setUnlocalizedName("silver_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		bronze_block = new MetalBlocks(Material.iron).setUnlocalizedName("bronze_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		copper_block = new MetalBlocks(Material.iron).setUnlocalizedName("copper_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		lead_block = new MetalBlocks(Material.iron).setUnlocalizedName("lead_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		platinum_block = new MetalBlocks(Material.iron).setUnlocalizedName("platinum_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		steel_block = new MetalBlocks(Material.iron).setUnlocalizedName("steel_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		tin_block = new MetalBlocks(Material.iron).setUnlocalizedName("tin_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
 		
 		// Ores
-		silverOre = new OreBlocks(Material.rock).setUnlocalizedName("silverOre").setCreativeTab(Rot.tabRot).setHardness(6);
-		copperOre = new OreBlocks(Material.rock).setUnlocalizedName("copperOre").setCreativeTab(Rot.tabRot).setHardness(5);
-		leadOre = new OreBlocks(Material.rock).setUnlocalizedName("leadOre").setCreativeTab(Rot.tabRot).setHardness(9);
-		platinumOre = new OreBlocks(Material.rock).setUnlocalizedName("platinumOre").setCreativeTab(Rot.tabRot).setHardness(7);
-		tinOre = new OreBlocks(Material.rock).setUnlocalizedName("tinOre").setCreativeTab(Rot.tabRot).setHardness(5);
+		silverOre = new OreBlocks(Material.rock).setUnlocalizedName("silverOre").setCreativeTab(Rot.tabRot).setHardness(6).setResistance(5);
+		copperOre = new OreBlocks(Material.rock).setUnlocalizedName("copperOre").setCreativeTab(Rot.tabRot).setHardness(5).setResistance(5);
+		leadOre = new OreBlocks(Material.rock).setUnlocalizedName("leadOre").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(6);
+		platinumOre = new OreBlocks(Material.rock).setUnlocalizedName("platinumOre").setCreativeTab(Rot.tabRot).setHardness(7).setResistance(5);
+		tinOre = new OreBlocks(Material.rock).setUnlocalizedName("tinOre").setCreativeTab(Rot.tabRot).setHardness(5).setResistance(5);
+		galenaOre = new GalenaOreBlock(Material.rock).setUnlocalizedName("galenaOre").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(4);
 	}
 	
 	public static void register()
@@ -62,6 +64,7 @@ public class RotBlocks {
 		GameRegistry.registerBlock(leadOre, leadOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(platinumOre, platinumOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(tinOre, tinOre.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(galenaOre, galenaOre.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRenders()
@@ -81,6 +84,7 @@ public class RotBlocks {
 		registerRender(leadOre);
 		registerRender(platinumOre);
 		registerRender(tinOre);
+		registerRender(galenaOre);
 	}
 	
 	public static void registerRender(Block block)

@@ -128,5 +128,6 @@ public class Rot {
 		//RotItems.registerItems();
 		
 		//RotRecipes.init();
+		RotBlocksItemsRecipes.init();
 	}
 }
