@@ -43,6 +43,7 @@ item.itemSwordSoul.name=Soul Rend
 
 
 itemGroup.tabRot=Rise of Tristram
+
 tile.silver_block.name=Block of Silver
 tile.bronze_block.name=Block of Bronze
 tile.copper_block.name=Block of Copper
@@ -50,6 +51,13 @@ tile.lead_block.name=Block of Lead
 tile.platinum_block.name=Block of Platinum
 tile.steel_block.name=Block of Steel
 tile.tin_block.name=Block of Tin
+
+tile.silverOre.name=Silver Ore
+tile.copperOre.name=Copper Ore
+tile.leadOre.name=Lead Ore
+tile.platinumOre.name=Platinum Ore
+tile.tinOre.name=Tin Ore
+
 item.silver_nugget.name=Silver Nugget
 item.bronze_nugget.name=Bronze Nugget
 item.copper_nugget.name=Copper Nugget
