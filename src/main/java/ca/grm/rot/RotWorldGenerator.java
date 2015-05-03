@@ -45,5 +45,11 @@ public class RotWorldGenerator implements IWorldGenerator{
 		 addOre(RotBlocks.platinumOre, Blocks.stone, random, world, i, j, 0, 16, 3, 6, 2);
 		 addOre(RotBlocks.tinOre, Blocks.stone, random, world, i, j, 0, 64, 4, 10, 20);
 		 addOre(RotBlocks.galenaOre, Blocks.stone, random, world, i, j, 0, 48, 1, 5, 7);
+		 
+		 addOre(RotBlocks.amethystSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 100);
+		 addOre(RotBlocks.diamondSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 100);
+		 addOre(RotBlocks.emeraldSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 100);
+		 addOre(RotBlocks.rubySand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 100);
+		 addOre(RotBlocks.topazSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 100);
 	 }
 }

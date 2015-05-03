@@ -7,6 +7,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import ca.grm.rot.Rot;
+import ca.grm.rot.items.RotItems;
 
 public class RotBlocks {
 	
@@ -30,6 +31,13 @@ public class RotBlocks {
 	public static Block tinOre;
 	public static Block galenaOre;
 	
+	// These are the sand blocks
+	public static Block amethystSand;
+	public static Block diamondSand;
+	public static Block emeraldSand;
+	public static Block rubySand;
+	public static Block topazSand;
+	
 	public static void init()
 	{
 		// Tiles
@@ -51,6 +59,13 @@ public class RotBlocks {
 		platinumOre = new OreBlocks(Material.rock).setUnlocalizedName("platinumOre").setCreativeTab(Rot.tabRot).setHardness(7).setResistance(5);
 		tinOre = new OreBlocks(Material.rock).setUnlocalizedName("tinOre").setCreativeTab(Rot.tabRot).setHardness(5).setResistance(5);
 		galenaOre = new GalenaOreBlock(Material.rock).setUnlocalizedName("galenaOre").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(4);
+		
+		// Sands
+		amethystSand = new SandBlocks(Material.sand, RotItems.rawAmethyst).setUnlocalizedName("amethystSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		diamondSand = new SandBlocks(Material.sand, RotItems.rawDiamond).setUnlocalizedName("diamondSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		emeraldSand = new SandBlocks(Material.sand, RotItems.rawEmerald).setUnlocalizedName("emeraldSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		rubySand = new SandBlocks(Material.sand, RotItems.rawRuby).setUnlocalizedName("rubySand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		topazSand = new SandBlocks(Material.sand, RotItems.rawTopaz).setUnlocalizedName("topazSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
 	}
 	
 	public static void register()
@@ -74,6 +89,13 @@ public class RotBlocks {
 		GameRegistry.registerBlock(platinumOre, platinumOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(tinOre, tinOre.getUnlocalizedName().substring(5));
 		GameRegistry.registerBlock(galenaOre, galenaOre.getUnlocalizedName().substring(5));
+		
+		// Sands
+		GameRegistry.registerBlock(amethystSand, amethystSand.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(diamondSand, diamondSand.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(emeraldSand, emeraldSand.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(rubySand, rubySand.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(topazSand, topazSand.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRenders()
@@ -97,6 +119,13 @@ public class RotBlocks {
 		registerRender(platinumOre);
 		registerRender(tinOre);
 		registerRender(galenaOre);
+		
+		// Sands
+		registerRender(amethystSand);
+		registerRender(diamondSand);
+		registerRender(emeraldSand);
+		registerRender(rubySand);
+		registerRender(topazSand);
 	}
 	
 	public static void registerRender(Block block)

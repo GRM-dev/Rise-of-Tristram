@@ -26,6 +26,13 @@ public class RotItems {
 	public static Item bronzeIngot;
 	public static Item steelIngot;
 	
+	// Raw Gems
+	public static Item rawAmethyst;
+	public static Item rawDiamond;
+	public static Item rawEmerald;
+	public static Item rawRuby;
+	public static Item rawTopaz;
+	
 	public static void init()
 	{
 		silverNugget = new Item().setUnlocalizedName("silverNugget").setCreativeTab(Rot.tabRot);
@@ -43,6 +50,12 @@ public class RotItems {
 		leadIngot = new Item().setUnlocalizedName("leadIngot").setCreativeTab(Rot.tabRot);
 		bronzeIngot = new Item().setUnlocalizedName("bronzeIngot").setCreativeTab(Rot.tabRot);
 		steelIngot = new Item().setUnlocalizedName("steelIngot").setCreativeTab(Rot.tabRot);
+		
+		rawAmethyst = new Item().setUnlocalizedName("rawAmethyst").setCreativeTab(Rot.tabRot);
+		rawDiamond = new Item().setUnlocalizedName("rawDiamond").setCreativeTab(Rot.tabRot);
+		rawEmerald = new Item().setUnlocalizedName("rawEmerald").setCreativeTab(Rot.tabRot);
+		rawRuby = new Item().setUnlocalizedName("rawRuby").setCreativeTab(Rot.tabRot);
+		rawTopaz = new Item().setUnlocalizedName("rawTopaz").setCreativeTab(Rot.tabRot);
 	}
 	
 	public static void register()
@@ -62,6 +75,12 @@ public class RotItems {
 		GameRegistry.registerItem(leadIngot, leadIngot.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(bronzeIngot, bronzeIngot.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(steelIngot, steelIngot.getUnlocalizedName().substring(5));
+		
+		GameRegistry.registerItem(rawAmethyst, rawAmethyst.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(rawDiamond, rawDiamond.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(rawEmerald, rawEmerald.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(rawRuby, rawRuby.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(rawTopaz, rawTopaz.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRenders()
@@ -81,6 +100,12 @@ public class RotItems {
 		registerRender(leadIngot);
 		registerRender(bronzeIngot);
 		registerRender(steelIngot);
+		
+		registerRender(rawAmethyst);
+		registerRender(rawDiamond);
+		registerRender(rawEmerald);
+		registerRender(rawRuby);
+		registerRender(rawTopaz);
 	}
 	
 	public static void registerRender(Item item)
