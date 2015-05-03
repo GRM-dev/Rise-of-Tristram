@@ -1,6 +1,6 @@
 tile.spawnBlock.name=Searing Netherrack
 
-tile.itemGen.name=Base Node
+tile.baseBuilder.name=Base Node
 
 tile.air.name=Air
 
@@ -44,12 +44,12 @@ item.itemSwordSoul.name=Soul Rend
 
 itemGroup.tabRot=Rise of Tristram
 
-tile.silver_block.name=Block of Silver
-tile.bronze_block.name=Block of Bronze
-tile.copper_block.name=Block of Copper
-tile.lead_block.name=Block of Lead
-tile.platinum_block.name=Block of Platinum
-tile.steel_block.name=Block of Steel
+tile.silverBlock.name=Block of Silver
+tile.bronzeBlock.name=Block of Bronze
+tile.copperBlock.name=Block of Copper
+tile.leadBlock.name=Block of Lead
+tile.platinumBlock.name=Block of Platinum
+tile.steelBlock.name=Block of Steel
 tile.tin_block.name=Block of Tin
 
 tile.silverOre.name=Silver Ore
@@ -59,13 +59,13 @@ tile.platinumOre.name=Platinum Ore
 tile.tinOre.name=Tin Ore
 tile.galenaOre.name=Galena Ore
 
-item.silver_nugget.name=Silver Nugget
-item.bronze_nugget.name=Bronze Nugget
-item.copper_nugget.name=Copper Nugget
-item.lead_nugget.name=Lead Nugget
-item.platinum_nugget.name=Platinum Nugget
-item.steel_nugget.name=Steel Nugget
-item.tin_nugget.name=Tin Nugget
+item.silverNugget.name=Silver Nugget
+item.bronzeNugget.name=Bronze Nugget
+item.copperNugget.name=Copper Nugget
+item.leadNugget.name=Lead Nugget
+item.platinumNugget.name=Platinum Nugget
+item.steelNugget.name=Steel Nugget
+item.tinNugget.name=Tin Nugget
 
 item.silverIngot.name=Silver Ingot
 item.bronzeIngot.name=Bronze Ingot

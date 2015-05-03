@@ -1,5 +1,5 @@
 {
-    "parent": "RoT:block/bronze_block",
+    "parent": "RoT:block/copperBlock",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

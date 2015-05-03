@@ -16,7 +16,7 @@ import ca.grm.rot.comms.BaseNodeResponsePacket;
 import ca.grm.rot.libs.UtilityBlockLocationType;
 import ca.grm.rot.libs.UtilityFunctions;
 
-public class TileEntityBaseNode extends TileEntity implements IUpdatePlayerListBox {
+public class TileEntityBaseBuilder extends TileEntity implements IUpdatePlayerListBox {
 	private int			ACTION_CD	= 25;
 	private int			cd			= this.ACTION_CD;
 	private int			range		= 4;

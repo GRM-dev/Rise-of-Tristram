@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import ca.grm.rot.blocks.RotBlocks;
+import ca.grm.rot.blocks.TileEntityBaseBuilder;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.comms.BaseNodeResponsePacket;
 import ca.grm.rot.comms.ClassRequestPacket;
@@ -57,7 +58,6 @@ public class Rot {
 	 * MyMod.network.sendTo(new SomeMessage(), somePlayer);
 	 */
 	
-	//public static CreativeTabs			tabRoT				= new CreativeTabsRoT("RoT");
 	public static final RotTab tabRot = new RotTab("tabRot");
 	
 	@EventHandler
@@ -100,7 +100,7 @@ public class Rot {
 		net.registerMessage(CustomItemPacket.CustomItemPacketHandler.class,
 				CustomItemPacket.class, this.packetId++, Side.SERVER);
 		
-		//GameRegistry.registerTileEntity(TileEntityBaseNode.class, MODID + "baseNode"); // This
+		GameRegistry.registerTileEntity(TileEntityBaseBuilder.class, MOD_ID + "baseNode"); // This
 																						// needs
 																						// to
 																						// be
@@ -123,13 +123,6 @@ public class Rot {
 		RotItems.init();
 		RotItems.register();
 		
-		//RotBlocks.init();
-		//RotBlocks.registerBlocks();
-		
-		//RotItems.init();
-		//RotItems.registerItems();
-		
-		//RotRecipes.init();
 		RotBlocksItemsRecipes.init();
 		
 		GameRegistry.registerWorldGenerator(new RotWorldGenerator(), packetId);

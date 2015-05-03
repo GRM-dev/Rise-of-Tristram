@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import ca.grm.rot.blocks.TileEntityBaseNode;
+import ca.grm.rot.blocks.TileEntityBaseBuilder;
 
 public class GuiHandler implements IGuiHandler {
 	@Override
@@ -14,8 +14,8 @@ public class GuiHandler implements IGuiHandler {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
 		switch (guiId) {
 			case 0 :
-				if (entity instanceof TileEntityBaseNode) {
-					return new GuiBaseNode((TileEntityBaseNode) entity, player);
+				if (entity instanceof TileEntityBaseBuilder) {
+					return new GuiBaseNode((TileEntityBaseBuilder) entity, player);
 				} else {
 					return null;
 				}
@@ -39,7 +39,7 @@ public class GuiHandler implements IGuiHandler {
 		
 		switch (guiId) {
 			case 0 :
-				if (entity instanceof TileEntityBaseNode) {
+				if (entity instanceof TileEntityBaseBuilder) {
 					return null;
 					// ContainerPedestal(player.inventory, (TileEntityPedestal)
 					// te);

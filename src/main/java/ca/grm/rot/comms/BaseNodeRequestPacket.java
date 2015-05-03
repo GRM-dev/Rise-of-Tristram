@@ -6,37 +6,37 @@ import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import ca.grm.rot.blocks.TileEntityBaseNode;
+import ca.grm.rot.blocks.TileEntityBaseBuilder;
 
 public class BaseNodeRequestPacket implements IMessage {
 	public static class BaseNodeRequestPacketHandler implements IMessageHandler<BaseNodeRequestPacket, IMessage> {
 		
 		@Override
 		public IMessage onMessage(BaseNodeRequestPacket message, MessageContext ctx) {
-			TileEntityBaseNode te;
+			TileEntityBaseBuilder te;
 			// 0 = add, 1 = clear, 2 = start
 			switch (message.actionType) {
 				case 0 :
-					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
+					te = (TileEntityBaseBuilder) ctx.getServerHandler().playerEntity
 							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
 									message.zTe));
 					te.addLocation(message.xB, message.yB, message.zB,
 							Block.getBlockById(message.blockId));
 					break;
 				case 1 :
-					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
+					te = (TileEntityBaseBuilder) ctx.getServerHandler().playerEntity
 							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
 									message.zTe));
 					te.clearLocations();
 					break;
 				case 2 :
-					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
+					te = (TileEntityBaseBuilder) ctx.getServerHandler().playerEntity
 							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
 									message.zTe));
 					te.startBuilding();
 					break;
 				case 3 :
-					te = (TileEntityBaseNode) ctx.getServerHandler().playerEntity
+					te = (TileEntityBaseBuilder) ctx.getServerHandler().playerEntity
 							.getEntityWorld().getTileEntity(new BlockPos(message.xTe, message.yTe,
 									message.zTe));
 					te.updateClient(ctx.getServerHandler().playerEntity);

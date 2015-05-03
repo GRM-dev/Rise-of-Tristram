@@ -10,14 +10,17 @@ import ca.grm.rot.Rot;
 
 public class RotBlocks {
 	
+	// TileEntity Blocks
+	public static Block baseBuilder;
+	
 	// These are the metal-blocks
-	public static Block silver_block;
-	public static Block bronze_block;
-	public static Block copper_block;
-	public static Block lead_block;
-	public static Block platinum_block;
-	public static Block steel_block;
-	public static Block tin_block;
+	public static Block silverBlock;
+	public static Block bronzeBlock;
+	public static Block copperBlock;
+	public static Block leadBlock;
+	public static Block platinumBlock;
+	public static Block steelBlock;
+	public static Block tinBlock;
 	
 	// These are the ore blocks
 	public static Block silverOre;
@@ -29,14 +32,17 @@ public class RotBlocks {
 	
 	public static void init()
 	{
+		// Tiles
+		baseBuilder = new BlockBaseBuilder().setUnlocalizedName("baseBuilder").setCreativeTab(Rot.tabRot);
+		
 		// Metals
-		silver_block = new MetalBlocks(Material.iron).setUnlocalizedName("silver_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
-		bronze_block = new MetalBlocks(Material.iron).setUnlocalizedName("bronze_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
-		copper_block = new MetalBlocks(Material.iron).setUnlocalizedName("copper_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
-		lead_block = new MetalBlocks(Material.iron).setUnlocalizedName("lead_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
-		platinum_block = new MetalBlocks(Material.iron).setUnlocalizedName("platinum_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
-		steel_block = new MetalBlocks(Material.iron).setUnlocalizedName("steel_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
-		tin_block = new MetalBlocks(Material.iron).setUnlocalizedName("tin_block").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		silverBlock = new MetalBlocks(Material.iron).setUnlocalizedName("silverBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		bronzeBlock = new MetalBlocks(Material.iron).setUnlocalizedName("bronzeBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		copperBlock = new MetalBlocks(Material.iron).setUnlocalizedName("copperBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		leadBlock = new MetalBlocks(Material.iron).setUnlocalizedName("leadBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		platinumBlock = new MetalBlocks(Material.iron).setUnlocalizedName("platinumBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		steelBlock = new MetalBlocks(Material.iron).setUnlocalizedName("steelBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
+		tinBlock = new MetalBlocks(Material.iron).setUnlocalizedName("tinBlock").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(10);
 		
 		// Ores
 		silverOre = new OreBlocks(Material.rock).setUnlocalizedName("silverOre").setCreativeTab(Rot.tabRot).setHardness(6).setResistance(5);
@@ -49,14 +55,17 @@ public class RotBlocks {
 	
 	public static void register()
 	{
+		// Tiles
+		GameRegistry.registerBlock(baseBuilder, baseBuilder.getUnlocalizedName().substring(5));
+		
 		// Metals
-		GameRegistry.registerBlock(silver_block, silver_block.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(bronze_block, bronze_block.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(copper_block, copper_block.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(lead_block, lead_block.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(platinum_block, platinum_block.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(steel_block, steel_block.getUnlocalizedName().substring(5));
-		GameRegistry.registerBlock(tin_block, tin_block.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(silverBlock, silverBlock.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(bronzeBlock, bronzeBlock.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(copperBlock, copperBlock.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(leadBlock, leadBlock.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(platinumBlock, platinumBlock.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(steelBlock, steelBlock.getUnlocalizedName().substring(5));
+		GameRegistry.registerBlock(tinBlock, tinBlock.getUnlocalizedName().substring(5));
 		
 		// Ores
 		GameRegistry.registerBlock(silverOre, silverOre.getUnlocalizedName().substring(5));
@@ -69,14 +78,17 @@ public class RotBlocks {
 	
 	public static void registerRenders()
 	{
+		// Tiles
+		registerRender(baseBuilder);
+		
 		// Metals
-		registerRender(silver_block);
-		registerRender(bronze_block);
-		registerRender(copper_block);
-		registerRender(lead_block);
-		registerRender(platinum_block);
-		registerRender(steel_block);
-		registerRender(tin_block);
+		registerRender(silverBlock);
+		registerRender(bronzeBlock);
+		registerRender(copperBlock);
+		registerRender(leadBlock);
+		registerRender(platinumBlock);
+		registerRender(steelBlock);
+		registerRender(tinBlock);
 		
 		// Ores
 		registerRender(silverOre);
@@ -88,12 +100,6 @@ public class RotBlocks {
 	}
 	
 	public static void registerRender(Block block)
-	{
-		Item item = Item.getItemFromBlock(block);
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Rot.MOD_ID + ":" + item.getUnlocalizedName().substring(5), "inventory"));
-	}
-	
-	public static void registerRenderGalena(Block block)
 	{
 		Item item = Item.getItemFromBlock(block);
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Rot.MOD_ID + ":" + item.getUnlocalizedName().substring(5), "inventory"));

@@ -10,14 +10,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.Rot;
-import ca.grm.rot.blocks.TileEntityBaseNode;
+import ca.grm.rot.blocks.TileEntityBaseBuilder;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.libs.UtilityBlockLocationType;
 import ca.grm.rot.libs.UtilityFunctions;
@@ -29,7 +29,7 @@ public class GuiBaseNode extends GuiContainer {
 																	"textures/gui/largeBase.png");
 
 	private EntityPlayer					player;
-	private TileEntityBaseNode				te;
+	private TileEntityBaseBuilder				te;
 	private int								cw				= 16;											// control
 																											// Width
 	private int								ch				= 16;											// control
@@ -64,8 +64,9 @@ public class GuiBaseNode extends GuiContainer {
 	private int								indexCounter	= this.INDEX_START;
 	private int								startLeft		= this.cw * 2,
 			startTop = this.ch * 2;
+	private int teX, teY, teZ;
 
-	public GuiBaseNode(TileEntityBaseNode tileEntity, EntityPlayer player) {
+	public GuiBaseNode(TileEntityBaseBuilder tileEntity, EntityPlayer player) {
 		super(new ContainerNull());
 
 		this.player = player;
@@ -73,6 +74,9 @@ public class GuiBaseNode extends GuiContainer {
 		this.locations = this.te.locations;
 		this.xSize = 227;
 		this.ySize = 226;
+		this.teX = te.getPos().getX();
+		this.teY = te.getPos().getY();
+		this.teZ = te.getPos().getZ();
 	}
 
 	/** Button Clicks **/
@@ -82,8 +86,8 @@ public class GuiBaseNode extends GuiContainer {
 		if (button.id < this.indexCounter) {
 			switch (button.id) {
 				case 0 : // Start Building
-					Rot.net.sendToServer(new BaseNodeRequestPacket(2, this.te.getPos().getX(),
-							this.te.getPos().getY(), this.te.getPos().getZ(), 0, 0, 0, 0));
+					Rot.net.sendToServer(new BaseNodeRequestPacket(2, this.teX,
+							this.teY, this.teZ, 0, 0, 0, 0));
 					break;
 				case 1 : // Send List
 					if (!this.locations.isEmpty()) {
@@ -91,7 +95,7 @@ public class GuiBaseNode extends GuiContainer {
 						for (int l = 0; l < this.locations.size(); l++) {
 							ublt = (UtilityBlockLocationType) this.locations.get(l);
 							Rot.net.sendToServer(new BaseNodeRequestPacket(0,
-									this.te.getPos().getX(), this.te.getPos().getY(), this.te.getPos().getZ(),
+									this.teX, this.teY, this.teZ,
 									ublt.x, ublt.y, ublt.z, Block
 											.getIdFromBlock(ublt.block)));
 						}
@@ -99,8 +103,8 @@ public class GuiBaseNode extends GuiContainer {
 					this.locations.clear();
 					break;
 				case 2 : // -X left/west
-					Rot.net.sendToServer(new BaseNodeRequestPacket(1, this.te.getPos().getX(),
-							this.te.getPos().getY(), this.te.getPos().getZ(), 0, 0, 0, 0));
+					Rot.net.sendToServer(new BaseNodeRequestPacket(1, this.teX,
+							this.teY, this.teZ, 0, 0, 0, 0));
 					this.locations.clear();
 					break;
 				case 3 : // +X right/east
@@ -144,36 +148,36 @@ public class GuiBaseNode extends GuiContainer {
 					this.zOffset++;
 					break;
 				case 12 : // Decrease
-					if ((this.yOffset1 + this.te.getPos().getY()) == 255) {
+					if ((this.yOffset1 + this.teY) == 255) {
 						break;
 					} else {
 						this.yOffset1++;
 					}
 					break;
 				case 13 :
-					if ((this.yOffset1 + this.te.getPos().getY()) == 0) {
+					if ((this.yOffset1 + this.teY) == 0) {
 						break;
 					} else {
 						this.yOffset1--;
 					}
 					break;
 				case 14 :
-					if ((this.yOffset2 + this.te.getPos().getY()) == 255) {
+					if ((this.yOffset2 + this.teY) == 255) {
 						break;
 					} else {
 						this.yOffset2++;
 					}
 					break;
 				case 15 :
-					if ((this.yOffset2 + this.te.getPos().getY()) == 0) {
+					if ((this.yOffset2 + this.teY) == 0) {
 						break;
 					} else {
 						this.yOffset2--;
 					}
 					break;
 				case 16 :
-					Rot.net.sendToServer(new BaseNodeRequestPacket(3, this.te.getPos().getX(),
-							this.te.getPos().getY(), this.te.getPos().getZ(), 0, 0, 0, 0));
+					Rot.net.sendToServer(new BaseNodeRequestPacket(3, this.teX,
+							this.teY, this.teZ, 0, 0, 0, 0));
 					break;
 			}
 		}
@@ -207,8 +211,8 @@ public class GuiBaseNode extends GuiContainer {
 					for (int xs = xh; xs >= xl; xs--) {
 						for (int zs = zh; zs >= zl; zs--) {
 							for (int ys = yh; ys >= yl; ys--) {
-								addLocation(xs + this.te.getPos().getX(), ys + this.te.getPos().getY(), zs
-										+ this.te.getPos().getZ());
+								addLocation(xs + this.teX, ys + this.teY, zs
+										+ this.teZ);
 							}
 						}
 					}
@@ -217,7 +221,7 @@ public class GuiBaseNode extends GuiContainer {
 
 			} else// single select
 			{
-				addLocation(xB + this.te.getPos().getX(), yB + this.te.getPos().getY(), zB + this.te.getPos().getZ());
+				addLocation(xB + this.teX, yB + this.teY, zB + this.teZ);
 			}
 		}
 		updateButtons();
@@ -366,28 +370,28 @@ public class GuiBaseNode extends GuiContainer {
 			this.zOffset++;
 			updateButtons();
 		} else if (par2 == this.mc.gameSettings.keyBindJump.getKeyCode()) {
-			if ((this.yOffset1 + this.te.getPos().getY()) == 255) {
+			if ((this.yOffset1 + this.teY) == 255) {
 				return;
 			} else {
 				this.yOffset1++;
 			}
 			updateButtons();
 		} else if (par2 == Keyboard.KEY_DOWN) {
-			if ((this.yOffset2 + this.te.getPos().getY()) == 0) {
+			if ((this.yOffset2 + this.teY) == 0) {
 				return;
 			} else {
 				this.yOffset2--;
 			}
 			updateButtons();
 		} else if (par2 == Keyboard.KEY_UP) {
-			if ((this.yOffset2 + this.te.getPos().getY()) == 255) {
+			if ((this.yOffset2 + this.teY) == 255) {
 				return;
 			} else {
 				this.yOffset2++;
 			}
 			updateButtons();
 		} else if (par2 == this.mc.gameSettings.keyBindSneak.getKeyCode()) {
-			if ((this.yOffset1 + this.te.getPos().getY()) == 0) {
+			if ((this.yOffset1 + this.teY) == 0) {
 				return;
 			} else {
 				this.yOffset1--;
@@ -449,13 +453,13 @@ public class GuiBaseNode extends GuiContainer {
 				String s1 = "x";
 				String s2 = "x";
 				Block worldBlock1 = this.te.getWorld()
-						.getBlock(x + this.te.xCoord + this.xOffset,
-								this.yOffset1 + this.te.yCoord,
-								z + this.te.zCoord + this.zOffset);
+						.getBlockState(new BlockPos(x + this.teX + this.xOffset,
+								this.yOffset1 + this.teY,
+								z + this.teZ + this.zOffset)).getBlock();
 				Block worldBlock2 = this.te.getWorld()
-						.getBlock(x + this.te.xCoord + this.xOffset,
-								this.yOffset2 + this.te.yCoord,
-								z + this.te.zCoord + this.zOffset);
+						.getBlockState(new BlockPos(x + this.teX + this.xOffset,
+								this.yOffset2 + this.teY,
+								z + this.teZ + this.zOffset)).getBlock();
 				if (this.selectionMode == 1) {
 					if ((this.AB != null) && (this.AB[0] != null)
 							&& ((x + this.xOffset) == (int) this.AB[0].x)
@@ -475,24 +479,24 @@ public class GuiBaseNode extends GuiContainer {
 					// Look through every Item of the list
 					for (int ubltl = 0; ubltl < this.locations.size(); ubltl++) {
 						ubltS = (UtilityBlockLocationType) this.locations.get(ubltl);
-						if (ubltS.y == (this.yOffset1 + this.te.yCoord)) {
-							if ((ubltS.x == (x + this.xOffset + this.te.xCoord))
-									&& (ubltS.z == (z + this.zOffset + this.te.zCoord))) {
+						if (ubltS.y == (this.yOffset1 + this.teY)) {
+							if ((ubltS.x == (x + this.xOffset + this.teX))
+									&& (ubltS.z == (z + this.zOffset + this.teZ))) {
 								s1 = "*";
-								c1 = ubltS.block.getMapColor(0).colorValue;
-								t1 = ubltS.block.getIcon(1, 0);
+								c1 = ubltS.block.getRenderColor(ubltS.block.getDefaultState());
+								//t1 = ubltS.block.getIcon(1, 0);
 								break;
 							}
 						}
 					}
 					for (int ubltl = 0; ubltl < this.locations.size(); ubltl++) {
 						ubltS = (UtilityBlockLocationType) this.locations.get(ubltl);
-						if (ubltS.y == (this.yOffset2 + this.te.yCoord)) {
-							if ((ubltS.x == (x + this.xOffset + this.te.xCoord))
-									&& (ubltS.z == (z + this.zOffset + this.te.zCoord))) {
+						if (ubltS.y == (this.yOffset2 + this.teY)) {
+							if ((ubltS.x == (x + this.xOffset + this.teX))
+									&& (ubltS.z == (z + this.zOffset + this.teZ))) {
 								s2 = "*";
-								c2 = ubltS.block.getMapColor(0).colorValue;
-								t2 = ubltS.block.getIcon(1, 0);
+								c2 = ubltS.block.getRenderColor(ubltS.block.getDefaultState());
+								//t2 = ubltS.block.getIcon(1, 0);
 								break;
 							}
 						}
@@ -517,7 +521,7 @@ public class GuiBaseNode extends GuiContainer {
 				} else {
 					this.coordButtons1[buttonArrayIndex].packedFGColour = c1 == this.defaultColor
 							? (worldBlock1.equals(Blocks.air) ? 0x00CCFF : worldBlock1
-									.getMapColor(0).colorValue) : c1;
+									.getRenderColor(worldBlock1.getDefaultState())) : c1;
 				}
 				if (((x + this.xOffset) == 0) && (this.yOffset2 == 0)
 						&& ((z + this.zOffset) == 0)) {
@@ -525,10 +529,12 @@ public class GuiBaseNode extends GuiContainer {
 				} else {
 					this.coordButtons2[buttonArrayIndex].packedFGColour = c2 == this.defaultColor
 							? (worldBlock2.equals(Blocks.air) ? 0x00CCFF : worldBlock2
-									.getMapColor(0).colorValue) : c2;
+									.getRenderColor(worldBlock2.getDefaultState())) : c2;
 				}
 				float b1 = 1.0f, b2 = 1.0f;
 				int depth1 = 0, depth2 = 0;
+				/**Added a shadow for giving off "depth" in the button menu**/
+				/*
 				while (t1 == null) {
 					t1 = this.te
 							.getWorldObj()
@@ -578,13 +584,13 @@ public class GuiBaseNode extends GuiContainer {
 						MathHelper.clamp_float(b2 -= 0.2f, 0, 1f);
 						depth2++;
 					}
-				}
-				this.coordButtons1[buttonArrayIndex].tex = t1;
+				}*/
+				//this.coordButtons1[buttonArrayIndex].tex = t1;
 				this.coordButtons1[buttonArrayIndex].x = x + this.xOffset;
 				this.coordButtons1[buttonArrayIndex].y = this.yOffset1;
 				this.coordButtons1[buttonArrayIndex].z = z + this.zOffset;
 				this.coordButtons1[buttonArrayIndex].brightness = b1;
-				this.coordButtons2[buttonArrayIndex].tex = t2;
+				//this.coordButtons2[buttonArrayIndex].tex = t2;
 				this.coordButtons2[buttonArrayIndex].x = x + this.xOffset;
 				this.coordButtons2[buttonArrayIndex].y = this.yOffset2;
 				this.coordButtons2[buttonArrayIndex].z = z + this.zOffset;

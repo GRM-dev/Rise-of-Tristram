@@ -9,13 +9,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class RotItems {
 	
 	// Nuggets
-	public static Item silver_nugget;
-	public static Item tin_nugget;
-	public static Item copper_nugget;
-	public static Item platinum_nugget;
-	public static Item lead_nugget;
-	public static Item bronze_nugget;
-	public static Item steel_nugget;
+	public static Item silverNugget;
+	public static Item tinNugget;
+	public static Item copperNugget;
+	public static Item platinumNugget;
+	public static Item leadNugget;
+	public static Item bronzeNugget;
+	public static Item steelNugget;
 	
 	// Ingots
 	public static Item silverIngot;
@@ -28,13 +28,13 @@ public class RotItems {
 	
 	public static void init()
 	{
-		silver_nugget = new Item().setUnlocalizedName("silver_nugget").setCreativeTab(Rot.tabRot);
-		tin_nugget = new Item().setUnlocalizedName("tin_nugget").setCreativeTab(Rot.tabRot);
-		copper_nugget = new Item().setUnlocalizedName("copper_nugget").setCreativeTab(Rot.tabRot);
-		platinum_nugget = new Item().setUnlocalizedName("platinum_nugget").setCreativeTab(Rot.tabRot);
-		lead_nugget = new Item().setUnlocalizedName("lead_nugget").setCreativeTab(Rot.tabRot);
-		bronze_nugget = new Item().setUnlocalizedName("bronze_nugget").setCreativeTab(Rot.tabRot);
-		steel_nugget = new Item().setUnlocalizedName("steel_nugget").setCreativeTab(Rot.tabRot);
+		silverNugget = new Item().setUnlocalizedName("silverNugget").setCreativeTab(Rot.tabRot);
+		tinNugget = new Item().setUnlocalizedName("tinNugget").setCreativeTab(Rot.tabRot);
+		copperNugget = new Item().setUnlocalizedName("copperNugget").setCreativeTab(Rot.tabRot);
+		platinumNugget = new Item().setUnlocalizedName("platinumNugget").setCreativeTab(Rot.tabRot);
+		leadNugget = new Item().setUnlocalizedName("leadNugget").setCreativeTab(Rot.tabRot);
+		bronzeNugget = new Item().setUnlocalizedName("bronzeNugget").setCreativeTab(Rot.tabRot);
+		steelNugget = new Item().setUnlocalizedName("steelNugget").setCreativeTab(Rot.tabRot);
 		
 		silverIngot = new Item().setUnlocalizedName("silverIngot").setCreativeTab(Rot.tabRot);
 		tinIngot = new Item().setUnlocalizedName("tinIngot").setCreativeTab(Rot.tabRot);
@@ -47,13 +47,13 @@ public class RotItems {
 	
 	public static void register()
 	{
-		GameRegistry.registerItem(silver_nugget, silver_nugget.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(tin_nugget, tin_nugget.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(copper_nugget, copper_nugget.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(platinum_nugget, platinum_nugget.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(lead_nugget, lead_nugget.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(bronze_nugget, bronze_nugget.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(steel_nugget, steel_nugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(silverNugget, silverNugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(tinNugget, tinNugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(copperNugget, copperNugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(platinumNugget, platinumNugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(leadNugget, leadNugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(bronzeNugget, bronzeNugget.getUnlocalizedName().substring(5));
+		GameRegistry.registerItem(steelNugget, steelNugget.getUnlocalizedName().substring(5));
 		
 		GameRegistry.registerItem(silverIngot, silverIngot.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(tinIngot, tinIngot.getUnlocalizedName().substring(5));
@@ -66,13 +66,13 @@ public class RotItems {
 	
 	public static void registerRenders()
 	{
-		registerRender(silver_nugget);
-		registerRender(tin_nugget);
-		registerRender(copper_nugget);
-		registerRender(platinum_nugget);
-		registerRender(lead_nugget);
-		registerRender(bronze_nugget);
-		registerRender(steel_nugget);
+		registerRender(silverNugget);
+		registerRender(tinNugget);
+		registerRender(copperNugget);
+		registerRender(platinumNugget);
+		registerRender(leadNugget);
+		registerRender(bronzeNugget);
+		registerRender(steelNugget);
 		
 		registerRender(silverIngot);
 		registerRender(tinIngot);

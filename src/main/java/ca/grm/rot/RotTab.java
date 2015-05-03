@@ -13,7 +13,7 @@ public class RotTab extends CreativeTabs{
 	@Override
 	public Item getTabIconItem() {
 		// TODO Auto-generated method stub
-		return RotItems.bronze_nugget;
+		return RotItems.bronzeNugget;
 	}
 	
 }
