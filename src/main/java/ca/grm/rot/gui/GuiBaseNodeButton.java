@@ -1,62 +1,58 @@
 package ca.grm.rot.gui;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.GlStateManager;
 
-import org.lwjgl.opengl.GL11;
-
-/**
- * Just a GuiButton with an extra variable, really wanted this in the normal
- * button
- **/
 public class GuiBaseNodeButton extends GuiButton {
-	public int		x, y, z;
-	public IIcon	tex;
-	public float	brightness	= 1.0f;
+
+	public int x,y,z;
+	public Block block;
 	
-	public GuiBaseNodeButton(int par1, int par2, int par3, int par4, int par5,
-			String par6Str) {
-		super(par1, par2, par3, par4, par5, par6Str);
+	public GuiBaseNodeButton(int buttonId, int x, int y, int widthIn,
+			int heightIn, String buttonText) {
+		super(buttonId, x, y, widthIn, heightIn, buttonText);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) 
+	{
+		if (this.visible)
+        {
+            FontRenderer fontrenderer = mc.fontRendererObj;
+            //mc.getTextureManager().bindTexture(buttonTextures);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+            int k = this.getHoverState(this.hovered);
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            GlStateManager.blendFunc(770, 771);
+            /*this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + k * 20, this.width / 2, this.height);
+            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + k * 20, this.width / 2, this.height);*/
+            drawRect(this.xPosition, this.yPosition, this.xPosition + width, this.yPosition + height, 0xff000000);
+            drawRect(this.xPosition + 1, this.yPosition + 1, this.xPosition + (width - 2), this.yPosition + (height - 2), 0xffffff00);
+           // System.out.println(block.getBlockColor() + ":"+block.getLocalizedName());
+            this.mouseDragged(mc, mouseX, mouseY);
+            int l = 14737632;
+
+            if (packedFGColour != 0)
+            {
+                l = packedFGColour;
+            }
+            else if (!this.enabled)
+            {
+                l = 10526880;
+            }
+            else if (this.hovered)
+            {
+                l = 16777120;
+            }
+
+            this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
+        }
 	}
 
-	@Override
-	public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_) {
-		if (this.visible) {
-			TextureManager manager = Minecraft.getMinecraft().renderEngine;
-			manager.bindTexture(manager.getResourceLocation(0));
-			// RENDER ITEMS
-			FontRenderer fontrenderer = p_146112_1_.fontRendererObj;
-			GL11.glColor4f(this.brightness, this.brightness, this.brightness, 1.0F);
-			this.hovered = (p_146112_2_ >= this.xPosition)
-					&& (p_146112_3_ >= this.yPosition)
-					&& (p_146112_2_ < (this.xPosition + this.width))
-					&& (p_146112_3_ < (this.yPosition + this.height));
-			int k = this.getHoverState(this.hovered);
-			
-			GL11.glEnable(GL11.GL_BLEND);
-			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			if (this.tex != null) {
-				drawTexturedModelRectFromIcon(this.xPosition, this.yPosition, this.tex,
-						16, 16);
-			}
-			this.mouseDragged(p_146112_1_, p_146112_2_, p_146112_3_);
-			int l = 14737632;
-			
-			if (this.packedFGColour != 0) {
-				l = this.packedFGColour;
-			} else if (!this.enabled) {
-				l = 10526880;
-			} else if (this.hovered) {
-				l = 16777120;
-			}
-			
-			this.drawCenteredString(fontrenderer, this.displayString, this.xPosition
-					+ (this.width / 2), this.yPosition + ((this.height - 8) / 2), l);
-		}
-	}
-	
 }
