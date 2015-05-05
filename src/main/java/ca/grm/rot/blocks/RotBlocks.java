@@ -61,11 +61,11 @@ public class RotBlocks {
 		galenaOre = new GalenaOreBlock(Material.rock).setUnlocalizedName("galenaOre").setCreativeTab(Rot.tabRot).setHardness(9).setResistance(4);
 		
 		// Sands
-		amethystSand = new SandBlocks(Material.sand, RotItems.rawAmethyst).setUnlocalizedName("amethystSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
-		diamondSand = new SandBlocks(Material.sand, RotItems.rawDiamond).setUnlocalizedName("diamondSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
-		emeraldSand = new SandBlocks(Material.sand, RotItems.rawEmerald).setUnlocalizedName("emeraldSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
-		rubySand = new SandBlocks(Material.sand, RotItems.rawRuby).setUnlocalizedName("rubySand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
-		topazSand = new SandBlocks(Material.sand, RotItems.rawTopaz).setUnlocalizedName("topazSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		amethystSand = new SandBlocks(Material.sand, RotItems.rawAmethyst, 0, 1, 1).setUnlocalizedName("amethystSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		diamondSand = new SandBlocks(Material.sand, RotItems.rawDiamond, 0, 1, 1).setUnlocalizedName("diamondSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		emeraldSand = new SandBlocks(Material.sand, RotItems.rawEmerald, 0, 1, 1).setUnlocalizedName("emeraldSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		rubySand = new SandBlocks(Material.sand, RotItems.rawRuby, 0, 1, 1).setUnlocalizedName("rubySand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
+		topazSand = new SandBlocks(Material.sand, RotItems.rawTopaz, 0, 1, 1).setUnlocalizedName("topazSand").setCreativeTab(Rot.tabRot).setHardness(3).setResistance(3);
 	}
 	
 	public static void register()

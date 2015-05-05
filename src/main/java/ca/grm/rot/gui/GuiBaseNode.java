@@ -531,8 +531,8 @@ public class GuiBaseNode extends GuiContainer {
 							? (worldBlock2.equals(Blocks.air) ? 0x00CCFF : worldBlock2
 									.getRenderColor(worldBlock2.getDefaultState())) : c2;
 				}
-				//float b1 = 1.0f, b2 = 1.0f;
-				//int depth1 = 0, depth2 = 0;
+				float b1 = 1.0f, b2 = 1.0f;
+				int depth1 = 0, depth2 = 0;
 				/**Added a shadow for giving off "depth" in the button menu**/
 				/*
 				while (t1 == null) {
@@ -589,15 +589,12 @@ public class GuiBaseNode extends GuiContainer {
 				this.coordButtons1[buttonArrayIndex].x = x + this.xOffset;
 				this.coordButtons1[buttonArrayIndex].y = this.yOffset1;
 				this.coordButtons1[buttonArrayIndex].z = z + this.zOffset;
-				//this.coordButtons1[buttonArrayIndex].brightness = b1;
-				this.coordButtons1[buttonArrayIndex].block = worldBlock1;
-				
+				this.coordButtons1[buttonArrayIndex].brightness = b1;
 				//this.coordButtons2[buttonArrayIndex].tex = t2;
 				this.coordButtons2[buttonArrayIndex].x = x + this.xOffset;
 				this.coordButtons2[buttonArrayIndex].y = this.yOffset2;
 				this.coordButtons2[buttonArrayIndex].z = z + this.zOffset;
-				//this.coordButtons2[buttonArrayIndex].brightness = b2;
-				this.coordButtons2[buttonArrayIndex].block = worldBlock2;
+				this.coordButtons2[buttonArrayIndex].brightness = b2;
 				buttonArrayIndex++;
 			}
 		}

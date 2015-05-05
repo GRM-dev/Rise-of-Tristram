@@ -118,13 +118,14 @@ public class Rot {
 		
 		proxy.registerKeyBindings();
 		
-		RotBlocks.init();
-		RotBlocks.register();
 		RotItems.init();
 		RotItems.register();
 		
+		RotBlocks.init();
+		RotBlocks.register();
+		
 		RotBlocksItemsRecipes.init();
 		
-		GameRegistry.registerWorldGenerator(new RotWorldGenerator(), packetId);
+		GameRegistry.registerWorldGenerator(new RotWorldGenerator(), 1);
 	}
 }

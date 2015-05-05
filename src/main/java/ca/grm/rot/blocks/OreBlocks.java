@@ -15,5 +15,6 @@ public class OreBlocks extends Block
 	public OreBlocks(Material materialIn) 
 	{
 		super(materialIn);
+		setHarvestLevel("pickaxe", 2);
 	}
 }

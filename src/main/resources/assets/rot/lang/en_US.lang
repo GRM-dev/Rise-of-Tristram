@@ -41,7 +41,6 @@ item.weaponStaff.name=Staff
 item.itemSwordSoul.name=Soul Rend
 
 
-
 itemGroup.tabRot=Rise of Tristram
 
 tile.silverBlock.name=Block of Silver
@@ -59,6 +58,12 @@ tile.platinumOre.name=Platinum Ore
 tile.tinOre.name=Tin Ore
 tile.galenaOre.name=Galena Ore
 
+tile.amethystSand.name=Amethyst Sand
+tile.diamondSand.name=Diamond Sand
+tile.emeraldSand.name=Emerald Sand
+tile.rubySand.name=Ruby Sand
+tile.topazSand.name=Topaz Sand
+
 item.silverNugget.name=Silver Nugget
 item.bronzeNugget.name=Bronze Nugget
 item.copperNugget.name=Copper Nugget
@@ -66,6 +71,12 @@ item.leadNugget.name=Lead Nugget
 item.platinumNugget.name=Platinum Nugget
 item.steelNugget.name=Steel Nugget
 item.tinNugget.name=Tin Nugget
+
+item.rawAmethyst.name=Raw Amethyst
+item.rawDiamond.name=Raw Diamond
+item.rawEmerald.name=Raw Emerald
+item.rawRuby.name=Raw Ruby
+item.rawTopaz.name=Raw Topaz
 
 item.silverIngot.name=Silver Ingot
 item.bronzeIngot.name=Bronze Ingot

@@ -8,5 +8,6 @@ public class MetalBlocks extends Block
 	public MetalBlocks(Material materialIn) 
 	{
 		super(materialIn);
+		setHarvestLevel("pickaxe", 2);
 	}
 }
