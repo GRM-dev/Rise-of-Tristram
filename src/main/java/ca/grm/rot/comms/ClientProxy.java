@@ -2,6 +2,8 @@ package ca.grm.rot.comms;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -30,7 +32,13 @@ public class ClientProxy extends CommonProxy {
 	public void handleClassMessage(ClassResponsePacket message,
 			MessageContext ctx) {
 		System.out.println("got a response about changing to: " + message.className);
-		//ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentClass(message.className);
+		try{
+		ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentClass(message.className);
+		}
+		catch (NullPointerException e)
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/*@Override

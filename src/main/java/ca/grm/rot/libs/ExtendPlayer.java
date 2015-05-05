@@ -13,171 +13,6 @@ import ca.grm.rot.Rot;
 
 public class ExtendPlayer implements IExtendedEntityProperties {
 	
-	private enum playerClass {
-		NOCLASS(
-				classNames[0],
-				0,
-				0,
-				0,
-				0,
-				0,
-				200f,
-				200f) ,
-		FIGHTER(
-				classNames[1],
-				3,
-				1,
-				-3,
-				1,
-				-2,
-				50f,
-				350f) ,
-		MAGE(
-				classNames[2],
-				-2,
-				0,
-				5,
-				-2,
-				-1,
-				350f,
-				50f) ,
-		TANK(
-				classNames[3],
-				1,
-				-2,
-				-2,
-				4,
-				-1,
-				25f,
-				375f) ,
-		BUILDER(
-				classNames[4],
-				0,
-				2,
-				-3,
-				2,
-				-1,
-				200f,
-				200f) ,
-		RANGER(
-				classNames[5],
-				-3,
-				2,
-				-1,
-				-1,
-				3,
-				25f,
-				375f) ,
-		THIEF(
-				classNames[6],
-				-2,
-				4,
-				-1,
-				-2,
-				1,
-				125f,
-				275f);
-
-		private int	str, agi, inte, vit, dex;
-		private float	maxMana, maxStam;
-		private String	className;
-
-		private playerClass(String name, int str, int agi, int inte, int vit, int dex,
-				float maxMana, float maxStam) {
-			this.className = name;
-			this.str = str;
-			this.agi = agi;
-			this.inte = inte;
-			this.vit = vit;
-			this.dex = dex;
-			this.maxMana = maxMana;
-			this.maxStam = maxStam;
-		}
-
-		public static playerClass getClass(int classIndex) {
-			int counter = 0;
-			for (playerClass pc : playerClass.values()) {
-				if (counter == classIndex) { return pc; }
-				counter++;
-			}
-			return NOCLASS;
-		}
-		
-		public static playerClass getClass(String className) {
-			for (playerClass pc : playerClass.values()) {
-				if (pc.getClassName().equals(className)) { return pc; }
-			}
-			return NOCLASS;
-		}
-		
-		public static int getClassIndex(String className) {
-			int index = -1;
-			for (playerClass pc : playerClass.values()) {
-				index++;
-				if (pc.getClassName().equals(className)) {
-					break;
-				}
-			}
-			return index;
-		}
-		
-		public int getAgi() {
-			return this.agi;
-		}
-		
-		public String getClassName() {
-			return this.className;
-		}
-		
-		public int getDex() {
-			return this.dex;
-		}
-		
-		public int getInte() {
-			return this.inte;
-		}
-		
-		public float getMaxMana() {
-			return this.maxMana;
-		}
-
-		public float getMaxStam() {
-			return this.maxStam;
-		}
-
-		public int getStr() {
-			return this.str;
-		}
-
-		public int getVit() {
-			return this.vit;
-		}
-
-		@Override
-		public String toString() {
-			final StringBuilder sb = new StringBuilder();
-			sb.append("Class: " + this.className);
-			sb.append(" Strength Modifer: " + this.str);
-			sb.append(" Agility Modifer: " + this.agi);
-			sb.append(" Intelligence Modifer: " + this.inte);
-			sb.append(" Vitality Modifer: " + this.vit);
-			sb.append(" Dexterity Modifer: " + this.dex);
-			sb.append(" Base Mana: " + this.maxMana);
-			sb.append(" Base Stamina: " + this.maxStam);
-			return sb.toString();
-		}
-
-		/*
-		 * public static String[] getClasses()
-		 * {
-		 * String[] classNames = new String[playerClass.values().length];
-		 * for (int i = 0; i < playerClass.values().length; i++)
-		 * {
-		 * }
-		 * }
-		 */
-	}
-	
 	/*
 	 * Here I create a constant EXT_PROP_NAME for this class of properties
 	 * You need a unique name for every instance of IExtendedEntityProperties
@@ -198,8 +33,17 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 
 	public static String[]		classNames		= new String[]{
 			"Peasent", "Fighter", "Mage", "Tank", "Builder", "Ranger", "Thief"};
+	private int classAttributeStr[] = new int[]{0,3,-2,1,0,-3,-2};
+	private int classAttributeAgi[] = new int[]{0,1,0,-2,2,2,4};
+	private int classAttributeInt[] = new int[]{0,-3,5,-2,-3,-1,-1};
+	private int classAttributeVit[] = new int[]{0,1,-2,4,2,-1,2};
+	private int classAttributeDex[] = new int[]{0,-2,-1,-1,-1,3,1};
+	
+	private float classAttributeMana[] = new float[]{20,50,350,25,200,25,125};
+	private float classAttributeStam[] = new float[]{20,350,50,375,200,375,275};
 
-	private playerClass			currentClass;
+	private int	currentClass;
+	public boolean needsUpdate = false;
 	
 	// Declare other variables you want to add here
 	
@@ -219,7 +63,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	public ExtendPlayer(EntityPlayer player) {
 		this.player = player;
 
-		this.currentClass = playerClass.NOCLASS;
+		this.currentClass = 0;
 		this.dexterity = 0;
 		this.agility = 0;
 		this.intelligence = 0;
@@ -227,8 +71,8 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.vitality = 0;
 
 		// Start with max mana. Every player starts with the same amount.
-		this.currentMana = this.maxMana = 200f;
-		this.currentStam = this.maxStam = 200f;
+		this.currentMana = this.maxMana = classAttributeMana[0];
+		this.currentStam = this.maxStam = classAttributeStam[0];
 		this.player.getDataWatcher().addObject(MANA_WATCHER, this.maxMana);
 		this.player.getDataWatcher().addObject(STAM_WATCHER, this.maxStam);
 	}
@@ -351,17 +195,20 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	/** Returns Str, Agi, Int, Vit, Dex **/
 	public int[] getClassModifers() {
 		return new int[]{
-				this.currentClass.getStr(), this.currentClass.getAgi(),
+				classAttributeStr[currentClass],classAttributeAgi[currentClass],
+				classAttributeInt[currentClass],classAttributeVit[currentClass],
+				classAttributeDex[currentClass]
+				/*this.currentClass.getStr(), this.currentClass.getAgi(),
 				this.currentClass.getInte(), this.currentClass.getVit(),
-				this.currentClass.getDex()};
+				this.currentClass.getDex()*/};
 	}
 
 	public int getCurrentClassIndex() {
-		return playerClass.getClassIndex(this.currentClass.getClassName());
+		return this.currentClass;
 	}
 	
 	public String getCurrentClassName() {
-		return this.currentClass.getClassName();
+		return classNames[this.currentClass];
 	}
 
 	public float getCurrentMana() {
@@ -433,8 +280,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 				properties.getFloat(Rot.MOD_ID + "CurrentStam"));
 		this.maxStam = properties.getFloat(Rot.MOD_ID + "MaxStam");
 		
-		this.currentClass = playerClass.getClass(properties
-				.getString(Rot.MOD_ID + "Class"));
+		this.currentClass = properties.getInteger(Rot.MOD_ID + "Class");
 		// Just so you know it's working, add this line:
 		// System.out.println("[TUT PROPS] Mana from NBT: " + this.currentMana +
 		// "/" + this.maxMana);
@@ -522,7 +368,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		properties.setInteger(Rot.MOD_ID + "Agility", this.agility);
 		properties.setInteger(Rot.MOD_ID + "Vitality", this.vitality);
 		
-		properties.setString(Rot.MOD_ID + "Class", this.currentClass.getClassName());
+		properties.setInteger(Rot.MOD_ID + "Class", this.currentClass);
 		
 		// Now add our custom tag to the player's tag with a unique name (our
 		// property's name)
@@ -539,11 +385,12 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 
 	public void setAgility(int value) {
-		this.agility = MathHelper.clamp_int(value + this.currentClass.getAgi(), -20, 20);
+		this.agility = MathHelper.clamp_int(value + classAttributeAgi[this.currentClass], -20, 20);
 	}
 
-	public void setCurrentClass(String className) {
-		this.currentClass = playerClass.getClass(className);
+	public void setCurrentClass(int classID) {
+		this.currentClass = classID;
+		//reloadStats();
 	}
 
 	public void setCurrentMana(float readFloat) {
@@ -558,42 +405,42 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 
 	public void setDexterity(int value) {
 		this.dexterity = MathHelper
-				.clamp_int(value + this.currentClass.getDex(), -20, 20);
+				.clamp_int(value + classAttributeDex[this.currentClass], -20, 20);
 	}
 
 	public void setIntelligence(int value) {
-		this.intelligence = MathHelper.clamp_int(value + this.currentClass.getInte(),
+		this.intelligence = MathHelper.clamp_int(value + classAttributeInt[this.currentClass],
 				-20, 20);
-		setMaxMana(this.currentClass.getMaxMana());
+		setMaxMana(classAttributeMana[this.currentClass]);
 	}
 
 	public void setMaxMana(float readFloat) {
 		this.maxMana = MathHelper
 				.clamp_float(
 						readFloat
-								+ ((this.currentClass == playerClass.MAGE ? 45 : 20) * this.intelligence),
-						this.currentClass.getMaxMana(), 1000f);
+								+ ((this.currentClass == 2 ? 45 : 20) * this.intelligence),
+								classAttributeMana[this.currentClass], 1000f);
 	}
 
 	public void setMaxStam(float readFloat) {
 		this.maxStam = MathHelper.clamp_float(readFloat + (15 * this.strength)
-				+ (25 * this.vitality), this.currentClass.getMaxStam(), 1000f);
+				+ (25 * this.vitality), classAttributeStam[this.currentClass], 1000f);
 	}
 
 	public void setStrength(int value) {
-		this.strength = MathHelper.clamp_int(value + this.currentClass.getStr(), -20, 20);
-		setMaxStam(this.currentClass.getMaxStam());
+		this.strength = MathHelper.clamp_int(value + classAttributeStr[this.currentClass], -20, 20);
+		setMaxStam(classAttributeStam[this.currentClass]);
 	}
 
 	public void setValues(Object[] data) {
-		setCurrentClass((String) data[0]);
+		setCurrentClass((int) data[0]);
 		setCurrentMana((float) data[1]);
 		setCurrentStam((float) data[2]);
 	}
 
 	public void setVitality(int value) {
-		this.vitality = MathHelper.clamp_int(value + this.currentClass.getVit(), -20, 20);
-		setMaxStam(this.currentClass.getMaxStam());
+		this.vitality = MathHelper.clamp_int(value + classAttributeVit[this.currentClass], -20, 20);
+		setMaxStam(classAttributeStam[this.currentClass]);
 	}
 	
 	public void updateMoveSpeed()
@@ -612,5 +459,16 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void reloadStats()
+	{
+		setMaxMana(classAttributeMana[currentClass]);
+		setMaxStam(classAttributeStam[currentClass]);
+		setStrength(classAttributeStr[currentClass]);
+		setVitality(classAttributeVit[currentClass]);
+		setIntelligence(classAttributeInt[currentClass]);
+		setDexterity(classAttributeDex[currentClass]);
+		setAgility(classAttributeAgi[currentClass]);
 	}
 }

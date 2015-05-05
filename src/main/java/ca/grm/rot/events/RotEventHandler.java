@@ -1,5 +1,6 @@
 package ca.grm.rot.events;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -261,6 +262,106 @@ public class RotEventHandler {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
+			// Update Class
+			if (props.needsUpdate)
+			{
+				if (Minecraft.getMinecraft().thePlayer != null)
+				{
+					Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassIndex()), (EntityPlayerMP)player);
+					props.needsUpdate = false;
+				}
+			}
+			
+			// Adding stats to Equipment
+						for (int slot = 0; slot < player.inventory.getSizeInventory(); slot++) {
+							ItemStack is = player.inventory.getStackInSlot(slot);
+							if (is != null) {
+								Item i = is.getItem();
+								if (i instanceof ItemArmor) {
+									int rank = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "rankLevel");
+									if (rank == 0) {
+										rank = 1;
+										UtilityNBTHelper
+												.setInteger(is, Rot.MOD_ID + "rankLevel", rank);
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "strModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "agiModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "intModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "vitModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "dexModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+									}
+								}
+								if ((i instanceof ItemSword) || (i instanceof ItemTool)) {
+									int rank = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "rankLevel");
+									if (rank == 0) {
+										rank = 1;
+										UtilityNBTHelper
+												.setInteger(is, Rot.MOD_ID + "rankLevel", rank);
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "strModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+										if (i instanceof ItemSword) {
+
+										}
+										// UtilityNBTHelper.setFloat(is, Rot.MODID+"size",
+										// 0.45f * (player.worldObj.rand.nextInt(2) == 0 ? 1
+										// : -1));
+										// UtilityNBTHelper.setFloat(is, Rot.MODID+"size",
+										// 0.65f * (player.worldObj.rand.nextInt(2) == 0 ? 1
+										// : -1));
+									}
+								}
+								if (i instanceof ItemBow) {
+									int rank = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "rankLevel");
+									if (rank == 0) {
+										rank = 1;
+										UtilityNBTHelper
+												.setInteger(is, Rot.MOD_ID + "rankLevel", rank);
+										UtilityNBTHelper
+												.setInteger(
+														is,
+														Rot.MOD_ID + "dexModifier",
+														player.worldObj.rand.nextInt(3)
+																+ (rank * (player.worldObj.rand
+																		.nextInt(2) == 0 ? 1 : -1)));
+									}
+								}
+							}
+						}
+			
 			// Stat handling
 			int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0, intMod = 0;
 			ItemStack held = player.getEquipmentInSlot(0), armor1 = player
@@ -332,7 +433,7 @@ public class RotEventHandler {
 				ExtendPlayer old = ExtendPlayer.get(event.original);
 				ExtendPlayer properties = ExtendPlayer.get(event.entityPlayer);
 				properties.setValues(old.getValues());
-				Rot.net.sendToServer(new ClassRequestPacket("whatAmI"));
+				Rot.net.sendToServer(new ClassRequestPacket(0));
 			}
 		}
 	}
@@ -343,7 +444,10 @@ public class RotEventHandler {
 			if(!e.entity.worldObj.isRemote)
 			{
 				ExtendPlayer props = ExtendPlayer.get((EntityPlayer)e.entity);
-				Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassName()), (EntityPlayerMP)e.entity);
+				props.needsUpdate = true;
+				/*if (props != null)
+				Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassIndex()), (EntityPlayerMP)e.entity);
+				else System.out.println("something fucked up getting the props");*/
 			}
 			//Rot.net.sendToServer(new ClassRequestPacket("whatAmI"));
 		}

@@ -16,9 +16,9 @@ public class ClassRequestPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ClassRequestPacket message, MessageContext ctx) {
-			if (message.className.equals("whatAmI")) { return new ClassResponsePacket(
+			if (message.className ==0) { return new ClassResponsePacket(
 					ExtendPlayer.get(ctx.getServerHandler().playerEntity)
-							.getCurrentClassName()); }
+							.getCurrentClassIndex()); }
 
 			System.out.println("got a request to change to: " + message.className);
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
@@ -54,19 +54,19 @@ public class ClassRequestPacket implements IMessage {
 	}
 
 	//TODO Somehow use this to use bytes
-	public String	className;
+	public int	className;
 
 	public ClassRequestPacket() {
 
 	}
 	
-	public ClassRequestPacket(String className) {
+	public ClassRequestPacket(int className) {
 		this.className = className;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.className = ByteBufUtils.readUTF8String(buf); // this class is very
+		this.className = buf.readInt(); // this class is very
 															// useful in general
 															// for writing more
 															// complex objects
@@ -74,7 +74,7 @@ public class ClassRequestPacket implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		ByteBufUtils.writeUTF8String(buf, this.className);
+		buf.writeInt(this.className);
 	}
 	
 }
