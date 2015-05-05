@@ -13,10 +13,10 @@ public class UtilityFunctions
 	//TODO move these somewhere else
 	public static Block[]	blockTypeObjects	= {
 		Blocks.air, Blocks.planks, Blocks.cobblestone, Blocks.stone,
-		Blocks.stonebrick, Blocks.glass, Blocks.glass_pane, Blocks.brick_block};
+		Blocks.stonebrick, Blocks.glass, Blocks.glass_pane, Blocks.brick_block, Blocks.sandstone};
 	public static int[]		blockTypeColors		= {
-		0x00CCFF, 0xFFBB00, 0xAAAAAA, 0xBBBBBB, 0xBBBBBB, 0xFFFFFF, 0xFFFFFF,
-		0xAA0000							};
+		0xFF00CCFF, 0xFFFFBB00, 0xFFAAAAAA, 0xFFBBBBBB, 0xFFBBBBBB, 0xFFFFFFFF, 0xFFFFFFFF,
+		0xFFAA0000,0xFFFFBB00							};
 
 	/**Will Scan for an item, and check to see if the correct amount is in a player's inventory**/
 	public static boolean checkForItemAndAmount(Item item, int amount,
@@ -43,7 +43,7 @@ public class UtilityFunctions
 		// make sure that all the amounts were found
 		if (!correctAmount) { return false; }
 		// If one of the amounts didn't add up, return false.
-		// This is asssuming all amounts were found expect random error
+		// This is assuming all amounts were found expect random error
 		return true;
 	}
 
