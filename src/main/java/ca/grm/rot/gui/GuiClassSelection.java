@@ -48,8 +48,7 @@ public class GuiClassSelection extends GuiContainer {
 						? ExtendPlayer.classNames.length - 1 : this.selectedClass;
 				break;
 			case 2 : // Change Class
-				Rot.net.sendToServer(new ClassRequestPacket(
-						ExtendPlayer.classNames[this.selectedClass]));
+				Rot.net.sendToServer(new ClassRequestPacket(selectedClass));
 				break;
 		}
 	}
