@@ -58,10 +58,10 @@ public class RotWorldGenerator implements IWorldGenerator{
 		 this.addOreSpawn(RotBlocks.tinOre, Blocks.stone, random, world, i, j, 0, 64, 4, 10, 20);
 		 this.addOreSpawn(RotBlocks.galenaOre, Blocks.stone, random, world, i, j, 0, 48, 1, 5, 7);
 		 
-		 this.addOreSpawn(RotBlocks.amethystSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 2);
-		 this.addOreSpawn(RotBlocks.diamondSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 2);
-		 this.addOreSpawn(RotBlocks.emeraldSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 2);
-		 this.addOreSpawn(RotBlocks.rubySand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 2);
-		 this.addOreSpawn(RotBlocks.topazSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 2);
+		 this.addOreSpawn(RotBlocks.amethystSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 1);
+		 this.addOreSpawn(RotBlocks.diamondSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 1);
+		 this.addOreSpawn(RotBlocks.emeraldSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 1);
+		 this.addOreSpawn(RotBlocks.rubySand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 1);
+		 this.addOreSpawn(RotBlocks.topazSand, Blocks.sand, random, world, i, j, 0, 256, 2, 4, 1);
 	}
 }
