@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import org.lwjgl.input.Keyboard;
 
+import ca.grm.rot.Rot;
 import ca.grm.rot.blocks.RotBlocks;
 import ca.grm.rot.events.KeyHandleEvent;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
@@ -80,5 +81,16 @@ public class ClientProxy extends CommonProxy {
 				new ItemRendererSizeType());
 		MinecraftForgeClient.registerItemRenderer(RotItemsOld.weaponStaffBlue,
 				new ItemRendererSizeType());*/
+	}
+	
+	@Override
+	public void updatePlayerClass(EntityPlayer player) 
+	{
+		if (Minecraft.getMinecraft().thePlayer != null)
+		{
+			ExtendPlayer props = ExtendPlayer.get(player);
+			Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassIndex()), (EntityPlayerMP)player);
+			props.needsUpdate = false;
+		}
 	}
 }

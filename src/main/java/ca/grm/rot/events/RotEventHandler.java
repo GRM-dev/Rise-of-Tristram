@@ -747,11 +747,7 @@ public class RotEventHandler {
 			// Update Class
 			if (props.needsUpdate)
 			{
-				if (Minecraft.getMinecraft().thePlayer != null)
-				{
-					Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassIndex()), (EntityPlayerMP)player);
-					props.needsUpdate = false;
-				}
+				Rot.proxy.updatePlayerClass(player);
 			}
 			Random random = new Random();
 			// Adding stats to Equipment

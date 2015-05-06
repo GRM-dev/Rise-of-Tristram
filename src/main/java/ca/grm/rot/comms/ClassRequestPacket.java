@@ -16,7 +16,7 @@ public class ClassRequestPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ClassRequestPacket message, MessageContext ctx) {
-			if (message.className ==0) { return new ClassResponsePacket(
+			if (message.className == 0) { return new ClassResponsePacket(
 					ExtendPlayer.get(ctx.getServerHandler().playerEntity)
 							.getCurrentClassIndex()); }
 

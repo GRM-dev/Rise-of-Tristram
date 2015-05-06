@@ -50,6 +50,7 @@ public class GuiClassSelection extends GuiContainer {
 			case 2 : // Change Class
 				Rot.net.sendToServer(new ClassRequestPacket(selectedClass));
 				break;
+			case 3 : Rot.net.sendToServer(new ClassRequestPacket(0)); break;
 		}
 	}
 
@@ -84,6 +85,8 @@ public class GuiClassSelection extends GuiContainer {
 				"<- Class"));
 		this.buttonList.add(new GuiButton(2, x1, this.guiTop + this.pad + 20, 50,
 				this.ch, "Pick"));
+		this.buttonList.add(new GuiButton(3, x2, this.guiTop + this.pad + 20, 50,
+				this.ch, "Refresh"));
 
 		this.drawString(this.fontRendererObj,
 				"Current Class: " + ExtendPlayer.get(this.player).getCurrentClassName(),

@@ -1,5 +1,6 @@
 package ca.grm.rot.comms;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 
@@ -22,6 +23,11 @@ public class CommonProxy {
 
 	public void registerRenderers() {
 
+	}
+	
+	public void updatePlayerClass(EntityPlayer player)
+	{
+		
 	}
 	
 }
