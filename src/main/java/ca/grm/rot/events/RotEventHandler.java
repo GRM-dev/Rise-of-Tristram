@@ -805,17 +805,17 @@ public class RotEventHandler {
 											// Low
 											UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
 											UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
-											if (qd == 0)
+											switch (qd)
 											{
+											case (0):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Cracked");
-											}
-											else if (qd == 1)
-											{
+												break;
+											case(1):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Damaged");
-											}
-											else if (qd == 2)
-											{
+												break;
+											case(2):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Crude");
+												break;
 											}
 										}
 										else if (q >= 30 && q <= 59)
@@ -868,22 +868,27 @@ public class RotEventHandler {
 													// Sturdy
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Sturdy");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (1):
 													// Crimson
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Crimson");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (2):
 													// Glimmering
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Glimmering");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (3):
 													// Lizard's
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Lizard's");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (4):
 													// Rugged
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Rugged");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												}
 											}
 											else if (psb >= 4 && psb <= 7)
@@ -896,30 +901,37 @@ public class RotEventHandler {
 													// Balance
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Balance");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (1):
 													// Health
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Health");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (2):
 													// Warding
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Warding");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (3):
 													// Self Repair
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Self Repair");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (4):
 													// Skill
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Skill");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (5):
 													// Energy
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Energy");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (6):
 													// Jackal
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Jackal");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												}
 											}
 											else if (psb >= 8 && psb <= 9)
@@ -934,22 +946,27 @@ public class RotEventHandler {
 													// Sturdy
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Sturdy");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (1):
 													// Crimson
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Crimson");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (2):
 													// Glimmering
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Glimmering");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (3):
 													// Lizard's
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Lizard's");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												case (4):
 													// Rugged
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Rugged");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+													break;
 												}
 												
 												// Apply suffix
@@ -960,30 +977,37 @@ public class RotEventHandler {
 													// Balance
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Balance");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (1):
 													// Health
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Health");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (2):
 													// Warding
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Warding");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (3):
 													// Self Repair
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Self Repair");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (4):
 													// Skill
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Skill");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (5):
 													// Energy
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Energy");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												case (6):
 													// Jackal
 													UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Jackal");
 													UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+													break;
 												}
 											}
 										}			
@@ -1048,17 +1072,17 @@ public class RotEventHandler {
 											// Low
 											UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
 											UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
-											if (qd == 0)
+											switch (qd)
 											{
+											case (0):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Cracked");
-											}
-											else if (qd == 1)
-											{
+												break;
+											case(1):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Damaged");
-											}
-											else if (qd == 2)
-											{
+												break;
+											case(2):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Crude");
+												break;
 											}
 										}
 										else if (q >= 30 && q <= 59)
@@ -1124,17 +1148,17 @@ public class RotEventHandler {
 											// Low
 											UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
 											UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
-											if (qd == 0)
+											switch (qd)
 											{
+											case (0):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Cracked");
-											}
-											else if (qd == 1)
-											{
+												break;
+											case(1):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Damaged");
-											}
-											else if (qd == 2)
-											{
+												break;
+											case(2):
 												UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Crude");
+												break;
 											}
 										}
 										else if (q >= 30 && q <= 59)
