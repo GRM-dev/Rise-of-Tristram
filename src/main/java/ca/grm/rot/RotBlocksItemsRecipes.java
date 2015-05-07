@@ -21,6 +21,14 @@ public class RotBlocksItemsRecipes {
 	public static void crafting() {
 		GameRegistry.addRecipe(new ItemStack(RotItems.bronzeIngot), new Object[]{"x ", "y ", 'x', RotItems.copperIngot, 'y', RotItems.tinIngot});
 		GameRegistry.addRecipe(new ItemStack(RotItems.steelIngot), new Object[]{"x ", "y ", 'x', Items.iron_ingot, 'y', Items.coal});
+		
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.silverBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.silverIngot});
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.bronzeBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.bronzeIngot});
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.copperBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.copperIngot});
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.leadBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.leadIngot});
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.platinumBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.platinumIngot});
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.steelBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.steelIngot});
+		GameRegistry.addRecipe(new ItemStack(RotBlocks.tinBlock), new Object[]{"xxx", "xxx", "xxx", 'x', RotItems.tinIngot});
 	}
 
 	public static void init() {
