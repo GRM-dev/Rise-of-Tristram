@@ -21,7 +21,8 @@ import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CommonProxy;
 import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.events.RotEventHandler;
-import ca.grm.rot.events.RotStandardEventHandler;
+import ca.grm.rot.events.RotEventManager;
+import ca.grm.rot.events.RotEventLivingUpdate;
 import ca.grm.rot.gui.GuiHandler;
 import ca.grm.rot.items.RotItems;
 
@@ -70,16 +71,7 @@ public class Rot {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new RotStandardEventHandler());
-		MinecraftForge.EVENT_BUS.register(new RotEventHandler());	
-		/*
-		 * if
-		 * (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge
-		 * .EVENT_BUS.register(new RotManaGui(Minecraft.getMinecraft()));
-		 * if
-		 * (FMLCommonHandler.instance().getEffectiveSide().isClient())MinecraftForge
-		 * .EVENT_BUS.register(new RotStamGui(Minecraft.getMinecraft()));
-		 */
+		RotEventManager.registerEvents();
 	}
 	
 	@EventHandler
