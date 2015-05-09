@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
@@ -16,10 +17,30 @@ import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventItems 
 {
-	
-	public static void applyItemStats(ItemStack is, Random random)
+	/**Methods for setting a stat, and getting them via from the item or from an item socket**/
+	public static int getStatValue(ItemStack is,String sid)
 	{
-		
+		return UtilityNBTHelper.getInt(is, sid);
+	}
+	
+	public static int getStatValue(ItemStack is,String sid,int slotId)
+	{
+		return UtilityNBTHelper.getInt(is, (sid + slotId));
+	}
+	
+	public static void setStatValue(ItemStack is,String sid, int sv)
+	{
+		UtilityNBTHelper.setInteger(is,sid,sv);
+	}
+	
+	public static void setStatValue(ItemStack is,String sid,int sv,int slotId)
+	{
+		UtilityNBTHelper.setInteger(is,(sid + slotId),sv);
+	}
+	
+	/**Methods to trigger then applying stats**/
+	public static void applyItemStats(ItemStack is, Random random)
+	{		
 		int rank = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "rankLevel");
 		if (rank == 0) {
 			rank = 1;
@@ -492,5 +513,5 @@ public class RotEventItems
 				i.toolTip.add(EnumChatFormatting.LIGHT_PURPLE + "Suffix Effect: " + EnumChatFormatting.GOLD + magicModifierDescriptionSuffix);
 			}
 		}
-	}
+	}	
 }

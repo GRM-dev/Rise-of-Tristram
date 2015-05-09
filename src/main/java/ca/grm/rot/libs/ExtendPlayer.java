@@ -422,7 +422,6 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 						readFloat
 								+ ((this.currentClass == 2 ? 45 : 20) * this.intelligence),
 								classAttributeMana[this.currentClass], 1000f);
-		currentMana = (this.maxMana * (ocm/omm));
 	}
 
 	public void setMaxStam(float readFloat) {
@@ -430,8 +429,6 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		float ocs = this.currentStam;
 		this.maxStam = MathHelper.clamp_float(readFloat + (15 * this.strength)
 				+ (25 * this.vitality), classAttributeStam[this.currentClass], 1000f);
-		currentStam = (this.maxStam * (ocs/oms));
-		
 	}
 
 	public void setStrength(int value) {
