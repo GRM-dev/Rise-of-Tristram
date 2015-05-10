@@ -3,6 +3,7 @@ package ca.grm.rot.events;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -42,31 +43,46 @@ public class RotEventDamage {
 			EntityDamageSource source = (EntityDamageSource) event.source;
 			if (source.getEntity() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) source.getEntity();
-
+				ExtendPlayer props = ExtendPlayer.get(player);
+				Random rand = new Random();
+				float tempDmg = event.ammount * 5;
 				if (event.source.getDamageType() == "player") 
-				{					
-					event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player).getStrength() / 6f, 0f, 2.5f);
+				{	
+					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getStrength() + 100) / 100;
+					float finalMaxDmg = 20 + tempDmg + props.getMaxDmg() * (props.getStrength() + 100) / 100;
+					event.ammount += (rand.nextInt((int)finalMaxDmg - (int)finalMinDmg) + (int)finalMinDmg);
 				} 
 				else if (event.source.getDamageType() == "arrow") 
 				{
-					event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player).getDexterity() / 8f, 0f, 2.5f);
+					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getDexterity() + 100) / 100;
+					float finalMaxDmg = 20 + tempDmg + props.getMaxDmg() * (props.getDexterity() + 100) / 100;
+					event.ammount += (rand.nextInt((int)finalMaxDmg - (int)finalMinDmg) + (int)finalMinDmg);
 				}
 			}
+			else
+				event.ammount *= 5;
 		}
-
+		else
+			event.ammount *= 5;
+		
 		// Defense
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
-			if (ExtendPlayer.get(player).getCurrentClassName()
-					.equals("yoma")) {
-				event.ammount = MathHelper.clamp_float(
-						event.ammount - (ExtendPlayer.get(player).getVitality() / 4.5f),
-						0.25f, 8f);
-			} else {
-				event.ammount = MathHelper.clamp_float(
-						event.ammount - (ExtendPlayer.get(player).getVitality() / 7.5f),
-						0.25f, 20f);
-			}
+			ExtendPlayer props = ExtendPlayer.get(player);
+			float adjustedMaxHP = (20 * 5) + props.pickedClass.baseHp + (props.getVitality() * props.pickedClass.hpPerVit);
+			float adjustedHP = adjustedMaxHP - event.ammount;
+			float adjustedHPPercent = adjustedHP / adjustedMaxHP;
+			float newDamage = player.getHealth() - (player.getHealth() * adjustedHPPercent);
+			event.ammount = newDamage;
+		}
+		else 
+		{
+			EntityLiving e = (EntityLiving)event.entity;
+			float adjustedMaxHP = (e.getMaxHealth() * 5);
+			float adjustedHP = adjustedMaxHP - event.ammount;
+			float adjustedHPPercent = adjustedHP / adjustedMaxHP;
+			float newDamage = e.getHealth() - (e.getHealth() * adjustedHPPercent);
+			event.ammount = newDamage;
 		}
 	}	
 	

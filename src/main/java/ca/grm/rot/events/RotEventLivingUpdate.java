@@ -56,7 +56,7 @@ public class RotEventLivingUpdate {
 			{
 				Rot.proxy.updatePlayerClass(player);
 			}
-			if(player.inventory.inventoryChanged)handlePlayerStats(props, player);
+			handlePlayerStats(props, player);
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
 			if (player.shouldHeal() && ((player.worldObj.getWorldTime() % 30) == 0)) {
@@ -186,60 +186,41 @@ public class RotEventLivingUpdate {
 								|| (held.getItem() instanceof ItemTool)
 								|| (held.getItem() instanceof ItemBow)) {
 							strMod += UtilityNBTHelper.getInt(held, RotEventItems.strStat);
-							//strMod += UtilityNBTHelper.getInt(held, Rot.MOD_ID + "qualityModifier");
-							agiMod += UtilityNBTHelper.getInt(held, Rot.MOD_ID + "agiModifier");
-							intMod += UtilityNBTHelper.getInt(held, Rot.MOD_ID + "intModifier");
-							vitMod += UtilityNBTHelper.getInt(held, Rot.MOD_ID + "vitModifier");
-							dexMod += UtilityNBTHelper.getInt(held, Rot.MOD_ID + "dexModifier");
+							agiMod += UtilityNBTHelper.getInt(held, RotEventItems.agiStat);
+							intMod += UtilityNBTHelper.getInt(held, RotEventItems.intStat);
+							vitMod += UtilityNBTHelper.getInt(held, RotEventItems.vitStat);
+							dexMod += UtilityNBTHelper.getInt(held, RotEventItems.defStat);
+							minDmg += UtilityNBTHelper.getInt(held, RotEventItems.minDmgStat);
+							maxDmg += UtilityNBTHelper.getInt(held, RotEventItems.maxDmgStat);
 						}
 					}
 					if (armor1 != null) {
 						strMod += UtilityNBTHelper.getInt(armor1, RotEventItems.strStat);
-						//strMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "qualityModifier");
-						agiMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "agiModifier");
-						//agiMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "qualityModifier");
-						intMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "intModifier");
-						//intMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "qualityModifier");
-						vitMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "vitModifier");
-						//vitMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "qualityModifier");
-						dexMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "dexModifier");
-						//dexMod += UtilityNBTHelper.getInt(armor1, Rot.MOD_ID + "qualityModifier");
+						agiMod += UtilityNBTHelper.getInt(armor1, RotEventItems.agiStat);
+						intMod += UtilityNBTHelper.getInt(armor1, RotEventItems.intStat);
+						vitMod += UtilityNBTHelper.getInt(armor1, RotEventItems.vitStat);
+						dexMod += UtilityNBTHelper.getInt(armor1, RotEventItems.defStat);
 					}
 					if (armor2 != null) {
-						strMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "strModifier");
-						//strMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "qualityModifier");
-						agiMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "agiModifier");
-						//agiMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "qualityModifier");
-						intMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "intModifier");
-						//intMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "qualityModifier");
-						vitMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "vitModifier");
-						//vitMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "qualityModifier");
-						dexMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "dexModifier");
-						//dexMod += UtilityNBTHelper.getInt(armor2, Rot.MOD_ID + "qualityModifier");
+						strMod += UtilityNBTHelper.getInt(armor2, RotEventItems.strStat);
+						agiMod += UtilityNBTHelper.getInt(armor2, RotEventItems.agiStat);
+						intMod += UtilityNBTHelper.getInt(armor2, RotEventItems.intStat);
+						vitMod += UtilityNBTHelper.getInt(armor2, RotEventItems.vitStat);
+						dexMod += UtilityNBTHelper.getInt(armor2, RotEventItems.defStat);
 					}
 					if (armor3 != null) {
-						strMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "strModifier");
-						//strMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "qualityModifier");
-						agiMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "agiModifier");
-						//agiMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "qualityModifier");
-						intMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "intModifier");
-						//intMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "qualityModifier");
-						vitMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "vitModifier");
-						//vitMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "qualityModifier");
-						dexMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "dexModifier");
-						//dexMod += UtilityNBTHelper.getInt(armor3, Rot.MOD_ID + "qualityModifier");
+						strMod += UtilityNBTHelper.getInt(armor3, RotEventItems.strStat);
+						agiMod += UtilityNBTHelper.getInt(armor3, RotEventItems.agiStat);
+						intMod += UtilityNBTHelper.getInt(armor3, RotEventItems.intStat);
+						vitMod += UtilityNBTHelper.getInt(armor3, RotEventItems.vitStat);
+						dexMod += UtilityNBTHelper.getInt(armor3, RotEventItems.defStat);
 					}
 					if (armor4 != null) {
-						strMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "strModifier");
-						//strMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "qualityModifier");
-						agiMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "agiModifier");
-						//agiMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "qualityModifier");
-						intMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "intModifier");
-						//intMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "qualityModifier");
-						vitMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "vitModifier");
-						//vitMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "qualityModifier");
-						dexMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "dexModifier");
-						//dexMod += UtilityNBTHelper.getInt(armor4, Rot.MOD_ID + "qualityModifier");
+						strMod += UtilityNBTHelper.getInt(armor4, RotEventItems.strStat);
+						agiMod += UtilityNBTHelper.getInt(armor4, RotEventItems.agiStat);
+						intMod += UtilityNBTHelper.getInt(armor4, RotEventItems.intStat);
+						vitMod += UtilityNBTHelper.getInt(armor4, RotEventItems.vitStat);
+						dexMod += UtilityNBTHelper.getInt(armor4, RotEventItems.defStat);
 					}
 					if (props.getDexterity() != (dexMod - props.getClassModifers()[4])) {
 						props.setDexterity(dexMod);
@@ -256,6 +237,12 @@ public class RotEventLivingUpdate {
 					}
 					if (props.getVitality() != (vitMod - props.getClassModifers()[3])) {
 						props.setVitality(vitMod);
+					}
+					if (props.getMinDmg() != minDmg){
+						props.setMinDmg(minDmg);
+					}
+					if (props.getMaxDmg() != maxDmg){
+						props.setMaxDmg(maxDmg);
 					}
 				}
 	}

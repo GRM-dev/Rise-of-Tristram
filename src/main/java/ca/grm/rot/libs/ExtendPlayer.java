@@ -35,7 +35,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	private int minDmg, maxDmg;
 
 	private int	currentClass;
-	private RotClass pickedClass = RotClassManager.classes[currentClass];
+	public RotClass pickedClass = RotClassManager.classes[currentClass];
 	public boolean needsUpdate = false;
 	
 	// Declare other variables you want to add here
