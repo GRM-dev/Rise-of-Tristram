@@ -30,19 +30,22 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	// access
 	// It's final because we won't be changing which player it is
 	private final EntityPlayer	player;
-
-	public static String[]		classNames		= new String[]{
-			"Peasent", "Fighter", "Mage", "Tank", "Builder", "Ranger", "Thief"};
-	private int classAttributeStr[] = new int[]{0,3,-2,1,0,-3,-2};
-	private int classAttributeAgi[] = new int[]{0,1,0,-2,2,2,4};
-	private int classAttributeInt[] = new int[]{0,-3,5,-2,-3,-1,-1};
-	private int classAttributeVit[] = new int[]{0,1,-2,4,2,-1,2};
-	private int classAttributeDex[] = new int[]{0,-2,-1,-1,-1,3,1};
 	
-	private float classAttributeMana[] = new float[]{20,50,350,25,200,25,125};
-	private float classAttributeStam[] = new float[]{20,350,50,375,200,375,275};
+	private int statMax = 255;
+
+//	public static String[]		classNames		= new String[]{
+//			"Peasent", "Fighter", "Mage", "Tank", "Builder", "Ranger", "Thief"};
+//	private int classAttributeStr[] = new int[]{0,3,-2,1,0,-3,-2};
+//	private int classAttributeAgi[] = new int[]{0,1,0,-2,2,2,4};
+//	private int classAttributeInt[] = new int[]{0,-3,5,-2,-3,-1,-1};
+//	private int classAttributeVit[] = new int[]{0,1,-2,4,2,-1,2};
+//	private int classAttributeDex[] = new int[]{0,-2,-1,-1,-1,3,1};
+//	
+//	private float classAttributeMana[] = new float[]{20,50,350,25,200,25,125};
+//	private float classAttributeStam[] = new float[]{20,350,50,375,200,375,275};
 
 	private int	currentClass;
+	private RotClass pickedClass = RotClassProfessionManager.classes[currentClass];
 	public boolean needsUpdate = false;
 	
 	// Declare other variables you want to add here
@@ -64,15 +67,15 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.player = player;
 
 		this.currentClass = 0;
-		this.dexterity = 0;
-		this.agility = 0;
-		this.intelligence = 0;
-		this.strength = 0;
-		this.vitality = 0;
+		this.dexterity = pickedClass.dexStat;
+		this.agility = pickedClass.agiStat;
+		this.intelligence = pickedClass.intStat;
+		this.strength = pickedClass.strStat;
+		this.vitality = pickedClass.vitStat;
 
 		// Start with max mana. Every player starts with the same amount.
-		this.currentMana = this.maxMana = classAttributeMana[0];
-		this.currentStam = this.maxStam = classAttributeStam[0];
+		this.currentMana = this.maxMana = pickedClass.baseMana;
+		this.currentStam = this.maxStam = pickedClass.baseStam;
 		this.player.getDataWatcher().addObject(MANA_WATCHER, this.maxMana);
 		this.player.getDataWatcher().addObject(STAM_WATCHER, this.maxStam);
 	}
@@ -195,9 +198,14 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	/** Returns Str, Agi, Int, Vit, Dex **/
 	public int[] getClassModifers() {
 		return new int[]{
-				classAttributeStr[currentClass],classAttributeAgi[currentClass],
+				pickedClass.strStat,
+				pickedClass.agiStat,
+				pickedClass.intStat,
+				pickedClass.vitStat,
+				pickedClass.dexStat
+				/*classAttributeStr[currentClass],classAttributeAgi[currentClass],
 				classAttributeInt[currentClass],classAttributeVit[currentClass],
-				classAttributeDex[currentClass]
+				classAttributeDex[currentClass]*/
 				/*this.currentClass.getStr(), this.currentClass.getAgi(),
 				this.currentClass.getInte(), this.currentClass.getVit(),
 				this.currentClass.getDex()*/};
@@ -208,7 +216,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 	
 	public String getCurrentClassName() {
-		return classNames[this.currentClass];
+		return pickedClass.className;
 	}
 
 	public float getCurrentMana() {
@@ -337,7 +345,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 
 	/**
-	 * Simple method sets current mana to max mana
+	 * Simple methods sets current to max
 	 */
 	public void replenishMana() {
 		this.player.getDataWatcher().updateObject(MANA_WATCHER, this.maxMana);
@@ -385,11 +393,12 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 
 	public void setAgility(int value) {
-		this.agility = MathHelper.clamp_int(value + classAttributeAgi[this.currentClass], -20, 20);
+		this.agility = MathHelper.clamp_int(value + pickedClass.agiStat, -statMax, statMax);
 	}
 
 	public void setCurrentClass(int classID) {
 		this.currentClass = classID;
+		this.pickedClass = RotClassProfessionManager.classes[this.currentClass];
 		//reloadStats();
 	}
 
@@ -405,13 +414,13 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 
 	public void setDexterity(int value) {
 		this.dexterity = MathHelper
-				.clamp_int(value + classAttributeDex[this.currentClass], -20, 20);
+				.clamp_int(value + pickedClass.dexStat, -statMax, statMax);
 	}
 
 	public void setIntelligence(int value) {
-		this.intelligence = MathHelper.clamp_int(value + classAttributeInt[this.currentClass],
-				-20, 20);
-		setMaxMana(classAttributeMana[this.currentClass]);
+		this.intelligence = MathHelper.clamp_int(value + pickedClass.intStat,
+				-statMax, statMax);
+		setMaxMana(pickedClass.baseMana);
 	}
 
 	public void setMaxMana(float readFloat) {
@@ -420,20 +429,20 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.maxMana = MathHelper
 				.clamp_float(
 						readFloat
-								+ ((this.currentClass == 2 ? 45 : 20) * this.intelligence),
-								classAttributeMana[this.currentClass], 1000f);
+								+ (pickedClass.manaPerIntStat * this.intelligence),
+								pickedClass.baseMana, 5000f);
 	}
 
 	public void setMaxStam(float readFloat) {
 		float oms = this.maxStam;
 		float ocs = this.currentStam;
-		this.maxStam = MathHelper.clamp_float(readFloat + (15 * this.strength)
-				+ (25 * this.vitality), classAttributeStam[this.currentClass], 1000f);
+		this.maxStam = MathHelper.clamp_float(readFloat + (pickedClass.stamPerVitStat * this.vitality), 
+				pickedClass.baseStam, 5000f);
 	}
 
 	public void setStrength(int value) {
-		this.strength = MathHelper.clamp_int(value + classAttributeStr[this.currentClass], -20, 20);
-		setMaxStam(classAttributeStam[this.currentClass]);
+		this.strength = MathHelper.clamp_int(value + pickedClass.strStat, -statMax, statMax);
+		//setMaxStam(classAttributeStam[this.currentClass]);
 	}
 
 	public void setValues(Object[] data) {
@@ -443,8 +452,8 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 
 	public void setVitality(int value) {
-		this.vitality = MathHelper.clamp_int(value + classAttributeVit[this.currentClass], -20, 20);
-		setMaxStam(classAttributeStam[this.currentClass]);
+		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat, -statMax, statMax);
+		setMaxStam(pickedClass.baseStam);
 	}
 	
 	public void updateMoveSpeed()
@@ -463,16 +472,5 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void reloadStats()
-	{
-		setMaxMana(classAttributeMana[currentClass]);
-		setMaxStam(classAttributeStam[currentClass]);
-		setStrength(classAttributeStr[currentClass]);
-		setVitality(classAttributeVit[currentClass]);
-		setIntelligence(classAttributeInt[currentClass]);
-		setDexterity(classAttributeDex[currentClass]);
-		setAgility(classAttributeAgi[currentClass]);
 	}
 }

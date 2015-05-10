@@ -10,7 +10,7 @@ public class RotEventTeamsClasses
 	@SubscribeEvent
 	public void EntityBlockBreakSpeed(BreakSpeed e) {
 		if (ExtendPlayer.get(e.entityPlayer).getCurrentClassName()
-				.equals(ExtendPlayer.classNames[4])) {
+				.equals("tony")) {
 			e.newSpeed += (MathHelper.clamp_float((ExtendPlayer.get(e.entityPlayer)
 					.getStrength() * 2), 0f, 30f));
 		} else {

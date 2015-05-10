@@ -57,7 +57,7 @@ public class RotEventHandler {
 
 				if (event.source.getDamageType() == "player") {
 					if (ExtendPlayer.get(player).getCurrentClassName()
-							.equals(ExtendPlayer.classNames[1])) {
+							.equals("tim")) {
 						event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player)
 								.getStrength() / 4f, 0f, 5.75f);
 					} else {
@@ -66,7 +66,7 @@ public class RotEventHandler {
 					}
 				} else if (event.source.getDamageType() == "arrow") {
 					if (ExtendPlayer.get(player).getCurrentClassName()
-							.equals(ExtendPlayer.classNames[5])) {
+							.equals("tod")) {
 						event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player)
 								.getDexterity() / 6f, 0f, 4.5f);
 					} else {
@@ -81,7 +81,7 @@ public class RotEventHandler {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
 			if (ExtendPlayer.get(player).getCurrentClassName()
-					.equals(ExtendPlayer.classNames[3])) {
+					.equals("yoma")) {
 				event.ammount = MathHelper.clamp_float(
 						event.ammount - (ExtendPlayer.get(player).getVitality() / 4.5f),
 						0.25f, 8f);

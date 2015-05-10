@@ -41,7 +41,7 @@ public class RotMultiBlocks extends Item{
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{
-		if ()
+		if (true)
 		{
 			
 		}

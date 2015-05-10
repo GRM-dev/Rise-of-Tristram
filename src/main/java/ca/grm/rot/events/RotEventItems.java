@@ -17,6 +17,24 @@ import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventItems 
 {
+	public static String strStat = Rot.MOD_ID + "strModifier";
+	public static String dexStat = Rot.MOD_ID + "dexModifier";
+	public static String intStat = Rot.MOD_ID + "intModifier";
+	public static String vitStat = Rot.MOD_ID + "vitModifier";
+	public static String agiStat = Rot.MOD_ID + "agiModifier";
+	public static String minDmgStat = Rot.MOD_ID + "minDmgModifier";
+	public static String maxDmgStat = Rot.MOD_ID + "maxDmgModifier";
+	public static String defStat = Rot.MOD_ID + "defModifier";
+	public static String lifeStat = Rot.MOD_ID + "lifeModifier";
+	public static String manaStat = Rot.MOD_ID + "manaModifier";
+	public static String stamStat = Rot.MOD_ID + "stamModifier";
+	public static String lifeRegenStat = Rot.MOD_ID + "lifeRegenModifier";
+	public static String manaRegenStat = Rot.MOD_ID + "manaRegenModifier";
+	public static String stamRegenStat = Rot.MOD_ID + "stamRegenModifier";
+	public static String numSockets = Rot.MOD_ID + "numSocketsModifier";
+	public static String lifeSteal = Rot.MOD_ID + "lifeStealModifier";
+	public static String manaSteal = Rot.MOD_ID + "manaStealModifier";
+	
 	/**Methods for setting a stat, and getting them via from the item or from an item socket**/
 	public static int getStatValue(ItemStack is,String sid)
 	{
@@ -47,15 +65,20 @@ public class RotEventItems
 			UtilityNBTHelper
 					.setInteger(is, Rot.MOD_ID + "rankLevel", rank);
 			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemArmor || is.getItem() instanceof ItemTool)
-				UtilityNBTHelper.setInteger(is,Rot.MOD_ID + "strModifier",random.nextInt(3) + (rank * (random.nextInt(2) == 0 ? 1 : -1)));
+				UtilityNBTHelper.setInteger(is, strStat, random.nextInt(11) * rank);
 			if (is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is,Rot.MOD_ID + "agiModifier", random.nextInt(3) + (rank * (random.nextInt(2) == 0 ? 1 : -1)));
+				UtilityNBTHelper.setInteger(is, agiStat, random.nextInt(11) * rank);
 			if (is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is,Rot.MOD_ID + "intModifier",random.nextInt(3) + (rank * (random.nextInt(2) == 0 ? 1 : -1)));
+				UtilityNBTHelper.setInteger(is, intStat, random.nextInt(11) * rank);
 			if (is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is,Rot.MOD_ID + "vitModifier",random.nextInt(3) + (rank * (random.nextInt(2) == 0 ? 1 : -1)));
+				UtilityNBTHelper.setInteger(is, vitStat, random.nextInt(11) * rank);
 			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemBow || is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is,Rot.MOD_ID + "dexModifier",random.nextInt(3) + (rank * (random.nextInt(2) == 0 ? 1 : -1)));
+				UtilityNBTHelper.setInteger(is, dexStat, random.nextInt(11) * rank);
+			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool || is.getItem() instanceof ItemBow)
+			{
+				UtilityNBTHelper.setInteger(is,minDmgStat,(11 * rank) + (random.nextInt(10) * rank));
+				UtilityNBTHelper.setInteger(is,maxDmgStat,(23 * rank) + (random.nextInt(30) * rank));
+			}
 		}
 	}
 	

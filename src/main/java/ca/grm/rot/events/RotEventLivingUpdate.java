@@ -56,7 +56,7 @@ public class RotEventLivingUpdate {
 			{
 				Rot.proxy.updatePlayerClass(player);
 			}
-			handlePlayerStats(props, player);
+			if(player.inventory.inventoryChanged)handlePlayerStats(props, player);
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
 			if (player.shouldHeal() && ((player.worldObj.getWorldTime() % 30) == 0)) {
@@ -67,8 +67,7 @@ public class RotEventLivingUpdate {
 				props.replenishMana();
 				props.replenishStam();
 			}
-			props.regenMana(((props.getCurrentClassName().equals(
-					ExtendPlayer.classNames[2]) ? 20f : 5f) / timeMath)
+			props.regenMana((5f / timeMath)
 					+ ((props.getIntelligence() * 3) / 60));
 			if (player.isInWater()) {
 				props.regenStam(((30f + (props.getVitality() * 3)) / 60)

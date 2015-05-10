@@ -13,7 +13,7 @@ public class SpawnerBlock extends Block {
 	
 	protected SpawnerBlock(Material p_i45394_1_, String textureName, Block bts) {
 		super(p_i45394_1_);
-		this.setBlockTextureName(Rot.MOD_ID + ":" + textureName);
+		//this.setBlockTextureName(Rot.MOD_ID + ":" + textureName);
 		this.setTickRandomly(true);
 		this.bts = bts;
 	}
@@ -29,13 +29,13 @@ public class SpawnerBlock extends Block {
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
-	@Override
+	/*@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
 		if (world.isAirBlock(x, y + 1, z)) {
 			world.setBlock(x, y + 1, z, this.bts);
 		} else if (world.getBlock(x, y + 1, z) == this.bts) {
 			world.setBlock(x, y + 1, z, this.bts);
 		}
-	}
+	}*/
 
 }
