@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.libs.ExtendPlayer;
-import ca.grm.rot.libs.RotClassProfessionManager;
+import ca.grm.rot.libs.RotClassManager;
 
 public class GuiClassSelection extends GuiContainer {
 	public static final ResourceLocation	texture			= new ResourceLocation(
@@ -40,13 +40,13 @@ public class GuiClassSelection extends GuiContainer {
 		switch (button.id) {
 			case 0 : // Class Forward
 				this.selectedClass++;
-				this.selectedClass = this.selectedClass == RotClassProfessionManager.classes.length
+				this.selectedClass = this.selectedClass == RotClassManager.classes.length
 						? 1 : this.selectedClass;
 				break;
 			case 1 : // Class Back
 				this.selectedClass--;
 				this.selectedClass = this.selectedClass <= 0
-						? RotClassProfessionManager.classes.length - 1 : this.selectedClass;
+						? RotClassManager.classes.length - 1 : this.selectedClass;
 				break;
 			case 2 : // Change Class
 				Rot.net.sendToServer(new ClassRequestPacket(selectedClass));
@@ -80,7 +80,7 @@ public class GuiClassSelection extends GuiContainer {
 		this.buttonList.add(new GuiButton(0, x2, this.guiTop + this.pad, 50, this.ch,
 				"Class ->"));
 		this.drawString(this.fontRendererObj,
-				RotClassProfessionManager.classes[this.selectedClass].className, x3, this.guiTop + this.pad
+				RotClassManager.classes[this.selectedClass].className, x3, this.guiTop + this.pad
 						+ 5, 0xddeeee);
 		this.buttonList.add(new GuiButton(1, x1, this.guiTop + this.pad, 50, this.ch,
 				"<- Class"));

@@ -1,6 +1,6 @@
 package ca.grm.rot.libs;
 
-public class RotClassProfessionManager 
+public class RotClassManager 
 {
 	//String className,int strStat,int dexStat,
 	//int intStat,int vitStat,int agiStat,
@@ -22,5 +22,16 @@ public class RotClassProfessionManager
 		new RotClass("Paladin",0, 0, 0, 0, 0, 0, 0, 0, 25, 5, 30)
 			};
 	
-	public static RotProfession[] professions = new RotProfession[]{};
+	public static String professionMiner = "Miner";
+	public static String professionFarmer = "Farmer";
+	public static String professionBlacksmith = "Blacksmith";
+	public static String professionScholar = "Arcane Scholar";
+	public static RotProfession[] professions = new RotProfession[]
+			{
+		new RotProfession("Nomand", "Someone that chooses to not settle down, and instead travel the world."),
+		new RotProfession(professionMiner, "Digging stone blocks is faster, ore yields more, and a rare chance to get lesser materials from mining."),
+		new RotProfession(professionFarmer, "Harvesting plants has a chance for a greater yield, can cut wood faster, does more damage to livestock."),
+		new RotProfession(professionBlacksmith, "Can repair items, crafted gear has a better rank and quality."),
+		new RotProfession(professionScholar, "")
+			};
 }

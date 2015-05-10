@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import ca.grm.rot.libs.ExtendPlayer;
-import ca.grm.rot.libs.RotClassProfessionManager;
+import ca.grm.rot.libs.RotClassManager;
 import ca.grm.rot.libs.UtilityFunctions;
 
 public class ClassRequestPacket implements IMessage {
@@ -24,7 +24,7 @@ public class ClassRequestPacket implements IMessage {
 			System.out.println("got a request to change to: " + message.className);
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
 			if (ExtendPlayer.get(player).getCurrentClassName()
-					.equals(RotClassProfessionManager.classes[0].className)) {
+					.equals(RotClassManager.classes[0].className)) {
 				System.out.println("Yeah player has no class, free change");
 				ExtendPlayer.get(player).setCurrentClass(message.className);
 				return new ClassResponsePacket(message.className);

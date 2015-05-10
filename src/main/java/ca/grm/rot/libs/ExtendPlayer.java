@@ -32,20 +32,10 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	private final EntityPlayer	player;
 	
 	private int statMax = 255;
-
-//	public static String[]		classNames		= new String[]{
-//			"Peasent", "Fighter", "Mage", "Tank", "Builder", "Ranger", "Thief"};
-//	private int classAttributeStr[] = new int[]{0,3,-2,1,0,-3,-2};
-//	private int classAttributeAgi[] = new int[]{0,1,0,-2,2,2,4};
-//	private int classAttributeInt[] = new int[]{0,-3,5,-2,-3,-1,-1};
-//	private int classAttributeVit[] = new int[]{0,1,-2,4,2,-1,2};
-//	private int classAttributeDex[] = new int[]{0,-2,-1,-1,-1,3,1};
-//	
-//	private float classAttributeMana[] = new float[]{20,50,350,25,200,25,125};
-//	private float classAttributeStam[] = new float[]{20,350,50,375,200,375,275};
+	private int minDmg, maxDmg;
 
 	private int	currentClass;
-	private RotClass pickedClass = RotClassProfessionManager.classes[currentClass];
+	private RotClass pickedClass = RotClassManager.classes[currentClass];
 	public boolean needsUpdate = false;
 	
 	// Declare other variables you want to add here
@@ -398,7 +388,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 
 	public void setCurrentClass(int classID) {
 		this.currentClass = classID;
-		this.pickedClass = RotClassProfessionManager.classes[this.currentClass];
+		this.pickedClass = RotClassManager.classes[this.currentClass];
 		//reloadStats();
 	}
 
