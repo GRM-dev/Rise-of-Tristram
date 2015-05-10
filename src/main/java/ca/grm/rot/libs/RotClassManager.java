@@ -32,6 +32,6 @@ public class RotClassManager
 		new RotProfession(professionMiner, "Digging stone blocks is faster, ore yields more, and a rare chance to get lesser materials from mining."),
 		new RotProfession(professionFarmer, "Harvesting plants has a chance for a greater yield, can cut wood faster, does more damage to livestock."),
 		new RotProfession(professionBlacksmith, "Can repair items, crafted gear has a better rank and quality."),
-		new RotProfession(professionScholar, "")
+		new RotProfession(professionScholar, "guy that does stuff")
 			};
 }

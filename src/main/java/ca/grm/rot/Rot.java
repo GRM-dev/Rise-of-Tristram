@@ -20,7 +20,7 @@ import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CommonProxy;
 import ca.grm.rot.comms.CustomItemPacket;
-import ca.grm.rot.events.RotEventHandler;
+import ca.grm.rot.events.RotEventDamage;
 import ca.grm.rot.events.RotEventManager;
 import ca.grm.rot.events.RotEventLivingUpdate;
 import ca.grm.rot.gui.GuiHandler;

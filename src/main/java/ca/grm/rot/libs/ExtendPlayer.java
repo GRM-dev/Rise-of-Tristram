@@ -62,6 +62,9 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.intelligence = pickedClass.intStat;
 		this.strength = pickedClass.strStat;
 		this.vitality = pickedClass.vitStat;
+		
+		this.minDmg = 0;
+		this.maxDmg = 0;
 
 		// Start with max mana. Every player starts with the same amount.
 		this.currentMana = this.maxMana = pickedClass.baseMana;
@@ -177,6 +180,14 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	
 	public int getAgility() {
 		return this.agility;
+	}
+	
+	public int getMinDmg(){
+		return this.minDmg;
+	}
+	
+	public int getMaxDmg(){
+		return this.maxDmg;
 	}
 	
 	/*
@@ -406,6 +417,14 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.dexterity = MathHelper
 				.clamp_int(value + pickedClass.dexStat, -statMax, statMax);
 	}
+	
+	public void setMinDmg(int value){
+		this.minDmg = value;
+	}
+	
+	public void setMaxDmg(int value){
+		this.maxDmg = value;
+	}
 
 	public void setIntelligence(int value) {
 		this.intelligence = MathHelper.clamp_int(value + pickedClass.intStat,
@@ -436,9 +455,9 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 
 	public void setValues(Object[] data) {
-		setCurrentClass((int) data[0]);
-		setCurrentMana((float) data[1]);
-		setCurrentStam((float) data[2]);
+		setCurrentClass(Integer.parseInt(data[0].toString()));
+		setCurrentMana(Float.parseFloat(data[1].toString()));
+		setCurrentStam(Float.parseFloat(data[2].toString()));
 	}
 
 	public void setVitality(int value) {

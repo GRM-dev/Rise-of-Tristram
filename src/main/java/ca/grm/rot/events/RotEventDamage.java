@@ -32,20 +32,8 @@ import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.UtilityNBTHelper;
 
-public class RotEventHandler {
+public class RotEventDamage {
 	
-	/*
-	 * Weapon Modifiers:
-	 * Sizes
-	 * Giant + 2 Str + 2 dmg - 2 Agi
-	 * Large - 1 Str + 1 dmg - 1 Agi
-	 * Small - 1 dmg + 1 Agi
-	 * Effects:
-	 * Bloody chance to add wither
-	 * Poisioned chance to posion
-	 * Vampiric lifesteal
-	 * Frosty chance to slow
-	 */	
 	@SubscribeEvent(
 			priority = EventPriority.HIGHEST)
 	public void onDamage(LivingHurtEvent event) {
@@ -55,24 +43,13 @@ public class RotEventHandler {
 			if (source.getEntity() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) source.getEntity();
 
-				if (event.source.getDamageType() == "player") {
-					if (ExtendPlayer.get(player).getCurrentClassName()
-							.equals("tim")) {
-						event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player)
-								.getStrength() / 4f, 0f, 5.75f);
-					} else {
-						event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player)
-								.getStrength() / 6f, 0f, 2.5f);
-					}
-				} else if (event.source.getDamageType() == "arrow") {
-					if (ExtendPlayer.get(player).getCurrentClassName()
-							.equals("tod")) {
-						event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player)
-								.getDexterity() / 6f, 0f, 4.5f);
-					} else {
-						event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player)
-								.getDexterity() / 8f, 0f, 2.5f);
-					}
+				if (event.source.getDamageType() == "player") 
+				{					
+					event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player).getStrength() / 6f, 0f, 2.5f);
+				} 
+				else if (event.source.getDamageType() == "arrow") 
+				{
+					event.ammount += MathHelper.clamp_float(ExtendPlayer.get(player).getDexterity() / 8f, 0f, 2.5f);
 				}
 			}
 		}

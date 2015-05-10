@@ -12,7 +12,7 @@ public class RotEventManager
 	public static void registerEvents()
 	{
 		MinecraftForge.EVENT_BUS.register(new RotEventLivingUpdate());
-		MinecraftForge.EVENT_BUS.register(new RotEventHandler());
+		MinecraftForge.EVENT_BUS.register(new RotEventDamage());
 		MinecraftForge.EVENT_BUS.register(new RotEventItems());
 		MinecraftForge.EVENT_BUS.register(new RotEventPlayerClone());
 		MinecraftForge.EVENT_BUS.register(new RotEventTeamsClasses());
