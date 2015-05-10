@@ -22,6 +22,9 @@ public class GuiExtendedPlayerStats extends Gui {
 	private static final ResourceLocation	staminaTexture	= new ResourceLocation(
 																	Rot.MOD_ID
 																			+ ":textures/gui/stam_bar_final.png");
+	private static final ResourceLocation	healthTexture	= new ResourceLocation(
+			Rot.MOD_ID
+					+ ":textures/gui/hp_bar_final.png");
 	
 	private int								barW			= 55, barH = 9;
 	
@@ -88,6 +91,31 @@ public class GuiExtendedPlayerStats extends Gui {
 				this.barH);
 		s = (int) props.getCurrentStam() + "/" + (int) props.getMaxStam();
 		drawText(s, xPos + this.barW + 2, yPos + this.barH + 2, 0xdbdd15);
+		
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		
+		// Draw Health Bar
+		this.mc.getTextureManager().bindTexture(healthTexture);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		drawTexturedModalRect(xPos + (this.barW * 2) + 1, yPos, 0, 0, this.barW, this.barH);
+		
+		currentbarwidth = MathHelper
+				.clamp_int(
+						(int) (((float) (this.mc.thePlayer.getHealth() * 5) / (100 + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality()))) * this.barW),
+						0, this.barW);
+
+		drawTexturedModalRect(xPos + (this.barW * 2), yPos, 0, this.barH, currentbarwidth,
+				this.barH);
+		s = (int) (this.mc.thePlayer.getHealth() * 5) + "/" + (int) (100 + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality()));
+		drawText(s, xPos + (this.barW * 2) + 2, yPos + this.barH + 2, 0xdbdd15);
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
