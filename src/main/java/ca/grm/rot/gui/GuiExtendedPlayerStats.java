@@ -87,7 +87,7 @@ public class GuiExtendedPlayerStats extends Gui {
 						(int) (((float) props.getCurrentStam() / props.getMaxStam()) * this.barW),
 						0, this.barW);
 
-		drawTexturedModalRect(xPos + this.barW, yPos, 0, this.barH, currentbarwidth,
+		drawTexturedModalRect(xPos + this.barW + 1, yPos, 0, this.barH, currentbarwidth,
 				this.barH);
 		s = (int) props.getCurrentStam() + "/" + (int) props.getMaxStam();
 		drawText(s, xPos + this.barW + 2, yPos + this.barH + 2, 0xdbdd15);
@@ -105,16 +105,17 @@ public class GuiExtendedPlayerStats extends Gui {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		drawTexturedModalRect(xPos + (this.barW * 2) + 1, yPos, 0, 0, this.barW, this.barH);
+		drawTexturedModalRect(xPos + (this.barW * 2) + 2, yPos, 0, 0, this.barW, this.barH);
+		
+		float adjustedHP = this.mc.thePlayer.getMaxHealth() * 5 + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality());
+		float currentHPPercent = this.mc.thePlayer.getHealth() / this.mc.thePlayer.getMaxHealth();
 		
 		currentbarwidth = MathHelper
-				.clamp_int(
-						(int) (((float) (this.mc.thePlayer.getHealth() * 5) / (100 + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality()))) * this.barW),
-						0, this.barW);
+				.clamp_int((int) ((adjustedHP * currentHPPercent) / adjustedHP) * this.barW, 0, this.barW);
 
-		drawTexturedModalRect(xPos + (this.barW * 2), yPos, 0, this.barH, currentbarwidth,
+		drawTexturedModalRect(xPos + (this.barW * 2) + 2, yPos, 0, this.barH, currentbarwidth,
 				this.barH);
-		s = (int) (this.mc.thePlayer.getHealth() * 5) + "/" + (int) (100 + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality()));
+		s = (int) (adjustedHP * currentHPPercent) + "/" + (int) (adjustedHP);
 		drawText(s, xPos + (this.barW * 2) + 2, yPos + this.barH + 2, 0xdbdd15);
 		
 		GL11.glDisable(GL11.GL_BLEND);
