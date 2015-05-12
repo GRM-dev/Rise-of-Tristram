@@ -57,10 +57,46 @@ public class RotEventLivingUpdate {
 				Rot.proxy.updatePlayerClass(player);
 			}
 			handlePlayerStats(props, player);
+			
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
 			if (player.shouldHeal() && ((player.worldObj.getWorldTime() % 30) == 0)) {
-				player.heal(0.05f + (props.getVitality() / 20));
+				player.heal((((25 * props.pickedClass.hpPerVit) + props.getVitality()) / timeMath));
+			}
+			int notExhaustedFoodLevel = 8;
+			int exhaustedFoodLevel = 3;
+			
+			if (props.isExhausted)
+			{
+				if ((props.getCurrentStam() / props.getMaxStam()) > 0.15f)
+				{
+					props.isExhausted = false;
+					player.getFoodStats().setFoodLevel(notExhaustedFoodLevel);
+				}
+			}
+			
+			//Eating will heal the player
+			int foodLevel = player.getFoodStats().getFoodLevel();
+			
+			if (foodLevel != 8 && !props.isExhausted)
+			{
+				if (foodLevel > notExhaustedFoodLevel)
+				{
+					player.heal((foodLevel - notExhaustedFoodLevel) / 4f);
+				}
+
+				player.getFoodStats().setFoodLevel(notExhaustedFoodLevel);
+				player.getFoodStats().setFoodSaturationLevel(100f);
+			}
+			else
+			{
+				exhaustedFoodLevel = 3;
+				if (foodLevel > exhaustedFoodLevel)
+				{
+					player.heal((foodLevel - exhaustedFoodLevel) / 4f);
+				}
+				player.getFoodStats().setFoodLevel(exhaustedFoodLevel);
+				player.getFoodStats().setFoodSaturationLevel(100f);
 			}
 
 			if (player.isPlayerSleeping()) {
@@ -69,13 +105,20 @@ public class RotEventLivingUpdate {
 			}
 			props.regenMana((5f / timeMath)
 					+ ((props.getIntelligence() * 3) / 60));
-			if (player.isInWater()) {
-				props.regenStam(((30f + (props.getVitality() * 3)) / 60)
-						+ (((player.experienceLevel) * 2) / timeMath));
-			} else {
+			if (!player.isSprinting())
+			{
 				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath)
 						+ (((player.experienceLevel) * 2) / timeMath));
 			}
+			else
+			{
+				if (!props.consumeStam(1.5f))
+				{
+					props.isExhausted = true;
+					player.getFoodStats().setFoodLevel(exhaustedFoodLevel);
+				}
+			}
+			
 		} else if (event.entity instanceof EntityIronGolem) {
 			EntityIronGolem golem = (EntityIronGolem) event.entity;
 			golem.heal(0.05f);

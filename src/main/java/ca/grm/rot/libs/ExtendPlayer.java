@@ -37,6 +37,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	private int	currentClass;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
 	public boolean needsUpdate = false;
+	public boolean isExhausted = false;
 	
 	// Declare other variables you want to add here
 	

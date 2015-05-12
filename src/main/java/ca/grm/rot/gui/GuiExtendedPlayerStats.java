@@ -36,6 +36,8 @@ public class GuiExtendedPlayerStats extends Gui {
 	@SubscribeEvent(
 			priority = EventPriority.NORMAL)
 	public void onRenderExperienceBar(RenderGameOverlayEvent event) {
+		//if (event.type == ElementType.FOOD){event.setCanceled(true);return;}
+		if (event.type == ElementType.HEALTH){event.setCanceled(true);return;}
 		if (event.isCancelable() || (event.type != ElementType.EXPERIENCE)) { return; }
 		
 		ExtendPlayer props = ExtendPlayer.get(this.mc.thePlayer);
@@ -45,16 +47,8 @@ public class GuiExtendedPlayerStats extends Gui {
 		int xPos = 3;
 		int yPos = 3; // + (barH * 2) + 2;
 		this.mc.getTextureManager().bindTexture(manaTexture);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
-		/**
-		 * Draw the background bar which contains a transparent section; note
-		 * the new size
-		 */
 		drawTexturedModalRect(xPos, yPos, 0, 0, this.barW, this.barH);
 		
 		int currentbarwidth = MathHelper
@@ -65,21 +59,11 @@ public class GuiExtendedPlayerStats extends Gui {
 		drawTexturedModalRect(xPos, yPos, 0, this.barH, currentbarwidth, this.barH);
 		String s = (int) props.getCurrentMana() + "/" + (int) props.getMaxMana();
 		drawText(s, xPos + 2, yPos + this.barH + 2, 0x0097d9);
-		
-		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(true);
 
 		// Draw Stamina Bar
 		this.mc.getTextureManager().bindTexture(staminaTexture);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		drawTexturedModalRect(xPos + this.barW + 1, yPos, 0, 0, this.barW, this.barH);
 		
 		currentbarwidth = MathHelper
@@ -92,36 +76,24 @@ public class GuiExtendedPlayerStats extends Gui {
 		s = (int) props.getCurrentStam() + "/" + (int) props.getMaxStam();
 		drawText(s, xPos + this.barW + 2, yPos + this.barH + 2, 0xdbdd15);
 		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(true);
-		
+
 		// Draw Health Bar
 		this.mc.getTextureManager().bindTexture(healthTexture);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(false);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		drawTexturedModalRect(xPos + (this.barW * 2) + 2, yPos, 0, 0, this.barW, this.barH);
 		
-		float adjustedHP = this.mc.thePlayer.getMaxHealth() * 5 + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality());
+		float adjustedHP = (this.mc.thePlayer.getMaxHealth() * 5) + props.pickedClass.baseHp + (props.pickedClass.hpPerVit * props.getVitality());
 		float currentHPPercent = this.mc.thePlayer.getHealth() / this.mc.thePlayer.getMaxHealth();
 		
 		currentbarwidth = MathHelper
-				.clamp_int((int) ((adjustedHP * currentHPPercent) / adjustedHP) * this.barW, 0, this.barW);
+				.clamp_int((int) (currentHPPercent) * this.barW, 0, this.barW);
 
 		drawTexturedModalRect(xPos + (this.barW * 2) + 2, yPos, 0, this.barH, currentbarwidth,
 				this.barH);
 		s = (int) (adjustedHP * currentHPPercent) + "/" + (int) (adjustedHP);
 		drawText(s, xPos + (this.barW * 2) + 2, yPos + this.barH + 2, 0xdbdd15);
 		
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_ALPHA_TEST);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(true);
 	}
 
 	private void drawText(String text, int x, int y, int hexColor) {

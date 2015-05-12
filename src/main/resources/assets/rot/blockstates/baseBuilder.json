@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": {"model": "RoT:baseBuilder"}
+        "normal": { "model": "RoT:baseBuilder"}
     }
 }
