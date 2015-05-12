@@ -141,6 +141,7 @@ public class RotEventItems
 	
 	public static void applyAffix(ItemStack is, Random random)
 	{
+		String applied = ""; // valid: 'prefix' 'suffix' 'both' this is for checking what name to put on.
 		// Armor Magics; 40% Prefix, 40% Suffix, 20% Both.
 		// This means there's a 4% chance of getting a magic item with a prefix, same for suffix, and 2% for both.
 		
@@ -163,6 +164,7 @@ public class RotEventItems
 		if (psb >= 0 && psb <= 3)
 		{
 			// Apply prefix only
+			applied = "prefix";
 			int p = random.nextInt(5);
 			switch (p)
 			{
@@ -196,6 +198,7 @@ public class RotEventItems
 		else if (psb >= 4 && psb <= 7)
 		{
 			// Apply suffix only
+			applied = "suffix";
 			int s = random.nextInt(7);
 			switch(s)
 			{
@@ -239,8 +242,8 @@ public class RotEventItems
 		else if (psb >= 8 && psb <= 9)
 		{
 			// Apply both
-			
-			// Apply prefix only
+			applied = "both";
+			// Apply prefix 
 			int p = random.nextInt(5);
 			switch (p)
 			{
@@ -311,6 +314,24 @@ public class RotEventItems
 				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
 				break;
 			}
+		}
+		if (applied == "prefix")
+		{
+			// Prefix only
+			is.setStackDisplayName(UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierPrefix")+ " " + is.getDisplayName());
+
+		}
+		else if (applied == "suffix")
+		{
+			// Suffix only
+			is.setStackDisplayName(UtilityNBTHelper.getString(is, is.getDisplayName() + " of " + UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierSuffix")));
+
+		}
+		else if (applied == "both")
+		{
+			// Both
+			is.setStackDisplayName(UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierPrefix")+ " " + is.getDisplayName() + " of " + UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierSuffix"));
+
 		}
 	}
 	
@@ -384,6 +405,7 @@ public class RotEventItems
 										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Magic");
 										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 2);
 										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Magic");
+										applyAffix(is, random);
 									}			
 								}
 								applyItemStats(is, random);
@@ -449,15 +471,12 @@ public class RotEventItems
 										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Magic");
 										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 2);
 										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Magic");
+										applyAffix(is, random);
 									}			
 								}
 								applyItemStats(is, random);
 								}
 		
-		
-		
-		// This is here incase we wanna do the old stuff. Basically a backup.
-		//updateItemToolTipOld(e);
 		int rank = UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "rankLevel"), str = UtilityNBTHelper
 				.getInt(i.itemStack, Rot.MOD_ID + "strModifier"), agi = UtilityNBTHelper
 				.getInt(i.itemStack, Rot.MOD_ID + "agiModifier"), inte = UtilityNBTHelper
@@ -480,19 +499,19 @@ public class RotEventItems
 				 String magicModifierDescriptionSuffix = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "magicModifierDescriptionSuffix");
 				 if (qualityDisplay == "Crude" || qualityDisplay == "Cracked" || qualityDisplay == "Damaged")
 				 {
-					 qualityDisplay = EnumChatFormatting.RED + qualityDisplay;
+					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.RED + qualityDisplay);
 				 }
 				 else if (qualityDisplay == "Normal")
 				 {
-					 qualityDisplay = EnumChatFormatting.YELLOW + qualityDisplay;
+					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.YELLOW + qualityDisplay);
 				 }
 				 else if (qualityDisplay == "Superior")
 				 {
-					 qualityDisplay = EnumChatFormatting.GREEN + qualityDisplay;
+					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.GREEN + qualityDisplay);
 				 }
 				 else if (qualityDisplay == "Magic")
 				 {
-					 qualityDisplay = EnumChatFormatting.AQUA + qualityDisplay;
+					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.AQUA + qualityDisplay);
 				 }
 		
 		if ((i.itemStack.getItem() instanceof ItemTool)
@@ -501,7 +520,7 @@ public class RotEventItems
 				|| (i.itemStack.getItem() instanceof ItemBow)) {
 			if (quality != "")
 			{
-				i.toolTip.add(EnumChatFormatting.WHITE + "Quality: " + EnumChatFormatting.LIGHT_PURPLE + magicModifierPrefix +" "+ qualityDisplay +" "+ EnumChatFormatting.LIGHT_PURPLE + magicModifierSuffix);
+				i.toolTip.add(EnumChatFormatting.WHITE + "Quality: " + EnumChatFormatting.LIGHT_PURPLE + UtilityNBTHelper.getString(is, magicModifierPrefix) +" "+ qualityDisplay +" "+ EnumChatFormatting.LIGHT_PURPLE + UtilityNBTHelper.getString(is, magicModifierSuffix));
 			}	
 			if (rank != 0) {
 				i.toolTip.add(EnumChatFormatting.YELLOW + "Rank: " + rank);
