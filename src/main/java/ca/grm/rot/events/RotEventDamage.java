@@ -35,6 +35,8 @@ import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventDamage {
 	
+	private static float upscalePercent = 5f;
+	
 	@SubscribeEvent(
 			priority = EventPriority.HIGHEST)
 	public void onDamage(LivingHurtEvent event) {
@@ -45,7 +47,7 @@ public class RotEventDamage {
 				EntityPlayer player = (EntityPlayer) source.getEntity();
 				ExtendPlayer props = ExtendPlayer.get(player);
 				Random rand = new Random();
-				float tempDmg = event.ammount * 5;
+				float tempDmg = event.ammount * upscalePercent;
 				if (event.source.getDamageType() == "player") 
 				{	
 					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getStrength() + 100) / 100;
@@ -60,28 +62,28 @@ public class RotEventDamage {
 				}
 			}
 			else
-				event.ammount *= 5;
+				event.ammount *= upscalePercent;
 		}
 		else
-			event.ammount *= 5;
+			event.ammount *= upscalePercent;
 		
 		// Defense
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
-			float adjustedMaxHP = (20 * 5) + props.pickedClass.baseHp + (props.getVitality() * props.pickedClass.hpPerVit);
+			float adjustedMaxHP = (player.getMaxHealth() * upscalePercent) + props.pickedClass.baseHp + (props.getVitality() * props.pickedClass.hpPerVit);
 			float adjustedHP = adjustedMaxHP - event.ammount;
-			float adjustedHPPercent = adjustedHP / adjustedMaxHP;
-			float newDamage = player.getHealth() - (player.getHealth() * adjustedHPPercent);
+			float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
+			float newDamage = player.getMaxHealth() * adjustedHPPercent;
 			event.ammount = newDamage;
 		}
 		else 
 		{
 			EntityLiving e = (EntityLiving)event.entity;
-			float adjustedMaxHP = (e.getMaxHealth() * 5);
+			float adjustedMaxHP = (e.getMaxHealth() * upscalePercent);
 			float adjustedHP = adjustedMaxHP - event.ammount;
-			float adjustedHPPercent = adjustedHP / adjustedMaxHP;
-			float newDamage = e.getHealth() - (e.getHealth() * adjustedHPPercent);
+			float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
+			float newDamage = e.getMaxHealth() * adjustedHPPercent;
 			event.ammount = newDamage;
 		}
 	}	

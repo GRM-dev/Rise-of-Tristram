@@ -501,8 +501,7 @@ public class RotEventItems
 				|| (i.itemStack.getItem() instanceof ItemBow)) {
 			if (quality != "")
 			{
-				i.toolTip.add("");
-				i.toolTip.add(EnumChatFormatting.WHITE + "Quality: " + EnumChatFormatting.LIGHT_PURPLE + magicModifierPrefix +" " + magicModifierSuffix + qualityDisplay);
+				i.toolTip.add(EnumChatFormatting.WHITE + "Quality: " + EnumChatFormatting.LIGHT_PURPLE + magicModifierPrefix +" "+ qualityDisplay +" "+ EnumChatFormatting.LIGHT_PURPLE + magicModifierSuffix);
 			}	
 			if (rank != 0) {
 				i.toolTip.add(EnumChatFormatting.YELLOW + "Rank: " + rank);
@@ -527,9 +526,6 @@ public class RotEventItems
 				i.toolTip.add((dex > 0 ? EnumChatFormatting.GREEN
 						: EnumChatFormatting.RED) + "Dexterity Modifier: " + dex);
 			}
-			i.toolTip.add("");
-			i.toolTip.add("Minimum Damage: " + UtilityNBTHelper.getInt(is, minDmgStat));
-			i.toolTip.add("Maximum Damage: " + UtilityNBTHelper.getInt(is, maxDmgStat));
 			if (magicModifierPrefix != "")
 			{
 				i.toolTip.add(""); // Blank line for spacing.

@@ -254,8 +254,14 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	 **/
 	public Object[] getValues() {
 		Object[] data = new Object[]{
-				getCurrentClassName(), getCurrentMana(), getCurrentStam()};
+				getCurrentClassIndex(), getCurrentMana(), getCurrentStam()};
 		return data;
+	}
+	
+	public void setValues(Object[] data) {
+		setCurrentClass(Integer.parseInt(data[0].toString()));
+		setCurrentMana(Float.parseFloat(data[1].toString()));
+		setCurrentStam(Float.parseFloat(data[2].toString()));
 	}
 
 	public int getVitality() {
@@ -454,11 +460,7 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		//setMaxStam(classAttributeStam[this.currentClass]);
 	}
 
-	public void setValues(Object[] data) {
-		setCurrentClass(Integer.parseInt(data[0].toString()));
-		setCurrentMana(Float.parseFloat(data[1].toString()));
-		setCurrentStam(Float.parseFloat(data[2].toString()));
-	}
+	
 
 	public void setVitality(int value) {
 		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat, -statMax, statMax);
