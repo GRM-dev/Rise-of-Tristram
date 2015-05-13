@@ -15,8 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.UtilityNBTHelper;
 
-public class RotEventItems 
-{
+public class RotEventItems {
 	public static String strStat = Rot.MOD_ID + "strModifier";
 	public static String dexStat = Rot.MOD_ID + "dexModifier";
 	public static String intStat = Rot.MOD_ID + "intModifier";
@@ -34,124 +33,147 @@ public class RotEventItems
 	public static String numSockets = Rot.MOD_ID + "numSocketsModifier";
 	public static String lifeSteal = Rot.MOD_ID + "lifeStealModifier";
 	public static String manaSteal = Rot.MOD_ID + "manaStealModifier";
-	
-	/**Methods for setting a stat, and getting them via from the item or from an item socket**/
-	public static int getStatValue(ItemStack is,String sid)
-	{
+
+	/**
+	 * Methods for setting a stat, and getting them via from the item or from an
+	 * item socket
+	 **/
+	public static int getStatValue(ItemStack is, String sid) {
 		return UtilityNBTHelper.getInt(is, sid);
 	}
-	
-	public static int getStatValue(ItemStack is,String sid,int slotId)
-	{
+
+	public static int getStatValue(ItemStack is, String sid, int slotId) {
 		return UtilityNBTHelper.getInt(is, (sid + slotId));
 	}
-	
-	public static void setStatValue(ItemStack is,String sid, int sv)
-	{
-		UtilityNBTHelper.setInteger(is,sid,sv);
+
+	public static void setStatValue(ItemStack is, String sid, int sv) {
+		UtilityNBTHelper.setInteger(is, sid, sv);
 	}
-	
-	public static void setStatValue(ItemStack is,String sid,int sv,int slotId)
-	{
-		UtilityNBTHelper.setInteger(is,(sid + slotId),sv);
+
+	public static void setStatValue(ItemStack is, String sid, int sv, int slotId) {
+		UtilityNBTHelper.setInteger(is, (sid + slotId), sv);
 	}
-	
-	/**Methods to trigger then applying stats**/
-	public static void applyItemStats(ItemStack is, Random random)
-	{		
+
+	/** Methods to trigger then applying stats **/
+	public static void applyItemStats(ItemStack is, Random random) {
 		int rank = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "rankLevel");
 		if (rank == 0) {
-			rank = 1;
-			UtilityNBTHelper
-					.setInteger(is, Rot.MOD_ID + "rankLevel", rank);
-			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemArmor || is.getItem() instanceof ItemTool)
-				UtilityNBTHelper.setInteger(is, strStat, random.nextInt(11) * rank);
+			rank = random.nextInt(5) + 1;
+			UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "rankLevel", rank);
+			if (is.getItem() instanceof ItemSword
+					|| is.getItem() instanceof ItemArmor
+					|| is.getItem() instanceof ItemTool)
+				UtilityNBTHelper.setInteger(is, strStat, random.nextInt(11)
+						* rank);
 			if (is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is, agiStat, random.nextInt(11) * rank);
+				UtilityNBTHelper.setInteger(is, agiStat, random.nextInt(11)
+						* rank);
 			if (is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is, intStat, random.nextInt(11) * rank);
+				UtilityNBTHelper.setInteger(is, intStat, random.nextInt(11)
+						* rank);
 			if (is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is, vitStat, random.nextInt(11) * rank);
-			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemBow || is.getItem() instanceof ItemArmor)
-				UtilityNBTHelper.setInteger(is, dexStat, random.nextInt(11) * rank);
-			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool || is.getItem() instanceof ItemBow)
-			{
-				UtilityNBTHelper.setInteger(is,minDmgStat,(11 * rank) + (random.nextInt(10) * rank));
-				UtilityNBTHelper.setInteger(is,maxDmgStat,(23 * rank) + (random.nextInt(30) * rank));
+				UtilityNBTHelper.setInteger(is, vitStat, random.nextInt(11)
+						* rank);
+			if (is.getItem() instanceof ItemSword
+					|| is.getItem() instanceof ItemBow
+					|| is.getItem() instanceof ItemArmor)
+				UtilityNBTHelper.setInteger(is, dexStat, random.nextInt(11)
+						* rank);
+			if (is.getItem() instanceof ItemSword
+					|| is.getItem() instanceof ItemTool
+					|| is.getItem() instanceof ItemBow) {
+				UtilityNBTHelper.setInteger(is, minDmgStat, (11 * rank)
+						+ (random.nextInt(10) * rank));
+				UtilityNBTHelper.setInteger(is, maxDmgStat, (23 * rank)
+						+ (random.nextInt(30) * rank));
 			}
 		}
 	}
-	
-	public static void applyItemQuality(ItemStack is, Random random)
-	{
-		String quality = UtilityNBTHelper.getString(is, Rot.MOD_ID + "quality");
-		int qualityModifier = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "qualityModifier");
-		int q = random.nextInt(100);
+
+	public static void itemQualityLow(ItemStack is, Random random) {
+		// Low
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
+		UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
 		int qd = random.nextInt(3);
-		if (quality == "")
-		{
+		switch (qd) {
+		case (0):
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					"Cracked");
+			break;
+		case (1):
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					"Damaged");
+			break;
+		case (2):
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					"Crude");
+			break;
+		}
+	}
+
+	public static void itemQualityNormal(ItemStack is) {
+		// Normal
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Normal");
+		UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 0);
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Normal");
+	}
+
+	public static void itemQualitySuperior(ItemStack is) {
+		// Superior
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Superior");
+		UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 1);
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+				"Superior");
+	}
+
+	public static void itemQualityMagic(ItemStack is, Random random) {
+		// Magic
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Magic");
+		UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 2);
+		UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Magic");
+
+		applyAffix(is, random);
+	}
+
+	public static void applyItemQuality(ItemStack is, Random random) {
+		String quality = UtilityNBTHelper.getString(is, Rot.MOD_ID + "quality");
+		int qualityModifier = UtilityNBTHelper.getInt(is, Rot.MOD_ID
+				+ "qualityModifier");
+		int rank = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "rankLevel");
+		int q = random.nextInt(100);
+
+		if (quality == "") {
 			// Low, Normal, Superior, Magic.
 			// 30% = Low, all stats -1
 			// 30% = Normal, +/- 0
 			// 30% = Superior, all stats +1
 			// 10% = Magic, all stats +2 w/ random magic effect
-			if (q >= 00 && q <= 29)
-			{
-				// Low
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
-				switch (qd)
-				{
-				case (0):
-					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Cracked");
-					break;
-				case(1):
-					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Damaged");
-					break;
-				case(2):
-					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Crude");
-					break;
-				}
-			}
-			else if (q >= 30 && q <= 59)
-			{
-				// Normal
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Normal");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 0);
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Normal");
-			}
-			else if (q >= 60 && q <= 89)
-			{
-				// Superior
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Superior");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 1);
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Superior");
-			}
-			else if (q >= 90)
-			{
-				// Magic
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Magic");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 2);
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Magic");
-				
-				applyAffix(is,random);
+			if (rank == 1) {
+				itemQualityLow(is, random);
+			} else if (rank == 2) {
+				itemQualityNormal(is);
+			} else if (rank == 3 || rank == 4) {
+				itemQualitySuperior(is);
+			} else if (rank == 5) {
+				itemQualityMagic(is, random);
 			}
 		}
 	}
-	
-	public static void applyAffix(ItemStack is, Random random)
-	{
-		String applied = ""; // valid: 'prefix' 'suffix' 'both' this is for checking what name to put on.
+
+	public static void applyAffix(ItemStack is, Random random) {
+		String applied = ""; // valid: 'prefix' 'suffix' 'both' this is for
+								// checking what name to put on.
 		// Armor Magics; 40% Prefix, 40% Suffix, 20% Both.
-		// This means there's a 4% chance of getting a magic item with a prefix, same for suffix, and 2% for both.
-		
+		// This means there's a 4% chance of getting a magic item with a prefix,
+		// same for suffix, and 2% for both.
+
 		// Prefixes
 		// Sturdy = + 1 Vit
 		// Crimson = +1 Fire Resist
 		// Glimmering = +1 Light Radius
 		// Lizard's = +1 Int/Mana regen
 		// Rugged = +1 Stam regen
-		
+
 		// Suffixes
 		// Balance = +1 Vit
 		// Health = +1 health regen
@@ -161,373 +183,373 @@ public class RotEventItems
 		// Energy = +1 stam
 		// Jackal = +1 vit
 		int psb = random.nextInt(10);
-		if (psb >= 0 && psb <= 3)
-		{
+		if (psb >= 0 && psb <= 3) {
 			// Apply prefix only
 			applied = "prefix";
 			int p = random.nextInt(5);
-			switch (p)
-			{
+			switch (p) {
 			case (0):
 				// Sturdy
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Sturdy");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Sturdy");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix", "Vitality +1");
 				break;
 			case (1):
 				// Crimson
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Crimson");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Crimson");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix",
+						"Fire Resistance +1");
 				break;
 			case (2):
 				// Glimmering
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Glimmering");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Glimmering");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix", "Light Radius +1");
 				break;
 			case (3):
 				// Lizard's
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Lizard's");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Lizard's");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix",
+						"Mana Regeneration +1");
 				break;
 			case (4):
 				// Rugged
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Rugged");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Rugged");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix",
+						"Stamina Regeneration +1");
 				break;
 			}
-		}
-		else if (psb >= 4 && psb <= 7)
-		{
+		} else if (psb >= 4 && psb <= 7) {
 			// Apply suffix only
 			applied = "suffix";
 			int s = random.nextInt(7);
-			switch(s)
-			{
+			switch (s) {
 			case (0):
 				// Balance
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Balance");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Balance");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Vitality +1");
 				break;
 			case (1):
 				// Health
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Health");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Health");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix",
+						"Health Regeneration +1");
 				break;
 			case (2):
 				// Warding
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Warding");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Warding");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix",
+						"Magic Resistance +1");
 				break;
 			case (3):
 				// Self Repair
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Self Repair");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Self Repair");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix",
+						"+1 Durability Every 33 Seconds");
 				break;
 			case (4):
 				// Skill
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Skill");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Skill");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Dexterity +1");
 				break;
 			case (5):
 				// Energy
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Energy");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Energy");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Stamina +1");
 				break;
 			case (6):
 				// Jackal
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Jackal");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Jackal");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Vitality +1");
 				break;
 			}
-		}
-		else if (psb >= 8 && psb <= 9)
-		{
+		} else if (psb >= 8 && psb <= 9) {
 			// Apply both
 			applied = "both";
-			// Apply prefix 
+			// Apply prefix
 			int p = random.nextInt(5);
-			switch (p)
-			{
+			switch (p) {
 			case (0):
 				// Sturdy
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Sturdy");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Sturdy");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix", "Vitality +1");
 				break;
 			case (1):
 				// Crimson
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Crimson");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Crimson");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix",
+						"Fire Resistance +1");
 				break;
 			case (2):
 				// Glimmering
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Glimmering");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Glimmering");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix", "Light Radius +1");
 				break;
 			case (3):
 				// Lizard's
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Lizard's");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Lizard's");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix",
+						"Mana Regeneration +1");
 				break;
 			case (4):
 				// Rugged
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierPrefix", "Rugged");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierPrefix", "Rugged");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierPrefixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionPrefix",
+						"Stamina Regeneration +1");
 				break;
 			}
-			
+
 			// Apply suffix
 			int s = random.nextInt(7);
-			switch(s)
-			{
+			switch (s) {
 			case (0):
 				// Balance
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Balance");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Balance");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Vitality +1");
 				break;
 			case (1):
 				// Health
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Health");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Health");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix",
+						"Health Regeneration +1");
 				break;
 			case (2):
 				// Warding
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Warding");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Warding");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix",
+						"Magic Resistance +1");
 				break;
 			case (3):
 				// Self Repair
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Self Repair");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Self Repair");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix",
+						"+1 Durability Every 33 Seconds");
 				break;
 			case (4):
 				// Skill
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Skill");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Skill");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Dexterity +1");
 				break;
 			case (5):
 				// Energy
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Energy");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Energy");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Stamina +1");
 				break;
 			case (6):
 				// Jackal
-				UtilityNBTHelper.setString(is, Rot.MOD_ID + "magicModifierSuffix", "Jackal");
-				UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierSuffix", "Jackal");
+				UtilityNBTHelper.setInteger(is, Rot.MOD_ID
+						+ "magicModifierSuffixLevel", 1);
+				UtilityNBTHelper.setString(is, Rot.MOD_ID
+						+ "magicModifierDescriptionSuffix", "Vitality +1");
 				break;
 			}
 		}
-		if (applied == "prefix")
-		{
+		if (applied == "prefix") {
 			// Prefix only
-			is.setStackDisplayName(UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierPrefix")+ " " + is.getDisplayName());
+			String newName = UtilityNBTHelper.getString(is, Rot.MOD_ID
+					+ "magicModifierPrefix")
+					+ " " + is.getDisplayName();
+			is.setStackDisplayName(newName);
 
-		}
-		else if (applied == "suffix")
-		{
+		} else if (applied == "suffix") {
 			// Suffix only
-			is.setStackDisplayName(UtilityNBTHelper.getString(is, is.getDisplayName() + " of " + UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierSuffix")));
+			String newName = is.getDisplayName()
+					+ " of "
+					+ UtilityNBTHelper.getString(is, Rot.MOD_ID
+							+ "magicModifierSuffix");
+			is.setStackDisplayName(newName);
 
-		}
-		else if (applied == "both")
-		{
+		} else if (applied == "both") {
 			// Both
-			is.setStackDisplayName(UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierPrefix")+ " " + is.getDisplayName() + " of " + UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierSuffix"));
+			String newName = UtilityNBTHelper.getString(is, Rot.MOD_ID
+					+ "magicModifierPrefix")
+					+ " "
+					+ is.getDisplayName()
+					+ " of "
+					+ UtilityNBTHelper.getString(is, Rot.MOD_ID
+							+ "magicModifierSuffix");
+			is.setStackDisplayName(newName);
 
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onItemToolTipUpdate(ItemTooltipEvent i) {
-		
+
 		Random random = new Random();
 		// Adding stats to Equipment
-						ItemStack is = i.itemStack;
-						if (is != null) {
-							Item item = is.getItem();
-							if (item instanceof ItemArmor) {
-								String quality = UtilityNBTHelper.getString(is, Rot.MOD_ID + "quality");
-								int qualityModifier = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "qualityModifier");
-								String qualityDisplay = UtilityNBTHelper.getString(is, Rot.MOD_ID + "qualityDisplay");
-								String magicModifierPrefix = UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierPrefix");
-								int magicModifierPrefixLevel = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "magicModifierPrefixLevel");
-								String magicModifierSuffix = UtilityNBTHelper.getString(is, Rot.MOD_ID + "magicModifierSuffix");
-								int magicModifierSuffixLevel = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "magicModifierSuffixLevel");
-								applyItemQuality(is, random);
-								applyItemStats(is,random);
-							}
-							if ((item instanceof ItemSword) || (item instanceof ItemTool)) {
-								String quality = UtilityNBTHelper.getString(is, Rot.MOD_ID + "quality");
-								int qualityModifier = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "qualityModifier");
-								String qualityDisplay = UtilityNBTHelper.getString(is, Rot.MOD_ID + "qualityDisplay");
-								if (quality == "")
-								{
-									// Low, Normal, Superior, Magic.
-									// 30% = Low, all stats -1
-									// 30% = Normal, +/- 0
-									// 30% = Superior, all stats +1
-									// 10% = Magic, all stats +2 w/ random magic effect
-									int q = random.nextInt(100);
-									int qd = random.nextInt(3);
-									if (q >= 00 && q <= 29)
-									{
-										// Low
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
-										switch (qd)
-										{
-										case (0):
-											UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Cracked");
-											break;
-										case(1):
-											UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Damaged");
-											break;
-										case(2):
-											UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Crude");
-											break;
-										}
-									}
-									else if (q >= 30 && q <= 59)
-									{
-										// Normal
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Normal");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 0);
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Normal");
-									}
-									else if (q >= 60 && q <= 89)
-									{
-										// Superior
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Superior");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 1);
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Superior");
-									}
-									else if (q >= 90 && q <= 99)
-									{
-										// Magic
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Magic");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 2);
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Magic");
-										applyAffix(is, random);
-									}			
-								}
-								applyItemStats(is, random);
-									if (item instanceof ItemSword) {
-
-									}
-									// UtilityNBTHelper.setFloat(is, Rot.MODID+"size",
-									// 0.45f * (player.worldObj.rand.nextInt(2) == 0 ? 1
-									// : -1));
-									// UtilityNBTHelper.setFloat(is, Rot.MODID+"size",
-									// 0.65f * (player.worldObj.rand.nextInt(2) == 0 ? 1
-									// : -1));
-								}
-							}
-							if (is.getItem() instanceof ItemBow) {
-								String quality = UtilityNBTHelper.getString(is, Rot.MOD_ID + "quality");
-								int qualityModifier = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "qualityModifier");
-								String qualityDisplay = UtilityNBTHelper.getString(is, Rot.MOD_ID + "qualityDisplay");
-								if (quality == "")
-								{
-									// Low, Normal, Superior, Magic.
-									// 30% = Low, all stats -1
-									// 30% = Normal, +/- 0
-									// 30% = Superior, all stats +1
-									// 10% = Magic, all stats +2 w/ random magic effect
-									int q = random.nextInt(100);
-									int qd = random.nextInt(3);
-									if (q >= 00 && q <= 29)
-									{
-										// Low
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Low");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", -1);
-										switch (qd)
-										{
-										case (0):
-											UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Cracked");
-											break;
-										case(1):
-											UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Damaged");
-											break;
-										case(2):
-											UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Crude");
-											break;
-										}
-									}
-									else if (q >= 30 && q <= 59)
-									{
-										// Normal
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Normal");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 0);
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Normal");
-									}
-									else if (q >= 60 && q <= 89)
-									{
-										// Superior
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Superior");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 1);
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Superior");
-									}
-									else if (q >= 90 && q <= 99)
-									{
-										// Magic
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "quality", "Magic");
-										UtilityNBTHelper.setInteger(is, Rot.MOD_ID + "qualityModifier", 2);
-										UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", "Magic");
-										applyAffix(is, random);
-									}			
-								}
-								applyItemStats(is, random);
-								}
+		ItemStack is = i.itemStack;
 		
-		int rank = UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "rankLevel"), str = UtilityNBTHelper
-				.getInt(i.itemStack, Rot.MOD_ID + "strModifier"), agi = UtilityNBTHelper
-				.getInt(i.itemStack, Rot.MOD_ID + "agiModifier"), inte = UtilityNBTHelper
+		String quality = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID
+				+ "quality");
+		String qualityDisplay = UtilityNBTHelper.getString(i.itemStack,
+				Rot.MOD_ID + "qualityDisplay");
+		String magicModifierPrefix = UtilityNBTHelper.getString(i.itemStack,
+				Rot.MOD_ID + "magicModifierPrefix");
+		String magicModifierSuffix = UtilityNBTHelper.getString(i.itemStack,
+				Rot.MOD_ID + "magicModifierSuffix");
+		String magicModifierDescriptionPrefix = UtilityNBTHelper.getString(
+				i.itemStack, Rot.MOD_ID + "magicModifierDescriptionPrefix");
+		String magicModifierDescriptionSuffix = UtilityNBTHelper.getString(
+				i.itemStack, Rot.MOD_ID + "magicModifierDescriptionSuffix");
+		
+		if (is != null) {
+			Item item = is.getItem();
+			if (quality == "")
+			{
+				applyItemQuality(is, random);
+				applyItemStats(is, random);
+			}
+		}
+
+		int rank = UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID
+				+ "rankLevel"), str = UtilityNBTHelper.getInt(i.itemStack,
+				Rot.MOD_ID + "strModifier"), agi = UtilityNBTHelper.getInt(
+				i.itemStack, Rot.MOD_ID + "agiModifier"), inte = UtilityNBTHelper
 				.getInt(i.itemStack, Rot.MOD_ID + "intModifier"), vit = UtilityNBTHelper
 				.getInt(i.itemStack, Rot.MOD_ID + "vitModifier"), dex = UtilityNBTHelper
 				.getInt(i.itemStack, Rot.MOD_ID + "dexModifier");
+
+		str += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID
+				+ "qualityModifier");
+		if (i.itemStack.getItem() instanceof ItemArmor) {
+			agi += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID
+					+ "qualityModifier");
+			inte += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID
+					+ "qualityModifier");
+			vit += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID
+					+ "qualityModifier");
+			dex += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID
+					+ "qualityModifier");
+		}
 		
-				str += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "qualityModifier");
-				if (i.itemStack.getItem() instanceof ItemArmor) {
-					agi += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "qualityModifier");
-					inte += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "qualityModifier");
-					vit += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "qualityModifier");
-					dex += UtilityNBTHelper.getInt(i.itemStack, Rot.MOD_ID + "qualityModifier");
-				}
-				 String quality = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "quality");
-				 String qualityDisplay = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "qualityDisplay");
-				 String magicModifierPrefix = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "magicModifierPrefix");
-				 String magicModifierSuffix = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "magicModifierSuffix");
-				 String magicModifierDescriptionPrefix = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "magicModifierDescriptionPrefix");
-				 String magicModifierDescriptionSuffix = UtilityNBTHelper.getString(i.itemStack, Rot.MOD_ID + "magicModifierDescriptionSuffix");
-				 if (qualityDisplay == "Crude" || qualityDisplay == "Cracked" || qualityDisplay == "Damaged")
-				 {
-					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.RED + qualityDisplay);
-				 }
-				 else if (qualityDisplay == "Normal")
-				 {
-					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.YELLOW + qualityDisplay);
-				 }
-				 else if (qualityDisplay == "Superior")
-				 {
-					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.GREEN + qualityDisplay);
-				 }
-				 else if (qualityDisplay == "Magic")
-				 {
-					 UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.AQUA + qualityDisplay);
-				 }
-		
+		if (qualityDisplay == "Crude" || qualityDisplay == "Cracked"
+				|| qualityDisplay == "Damaged") {
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					EnumChatFormatting.RED + qualityDisplay);
+		} else if (qualityDisplay == "Normal") {
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					EnumChatFormatting.YELLOW + qualityDisplay);
+		} else if (qualityDisplay == "Superior") {
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					EnumChatFormatting.GREEN + qualityDisplay);
+		} else if (qualityDisplay == "Magic") {
+			UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
+					EnumChatFormatting.AQUA + qualityDisplay);
+		}
+
 		if ((i.itemStack.getItem() instanceof ItemTool)
 				|| (i.itemStack.getItem() instanceof ItemSword)
 				|| (i.itemStack.getItem() instanceof ItemArmor)
 				|| (i.itemStack.getItem() instanceof ItemBow)) {
-			if (quality != "")
-			{
-				i.toolTip.add(EnumChatFormatting.WHITE + "Quality: " + EnumChatFormatting.LIGHT_PURPLE + UtilityNBTHelper.getString(is, magicModifierPrefix) +" "+ qualityDisplay +" "+ EnumChatFormatting.LIGHT_PURPLE + UtilityNBTHelper.getString(is, magicModifierSuffix));
-			}	
+			if (quality != "") {
+				i.toolTip.add(EnumChatFormatting.WHITE + "Quality: "
+						+ EnumChatFormatting.LIGHT_PURPLE
+						+ UtilityNBTHelper.getString(is, magicModifierPrefix)
+						+ " " + qualityDisplay + " "
+						+ EnumChatFormatting.LIGHT_PURPLE
+						+ UtilityNBTHelper.getString(is, magicModifierSuffix));
+			}
 			if (rank != 0) {
 				i.toolTip.add(EnumChatFormatting.YELLOW + "Rank: " + rank);
 			}
 			if (str != 0) {
-				i.toolTip.add((str > 0 ? EnumChatFormatting.GREEN
-						: EnumChatFormatting.RED) + "Strength Modifier: " + str);
+				i.toolTip
+						.add((str > 0 ? EnumChatFormatting.GREEN
+								: EnumChatFormatting.RED)
+								+ "Strength Modifier: " + str);
 			}
 			if (agi != 0) {
 				i.toolTip.add((agi > 0 ? EnumChatFormatting.GREEN
@@ -535,25 +557,37 @@ public class RotEventItems
 			}
 			if (inte != 0) {
 				i.toolTip.add((inte > 0 ? EnumChatFormatting.GREEN
-						: EnumChatFormatting.RED) + "Intelligence Modifier: " + inte);
+						: EnumChatFormatting.RED)
+						+ "Intelligence Modifier: "
+						+ inte);
 			}
 			if (vit != 0) {
-				i.toolTip.add((vit > 0 ? EnumChatFormatting.GREEN
-						: EnumChatFormatting.RED) + "Vitality Modifier: " + vit);
+				i.toolTip
+						.add((vit > 0 ? EnumChatFormatting.GREEN
+								: EnumChatFormatting.RED)
+								+ "Vitality Modifier: " + vit);
 			}
 			if (dex != 0) {
 				i.toolTip.add((dex > 0 ? EnumChatFormatting.GREEN
-						: EnumChatFormatting.RED) + "Dexterity Modifier: " + dex);
+						: EnumChatFormatting.RED)
+						+ "Dexterity Modifier: "
+						+ dex);
 			}
-			if (magicModifierPrefix != "")
-			{
+			if (magicModifierDescriptionPrefix != "") {
 				i.toolTip.add(""); // Blank line for spacing.
-				i.toolTip.add(EnumChatFormatting.LIGHT_PURPLE + "Prefix Effect: " + EnumChatFormatting.GOLD + magicModifierDescriptionPrefix);
+				i.toolTip.add(EnumChatFormatting.LIGHT_PURPLE
+						+ "Prefix Effect: " + EnumChatFormatting.GOLD
+						+ magicModifierDescriptionPrefix);
+				System.out.println(magicModifierPrefix + "."
+						+ magicModifierDescriptionPrefix + ".");
 			}
-			if (magicModifierSuffix != "")
-			{
-				i.toolTip.add(EnumChatFormatting.LIGHT_PURPLE + "Suffix Effect: " + EnumChatFormatting.GOLD + magicModifierDescriptionSuffix);
+			if (magicModifierDescriptionSuffix != "") {
+				i.toolTip.add(EnumChatFormatting.LIGHT_PURPLE
+						+ "Suffix Effect: " + EnumChatFormatting.GOLD
+						+ magicModifierDescriptionSuffix);
+				System.out.println(magicModifierSuffix + "."
+						+ magicModifierDescriptionSuffix + ".");
 			}
 		}
-	}	
+	}
 }
