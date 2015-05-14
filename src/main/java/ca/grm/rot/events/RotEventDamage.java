@@ -71,6 +71,7 @@ public class RotEventDamage {
 		if (event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
+			if(event.source instanceof EntityDamageSource)event.ammount -= props.getDefBonus();
 			float adjustedMaxHP = (player.getMaxHealth() * upscalePercent) + props.pickedClass.baseHp + (props.getVitality() * props.pickedClass.hpPerVit);
 			float adjustedHP = adjustedMaxHP - event.ammount;
 			float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
