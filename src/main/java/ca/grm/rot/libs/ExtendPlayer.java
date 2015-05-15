@@ -35,7 +35,9 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	private int statMax = 255;
 
 	private int currentClass;
+	private int currentProfession;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
+	public RotProfession pickedProfession = RotClassManager.professions[1];
 	public boolean needsUpdate = false;
 	public boolean isExhausted = false;
 
@@ -208,7 +210,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		return this.maxDmg;
 	}
-	
+
 	public int getDefBonus()
 	{
 		return this.defBonus;
@@ -509,7 +511,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		this.maxDmg = value;
 	}
-	
+
 	public void setDefBonus(int value)
 	{
 		this.defBonus = value;
