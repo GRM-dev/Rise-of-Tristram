@@ -17,36 +17,12 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
+import ca.grm.rot.libs.ExtendMob;
 import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventLivingUpdate
 {
-	// In your TutEventHandler class - the name of the method doesn't matter
-	// Only the Event type parameter is what's important (see below for
-	// explanations of some types)
-	@SubscribeEvent
-	public void onEntityConstructing(EntityConstructing event)
-	{
-
-		if ((event.entity instanceof EntityPlayer)
-				&& (ExtendPlayer.get((EntityPlayer) event.entity) == null))
-		{
-			ExtendPlayer.register((EntityPlayer) event.entity);
-		}
-	}
-
-	/*
-	 * if (event.entity instanceof EntityLivingBase) {
-	 * 
-	 * ExtendLivingBaseRot props = ExtendLivingBaseRot.get((EntityLivingBase)
-	 * event.entity); // Gives a random amount of gold between 0 and 15
-	 * props.addGold(event.entity.worldObj.rand.nextInt(16));
-	 * System.out.println("[LIVING BASE] Gold: " + props.getGold());
-	 * 
-	 * }
-	 */
-
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event)
 	{
@@ -238,6 +214,14 @@ public class RotEventLivingUpdate
 			else
 			{
 				EntityLiving e = (EntityLiving) event.entity;
+
+				//Roll some stats
+				if (ExtendMob.get(e) != null)
+				{
+					if (ExtendMob.get(e).monsterLevel == 0) ExtendMob.get(e)
+							.rollStats(e.getPosition().getY());
+				}
+
 				if (e.hurtResistantTime != 5)
 				{
 					e.hurtResistantTime = 5;
@@ -358,7 +342,7 @@ public class RotEventLivingUpdate
 		{
 			props.setIntelligence(stats[4]);
 		}
-		
+
 		if (props.getMinDmg() != stats[5])
 		{
 			props.setMinDmg(stats[5]);
