@@ -3,12 +3,14 @@ package ca.grm.rot.events;
 import java.util.Random;
 import java.util.stream.BaseStream;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.item.ItemEvent;
@@ -343,6 +345,21 @@ public class RotEventItems
 							+ "Dexterity Modifier: "
 							+ dex);
 				}
+				NBTTagList nbttaglist = i.itemStack.getEnchantmentTagList();
+
+                if (nbttaglist != null)
+                {
+                    for (int j = 0; j < nbttaglist.tagCount(); ++j)
+                    {
+                        short short1 = nbttaglist.getCompoundTagAt(j).getShort("id");
+                        short short2 = nbttaglist.getCompoundTagAt(j).getShort("lvl");
+
+                        if (Enchantment.getEnchantmentById(short1) != null)
+                        {
+                        	i.toolTip.add(Enchantment.getEnchantmentById(short1).getTranslatedName(short2));
+                        }
+                    }
+                }
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -32,7 +33,7 @@ public class RotEventPlayerClone
 	}
 
 	@SubscribeEvent
-	public void onPlayerJoin(EntityJoinWorldEvent e)
+	public void onEntityJoin(EntityJoinWorldEvent e)
 	{
 		if (e.entity instanceof EntityPlayer)
 		{
@@ -40,15 +41,32 @@ public class RotEventPlayerClone
 			{
 				ExtendPlayer props = ExtendPlayer.get((EntityPlayer) e.entity);
 				props.needsUpdate = true;
-				/*
-				 * if (props != null) Rot.net.sendTo(new
-				 * ClassResponsePacket(props.getCurrentClassIndex()),
-				 * (EntityPlayerMP)e.entity); else
-				 * System.out.println("something fucked up getting the props");
-				 */
 			}
-			// Rot.net.sendToServer(new ClassRequestPacket("whatAmI"));
 		}
+		/*else if (e.entity instanceof EntityLiving)
+		{
+			EntityLiving mob = (EntityLiving) e.entity;
+
+			// Roll some stats
+			if (ExtendMob.get(mob) != null)
+			{
+				if (ExtendMob.get(mob).monsterLevel == 0)
+				{
+					int depth = 0;
+					BlockPos depthChecker = new BlockPos(mob.getPosition());
+					for (int i = 0; i < 50; i++)
+					{
+						if (mob.worldObj.canBlockSeeSky(depthChecker))break;
+						depth++;
+						depthChecker = new BlockPos(mob.getPosition().getX(),
+								mob.getPosition().getY() + i, mob
+										.getPosition().getZ());				
+					}
+
+					ExtendMob.get(mob).rollStats(depth);
+				}
+			}
+		}*/
 	}
 
 	// In your TutEventHandler class - the name of the method doesn't matter

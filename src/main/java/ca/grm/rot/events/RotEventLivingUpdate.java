@@ -13,6 +13,7 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -215,12 +216,22 @@ public class RotEventLivingUpdate
 			{
 				EntityLiving e = (EntityLiving) event.entity;
 
-				//Roll some stats
-				if (ExtendMob.get(e) != null)
+				// Roll some stats
+				/*if (ExtendMob.get(e) != null)
 				{
-					if (ExtendMob.get(e).monsterLevel == 0) ExtendMob.get(e)
-							.rollStats(e.getPosition().getY());
-				}
+					if (ExtendMob.get(e).monsterLevel == 0)
+					{
+						int depth = 0;
+						BlockPos depthChecker = new BlockPos(e.getPosition());
+						while(!e.worldObj.canBlockSeeSky(depthChecker))
+						{
+							depth++;	
+							depthChecker = new BlockPos(e.getPosition().getX(),e.getPosition().getY() + depth,e.getPosition().getZ());
+						}
+						ExtendMob.get(e).rollStats(depth);
+					}
+
+				}*/
 
 				if (e.hurtResistantTime != 5)
 				{
