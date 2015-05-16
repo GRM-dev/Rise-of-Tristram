@@ -64,6 +64,11 @@ tile.emeraldSand.name=Emerald Sand
 tile.rubySand.name=Ruby Sand
 tile.topazSand.name=Topaz Sand
 
+item.quiltedArmorHelm.name=Quilted Helmet
+item.quiltedArmorChestplate.name=Quilted Chestplate
+item.quiltedArmorLeggings.name=Quilted Leggings
+item.quiltedArmorBoots.name=Quilted Boots
+
 item.silverNugget.name=Silver Nugget
 item.bronzeNugget.name=Bronze Nugget
 item.copperNugget.name=Copper Nugget
