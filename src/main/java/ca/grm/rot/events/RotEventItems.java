@@ -1,7 +1,6 @@
 package ca.grm.rot.events;
 
 import java.util.Random;
-import java.util.stream.BaseStream;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
@@ -13,10 +12,13 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import ca.grm.rot.Rot;
+import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.libs.RotClassManager;
 import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventItems
@@ -45,6 +47,10 @@ public class RotEventItems
 
 	private static String[] baseStats = new String[] { strStat, dexStat,
 			intStat, vitStat, agiStat };
+
+	private static int[] qualityValues = new int[] { -3, -2, -1, 0, 1, 2, 3, 4 };
+	private static String[] qualityNames = new String[] { "Useless", "Broken",
+			"Crude", "Normal", "Fine", "Great", "Superior", "Magic" };
 
 	/**
 	 * Methods for setting a stat, and getting them via from the item or from an
@@ -81,21 +87,48 @@ public class RotEventItems
 			applyItemQuality(is, random, rank);
 			int quality = UtilityNBTHelper.getInt(is, Rot.MOD_ID
 					+ "qualityValue");
-			statRoll(is, random, rank, quality);
+			statRoll(is, random);
 		}
 	}
 
 	public static void applyItemStats(ItemStack is, Random random, int rank)
 	{
+
 		UtilityNBTHelper.setInteger(is, itemRank, rank);
 		applyItemQuality(is, random, rank);
 		int quality = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "qualityValue");
-		statRoll(is, random, rank, quality);
+		statRoll(is, random);
 	}
 
-	private static void statRoll(ItemStack is, Random random, int rank,
+	public static void applyItemStats(ItemStack is, Random random, int rank,
 			int quality)
 	{
+		UtilityNBTHelper.setInteger(is, itemRank, rank);
+		UtilityNBTHelper.setString(is, qualityDisplay, qualityNames[quality]);
+		UtilityNBTHelper.setInteger(is, qualityDisplay, qualityValues[quality]);
+		statRoll(is, random);
+	}
+
+	public static void applyItemStats(ItemStack is, Random random,
+			int[] rankStartEnd, int[] qualityLimitStartEnd)
+	{
+		int newRank = 1;
+		int quality = random.nextInt(qualityLimitStartEnd[1]
+				- qualityLimitStartEnd[0])
+				+ qualityLimitStartEnd[0];
+		if (rankStartEnd[0] - rankStartEnd[1] != 0) newRank = random
+				.nextInt(rankStartEnd[1] - rankStartEnd[0]) + rankStartEnd[0];
+		else newRank = rankStartEnd[0];
+		UtilityNBTHelper.setInteger(is, itemRank, newRank);
+		UtilityNBTHelper.setString(is, qualityDisplay, qualityNames[quality]);
+		UtilityNBTHelper.setInteger(is, qualityDisplay, qualityValues[quality]);
+		statRoll(is, random);
+	}
+
+	private static void statRoll(ItemStack is, Random random)
+	{
+		int quality = UtilityNBTHelper.getInt(is, qualityValue);
+		int rank = UtilityNBTHelper.getInt(is, itemRank);
 		boolean rollStats = true;
 		float leftChancePointer = (0.3f - (0.05f * quality));
 		float rightChancePointer = (0.7f + (0.05f * quality));
@@ -170,48 +203,40 @@ public class RotEventItems
 		{
 			if (roll >= 0 && roll <= 0.2f)
 			{
-				name = "Useless";
-				value = -3;
+				value = 0;
 			}
 			else if (roll > 0.2f && roll <= 0.4f)
 			{
-				name = "Broken";
-				value = -2;
+				value = 1;
 			}
 			else if (roll > 0.4f && roll <= 0.5f)
 			{
-				name = "Crude";
-				value = -1;
+				value = 2;
 			}
 			else if (roll > 0.5f && roll <= 0.55f)
 			{
-				name = "Normal";
-				value = 0;
+				value = 3;
 			}
 			else if (roll > 0.55f && roll < 0.6f)
 			{
-				name = "Fine";
-				value = 1;
+				value = 4;
 			}
 			else if (roll > 0.6f && roll < 0.65f)
 			{
-				name = "Great";
-				value = 2;
+				value = 5;
 			}
-			else if (roll > 0.65f && roll <= 0.7f)
-			{// Superior
-				name = "Superior";
-				value = 3;
+			else if (roll > 0.65f && roll <= 0.8f)
+			{
+				value = 6;
 			}
 			else
 			{
-				name = "Magic";
 				// UtilityNBTHelper.setBoolean(is, identifiedState, true);
-				value = 4;
+				value = 7;
 			}
 		}
-		UtilityNBTHelper.setString(is, qualityDisplay, name);
-		UtilityNBTHelper.setInteger(is, qualityValue, value);
+		UtilityNBTHelper.setString(is, qualityDisplay, qualityNames[value]);
+		UtilityNBTHelper.setInteger(is, qualityValue, qualityValues[value]);
 	}
 
 	@SubscribeEvent
@@ -226,8 +251,8 @@ public class RotEventItems
 			if (item instanceof ItemArmor || item instanceof ItemTool
 					|| item instanceof ItemSword || item instanceof ItemBow)
 			{
-				Random random = new Random();
-				applyItemStats(is, random);
+				// Random random = new Random();
+				// applyItemStats(is, random);
 
 				int rank = UtilityNBTHelper.getInt(i.itemStack, itemRank), str = UtilityNBTHelper
 						.getInt(i.itemStack, strStat), agi = UtilityNBTHelper
@@ -347,19 +372,23 @@ public class RotEventItems
 				}
 				NBTTagList nbttaglist = i.itemStack.getEnchantmentTagList();
 
-                if (nbttaglist != null)
-                {
-                    for (int j = 0; j < nbttaglist.tagCount(); ++j)
-                    {
-                        short short1 = nbttaglist.getCompoundTagAt(j).getShort("id");
-                        short short2 = nbttaglist.getCompoundTagAt(j).getShort("lvl");
+				if (nbttaglist != null)
+				{
+					for (int j = 0; j < nbttaglist.tagCount(); ++j)
+					{
+						short short1 = nbttaglist.getCompoundTagAt(j).getShort(
+								"id");
+						short short2 = nbttaglist.getCompoundTagAt(j).getShort(
+								"lvl");
 
-                        if (Enchantment.getEnchantmentById(short1) != null)
-                        {
-                        	i.toolTip.add(Enchantment.getEnchantmentById(short1).getTranslatedName(short2));
-                        }
-                    }
-                }
+						if (Enchantment.getEnchantmentById(short1) != null)
+						{
+							i.toolTip.add(Enchantment
+									.getEnchantmentById(short1)
+									.getTranslatedName(short2));
+						}
+					}
+				}
 			}
 		}
 	}
