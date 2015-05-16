@@ -35,7 +35,11 @@ public class GuiExtendedPlayerStats extends Gui
 	@SubscribeEvent(priority = EventPriority.NORMAL)
 	public void onRenderExperienceBar(RenderGameOverlayEvent event)
 	{
-		// if (event.type == ElementType.FOOD){event.setCanceled(true);return;}
+		if (event.type == ElementType.FOOD)
+		{
+			event.setCanceled(true);
+			return;
+		}
 		if (event.type == ElementType.HEALTH)
 		{
 			event.setCanceled(true);

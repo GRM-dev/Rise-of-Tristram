@@ -1,0 +1,31 @@
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk7
+
+before_install:
+ - chmod +x gradlew
+ - ./gradlew check
+ 
+
+install: ./gradlew setupCIWorkspace -S
+script: ./gradlew build -S
+    
+branches:
+  only:
+    - master
+
+env:
+  global:
+   - secure: "eTcieyght5QLPxURZKo/jj6EXbsYfJ13r2znrao9yvryIyg3tQ97+hRNVmC5J2OIzF6dlQhgWX29QpG67sRLabVOOWHRVfz/UMQHAWesHwaWAnJK0c9fJNDAlNiGSOznzXv+xuNs0d9uBih7FBk/5MrAKvbIqFi951rbtijrxyM="
+
+addons:
+   coverity_scan:
+     project:
+      name: "GRM-Group/Narutocraft-PL_Mod"
+      description: "Build submitted via Travis CI"
+      notification_email: mizyn24@gmail.com
+      build_command_prepend: "mvn clean"
+      build_command:   "mvn -DskipTests=true compile"
+      branch_pattern: coverity_scan
+

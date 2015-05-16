@@ -11,50 +11,53 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ca.grm.rot.Rot;
 
-public class ExtendPlayer implements IExtendedEntityProperties {
-	
+public class ExtendPlayer implements IExtendedEntityProperties
+{
+
 	/*
-	 * Here I create a constant EXT_PROP_NAME for this class of properties
-	 * You need a unique name for every instance of IExtendedEntityProperties
-	 * you make, and doing it at the top of each class as a constant makes
-	 * it very easy to organize and avoid typos. It's easiest to keep the same
-	 * constant name in every class, as it will be distinguished by the class
-	 * name: ExtendedPlayer.EXT_PROP_NAME vs. ExtendedEntity.EXT_PROP_NAME
-	 * Note that a single entity can have multiple extended properties, so each
-	 * property should have a unique name. Try to come up with something more
-	 * unique than the tutorial example.
+	 * Here I create a constant EXT_PROP_NAME for this class of properties You
+	 * need a unique name for every instance of IExtendedEntityProperties you
+	 * make, and doing it at the top of each class as a constant makes it very
+	 * easy to organize and avoid typos. It's easiest to keep the same constant
+	 * name in every class, as it will be distinguished by the class name:
+	 * ExtendedPlayer.EXT_PROP_NAME vs. ExtendedEntity.EXT_PROP_NAME Note that a
+	 * single entity can have multiple extended properties, so each property
+	 * should have a unique name. Try to come up with something more unique than
+	 * the tutorial example.
 	 */
-	public final static String	EXT_PROP_NAME	= "EEPlayerRot";
+	public final static String EXT_PROP_NAME = "EEPlayerRot";
 
 	// I always include the entity to which the properties belong for easy
 	// access
 	// It's final because we won't be changing which player it is
-	private final EntityPlayer	player;
-	
-	private int statMax = 255;
-	private int minDmg, maxDmg;
+	private final EntityPlayer player;
 
-	private int	currentClass;
+	private int statMax = 255;
+
+	private int currentClass;
+	private int currentProfession;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
+	public RotProfession pickedProfession = RotClassManager.professions[1];
 	public boolean needsUpdate = false;
 	public boolean isExhausted = false;
-	
+
 	// Declare other variables you want to add here
-	
-	private float				currentMana, maxMana, currentStam, maxStam;
-	private int					strength, agility, intelligence, dexterity, vitality;
-	
+
+	private float currentMana, maxMana, currentStam, maxStam;
+	private int strength, agility, intelligence, dexterity, vitality;
+	private int minDmg, maxDmg, defBonus;
+	private float lifeSteal, manaSteal;
 	/*
-	 * The default constructor takes no arguments, but I put in the Entity
-	 * so I can initialize the above variable 'player'
-	 * Also, it's best to initialize any other variables you may have added,
-	 * just like in any constructor.
+	 * The default constructor takes no arguments, but I put in the Entity so I
+	 * can initialize the above variable 'player' Also, it's best to initialize
+	 * any other variables you may have added, just like in any constructor.
 	 */
 
-	public static final int		MANA_WATCHER	= 20;
-	public static final int		STAM_WATCHER	= 21;
+	public static final int MANA_WATCHER = 20;
+	public static final int STAM_WATCHER = 21;
 
-	public ExtendPlayer(EntityPlayer player) {
+	public ExtendPlayer(EntityPlayer player)
+	{
 		this.player = player;
 
 		this.currentClass = 0;
@@ -63,9 +66,12 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.intelligence = pickedClass.intStat;
 		this.strength = pickedClass.strStat;
 		this.vitality = pickedClass.vitStat;
-		
+
 		this.minDmg = 0;
 		this.maxDmg = 0;
+		this.defBonus = 0;
+		this.lifeSteal = 0;
+		this.manaSteal = 0;
 
 		// Start with max mana. Every player starts with the same amount.
 		this.currentMana = this.maxMana = pickedClass.baseMana;
@@ -75,10 +81,11 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	}
 
 	/**
-	 * Returns ExtendedPlayer properties for player
-	 * This method is for convenience only; it will make your code look nicer
+	 * Returns ExtendedPlayer properties for player This method is for
+	 * convenience only; it will make your code look nicer
 	 */
-	public static final ExtendPlayer get(EntityPlayer player) {
+	public static final ExtendPlayer get(EntityPlayer player)
+	{
 		try
 		{
 			return (ExtendPlayer) player.getExtendedProperties(EXT_PROP_NAME);
@@ -90,7 +97,8 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		}
 	}
 
-	public static final void loadProxyData(EntityPlayer player) {
+	public static final void loadProxyData(EntityPlayer player)
+	{
 		ExtendPlayer playerData = ExtendPlayer.get(player);
 		// NBTTagCompound savedData =
 		// CommonProxy.getEntityData(getSaveKey(player));
@@ -105,183 +113,219 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 
 	/**
 	 * Used to register these extended properties for the player during
-	 * EntityConstructing event
-	 * This method is for convenience only; it will make your code look nicer
+	 * EntityConstructing event This method is for convenience only; it will
+	 * make your code look nicer
 	 */
-	public static final void register(EntityPlayer player) {
-		player.registerExtendedProperties(ExtendPlayer.EXT_PROP_NAME, new ExtendPlayer(
-				player));
+	public static final void register(EntityPlayer player)
+	{
+		player.registerExtendedProperties(ExtendPlayer.EXT_PROP_NAME,
+				new ExtendPlayer(player));
 	}
-	
+
 	// remove the public void sync() method; it is no longer needed
-	
+
 	/**
-	 * Does everything I did in onLivingDeathEvent and it's static,
-	 * so you now only need to use the following in the above event:
+	 * Does everything I did in onLivingDeathEvent and it's static, so you now
+	 * only need to use the following in the above event:
 	 * ExtendedPlayer.saveProxyData((EntityPlayer) event.entity));
 	 */
-	public static void saveProxyData(EntityPlayer player) {
+	public static void saveProxyData(EntityPlayer player)
+	{
 		ExtendPlayer playerData = ExtendPlayer.get(player);
 		NBTTagCompound savedData = new NBTTagCompound();
-		
+
 		playerData.saveNBTData(savedData);
 		// Note that we made the CommonProxy method storeEntityData static,
 		// so now we don't need an instance of CommonProxy to use it! Great!
 		// CommonProxy.storeEntityData(getSaveKey(player), savedData);
 	}
-	
-	private static final String getSaveKey(EntityPlayer player) {
+
+	private static final String getSaveKey(EntityPlayer player)
+	{
 		// no longer a username field, so use the command sender name instead:
 		return player.getName() + ":" + EXT_PROP_NAME;
 	}
-	
+
 	/**
-	 * Returns true if the amount of mana was consumed or false
-	 * if the player's current mana was insufficient
+	 * Returns true if the amount of mana was consumed or false if the player's
+	 * current mana was insufficient
 	 */
 	// This method gets a little messier, unfortunately, due to the unwieldy
 	// length of getting information
 	// from DataWatcher vs. referencing a local variable, so we'll create a
 	// local variable instead
-	public final boolean consumeMana(float amount) {
+	public final boolean consumeMana(float amount)
+	{
 		// This variable makes it easier to write the rest of the method
-		float mana = this.player.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER);
-		
+		float mana = this.player.getDataWatcher().getWatchableObjectFloat(
+				MANA_WATCHER);
+
 		// These two lines are the same as before
 		boolean sufficient = amount <= mana;
 		// mana -= (amount < mana ? amount : mana);
-		if (sufficient) {
+		if (sufficient)
+		{
 			mana -= amount;
 			// Update the data watcher object with the new value
 			this.player.getDataWatcher().updateObject(MANA_WATCHER, mana);
 		}
-		
+
 		// note that we no longer need to call 'sync()' to update the client
-		
+
 		return sufficient;
 	}
-	
-	public final boolean consumeStam(float amount) {
+
+	public final boolean consumeStam(float amount)
+	{
 		// This variable makes it easier to write the rest of the method
-		float stam = this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER);
-		
+		float stam = this.player.getDataWatcher().getWatchableObjectFloat(
+				STAM_WATCHER);
+
 		// These two lines are the same as before
 		boolean sufficient = amount <= stam;
 		// mana -= (amount < mana ? amount : mana);
-		if (sufficient) {
+		if (sufficient)
+		{
 			stam -= amount;
 			// Update the data watcher object with the new value
 			this.player.getDataWatcher().updateObject(STAM_WATCHER, stam);
 		}
-		
+
 		// note that we no longer need to call 'sync()' to update the client
-		
+
 		return sufficient;
 	}
-	
-	public int getAgility() {
+
+	public int getAgility()
+	{
 		return this.agility;
 	}
-	
-	public int getMinDmg(){
+
+	public int getMinDmg()
+	{
 		return this.minDmg;
 	}
-	
-	public int getMaxDmg(){
+
+	public int getMaxDmg()
+	{
 		return this.maxDmg;
 	}
-	
-	/*
-	 * That's it for the IExtendedEntityProperties methods, but we need to add
-	 * a few of our own in order to interact with our new variables. For now,
-	 * let's make one method to consume mana and one to replenish it.
-	 */
-	
-	/** Returns Str, Agi, Int, Vit, Dex **/
-	public int[] getClassModifers() {
-		return new int[]{
-				pickedClass.strStat,
-				pickedClass.agiStat,
-				pickedClass.intStat,
-				pickedClass.vitStat,
-				pickedClass.dexStat
-				/*classAttributeStr[currentClass],classAttributeAgi[currentClass],
-				classAttributeInt[currentClass],classAttributeVit[currentClass],
-				classAttributeDex[currentClass]*/
-				/*this.currentClass.getStr(), this.currentClass.getAgi(),
-				this.currentClass.getInte(), this.currentClass.getVit(),
-				this.currentClass.getDex()*/};
+
+	public int getDefBonus()
+	{
+		return this.defBonus;
 	}
 
-	public int getCurrentClassIndex() {
+	/*
+	 * That's it for the IExtendedEntityProperties methods, but we need to add a
+	 * few of our own in order to interact with our new variables. For now,
+	 * let's make one method to consume mana and one to replenish it.
+	 */
+
+	/** Returns Str, Agi, Int, Vit, Dex **/
+	public int[] getClassModifers()
+	{
+		return new int[] { pickedClass.strStat, pickedClass.agiStat,
+				pickedClass.intStat, pickedClass.vitStat, pickedClass.dexStat
+		/*
+		 * classAttributeStr[currentClass],classAttributeAgi[currentClass],
+		 * classAttributeInt[currentClass],classAttributeVit[currentClass],
+		 * classAttributeDex[currentClass]
+		 */
+		/*
+		 * this.currentClass.getStr(), this.currentClass.getAgi(),
+		 * this.currentClass.getInte(), this.currentClass.getVit(),
+		 * this.currentClass.getDex()
+		 */};
+	}
+
+	public int getCurrentClassIndex()
+	{
 		return this.currentClass;
 	}
-	
-	public String getCurrentClassName() {
+
+	public String getCurrentClassName()
+	{
 		return pickedClass.className;
 	}
 
-	public float getCurrentMana() {
-		return this.player.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER);
+	public float getCurrentMana()
+	{
+		return this.player.getDataWatcher().getWatchableObjectFloat(
+				MANA_WATCHER);
 	}
 
-	public float getCurrentStam() {
-		return this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER);
+	public float getCurrentStam()
+	{
+		return this.player.getDataWatcher().getWatchableObjectFloat(
+				STAM_WATCHER);
 	}
 
-	public int getDexterity() {
+	public int getDexterity()
+	{
 		return this.dexterity;
 	}
 
-	public int getIntelligence() {
+	public int getIntelligence()
+	{
 		return this.intelligence;
 	}
 
-	public float getMaxMana() {
+	public float getMaxMana()
+	{
 		return this.maxMana;
 	}
-	
-	public float getMaxStam() {
+
+	public float getMaxStam()
+	{
 		return this.maxStam;
 	}
 
-	public int getStrength() {
+	public int getStrength()
+	{
 		return this.strength;
 	}
-	
+
 	/**
 	 * outputs an Object array of String className, Float currentMana, Float
 	 * currentStamina
 	 **/
-	public Object[] getValues() {
-		Object[] data = new Object[]{
-				getCurrentClassIndex(), getCurrentMana(), getCurrentStam()};
+	public Object[] getValues()
+	{
+		Object[] data = new Object[] { getCurrentClassIndex(),
+				getCurrentMana(), getCurrentStam() };
 		return data;
 	}
-	
-	public void setValues(Object[] data) {
+
+	public void setValues(Object[] data)
+	{
 		setCurrentClass(Integer.parseInt(data[0].toString()));
 		setCurrentMana(Float.parseFloat(data[1].toString()));
 		setCurrentStam(Float.parseFloat(data[2].toString()));
 	}
 
-	public int getVitality() {
+	public int getVitality()
+	{
 		return this.vitality;
 	}
-	
+
 	/*
 	 * I personally have yet to find a use for this method. If you know of any,
 	 * please let me know and I'll add it in!
 	 */
 	@Override
-	public void init(Entity entity, World world) {}
+	public void init(Entity entity, World world)
+	{
+	}
 
 	// Load whatever data you saved
 	@Override
-	public void loadNBTData(NBTTagCompound compound) {
+	public void loadNBTData(NBTTagCompound compound)
+	{
 		// Here we fetch the unique tag compound we set for this class of
 		// Extended Properties
-		NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
+		NBTTagCompound properties = (NBTTagCompound) compound
+				.getTag(EXT_PROP_NAME);
 		// Get our data from the custom tag compound
 		this.strength = properties.getInteger(Rot.MOD_ID + "Strength");
 		this.vitality = properties.getInteger(Rot.MOD_ID + "Vitality");
@@ -295,58 +339,82 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		this.player.getDataWatcher().updateObject(STAM_WATCHER,
 				properties.getFloat(Rot.MOD_ID + "CurrentStam"));
 		this.maxStam = properties.getFloat(Rot.MOD_ID + "MaxStam");
-		
+
 		this.currentClass = properties.getInteger(Rot.MOD_ID + "Class");
 		// Just so you know it's working, add this line:
 		// System.out.println("[TUT PROPS] Mana from NBT: " + this.currentMana +
 		// "/" + this.maxMana);
 	}
 
-	public boolean needsMana() {
-		if (getCurrentMana() < this.maxMana) {
+	public boolean needsMana()
+	{
+		if (getCurrentMana() < this.maxMana)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 
-	public boolean needsStam() {
-		if (getCurrentStam() < this.maxStam) {
+	public boolean needsStam()
+	{
+		if (getCurrentStam() < this.maxStam)
+		{
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 
-	public void regenMana(float amount) {
-		float mana = this.player.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER);
+	public void regenMana(float amount)
+	{
+		float mana = this.player.getDataWatcher().getWatchableObjectFloat(
+				MANA_WATCHER);
 
-		if (mana != this.maxMana) {
+		if (mana != this.maxMana)
+		{
 			int decayMod = 45;
 			mana += amount;
-			if (mana > this.maxMana) {
-				this.player.getDataWatcher().updateObject(
-						MANA_WATCHER,
-						(mana - (amount * decayMod)) < this.maxMana ? this.maxMana : mana
-								- (amount * decayMod));
-			} else {
+			if (mana > this.maxMana)
+			{
+				this.player
+						.getDataWatcher()
+						.updateObject(
+								MANA_WATCHER,
+								(mana - (amount * decayMod)) < this.maxMana ? this.maxMana
+										: mana - (amount * decayMod));
+			}
+			else
+			{
 				this.player.getDataWatcher().updateObject(MANA_WATCHER, mana);
 			}
 		}
 	}
 
-	public void regenStam(float amount) {
-		float stam = this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER);
+	public void regenStam(float amount)
+	{
+		float stam = this.player.getDataWatcher().getWatchableObjectFloat(
+				STAM_WATCHER);
 
-		if (stam != this.maxStam) {
+		if (stam != this.maxStam)
+		{
 			int decayMod = 45;
 			stam += amount;
-			if (stam > this.maxStam) {
-				this.player.getDataWatcher().updateObject(
-						STAM_WATCHER,
-						(stam - (amount * decayMod)) < this.maxStam ? this.maxStam : stam
-								- (amount * decayMod));
-			} else {
+			if (stam > this.maxStam)
+			{
+				this.player
+						.getDataWatcher()
+						.updateObject(
+								STAM_WATCHER,
+								(stam - (amount * decayMod)) < this.maxStam ? this.maxStam
+										: stam - (amount * decayMod));
+			}
+			else
+			{
 				this.player.getDataWatcher().updateObject(STAM_WATCHER, stam);
 			}
 		}
@@ -355,27 +423,30 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 	/**
 	 * Simple methods sets current to max
 	 */
-	public void replenishMana() {
+	public void replenishMana()
+	{
 		this.player.getDataWatcher().updateObject(MANA_WATCHER, this.maxMana);
 	}
-	
-	public void replenishStam() {
+
+	public void replenishStam()
+	{
 		this.player.getDataWatcher().updateObject(STAM_WATCHER, this.maxStam);
 	}
 
 	// Save any custom data that needs saving here
 	@Override
-	public void saveNBTData(NBTTagCompound compound) {
+	public void saveNBTData(NBTTagCompound compound)
+	{
 		// We need to create a new tag compound that will save everything for
 		// our Extended Properties
 		NBTTagCompound properties = new NBTTagCompound();
-		
+
 		// We only have 2 variables currently; save them both to the new tag
-		properties.setFloat(Rot.MOD_ID + "CurrentMana", this.player.getDataWatcher()
-				.getWatchableObjectFloat(MANA_WATCHER));
+		properties.setFloat(Rot.MOD_ID + "CurrentMana", this.player
+				.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER));
 		properties.setFloat(Rot.MOD_ID + "MaxMana", this.maxMana);
-		properties.setFloat(Rot.MOD_ID + "CurrentStam", this.player.getDataWatcher()
-				.getWatchableObjectFloat(STAM_WATCHER));
+		properties.setFloat(Rot.MOD_ID + "CurrentStam", this.player
+				.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER));
 		properties.setFloat(Rot.MOD_ID + "MaxStam", this.maxStam);
 
 		properties.setInteger(Rot.MOD_ID + "Strength", this.strength);
@@ -383,9 +454,9 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		properties.setInteger(Rot.MOD_ID + "Intelligence", this.intelligence);
 		properties.setInteger(Rot.MOD_ID + "Agility", this.agility);
 		properties.setInteger(Rot.MOD_ID + "Vitality", this.vitality);
-		
+
 		properties.setInteger(Rot.MOD_ID + "Class", this.currentClass);
-		
+
 		// Now add our custom tag to the player's tag with a unique name (our
 		// property's name)
 		// This will allow you to save multiple types of properties and
@@ -397,91 +468,119 @@ public class ExtendPlayer implements IExtendedEntityProperties {
 		// that will conflict with vanilla. Not good. So just use a unique tag
 		// name.
 		compound.setTag(EXT_PROP_NAME, properties);
-		
+
 	}
 
-	public void setAgility(int value) {
-		this.agility = MathHelper.clamp_int(value + pickedClass.agiStat, -statMax, statMax);
+	public void setAgility(int value)
+	{
+		this.agility = MathHelper.clamp_int(value + pickedClass.agiStat,
+				-statMax, statMax);
 	}
 
-	public void setCurrentClass(int classID) {
+	public void setCurrentClass(int classID)
+	{
 		this.currentClass = classID;
 		this.pickedClass = RotClassManager.classes[this.currentClass];
-		//reloadStats();
+		// reloadStats();
 	}
 
-	public void setCurrentMana(float readFloat) {
+	public void setCurrentMana(float readFloat)
+	{
 		this.player.getDataWatcher().updateObject(MANA_WATCHER,
 				(readFloat < this.maxMana ? readFloat : this.maxMana));
 	}
 
-	public void setCurrentStam(float readFloat) {
+	public void setCurrentStam(float readFloat)
+	{
 		this.player.getDataWatcher().updateObject(STAM_WATCHER,
 				(readFloat < this.maxStam ? readFloat : this.maxStam));
 	}
 
-	public void setDexterity(int value) {
-		this.dexterity = MathHelper
-				.clamp_int(value + pickedClass.dexStat, -statMax, statMax);
+	public void setDexterity(int value)
+	{
+		this.dexterity = MathHelper.clamp_int(value + pickedClass.dexStat,
+				-statMax, statMax);
 	}
-	
-	public void setMinDmg(int value){
+
+	public void setMinDmg(int value)
+	{
 		this.minDmg = value;
 	}
-	
-	public void setMaxDmg(int value){
+
+	public void setMaxDmg(int value)
+	{
 		this.maxDmg = value;
 	}
 
-	public void setIntelligence(int value) {
+	public void setDefBonus(int value)
+	{
+		this.defBonus = value;
+	}
+
+	public void setIntelligence(int value)
+	{
 		this.intelligence = MathHelper.clamp_int(value + pickedClass.intStat,
 				-statMax, statMax);
 		setMaxMana(pickedClass.baseMana);
 	}
 
-	public void setMaxMana(float readFloat) {
+	public void setMaxMana(float readFloat)
+	{
 		float omm = this.maxMana;
 		float ocm = this.currentMana;
-		this.maxMana = MathHelper
-				.clamp_float(
-						readFloat
-								+ (pickedClass.manaPerIntStat * this.intelligence),
-								pickedClass.baseMana, 5000f);
+		this.maxMana = MathHelper.clamp_float(readFloat
+				+ (pickedClass.manaPerIntStat * this.intelligence),
+				pickedClass.baseMana, 5000f);
 	}
 
-	public void setMaxStam(float readFloat) {
+	public void setMaxStam(float readFloat)
+	{
 		float oms = this.maxStam;
 		float ocs = this.currentStam;
-		this.maxStam = MathHelper.clamp_float(readFloat + (pickedClass.stamPerVitStat * this.vitality), 
+		this.maxStam = MathHelper.clamp_float(readFloat
+				+ (pickedClass.stamPerVitStat * this.vitality),
 				pickedClass.baseStam, 5000f);
 	}
 
-	public void setStrength(int value) {
-		this.strength = MathHelper.clamp_int(value + pickedClass.strStat, -statMax, statMax);
-		//setMaxStam(classAttributeStam[this.currentClass]);
+	public void setStrength(int value)
+	{
+		this.strength = MathHelper.clamp_int(value + pickedClass.strStat,
+				-statMax, statMax);
+		// setMaxStam(classAttributeStam[this.currentClass]);
 	}
 
-	
-
-	public void setVitality(int value) {
-		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat, -statMax, statMax);
+	public void setVitality(int value)
+	{
+		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat,
+				-statMax, statMax);
 		setMaxStam(pickedClass.baseStam);
 	}
-	
+
 	public void updateMoveSpeed()
 	{
 		PlayerCapabilities pc = player.capabilities;
-		try {
-			Field walkSpeed = PlayerCapabilities.class.getDeclaredField("walkSpeed");
+		try
+		{
+			Field walkSpeed = PlayerCapabilities.class
+					.getDeclaredField("walkSpeed");
 			walkSpeed.setAccessible(true);
-			walkSpeed.setFloat(pc, MathHelper.clamp_float(0.1F + ((float) this.agility / 142), 0.04f, 0.3f));
-		} catch (IllegalArgumentException e) {
+			walkSpeed.setFloat(pc, MathHelper.clamp_float(
+					0.1F + ((float) this.agility / 242), 0.04f, 0.3f));
+		}
+		catch (IllegalArgumentException e)
+		{
 			e.printStackTrace();
-		} catch (IllegalAccessException e){
+		}
+		catch (IllegalAccessException e)
+		{
 			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
+		}
+		catch (NoSuchFieldException e)
+		{
 			e.printStackTrace();
-		} catch (SecurityException e) {
+		}
+		catch (SecurityException e)
+		{
 			e.printStackTrace();
 		}
 	}
