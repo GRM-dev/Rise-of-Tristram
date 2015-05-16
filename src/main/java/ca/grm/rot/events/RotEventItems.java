@@ -45,12 +45,10 @@ public class RotEventItems
 	public static String qualityValue = Rot.MOD_ID + "qualityValue";
 	public static String identifiedState = Rot.MOD_ID + "isIdentified";
 
-	private static String[] baseStats = new String[] { strStat, dexStat,
-			intStat, vitStat, agiStat };
+	private static String[] baseStats = new String[] { strStat, dexStat, intStat, vitStat, agiStat };
 
 	private static int[] qualityValues = new int[] { -3, -2, -1, 0, 1, 2, 3, 4 };
-	private static String[] qualityNames = new String[] { "Useless", "Broken",
-			"Crude", "Normal", "Fine", "Great", "Superior", "Magic" };
+	private static String[] qualityNames = new String[] { "Useless", "Broken", "Crude", "Normal", "Fine", "Great", "Superior", "Magic" };
 
 	/**
 	 * Methods for setting a stat, and getting them via from the item or from an
@@ -85,8 +83,7 @@ public class RotEventItems
 			rank = random.nextInt(3) + 1;
 			UtilityNBTHelper.setInteger(is, itemRank, rank);
 			applyItemQuality(is, random, rank);
-			int quality = UtilityNBTHelper.getInt(is, Rot.MOD_ID
-					+ "qualityValue");
+			int quality = UtilityNBTHelper.getInt(is, Rot.MOD_ID + "qualityValue");
 			statRoll(is, random);
 		}
 	}
@@ -100,28 +97,23 @@ public class RotEventItems
 		statRoll(is, random);
 	}
 
-	public static void applyItemStats(ItemStack is, Random random, int rank,
-			int quality)
+	public static void applyItemStats(ItemStack is, Random random, int rank, int quality)
 	{
 		UtilityNBTHelper.setInteger(is, itemRank, rank);
 		UtilityNBTHelper.setString(is, qualityDisplay, qualityNames[quality]);
-		UtilityNBTHelper.setInteger(is, qualityDisplay, qualityValues[quality]);
+		UtilityNBTHelper.setInteger(is, qualityValue, qualityValues[quality]);
 		statRoll(is, random);
 	}
 
-	public static void applyItemStats(ItemStack is, Random random,
-			int[] rankStartEnd, int[] qualityLimitStartEnd)
+	public static void applyItemStats(ItemStack is, Random random, int[] rankStartEnd, int[] qualityLimitStartEnd)
 	{
 		int newRank = 1;
-		int quality = random.nextInt(qualityLimitStartEnd[1]
-				- qualityLimitStartEnd[0])
-				+ qualityLimitStartEnd[0];
-		if (rankStartEnd[0] - rankStartEnd[1] != 0) newRank = random
-				.nextInt(rankStartEnd[1] - rankStartEnd[0]) + rankStartEnd[0];
+		int quality = random.nextInt(qualityLimitStartEnd[1] - qualityLimitStartEnd[0]) + qualityLimitStartEnd[0];
+		if (rankStartEnd[0] - rankStartEnd[1] != 0) newRank = random.nextInt(rankStartEnd[1] - rankStartEnd[0]) + rankStartEnd[0];
 		else newRank = rankStartEnd[0];
 		UtilityNBTHelper.setInteger(is, itemRank, newRank);
 		UtilityNBTHelper.setString(is, qualityDisplay, qualityNames[quality]);
-		UtilityNBTHelper.setInteger(is, qualityDisplay, qualityValues[quality]);
+		UtilityNBTHelper.setInteger(is, qualityValue, qualityValues[quality]);
 		statRoll(is, random);
 	}
 
@@ -143,10 +135,8 @@ public class RotEventItems
 				// System.out.println("Success rolled a: " + rngRoll
 				// + " between: " + leftChancePointer + "-"
 				// + rightChancePointer);
-				leftChancePointer += (0.1f - (0.01f * (quality < 0 ? 0
-						: quality - 1)) - (0.025f * (rank - 1)));
-				rightChancePointer -= (0.1f - (0.01f * (quality < 0 ? 0
-						: quality - 1)) - (0.025f * (rank - 1)));
+				leftChancePointer += (0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)));
+				rightChancePointer -= (0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)));
 				for (int tries = 0; tries < 50; tries++)
 				{
 					int r = random.nextInt(baseStats.length - 1);
@@ -157,8 +147,7 @@ public class RotEventItems
 					{
 						// System.out.println("Adding: " + baseStats[r]);
 						statsAdded++;
-						UtilityNBTHelper.setInteger(is, baseStats[r],
-								random.nextInt(11) * rank);
+						UtilityNBTHelper.setInteger(is, baseStats[r], random.nextInt(11) * rank);
 						break;
 					}
 				}
@@ -168,28 +157,14 @@ public class RotEventItems
 				rollStats = false;
 			}
 		}
-		if (is.getItem() instanceof ItemSword
-				|| is.getItem() instanceof ItemTool
-				|| is.getItem() instanceof ItemBow)
+		if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool || is.getItem() instanceof ItemBow)
 		{
-			UtilityNBTHelper.setInteger(
-					is,
-					minDmgStat,
-					(11 * rank) + (random.nextInt(10) * rank)
-							+ (random.nextInt(6) * (quality - 1)));
-			UtilityNBTHelper.setInteger(
-					is,
-					maxDmgStat,
-					(23 * rank) + (random.nextInt(30) * rank)
-							+ (random.nextInt(9) * (quality - 1)));
+			UtilityNBTHelper.setInteger(is, minDmgStat, (11 * rank) + (random.nextInt(10) * rank) + (random.nextInt(6) * (quality - 1)));
+			UtilityNBTHelper.setInteger(is, maxDmgStat, (23 * rank) + (random.nextInt(30) * rank) + (random.nextInt(9) * (quality - 1)));
 		}
 		if (is.getItem() instanceof ItemArmor)
 		{
-			UtilityNBTHelper.setInteger(
-					is,
-					defStat,
-					(11 * rank) + (random.nextInt(10) * rank)
-							+ (random.nextInt(6) * (quality - 1)));
+			UtilityNBTHelper.setInteger(is, defStat, (11 * rank) + (random.nextInt(10) * rank) + (random.nextInt(6) * (quality - 1)));
 		}
 	}
 
@@ -197,8 +172,7 @@ public class RotEventItems
 	{
 		String name = UtilityNBTHelper.getString(is, qualityDisplay);
 		int value = 0;
-		float roll = MathHelper.clamp_float(random.nextFloat()
-				+ ((10 * (rank - 1)) / 100), 0f, 1f);
+		float roll = MathHelper.clamp_float(random.nextFloat() + ((10 * (rank - 1)) / 100), 0f, 1f);
 		if (name == "")
 		{
 			if (roll >= 0 && roll <= 0.2f)
@@ -248,89 +222,52 @@ public class RotEventItems
 		if (is != null)
 		{
 			Item item = is.getItem();
-			if (item instanceof ItemArmor || item instanceof ItemTool
-					|| item instanceof ItemSword || item instanceof ItemBow)
+			if (item instanceof ItemArmor || item instanceof ItemTool || item instanceof ItemSword || item instanceof ItemBow)
 			{
 				// Random random = new Random();
 				// applyItemStats(is, random);
 
-				int rank = UtilityNBTHelper.getInt(i.itemStack, itemRank), str = UtilityNBTHelper
-						.getInt(i.itemStack, strStat), agi = UtilityNBTHelper
-						.getInt(i.itemStack, agiStat), inte = UtilityNBTHelper
-						.getInt(i.itemStack, intStat), vit = UtilityNBTHelper
-						.getInt(i.itemStack, vitStat), dex = UtilityNBTHelper
-						.getInt(i.itemStack, dexStat);
+				int rank = UtilityNBTHelper.getInt(i.itemStack, itemRank), str = UtilityNBTHelper.getInt(i.itemStack, strStat), agi = UtilityNBTHelper.getInt(i.itemStack, agiStat), inte = UtilityNBTHelper.getInt(i.itemStack, intStat), vit = UtilityNBTHelper.getInt(i.itemStack, vitStat), dex = UtilityNBTHelper.getInt(i.itemStack, dexStat);
 
 				int minDmg = UtilityNBTHelper.getInt(is, minDmgStat);
 				int maxDmg = UtilityNBTHelper.getInt(is, maxDmgStat);
 
 				int defBonus = UtilityNBTHelper.getInt(is, defStat);
 
-				int quality = UtilityNBTHelper
-						.getInt(i.itemStack, qualityValue);
-				String qualityName = UtilityNBTHelper.getString(i.itemStack,
-						qualityDisplay);
+				int quality = UtilityNBTHelper.getInt(i.itemStack, qualityValue);
+				String qualityName = UtilityNBTHelper.getString(i.itemStack, qualityDisplay);
 
-				if (qualityName == "Useless" || qualityName == "Broken"
-						|| qualityName == "Crude")
+				if (qualityName == "Useless" || qualityName == "Broken" || qualityName == "Crude")
 				{
-					UtilityNBTHelper.setString(is, Rot.MOD_ID
-							+ "qualityDisplay", EnumChatFormatting.RED
-							+ qualityName);
+					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.RED + qualityName);
 				}
 				else if (qualityName == "Normal")
 				{
-					UtilityNBTHelper.setString(is, Rot.MOD_ID
-							+ "qualityDisplay", EnumChatFormatting.YELLOW
-							+ qualityName);
+					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.YELLOW + qualityName);
 				}
 				else if (qualityName == "Superior")
 				{
-					UtilityNBTHelper.setString(is, Rot.MOD_ID
-							+ "qualityDisplay", EnumChatFormatting.GREEN
-							+ qualityName);
+					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.GREEN + qualityName);
 				}
 				else if (qualityName == "Magic")
 				{
-					UtilityNBTHelper.setString(is, Rot.MOD_ID
-							+ "qualityDisplay", EnumChatFormatting.AQUA
-							+ qualityName);
+					UtilityNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay", EnumChatFormatting.AQUA + qualityName);
 				}
 
 				// Start Adding New Data
 				i.toolTip.clear();
 				i.toolTip.add(is.getDisplayName());
 				i.toolTip.add("");
-				if (is.getItem() instanceof ItemSword) i.toolTip
-						.add(EnumChatFormatting.BLUE
-								+ ""
-								+ (int) (minDmg + (((ItemSword) is.getItem())
-										.getDamageVsEntity() * 5))
-								+ "-"
-								+ (int) (maxDmg + (((ItemSword) is.getItem())
-										.getDamageVsEntity() * 5)) + " Damage");
+				if (is.getItem() instanceof ItemSword) i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) (minDmg + (((ItemSword) is.getItem()).getDamageVsEntity() * 5)) + "-" + (int) (maxDmg + (((ItemSword) is.getItem()).getDamageVsEntity() * 5)) + " Damage");
 
-				if (is.getItem() instanceof ItemBow) i.toolTip
-						.add(EnumChatFormatting.BLUE + "" + minDmg + "-"
-								+ maxDmg + " Damage");
+				if (is.getItem() instanceof ItemBow) i.toolTip.add(EnumChatFormatting.BLUE + "" + minDmg + "-" + maxDmg + " Damage");
 
-				if (is.getItem() instanceof ItemTool) i.toolTip
-						.add(EnumChatFormatting.BLUE
-								+ ""
-								+ (int) (minDmg + (((ItemTool) is.getItem())
-										.getToolMaterial().getDamageVsEntity() * 5))
-								+ "-"
-								+ (int) (maxDmg + (((ItemTool) is.getItem())
-										.getToolMaterial().getDamageVsEntity() * 5))
-								+ " Damage");
-				if (is.getItem() instanceof ItemArmor) i.toolTip.add(defBonus
-						+ (((ItemArmor) is.getItem()).damageReduceAmount * 5)
-						+ " Armor");
+				if (is.getItem() instanceof ItemTool) i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) (minDmg + (((ItemTool) is.getItem()).getToolMaterial().getDamageVsEntity() * 5)) + "-" + (int) (maxDmg + (((ItemTool) is.getItem()).getToolMaterial().getDamageVsEntity() * 5)) + " Damage");
+				if (is.getItem() instanceof ItemArmor) i.toolTip.add(defBonus + (((ItemArmor) is.getItem()).damageReduceAmount * 5) + " Armor");
 
 				if (qualityName != "")
 				{
-					i.toolTip.add(EnumChatFormatting.WHITE + "Quality: "
-							+ qualityName);
+					i.toolTip.add(EnumChatFormatting.WHITE + "Quality: " + qualityName);
 				}
 				if (rank != 0)
 				{
@@ -338,37 +275,23 @@ public class RotEventItems
 				}
 				if (str != 0)
 				{
-					i.toolTip.add((str > 0 ? EnumChatFormatting.GREEN
-							: EnumChatFormatting.RED)
-							+ "Strength Modifier: "
-							+ str);
+					i.toolTip.add((str > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Strength Modifier: " + str);
 				}
 				if (agi != 0)
 				{
-					i.toolTip.add((agi > 0 ? EnumChatFormatting.GREEN
-							: EnumChatFormatting.RED)
-							+ "Agility Modifier: "
-							+ agi);
+					i.toolTip.add((agi > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Agility Modifier: " + agi);
 				}
 				if (inte != 0)
 				{
-					i.toolTip.add((inte > 0 ? EnumChatFormatting.GREEN
-							: EnumChatFormatting.RED)
-							+ "Intelligence Modifier: " + inte);
+					i.toolTip.add((inte > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Intelligence Modifier: " + inte);
 				}
 				if (vit != 0)
 				{
-					i.toolTip.add((vit > 0 ? EnumChatFormatting.GREEN
-							: EnumChatFormatting.RED)
-							+ "Vitality Modifier: "
-							+ vit);
+					i.toolTip.add((vit > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Vitality Modifier: " + vit);
 				}
 				if (dex != 0)
 				{
-					i.toolTip.add((dex > 0 ? EnumChatFormatting.GREEN
-							: EnumChatFormatting.RED)
-							+ "Dexterity Modifier: "
-							+ dex);
+					i.toolTip.add((dex > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Dexterity Modifier: " + dex);
 				}
 				NBTTagList nbttaglist = i.itemStack.getEnchantmentTagList();
 
@@ -376,16 +299,12 @@ public class RotEventItems
 				{
 					for (int j = 0; j < nbttaglist.tagCount(); ++j)
 					{
-						short short1 = nbttaglist.getCompoundTagAt(j).getShort(
-								"id");
-						short short2 = nbttaglist.getCompoundTagAt(j).getShort(
-								"lvl");
+						short short1 = nbttaglist.getCompoundTagAt(j).getShort("id");
+						short short2 = nbttaglist.getCompoundTagAt(j).getShort("lvl");
 
 						if (Enchantment.getEnchantmentById(short1) != null)
 						{
-							i.toolTip.add(Enchantment
-									.getEnchantmentById(short1)
-									.getTranslatedName(short2));
+							i.toolTip.add(Enchantment.getEnchantmentById(short1).getTranslatedName(short2));
 						}
 					}
 				}
