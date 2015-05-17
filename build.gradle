@@ -81,21 +81,14 @@ task writePom << {
     }
   }.writeTo("$projectDir/pom.xml")
 }
-
-findbugs {
-  ignoreFailures = true
-  sourceSets = [sourceSets.main]
-  reportsDir = file("$project.buildDir/reports/findbugs")
-  effort = "max"
-}
  
 pmd {
   ignoreFailures = true
   sourceSets = [sourceSets.main]
   reportsDir = file("$project.buildDir/reports/pmd")
   ruleSets = [
-    "basic",
-    "braces"
+    "java-basic",
+    "java-braces"
   ]
 }
 
@@ -110,4 +103,8 @@ check << {
       include(name: '**/*.java')
     }
   }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
 }
