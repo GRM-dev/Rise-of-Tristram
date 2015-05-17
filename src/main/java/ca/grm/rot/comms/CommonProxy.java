@@ -18,6 +18,11 @@ public class CommonProxy {
 	{
 		return;
 	}
+	
+	public void handleProfessionMessage(ProfessionResponsePacket message, MessageContext ctx)
+	{
+		return;
+	}
 
 	public void registerKeyBindings() {}
 
@@ -25,7 +30,7 @@ public class CommonProxy {
 
 	}
 	
-	public void updatePlayerClass(EntityPlayer player)
+	public void updatePlayer(EntityPlayer player)
 	{
 		
 	}

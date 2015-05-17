@@ -61,6 +61,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.player = player;
 
 		this.currentClass = 0;
+		this.currentProfession = 0;
 		this.dexterity = pickedClass.dexStat;
 		this.agility = pickedClass.agiStat;
 		this.intelligence = pickedClass.intStat;
@@ -118,8 +119,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	 */
 	public static final void register(EntityPlayer player)
 	{
-		player.registerExtendedProperties(ExtendPlayer.EXT_PROP_NAME,
-				new ExtendPlayer(player));
+		player.registerExtendedProperties(ExtendPlayer.EXT_PROP_NAME, new ExtendPlayer(player));
 	}
 
 	// remove the public void sync() method; it is no longer needed
@@ -157,8 +157,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	public final boolean consumeMana(float amount)
 	{
 		// This variable makes it easier to write the rest of the method
-		float mana = this.player.getDataWatcher().getWatchableObjectFloat(
-				MANA_WATCHER);
+		float mana = this.player.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER);
 
 		// These two lines are the same as before
 		boolean sufficient = amount <= mana;
@@ -178,8 +177,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	public final boolean consumeStam(float amount)
 	{
 		// This variable makes it easier to write the rest of the method
-		float stam = this.player.getDataWatcher().getWatchableObjectFloat(
-				STAM_WATCHER);
+		float stam = this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER);
 
 		// These two lines are the same as before
 		boolean sufficient = amount <= stam;
@@ -225,8 +223,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	/** Returns Str, Agi, Int, Vit, Dex **/
 	public int[] getClassModifers()
 	{
-		return new int[] { pickedClass.strStat, pickedClass.agiStat,
-				pickedClass.intStat, pickedClass.vitStat, pickedClass.dexStat
+		return new int[] { pickedClass.strStat, pickedClass.agiStat, pickedClass.intStat, pickedClass.vitStat, pickedClass.dexStat
 		/*
 		 * classAttributeStr[currentClass],classAttributeAgi[currentClass],
 		 * classAttributeInt[currentClass],classAttributeVit[currentClass],
@@ -244,21 +241,29 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		return this.currentClass;
 	}
 
+	public int getCurrentProfessionIndex()
+	{
+		return this.currentProfession;
+	}
+
 	public String getCurrentClassName()
 	{
 		return pickedClass.className;
 	}
 
+	public String getCurrentProfessionName()
+	{
+		return pickedProfession.professionName;
+	}
+
 	public float getCurrentMana()
 	{
-		return this.player.getDataWatcher().getWatchableObjectFloat(
-				MANA_WATCHER);
+		return this.player.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER);
 	}
 
 	public float getCurrentStam()
 	{
-		return this.player.getDataWatcher().getWatchableObjectFloat(
-				STAM_WATCHER);
+		return this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER);
 	}
 
 	public int getDexterity()
@@ -292,8 +297,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	 **/
 	public Object[] getValues()
 	{
-		Object[] data = new Object[] { getCurrentClassIndex(),
-				getCurrentMana(), getCurrentStam() };
+		Object[] data = new Object[] { getCurrentClassIndex(), getCurrentMana(), getCurrentStam() };
 		return data;
 	}
 
@@ -324,8 +328,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		// Here we fetch the unique tag compound we set for this class of
 		// Extended Properties
-		NBTTagCompound properties = (NBTTagCompound) compound
-				.getTag(EXT_PROP_NAME);
+		NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
 		// Get our data from the custom tag compound
 		this.strength = properties.getInteger(Rot.MOD_ID + "Strength");
 		this.vitality = properties.getInteger(Rot.MOD_ID + "Vitality");
@@ -341,6 +344,9 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.maxStam = properties.getFloat(Rot.MOD_ID + "MaxStam");
 
 		this.currentClass = properties.getInteger(Rot.MOD_ID + "Class");
+		setCurrentClass(currentClass);
+		this.currentProfession = properties.getInteger(Rot.MOD_ID + "Profession");
+		setCurrentProfession(currentProfession);
 		// Just so you know it's working, add this line:
 		// System.out.println("[TUT PROPS] Mana from NBT: " + this.currentMana +
 		// "/" + this.maxMana);
@@ -372,8 +378,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	public void regenMana(float amount)
 	{
-		float mana = this.player.getDataWatcher().getWatchableObjectFloat(
-				MANA_WATCHER);
+		float mana = this.player.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER);
 
 		if (mana != this.maxMana)
 		{
@@ -385,8 +390,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 						.getDataWatcher()
 						.updateObject(
 								MANA_WATCHER,
-								(mana - (amount * decayMod)) < this.maxMana ? this.maxMana
-										: mana - (amount * decayMod));
+								(mana - (amount * decayMod)) < this.maxMana ? this.maxMana : mana - (amount * decayMod));
 			}
 			else
 			{
@@ -397,8 +401,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	public void regenStam(float amount)
 	{
-		float stam = this.player.getDataWatcher().getWatchableObjectFloat(
-				STAM_WATCHER);
+		float stam = this.player.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER);
 
 		if (stam != this.maxStam)
 		{
@@ -410,8 +413,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 						.getDataWatcher()
 						.updateObject(
 								STAM_WATCHER,
-								(stam - (amount * decayMod)) < this.maxStam ? this.maxStam
-										: stam - (amount * decayMod));
+								(stam - (amount * decayMod)) < this.maxStam ? this.maxStam : stam - (amount * decayMod));
 			}
 			else
 			{
@@ -441,12 +443,11 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		// our Extended Properties
 		NBTTagCompound properties = new NBTTagCompound();
 
-		// We only have 2 variables currently; save them both to the new tag
-		properties.setFloat(Rot.MOD_ID + "CurrentMana", this.player
-				.getDataWatcher().getWatchableObjectFloat(MANA_WATCHER));
+		properties.setFloat(Rot.MOD_ID + "CurrentMana", this.player.getDataWatcher()
+				.getWatchableObjectFloat(MANA_WATCHER));
 		properties.setFloat(Rot.MOD_ID + "MaxMana", this.maxMana);
-		properties.setFloat(Rot.MOD_ID + "CurrentStam", this.player
-				.getDataWatcher().getWatchableObjectFloat(STAM_WATCHER));
+		properties.setFloat(Rot.MOD_ID + "CurrentStam", this.player.getDataWatcher()
+				.getWatchableObjectFloat(STAM_WATCHER));
 		properties.setFloat(Rot.MOD_ID + "MaxStam", this.maxStam);
 
 		properties.setInteger(Rot.MOD_ID + "Strength", this.strength);
@@ -456,32 +457,27 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		properties.setInteger(Rot.MOD_ID + "Vitality", this.vitality);
 
 		properties.setInteger(Rot.MOD_ID + "Class", this.currentClass);
+		properties.setInteger(Rot.MOD_ID + "Profession", this.currentProfession);
 
-		// Now add our custom tag to the player's tag with a unique name (our
-		// property's name)
-		// This will allow you to save multiple types of properties and
-		// distinguish between them
-		// If you only have one type, it isn't as important, but it will still
-		// avoid conflicts between
-		// your tag names and vanilla tag names. For instance, if you add some
-		// "Items" tag,
-		// that will conflict with vanilla. Not good. So just use a unique tag
-		// name.
 		compound.setTag(EXT_PROP_NAME, properties);
 
 	}
 
 	public void setAgility(int value)
 	{
-		this.agility = MathHelper.clamp_int(value + pickedClass.agiStat,
-				-statMax, statMax);
+		this.agility = MathHelper.clamp_int(value + pickedClass.agiStat, -statMax, statMax);
 	}
 
 	public void setCurrentClass(int classID)
 	{
 		this.currentClass = classID;
 		this.pickedClass = RotClassManager.classes[this.currentClass];
-		// reloadStats();
+	}
+
+	public void setCurrentProfession(int professionID)
+	{
+		this.currentProfession = professionID;
+		this.pickedProfession = RotClassManager.professions[this.currentProfession];
 	}
 
 	public void setCurrentMana(float readFloat)
@@ -498,8 +494,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	public void setDexterity(int value)
 	{
-		this.dexterity = MathHelper.clamp_int(value + pickedClass.dexStat,
-				-statMax, statMax);
+		this.dexterity = MathHelper.clamp_int(value + pickedClass.dexStat, -statMax, statMax);
 	}
 
 	public void setMinDmg(int value)
@@ -519,8 +514,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	public void setIntelligence(int value)
 	{
-		this.intelligence = MathHelper.clamp_int(value + pickedClass.intStat,
-				-statMax, statMax);
+		this.intelligence = MathHelper.clamp_int(value + pickedClass.intStat, -statMax, statMax);
 		setMaxMana(pickedClass.baseMana);
 	}
 
@@ -528,31 +522,29 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		float omm = this.maxMana;
 		float ocm = this.currentMana;
-		this.maxMana = MathHelper.clamp_float(readFloat
-				+ (pickedClass.manaPerIntStat * this.intelligence),
-				pickedClass.baseMana, 5000f);
+		this.maxMana = MathHelper.clamp_float(
+				readFloat + (pickedClass.manaPerIntStat * this.intelligence), pickedClass.baseMana,
+				5000f);
 	}
 
 	public void setMaxStam(float readFloat)
 	{
 		float oms = this.maxStam;
 		float ocs = this.currentStam;
-		this.maxStam = MathHelper.clamp_float(readFloat
-				+ (pickedClass.stamPerVitStat * this.vitality),
-				pickedClass.baseStam, 5000f);
+		this.maxStam = MathHelper.clamp_float(
+				readFloat + (pickedClass.stamPerVitStat * this.vitality), pickedClass.baseStam,
+				5000f);
 	}
 
 	public void setStrength(int value)
 	{
-		this.strength = MathHelper.clamp_int(value + pickedClass.strStat,
-				-statMax, statMax);
+		this.strength = MathHelper.clamp_int(value + pickedClass.strStat, -statMax, statMax);
 		// setMaxStam(classAttributeStam[this.currentClass]);
 	}
 
 	public void setVitality(int value)
 	{
-		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat,
-				-statMax, statMax);
+		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat, -statMax, statMax);
 		setMaxStam(pickedClass.baseStam);
 	}
 
@@ -561,11 +553,10 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		PlayerCapabilities pc = player.capabilities;
 		try
 		{
-			Field walkSpeed = PlayerCapabilities.class
-					.getDeclaredField("walkSpeed");
+			Field walkSpeed = PlayerCapabilities.class.getDeclaredField("walkSpeed");
 			walkSpeed.setAccessible(true);
-			walkSpeed.setFloat(pc, MathHelper.clamp_float(
-					0.1F + ((float) this.agility / 242), 0.04f, 0.3f));
+			walkSpeed.setFloat(pc, MathHelper.clamp_float(0.1F + ((float) this.agility / 242),
+					0.04f, 0.3f));
 		}
 		catch (IllegalArgumentException e)
 		{

@@ -40,17 +40,14 @@ public class RotWorldGenerator implements IWorldGenerator{
     }
 	
 	private void GenerateNether(Random random, int i, int j, World world) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	private void GenerateEnd(Random random, int i, int j, World world) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	private void GenerateOverworld(Random random, int i, int j, World world) {
-		// TODO Auto-generated method stub
 		 this.addOreSpawn(RotBlocks.copperOre, Blocks.stone, random, world, i, j, 0, 64, 4, 10, 20);
 		 this.addOreSpawn(RotBlocks.silverOre, Blocks.stone, random, world, i, j, 0, 48, 1, 5, 10);
 		 this.addOreSpawn(RotBlocks.leadOre, Blocks.stone, random, world, i, j, 0, 48, 3, 8, 12);

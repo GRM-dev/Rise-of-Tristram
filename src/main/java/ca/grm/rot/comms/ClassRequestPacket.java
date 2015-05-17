@@ -11,71 +11,82 @@ import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.RotClassManager;
 import ca.grm.rot.libs.UtilityFunctions;
 
-public class ClassRequestPacket implements IMessage {
+public class ClassRequestPacket implements IMessage
+{
 
-	public static class ClassRequestPacketHandler implements IMessageHandler<ClassRequestPacket, IMessage> {
-		
+	public static class ClassRequestPacketHandler implements IMessageHandler<ClassRequestPacket, IMessage>
+	{
+
 		@Override
-		public IMessage onMessage(ClassRequestPacket message, MessageContext ctx) {
-			if (message.className == 0) { return new ClassResponsePacket(
-					ExtendPlayer.get(ctx.getServerHandler().playerEntity)
-							.getCurrentClassIndex()); }
+		public IMessage onMessage(ClassRequestPacket message, MessageContext ctx)
+		{
+			if (message.classID == 0) { return new ClassResponsePacket(ExtendPlayer.get(
+					ctx.getServerHandler().playerEntity).getCurrentClassIndex()); }
 
-			System.out.println("got a request to change to: " + message.className);
+			System.out.println("got a request to change to: " + message.classID);
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
-			if (ExtendPlayer.get(player).getCurrentClassName()
-					.equals(RotClassManager.classes[0].className)) {
+			if (ExtendPlayer.get(player).pickedClass == RotClassManager.classes[0])
+			{
 				System.out.println("Yeah player has no class, free change");
-				ExtendPlayer.get(player).setCurrentClass(message.className);
-				return new ClassResponsePacket(message.className);
-			} else {
-				System.out.println("Player has a class, gonna cost him/her 27g");
-				System.out.println("Current Class is: "
-						+ ExtendPlayer.get(player).getCurrentClassName());
-				if (UtilityFunctions.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory)) {
+				ExtendPlayer.get(player).setCurrentClass(message.classID);
+				return new ClassResponsePacket(message.classID);
+			}
+			else
+			{
+				System.out.println("Player has a class, gonna cost 27g");
+				System.out.println("Current Class is: " + ExtendPlayer.get(player)
+						.getCurrentClassName());
+				if (UtilityFunctions.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory))
+				{
 					System.out.println("Player has 3 ingots");
-					for (int i = 0; i < 3; i++) {
+					for (int i = 0; i < 3; i++)
+					{
 						player.inventory.consumeInventoryItem(Items.gold_ingot);
+						player.inventory.markDirty();
 					}
-					ExtendPlayer.get(player).setCurrentClass(message.className);
-					return new ClassResponsePacket(message.className);
-				} else if (UtilityFunctions.checkForItemAndAmount(Items.gold_nugget, 27,
-						player.inventory)) {
+					ExtendPlayer.get(player).setCurrentClass(message.classID);
+					return new ClassResponsePacket(message.classID);
+				}
+				else if (UtilityFunctions.checkForItemAndAmount(Items.gold_nugget, 27,
+						player.inventory))
+				{
 					System.out.println("Player has 27 nuggets");
-					for (int i = 0; i < 27; i++) {
+					for (int i = 0; i < 27; i++)
+					{
 						player.inventory.consumeInventoryItem(Items.gold_nugget);
+						player.inventory.markDirty();
 					}
-					ExtendPlayer.get(player).setCurrentClass(message.className);
-					return new ClassResponsePacket(message.className);
+					ExtendPlayer.get(player).setCurrentClass(message.classID);
+					return new ClassResponsePacket(message.classID);
 				}
 			}
 			return null;
 		}
-		
-	}
-
-	//TODO Somehow use this to use bytes
-	public int	className;
-
-	public ClassRequestPacket() {
 
 	}
-	
-	public ClassRequestPacket(int className) {
-		this.className = className;
+
+	public int classID;
+
+	public ClassRequestPacket()
+	{
+
 	}
-	
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		this.className = buf.readInt(); // this class is very
-															// useful in general
-															// for writing more
-															// complex objects
+
+	public ClassRequestPacket(int className)
+	{
+		this.classID = className;
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeInt(this.className);
+	public void fromBytes(ByteBuf buf)
+	{
+		this.classID = buf.readInt(); 
 	}
-	
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(this.classID);
+	}
+
 }

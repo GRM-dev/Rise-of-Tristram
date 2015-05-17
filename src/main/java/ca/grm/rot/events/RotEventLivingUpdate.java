@@ -37,7 +37,7 @@ public class RotEventLivingUpdate
 			ExtendPlayer props = ExtendPlayer.get(player);
 			if (props.needsUpdate)
 			{
-				Rot.proxy.updatePlayerClass(player);
+				Rot.proxy.updatePlayer(player);
 			}
 			handlePlayerStats(props, player);
 

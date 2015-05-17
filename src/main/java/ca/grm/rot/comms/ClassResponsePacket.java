@@ -19,19 +19,19 @@ public class ClassResponsePacket implements IMessage {
 		
 	}
 
-	public int	className;
+	public int	classID;
 
 	public ClassResponsePacket() {
 
 	}
 	
 	public ClassResponsePacket(int className) {
-		this.className = className;
+		this.classID = className;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		this.className = buf.readInt(); // this class is very
+		this.classID = buf.readInt(); // this class is very
 															// useful in general
 															// for writing more
 															// complex objects
@@ -39,7 +39,7 @@ public class ClassResponsePacket implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(this.className);
+		buf.writeInt(this.classID);
 	}
 	
 }

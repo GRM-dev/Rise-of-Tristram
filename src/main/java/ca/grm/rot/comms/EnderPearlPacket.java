@@ -27,7 +27,7 @@ public class EnderPearlPacket implements IMessage
 			 * InventoryPlayer ip = player.inventory;
 			 * ip.setInventorySlotContents(ip.currentItem, message.item);
 			 */
-			if (ExtendPlayer.get(player).consumeMana(50f))
+			if (ExtendPlayer.get(player).consumeMana(10f))
 			{
 				EntityArrow arrow = new EntityArrow(player.worldObj, player, 1f);
 				EntityEnderPearl ep = new EntityEnderPearl(player.worldObj, player);

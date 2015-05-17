@@ -21,6 +21,7 @@ import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CommonProxy;
 import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.comms.EnderPearlPacket;
+import ca.grm.rot.comms.NetworkManager;
 import ca.grm.rot.events.RotEventDamage;
 import ca.grm.rot.events.RotEventManager;
 import ca.grm.rot.events.RotEventLivingUpdate;
@@ -38,22 +39,13 @@ public class Rot
 	@SidedProxy(clientSide = "ca.grm.rot.comms.ClientProxy", serverSide = "ca.grm.rot.comms.CommonProxy")
 	public static CommonProxy proxy;
 
-	// @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels =
-	// {"rot"}, packetHandler = OpenGuiPacket.class)
-
 	public static final String MOD_ID = "RoT";
 	public static final String MOD_NAME = "Rise of Tristram";
 	public static final String VERSION = "1.0";
 
-	// Packets
+	// Packet network
 	public static SimpleNetworkWrapper net;
-	private int packetId = 0;
-
-	// Sending packets:
-	/*
-	 * MyMod.network.sendToServer(new MyMessage("foobar"));
-	 * MyMod.network.sendTo(new SomeMessage(), somePlayer);
-	 */
+	public static NetworkManager nm;
 
 	public static final RotTab tabRot = new RotTab("tabRot");
 
@@ -76,42 +68,26 @@ public class Rot
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		net = NetworkRegistry.INSTANCE.newSimpleChannel("rpcee");
+		nm = new NetworkManager(net);
+
 		// net.registerMessage(TextPacket.TextPacketHandler.class,
 		// TextPacket.class, packetId++, Side.SERVER);
-		net.registerMessage(
-				BaseNodeRequestPacket.BaseNodeRequestPacketHandler.class,
-				BaseNodeRequestPacket.class, this.packetId++, Side.SERVER);
-		net.registerMessage(
-				BaseNodeResponsePacket.BaseNodeResponsePacketHandler.class,
-				BaseNodeResponsePacket.class, this.packetId++, Side.CLIENT);
 
-		net.registerMessage(ClassRequestPacket.ClassRequestPacketHandler.class,
-				ClassRequestPacket.class, this.packetId++, Side.SERVER);
-		net.registerMessage(
-				ClassResponsePacket.ClassResponsePacketHandler.class,
-				ClassResponsePacket.class, this.packetId++, Side.CLIENT);
-
-		net.registerMessage(CustomItemPacket.CustomItemPacketHandler.class,
-				CustomItemPacket.class, this.packetId++, Side.SERVER);
-		net.registerMessage(EnderPearlPacket.EnderPearlPacketHandler.class,
-				EnderPearlPacket.class, this.packetId++, Side.SERVER);
-
-		GameRegistry.registerTileEntity(TileEntityBaseBuilder.class, MOD_ID
-				+ "baseNode"); // This
-								// needs
-								// to
-								// be
-								// renamed,
-								// but
-								// this
-								// and
-								// it's
-								// related
-								// objects
-								// are
-								// under
-								// heavy
-								// construction
+		GameRegistry.registerTileEntity(TileEntityBaseBuilder.class, MOD_ID + "baseNode"); // This
+																							// needs
+																							// to
+																							// be
+																							// renamed,
+																							// but
+																							// this
+																							// and
+																							// it's
+																							// related
+																							// objects
+																							// are
+																							// under
+																							// heavy
+																							// construction
 
 		proxy.registerKeyBindings();
 

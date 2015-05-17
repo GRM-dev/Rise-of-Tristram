@@ -16,7 +16,6 @@ public class GuiBaseNodeButton extends GuiButton {
 	public GuiBaseNodeButton(int buttonId, int x, int y, int widthIn,
 			int heightIn, String buttonText) {
 		super(buttonId, x, y, widthIn, heightIn, buttonText);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
