@@ -22,12 +22,12 @@ apply plugin: "findbugs"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-version = "1.8-11.14.1.1397"
+version = "1.8-11.14.1.1405"
 group= "ca.grm.rot"
 archivesBaseName = "RiseOfTristram_Mod"
 
 minecraft {
-    version = "1.8-11.14.1.1397"
+    version = "1.8-11.14.1.1405"
     runDir = "eclipse"
 }
 

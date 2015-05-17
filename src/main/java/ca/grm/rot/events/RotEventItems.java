@@ -255,14 +255,17 @@ public class RotEventItems
 				}
 
 				// Start Adding New Data
-				i.toolTip.clear();
-				i.toolTip.add(is.getDisplayName());
-				i.toolTip.add("");
-				if (is.getItem() instanceof ItemSword) i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) (minDmg + (((ItemSword) is.getItem()).getDamageVsEntity() * 5)) + "-" + (int) (maxDmg + (((ItemSword) is.getItem()).getDamageVsEntity() * 5)) + " Damage");
+				// i.toolTip.clear();
+				// i.toolTip.add(is.getDisplayName());
+				// i.toolTip.add("");
+				if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool) i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) minDmg + "-" + (int) maxDmg + " Damage");
 
-				if (is.getItem() instanceof ItemBow) i.toolTip.add(EnumChatFormatting.BLUE + "" + minDmg + "-" + maxDmg + " Damage");
+				if (is.getItem() instanceof ItemBow)
+				{
+					i.toolTip.add("");
+					i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) minDmg + "-" + (int) maxDmg + " Damage");
+				}
 
-				if (is.getItem() instanceof ItemTool) i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) (minDmg + (((ItemTool) is.getItem()).getToolMaterial().getDamageVsEntity() * 5)) + "-" + (int) (maxDmg + (((ItemTool) is.getItem()).getToolMaterial().getDamageVsEntity() * 5)) + " Damage");
 				if (is.getItem() instanceof ItemArmor) i.toolTip.add(defBonus + (((ItemArmor) is.getItem()).damageReduceAmount * 5) + " Armor");
 
 				if (qualityName != "")
@@ -293,21 +296,22 @@ public class RotEventItems
 				{
 					i.toolTip.add((dex > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Dexterity Modifier: " + dex);
 				}
-				NBTTagList nbttaglist = i.itemStack.getEnchantmentTagList();
-
-				if (nbttaglist != null)
-				{
-					for (int j = 0; j < nbttaglist.tagCount(); ++j)
-					{
-						short short1 = nbttaglist.getCompoundTagAt(j).getShort("id");
-						short short2 = nbttaglist.getCompoundTagAt(j).getShort("lvl");
-
-						if (Enchantment.getEnchantmentById(short1) != null)
-						{
-							i.toolTip.add(Enchantment.getEnchantmentById(short1).getTranslatedName(short2));
-						}
-					}
-				}
+				// NBTTagList nbttaglist = i.itemStack.getEnchantmentTagList();
+				//
+				// if (nbttaglist != null)
+				// {
+				// for (int j = 0; j < nbttaglist.tagCount(); ++j)
+				// {
+				// short short1 = nbttaglist.getCompoundTagAt(j).getShort("id");
+				// short short2 =
+				// nbttaglist.getCompoundTagAt(j).getShort("lvl");
+				//
+				// if (Enchantment.getEnchantmentById(short1) != null)
+				// {
+				// i.toolTip.add(Enchantment.getEnchantmentById(short1).getTranslatedName(short2));
+				// }
+				// }
+				// }
 			}
 		}
 	}
