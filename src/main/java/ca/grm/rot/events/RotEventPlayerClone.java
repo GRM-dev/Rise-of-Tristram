@@ -43,7 +43,7 @@ public class RotEventPlayerClone
 				props.needsUpdate = true;
 			}
 		}
-		/*else if (e.entity instanceof EntityLiving)
+		else if (e.entity instanceof EntityLiving)
 		{
 			EntityLiving mob = (EntityLiving) e.entity;
 
@@ -66,7 +66,7 @@ public class RotEventPlayerClone
 					ExtendMob.get(mob).rollStats(depth);
 				}
 			}
-		}*/
+		}
 	}
 
 	// In your TutEventHandler class - the name of the method doesn't matter

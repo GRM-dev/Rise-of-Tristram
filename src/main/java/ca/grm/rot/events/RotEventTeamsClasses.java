@@ -1,5 +1,10 @@
 package ca.grm.rot.events;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
@@ -15,15 +20,20 @@ public class RotEventTeamsClasses
 	{
 		if (ExtendPlayer.get(e.entityPlayer).pickedProfession.professionName == RotClassManager.professionMiner)
 		{
-			e.newSpeed += (MathHelper.clamp_float(
-					(ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f),
-					0f, 30f));
+			Material blockMat = e.state.getBlock().getMaterial();
+			if (blockMat == Material.rock || blockMat == Material.clay || blockMat == Material.ground) e.newSpeed += (MathHelper
+					.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f), 0f, 30f));
+		}
+		else if (ExtendPlayer.get(e.entityPlayer).pickedProfession.professionName == RotClassManager.professionFarmer)
+		{
+			Material blockMat = e.state.getBlock().getMaterial();
+			if (blockMat == Material.grass || blockMat == Material.wood || blockMat == Material.plants || blockMat == Material.leaves) e.newSpeed += (MathHelper
+					.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f), 0f, 30f));
 		}
 		else
 		{
 			e.newSpeed += (MathHelper.clamp_float(
-					(ExtendPlayer.get(e.entityPlayer).getStrength() / 3),
-					-0.2f, 9f));
+					(ExtendPlayer.get(e.entityPlayer).getStrength() / 3), -0.2f, 9f));
 		}
 	}
 
@@ -37,6 +47,19 @@ public class RotEventTeamsClasses
 		 * System.out.println(e.dropChance + " drop chance");
 		 * System.out.println(e.harvester + " who broke it");
 		 */
+		if (e.harvester instanceof EntityPlayer)
+		{
+			Block b = e.state.getBlock();
+			if (b == Blocks.coal_ore || b == Blocks.redstone_ore || b == Blocks.diamond_ore) if (ExtendPlayer
+					.get(e.harvester).pickedProfession.professionName == RotClassManager.professionMiner)
+			{
+				for (ItemStack is : e.drops)
+				{
+					is.stackSize += (e.world.rand.nextInt(4) + 1);
+				}
+				e.drops.add(new ItemStack(Items.diamond));
+			}
+		}
 	}
 
 }

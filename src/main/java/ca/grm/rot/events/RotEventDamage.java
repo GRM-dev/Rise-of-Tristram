@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -155,6 +156,12 @@ public class RotEventDamage
 	{
 		e.drops.add(0, new EntityItem(e.entity.worldObj, e.entity.getPosition().getX(), e.entity.getPosition().getY(), e.entity.getPosition().getZ(), new ItemStack(Items.apple,3)));
 	}
+	
+	@SubscribeEvent
+	public void onEntityDeath(EnderTeleportEvent e)
+	{
+		if (e.entity instanceof EntityPlayer)e.attackDamage = 0;
+	}
 
 	 @SubscribeEvent
 	 public void onLivingFallEvent(LivingFallEvent event)
@@ -170,12 +177,12 @@ public class RotEventDamage
 	 // player
 	 if (event.distance > 3.0F && props.getCurrentMana() > 0)
 	 {
-	 float reduceby = props.getCurrentMana() < (event.distance - 3.0F) ?
-	 props.getCurrentMana() : (event.distance - 3.0F);
+	 float reduceby = props.getCurrentStam() < (event.distance - 3.0F) ?
+	 props.getCurrentStam() : (event.distance - 3.0F);
 	 event.distance -= reduceby;
 	
 	 // Cast reduceby to 'int' to match our method parameter
-	 props.consumeMana(reduceby);
+	 props.consumeStam(reduceby);
 	
 	 // System.out.println("[EVENT] Adjusted fall distance: " +
 	 //event.distance);

@@ -43,11 +43,9 @@ public class RotEventLivingUpdate
 
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
-			if (player.shouldHeal()
-					&& ((player.worldObj.getWorldTime() % 30) == 0))
+			if (player.shouldHeal() && ((player.worldObj.getWorldTime() % 30) == 0))
 			{
-				player.heal((((25 * props.pickedClass.hpPerVit) + props
-						.getVitality()) / timeMath));
+				player.heal((((25 * props.pickedClass.hpPerVit) + props.getVitality()) / timeMath));
 			}
 			int notExhaustedFoodLevel = 8;
 			int exhaustedFoodLevel = 3;
@@ -91,12 +89,10 @@ public class RotEventLivingUpdate
 				props.replenishMana();
 				props.replenishStam();
 			}
-			props.regenMana((5f / timeMath)
-					+ ((props.getIntelligence() * 3) / 60));
+			props.regenMana((5f / timeMath) + ((props.getIntelligence() * 3) / 60));
 			if (!player.isSprinting())
 			{
-				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath)
-						+ (((player.experienceLevel) * 2) / timeMath));
+				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 2) / timeMath));
 			}
 			else
 			{
@@ -121,9 +117,8 @@ public class RotEventLivingUpdate
 					itemStacks[0] = new ItemStack(Items.pumpkin_seeds);
 					itemStacks[1] = new ItemStack(Items.clay_ball);
 					itemStacks[2] = new ItemStack(Items.flint);
-					EntityItem i = new EntityItem(golem.worldObj, golem.posX,
-							golem.posY, golem.posZ,
-							itemStacks[golem.worldObj.rand.nextInt(3)]);
+					EntityItem i = new EntityItem(golem.worldObj, golem.posX, golem.posY,
+							golem.posZ, itemStacks[golem.worldObj.rand.nextInt(3)]);
 					golem.worldObj.spawnEntityInWorld(i);
 				}
 			}
@@ -188,12 +183,10 @@ public class RotEventLivingUpdate
 					}
 					else
 					{
-						itemNumber = villager.worldObj.rand
-								.nextInt(itemStacks.length);
+						itemNumber = villager.worldObj.rand.nextInt(itemStacks.length);
 					}
-					EntityItem i = new EntityItem(villager.worldObj,
-							villager.posX, villager.posY, villager.posZ,
-							itemStacks[itemNumber]);
+					EntityItem i = new EntityItem(villager.worldObj, villager.posX, villager.posY,
+							villager.posZ, itemStacks[itemNumber]);
 					villager.worldObj.spawnEntityInWorld(i);
 				}
 			}
@@ -215,24 +208,6 @@ public class RotEventLivingUpdate
 			else
 			{
 				EntityLiving e = (EntityLiving) event.entity;
-
-				// Roll some stats
-				/*if (ExtendMob.get(e) != null)
-				{
-					if (ExtendMob.get(e).monsterLevel == 0)
-					{
-						int depth = 0;
-						BlockPos depthChecker = new BlockPos(e.getPosition());
-						while(!e.worldObj.canBlockSeeSky(depthChecker))
-						{
-							depth++;	
-							depthChecker = new BlockPos(e.getPosition().getX(),e.getPosition().getY() + depth,e.getPosition().getZ());
-						}
-						ExtendMob.get(e).rollStats(depth);
-					}
-
-				}*/
-
 				if (e.hurtResistantTime != 5)
 				{
 					e.hurtResistantTime = 5;
@@ -243,8 +218,7 @@ public class RotEventLivingUpdate
 		}
 	}
 
-	private void getBasicStats(ItemStack is, int[] listCollect,
-			String[] ListSearch)
+	private void getBasicStats(ItemStack is, int[] listCollect, String[] ListSearch)
 	{
 		for (int i = 0; i < listCollect.length; i++)
 		{
@@ -258,78 +232,35 @@ public class RotEventLivingUpdate
 		// int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0, intMod = 0,
 		// minDmg = 0, maxDmg = 0, defBonus = 0;
 		int[] stats = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		String[] statsS = new String[] { RotEventItems.strStat,
-				RotEventItems.agiStat, RotEventItems.intStat,
-				RotEventItems.vitStat, RotEventItems.defStat,
-				RotEventItems.minDmgStat, RotEventItems.maxDmgStat,
-				RotEventItems.defStat };
-		ItemStack held = player.getEquipmentInSlot(0), armor1 = player
-				.getEquipmentInSlot(1), armor2 = player.getEquipmentInSlot(2), armor3 = player
-				.getEquipmentInSlot(3), armor4 = player.getEquipmentInSlot(4);
+		String[] statsS = new String[] { RotEventItems.strStat, RotEventItems.dexStat, RotEventItems.vitStat, RotEventItems.agiStat, RotEventItems.intStat, RotEventItems.minDmgStat, RotEventItems.maxDmgStat, RotEventItems.defStat };
+		ItemStack held = player.getEquipmentInSlot(0), armor1 = player.getEquipmentInSlot(1), armor2 = player
+				.getEquipmentInSlot(2), armor3 = player.getEquipmentInSlot(3), armor4 = player
+				.getEquipmentInSlot(4);
 
 		if (held != null)
 		{
-			if ((held.getItem() instanceof ItemSword)
-					|| (held.getItem() instanceof ItemTool)
-					|| (held.getItem() instanceof ItemBow))
+			if ((held.getItem() instanceof ItemSword) || (held.getItem() instanceof ItemTool) || (held
+					.getItem() instanceof ItemBow))
 			{
-				/*
-				 * strMod += UtilityNBTHelper.getInt(held,
-				 * RotEventItems.strStat); agiMod +=
-				 * UtilityNBTHelper.getInt(held, RotEventItems.agiStat); intMod
-				 * += UtilityNBTHelper.getInt(held, RotEventItems.intStat);
-				 * vitMod += UtilityNBTHelper.getInt(held,
-				 * RotEventItems.vitStat); dexMod +=
-				 * UtilityNBTHelper.getInt(held, RotEventItems.defStat); minDmg
-				 * += UtilityNBTHelper.getInt(held, RotEventItems.minDmgStat);
-				 * maxDmg += UtilityNBTHelper.getInt(held,
-				 * RotEventItems.maxDmgStat);
-				 */
 				getBasicStats(held, stats, statsS);
+				if (!player.worldObj.isRemote) if (held.getItemDamage() > 0) held
+						.setItemDamage(held.getItemDamage() - 1);
 			}
 		}
 		if (armor1 != null)
 		{
-			/*
-			 * strMod += UtilityNBTHelper.getInt(armor1, RotEventItems.strStat);
-			 * agiMod += UtilityNBTHelper.getInt(armor1, RotEventItems.agiStat);
-			 * intMod += UtilityNBTHelper.getInt(armor1, RotEventItems.intStat);
-			 * vitMod += UtilityNBTHelper.getInt(armor1, RotEventItems.vitStat);
-			 * dexMod += UtilityNBTHelper.getInt(armor1, RotEventItems.defStat);
-			 */
 			getBasicStats(armor1, stats, statsS);
 		}
 		if (armor2 != null)
 		{
-			/*
-			 * strMod += UtilityNBTHelper.getInt(armor2, RotEventItems.strStat);
-			 * agiMod += UtilityNBTHelper.getInt(armor2, RotEventItems.agiStat);
-			 * intMod += UtilityNBTHelper.getInt(armor2, RotEventItems.intStat);
-			 * vitMod += UtilityNBTHelper.getInt(armor2, RotEventItems.vitStat);
-			 * dexMod += UtilityNBTHelper.getInt(armor2, RotEventItems.defStat);
-			 */
 			getBasicStats(armor2, stats, statsS);
 		}
 		if (armor3 != null)
 		{
-			/*
-			 * strMod += UtilityNBTHelper.getInt(armor3, RotEventItems.strStat);
-			 * agiMod += UtilityNBTHelper.getInt(armor3, RotEventItems.agiStat);
-			 * intMod += UtilityNBTHelper.getInt(armor3, RotEventItems.intStat);
-			 * vitMod += UtilityNBTHelper.getInt(armor3, RotEventItems.vitStat);
-			 * dexMod += UtilityNBTHelper.getInt(armor3, RotEventItems.defStat);
-			 */
 			getBasicStats(armor3, stats, statsS);
 		}
 		if (armor4 != null)
 		{
-			/*
-			 * strMod += UtilityNBTHelper.getInt(armor4, RotEventItems.strStat);
-			 * agiMod += UtilityNBTHelper.getInt(armor4, RotEventItems.agiStat);
-			 * intMod += UtilityNBTHelper.getInt(armor4, RotEventItems.intStat);
-			 * vitMod += UtilityNBTHelper.getInt(armor4, RotEventItems.vitStat);
-			 * dexMod += UtilityNBTHelper.getInt(armor4, RotEventItems.defStat);
-			 */
 			getBasicStats(armor4, stats, statsS);
 		}
 		if (props.getStrength() != (stats[0] - props.getClassModifers()[0]))

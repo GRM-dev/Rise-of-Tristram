@@ -258,12 +258,25 @@ public class RotEventItems
 				// i.toolTip.clear();
 				// i.toolTip.add(is.getDisplayName());
 				// i.toolTip.add("");
-				if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool) i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) minDmg + "-" + (int) maxDmg + " Damage");
+				if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool)
+				{
+					String totalDamage = EnumChatFormatting.BLUE + "";
+					if (minDmg != 0)
+					{
+						totalDamage += (int) minDmg + "-" + (int) maxDmg + " Damage";
+						i.toolTip.add(totalDamage);
+					}
+				}
 
 				if (is.getItem() instanceof ItemBow)
 				{
-					i.toolTip.add("");
-					i.toolTip.add(EnumChatFormatting.BLUE + "" + (int) minDmg + "-" + (int) maxDmg + " Damage");
+					String totalDamage = EnumChatFormatting.BLUE + "";
+					if (minDmg != 0)
+					{
+						totalDamage += (int) minDmg + "-" + (int) maxDmg + " Damage";
+						i.toolTip.add("");
+						i.toolTip.add(totalDamage);
+					}
 				}
 
 				if (is.getItem() instanceof ItemArmor) i.toolTip.add(defBonus + (((ItemArmor) is.getItem()).damageReduceAmount * 5) + " Armor");
