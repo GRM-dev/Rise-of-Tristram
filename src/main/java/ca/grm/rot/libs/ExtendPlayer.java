@@ -41,7 +41,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	private int currentClass;
 	private int currentProfession;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
-	public RotProfession pickedProfession = RotClassManager.professions[1];
+	public RotProfession pickedProfession = RotClassManager.professions[currentProfession];
 	public boolean needsUpdate = false;
 	public boolean isExhausted = false;
 

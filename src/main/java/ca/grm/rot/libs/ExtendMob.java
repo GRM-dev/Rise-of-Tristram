@@ -42,8 +42,7 @@ public class ExtendMob implements IExtendedEntityProperties
 
 	public static final void register(EntityLiving mob)
 	{
-		mob.registerExtendedProperties(ExtendMob.EXT_PROP_NAME, new ExtendMob(
-				mob));
+		mob.registerExtendedProperties(ExtendMob.EXT_PROP_NAME, new ExtendMob(mob));
 	}
 
 	@Override
@@ -64,8 +63,7 @@ public class ExtendMob implements IExtendedEntityProperties
 	@Override
 	public void loadNBTData(NBTTagCompound compound)
 	{
-		NBTTagCompound properties = (NBTTagCompound) compound
-				.getTag(EXT_PROP_NAME);
+		NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
 		this.monsterLevel = properties.getInteger(Rot.MOD_ID + "Level");
 		this.strength = properties.getInteger(Rot.MOD_ID + "Strength");
 		this.vitality = properties.getInteger(Rot.MOD_ID + "Vitality");
@@ -84,13 +82,16 @@ public class ExtendMob implements IExtendedEntityProperties
 
 	public void rollStats(int depth)
 	{
-		monsterLevel = MathHelper.clamp_int(depth / 10, 1, 10);
-		strength = (int)((mob.worldObj.rand.nextInt(12) + (monsterLevel * 3)) * monsterLevel);
-		dexterity = (int)((mob.worldObj.rand.nextInt(12) + (monsterLevel * 3)) * monsterLevel);
-		agility = (int)((mob.worldObj.rand.nextInt(12) + (monsterLevel * 3)) * monsterLevel);
-		vitality = (int)((mob.worldObj.rand.nextInt(12) + (monsterLevel * 3)) * monsterLevel);
-		minDmg = (int)((mob.worldObj.rand.nextInt(5) + monsterLevel) * monsterLevel);
-		maxDmg = (int)((mob.worldObj.rand.nextInt(13) + monsterLevel) * monsterLevel);
-		defBonus = (int)((mob.worldObj.rand.nextInt(5) + monsterLevel) * monsterLevel);
+		int difficulty = depth + mob.worldObj.rand.nextInt(50);
+		monsterLevel = MathHelper.clamp_int(difficulty / 7, 1, 10);
+		int baseBonus = monsterLevel * 2;
+		strength = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
+		dexterity = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
+		agility = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
+		vitality = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
+		minDmg = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
+		maxDmg = (int)(mob.worldObj.rand.nextInt(13) * monsterLevel / 4) + baseBonus;
+		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
+		mob.setAIMoveSpeed(agility);
 	}
 }

@@ -218,13 +218,18 @@ public class RotEventDamage
 					}
 					break;
 				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+				case 10:
 					for (int i = 0; i < 50; i++)
 					{
 						rngRoll = entity.worldObj.rand.nextFloat();
 						if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
 						{
-							leftChancePointer += (0.1f - (0.01f * (monsterLevel - 1)));
-							rightChancePointer -= (0.1f - (0.01f * (monsterLevel - 1)));
+							leftChancePointer += (0.1f - (0.001f * (monsterLevel - 1)));
+							rightChancePointer -= (0.1f - (0.001f * (monsterLevel - 1)));
 							ItemStack item = lootList3[entity.worldObj.rand
 														.nextInt(lootList3.length - 1)];
 							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemArmor)

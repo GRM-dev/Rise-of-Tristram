@@ -1,8 +1,10 @@
 package ca.grm.rot.events;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -58,11 +60,10 @@ public class RotEventPlayerClone
 					BlockPos depthChecker = new BlockPos(mob.getPosition());
 					for (int i = 0; i < 50; i++)
 					{
-						if (mob.worldObj.canBlockSeeSky(depthChecker))break;
+						if (mob.worldObj.canBlockSeeSky(depthChecker)) break;
 						depth++;
-						depthChecker = new BlockPos(mob.getPosition().getX(),
-								mob.getPosition().getY() + i, mob
-										.getPosition().getZ());				
+						depthChecker = new BlockPos(mob.getPosition().getX(), mob.getPosition()
+								.getY() + i, mob.getPosition().getZ());
 					}
 
 					ExtendMob.get(mob).rollStats(depth);
@@ -78,25 +79,19 @@ public class RotEventPlayerClone
 	public void onEntityConstructing(EntityConstructing event)
 	{
 
-		if ((event.entity instanceof EntityPlayer)
-				&& (ExtendPlayer.get((EntityPlayer) event.entity) == null))
+		if ((event.entity instanceof EntityPlayer) && (ExtendPlayer
+				.get((EntityPlayer) event.entity) == null))
 		{
 			ExtendPlayer.register((EntityPlayer) event.entity);
 		}
-		if ((event.entity instanceof EntityZombie)
-				&& (ExtendMob.get((EntityZombie) event.entity) == null))
+		if ((event.entity instanceof EntityZombie) && (ExtendMob.get((EntityZombie) event.entity) == null) || (event.entity instanceof EntitySkeleton) && (ExtendMob
+				.get((EntitySkeleton) event.entity) == null) || (event.entity instanceof EntityEnderman) && (ExtendMob
+				.get((EntityEnderman) event.entity) == null) || (event.entity instanceof EntitySpider) && (ExtendMob
+				.get((EntitySpider) event.entity) == null) || (event.entity instanceof EntityCaveSpider) && (ExtendMob
+				.get((EntityCaveSpider) event.entity) == null))
 		{
-			ExtendMob.register((EntityZombie) event.entity);
+			ExtendMob.register((EntityLiving) event.entity);
 		}
-		if ((event.entity instanceof EntitySkeleton)
-				&& (ExtendMob.get((EntitySkeleton) event.entity) == null))
-		{
-			ExtendMob.register((EntitySkeleton) event.entity);
-		}
-		if ((event.entity instanceof EntityEnderman)
-				&& (ExtendMob.get((EntityEnderman) event.entity) == null))
-		{
-			ExtendMob.register((EntityEnderman) event.entity);
-		}
+
 	}
 }

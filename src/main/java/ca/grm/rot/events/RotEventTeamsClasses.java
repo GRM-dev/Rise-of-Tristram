@@ -23,19 +23,16 @@ public class RotEventTeamsClasses
 		if (ExtendPlayer.get(e.entityPlayer).pickedProfession.professionName == RotClassManager.professionMiner)
 		{
 			Material blockMat = e.state.getBlock().getMaterial();
-			if (blockMat == Material.rock || blockMat == Material.clay || blockMat == Material.ground || blockMat == Material.sand) e.newSpeed += (MathHelper
-					.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f), 0f, 30f));
+			if (blockMat == Material.rock || blockMat == Material.clay || blockMat == Material.sand) e.newSpeed += 3f;
 		}
 		else if (ExtendPlayer.get(e.entityPlayer).pickedProfession.professionName == RotClassManager.professionFarmer)
 		{
 			Material blockMat = e.state.getBlock().getMaterial();
-			if (blockMat == Material.grass || blockMat == Material.wood || blockMat == Material.plants || blockMat == Material.leaves) e.newSpeed += (MathHelper
-					.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f), 0f, 30f));
+			if (blockMat == Material.grass || blockMat == Material.wood || blockMat == Material.plants || blockMat == Material.ground || blockMat == Material.leaves) e.newSpeed += 3f;
 		}
-		/*
-		 * else { e.newSpeed += (MathHelper.clamp_float(
-		 * (ExtendPlayer.get(e.entityPlayer).getStrength() / 3), -0.2f, 9f)); }
-		 */
+		e.newSpeed += (MathHelper.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 3),
+				-0.2f, 3f));
+
 	}
 
 	@SubscribeEvent
@@ -71,16 +68,6 @@ public class RotEventTeamsClasses
 					if (b instanceof BlockCrops)
 					{
 						if (((Integer) e.state.getValue(BlockCrops.AGE)).intValue() >= 7)
-						{
-							for (ItemStack is : e.drops)
-							{
-								is.stackSize += (e.world.rand.nextInt(4) + 1);
-							}
-						}
-					}
-					else if (b instanceof BlockNetherWart)
-					{
-						if (((Integer) e.state.getValue(BlockNetherWart.AGE)).intValue() >= 3)
 						{
 							for (ItemStack is : e.drops)
 							{

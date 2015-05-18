@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClientProxy;
 import ca.grm.rot.comms.EnderPearlPacket;
+import ca.grm.rot.comms.TNTPacket;
 import ca.grm.rot.libs.ExtendPlayer;
 
 public class KeyHandleEvent
@@ -23,11 +24,13 @@ public class KeyHandleEvent
 			FMLNetworkHandler.openGui(player, Rot.instance, 1, player.worldObj,
 					(int) player.posX, (int) player.posY, (int) player.posZ);
 		}
-		if (ClientProxy.customizeItemKey.isPressed())
+		if (ClientProxy.skill1.isPressed())
 		{
-
 			Rot.net.sendToServer(new EnderPearlPacket());
-
+		}
+		if (ClientProxy.skill2.isPressed())
+		{
+			Rot.net.sendToServer(new TNTPacket());
 		}
 	}
 

@@ -35,6 +35,8 @@ public class NetworkManager
 				this.packetId++, Side.SERVER);
 		net.registerMessage(EnderPearlPacket.EnderPearlPacketHandler.class, EnderPearlPacket.class,
 				this.packetId++, Side.SERVER);
+		net.registerMessage(TNTPacket.TNTPacketHandler.class, TNTPacket.class,
+				this.packetId++, Side.SERVER);
 	}
 
 }

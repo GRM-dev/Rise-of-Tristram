@@ -24,6 +24,10 @@ public class ClientProxy extends CommonProxy
 	public static KeyBinding classKey = new KeyBinding("Class Menu", Keyboard.KEY_Y, "keys.rot");
 	public static KeyBinding customizeItemKey = new KeyBinding("Item Customization Menu",
 			Keyboard.KEY_I, "keys.rot");
+	public static KeyBinding skill1 = new KeyBinding("Active Skill 1",
+			Keyboard.KEY_F, "keys.rot");
+	public static KeyBinding skill2 = new KeyBinding("Active Skill 2",
+			Keyboard.KEY_R, "keys.rot");
 
 	@Override
 	public void handleClassMessage(ClassResponsePacket message, MessageContext ctx)
@@ -57,7 +61,6 @@ public class ClientProxy extends CommonProxy
 	 * @Override public int addArmor(String armor) { return
 	 * RenderingRegistry.addNewArmourRendererPrefix(armor); }
 	 */
-	// TODO fix this
 
 	@Override
 	public void registerKeyBindings()
@@ -65,6 +68,8 @@ public class ClientProxy extends CommonProxy
 		FMLCommonHandler.instance().bus().register(new KeyHandleEvent());
 		ClientRegistry.registerKeyBinding(classKey);
 		ClientRegistry.registerKeyBinding(customizeItemKey);
+		ClientRegistry.registerKeyBinding(skill1);
+		ClientRegistry.registerKeyBinding(skill2);
 	}
 
 	@Override
