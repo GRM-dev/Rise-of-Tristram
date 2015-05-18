@@ -48,13 +48,14 @@ public class RotEventLivingUpdate
 			}
 			handlePlayerStats(props, player);
 
-			if ((player.worldObj.getWorldTime() % 10) == 0)
+			if ((player.worldObj.getWorldTime() % 5) == 0)
 			{
+				int pullDistance = 7;
 				List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
-						new AxisAlignedBB(player.getPosition().getX() + 5, player.getPosition()
-								.getY() + 5, player.getPosition().getZ() + 5, player.getPosition()
-								.getX() - 5, player.getPosition().getY() - 5, player.getPosition()
-								.getZ() - 5));
+						new AxisAlignedBB(player.getPosition().getX() + pullDistance, player.getPosition()
+								.getY() + pullDistance, player.getPosition().getZ() + pullDistance, player.getPosition()
+								.getX() - pullDistance, player.getPosition().getY() - pullDistance, player.getPosition()
+								.getZ() - pullDistance));
 				if (!entities.isEmpty())
 				{
 					for (EntityItem ei : entities)
@@ -62,9 +63,9 @@ public class RotEventLivingUpdate
 //						ei.motionX = (MathHelper.clamp_float(player.getPosition().getX() - ei.getPosition().getX(), -0.1f, 0.1f));
 //						ei.motionY = (MathHelper.clamp_float(player.getPosition().getY() - ei.getPosition().getY(), -0.3f, 0.3f));
 //						ei.motionZ = (MathHelper.clamp_float(player.getPosition().getZ() - ei.getPosition().getZ(), -0.1f, 0.1f));
-						ei.motionX = (player.getPosition().getX() - ei.getPosition().getX() < 0 ? -0.1f: 0.1f);
-						ei.motionY = (player.getPosition().getY() - ei.getPosition().getY() < 0 ? -0.2f: 0.2f);
-						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.1f: 0.1f);
+						ei.motionX = (player.getPosition().getX() - ei.getPosition().getX() < 0 ? -0.05f: 0.05f);
+						ei.motionY = (player.getPosition().getY() - ei.getPosition().getY() < 0 ? -0.3f: 0.3f);
+						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.05f: 0.05f);
 					}
 				}
 			}
