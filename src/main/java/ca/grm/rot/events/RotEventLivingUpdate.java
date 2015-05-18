@@ -24,6 +24,8 @@ import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventLivingUpdate
 {
+	//TODO use a livingJumpEvent to alter jumpheight? also like the fall event, needs Athletic Score
+	
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event)
 	{
@@ -89,10 +91,10 @@ public class RotEventLivingUpdate
 				props.replenishMana();
 				props.replenishStam();
 			}
-			props.regenMana((5f / timeMath) + ((props.getIntelligence() * 3) / 60));
+			props.regenMana((5f  + (props.getIntelligence() * 3)) / timeMath);
 			if (!player.isSprinting())
 			{
-				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 2) / timeMath));
+				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 4) / timeMath));
 			}
 			else
 			{
@@ -218,6 +220,7 @@ public class RotEventLivingUpdate
 		}
 	}
 
+	/** Collect NBT tags that are common from held and worn items **/
 	private void getBasicStats(ItemStack is, int[] listCollect, String[] ListSearch)
 	{
 		for (int i = 0; i < listCollect.length; i++)
@@ -243,8 +246,8 @@ public class RotEventLivingUpdate
 					.getItem() instanceof ItemBow))
 			{
 				getBasicStats(held, stats, statsS);
-				if (!player.worldObj.isRemote) if (held.getItemDamage() > 0) held
-						.setItemDamage(held.getItemDamage() - 1);
+				/*if (!player.worldObj.isRemote) if (held.getItemDamage() > 0) held
+						.setItemDamage(held.getItemDamage() - 1);*/
 			}
 		}
 		if (armor1 != null)

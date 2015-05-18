@@ -121,13 +121,12 @@ public class RotEventItems
 	{
 		int quality = UtilityNBTHelper.getInt(is, qualityValue);
 		int rank = UtilityNBTHelper.getInt(is, itemRank);
-		boolean rollStats = true;
 		float leftChancePointer = (0.3f - (0.05f * quality));
 		float rightChancePointer = (0.7f + (0.05f * quality));
 		float rngRoll = 0;
 		int statsAdded = 0;
 		// System.out.println("Starting the statRoll");
-		while (rollStats)
+		for (int i = 0 ; i < 50; i++)
 		{
 			rngRoll = random.nextFloat();
 			if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
@@ -154,7 +153,7 @@ public class RotEventItems
 			}
 			else
 			{
-				rollStats = false;
+				break;
 			}
 		}
 		if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool || is.getItem() instanceof ItemBow)

@@ -1,6 +1,8 @@
 package ca.grm.rot.events;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockNetherWart;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -21,7 +23,7 @@ public class RotEventTeamsClasses
 		if (ExtendPlayer.get(e.entityPlayer).pickedProfession.professionName == RotClassManager.professionMiner)
 		{
 			Material blockMat = e.state.getBlock().getMaterial();
-			if (blockMat == Material.rock || blockMat == Material.clay || blockMat == Material.ground) e.newSpeed += (MathHelper
+			if (blockMat == Material.rock || blockMat == Material.clay || blockMat == Material.ground || blockMat == Material.sand) e.newSpeed += (MathHelper
 					.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f), 0f, 30f));
 		}
 		else if (ExtendPlayer.get(e.entityPlayer).pickedProfession.professionName == RotClassManager.professionFarmer)
@@ -30,11 +32,10 @@ public class RotEventTeamsClasses
 			if (blockMat == Material.grass || blockMat == Material.wood || blockMat == Material.plants || blockMat == Material.leaves) e.newSpeed += (MathHelper
 					.clamp_float((ExtendPlayer.get(e.entityPlayer).getStrength() / 1.5f), 0f, 30f));
 		}
-		else
-		{
-			e.newSpeed += (MathHelper.clamp_float(
-					(ExtendPlayer.get(e.entityPlayer).getStrength() / 3), -0.2f, 9f));
-		}
+		/*
+		 * else { e.newSpeed += (MathHelper.clamp_float(
+		 * (ExtendPlayer.get(e.entityPlayer).getStrength() / 3), -0.2f, 9f)); }
+		 */
 	}
 
 	@SubscribeEvent
@@ -50,15 +51,47 @@ public class RotEventTeamsClasses
 		if (e.harvester instanceof EntityPlayer)
 		{
 			Block b = e.state.getBlock();
-			if (b == Blocks.coal_ore || b == Blocks.redstone_ore || b == Blocks.diamond_ore) if (ExtendPlayer
-					.get(e.harvester).pickedProfession.professionName == RotClassManager.professionMiner)
+			if (ExtendPlayer.get(e.harvester).pickedProfession.professionName == RotClassManager.professionMiner)
 			{
-				for (ItemStack is : e.drops)
+				if (!e.isSilkTouching)
 				{
-					is.stackSize += (e.world.rand.nextInt(4) + 1);
+					if (b == Blocks.coal_ore || b == Blocks.redstone_ore || b == Blocks.diamond_ore || b == Blocks.emerald_ore)
+					{
+						for (ItemStack is : e.drops)
+						{
+							is.stackSize += (e.world.rand.nextInt(4) + 1);
+						}
+					}
 				}
-				e.drops.add(new ItemStack(Items.diamond));
 			}
+			else if (ExtendPlayer.get(e.harvester).pickedProfession.professionName == RotClassManager.professionFarmer)
+			{
+				if (b == Blocks.wheat || b == Blocks.carrots || b == Blocks.potatoes || b == Blocks.leaves || b == Blocks.leaves2 || b == Blocks.grass || b == Blocks.nether_wart)
+				{
+					if (b instanceof BlockCrops)
+					{
+						if (((Integer) e.state.getValue(BlockCrops.AGE)).intValue() >= 7)
+						{
+							for (ItemStack is : e.drops)
+							{
+								is.stackSize += (e.world.rand.nextInt(4) + 1);
+							}
+						}
+					}
+					else if (b instanceof BlockNetherWart)
+					{
+						if (((Integer) e.state.getValue(BlockNetherWart.AGE)).intValue() >= 3)
+						{
+							for (ItemStack is : e.drops)
+							{
+								is.stackSize += (e.world.rand.nextInt(4) + 1);
+							}
+						}
+					}
+				}
+				// /End of Farmer stuff
+			}
+			// End of profession checks
 		}
 	}
 

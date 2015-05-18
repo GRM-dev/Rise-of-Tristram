@@ -38,4 +38,5 @@ public class RotClassManager
 			new RotProfession(professionBlacksmith,
 					"Can repair items, crafted gear has a better rank and quality."),
 			new RotProfession(professionScholar, "guy that does stuff") };
+	//TODO finish descriptions
 }

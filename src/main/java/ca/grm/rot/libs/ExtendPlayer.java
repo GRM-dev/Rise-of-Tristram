@@ -34,6 +34,10 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	private int statMax = 255;
 
+	//TODO add in a gold variable
+	//TODO add in skills
+	//TODO Create SkillsClass
+	//TODO create an Athletic Score
 	private int currentClass;
 	private int currentProfession;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
@@ -548,6 +552,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		setMaxStam(pickedClass.baseStam);
 	}
 
+	//TODO Use an Athletic Score
 	public void updateMoveSpeed()
 	{
 		PlayerCapabilities pc = player.capabilities;
