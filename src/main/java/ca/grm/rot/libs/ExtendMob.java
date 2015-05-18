@@ -82,6 +82,7 @@ public class ExtendMob implements IExtendedEntityProperties
 
 	public void rollStats(int depth)
 	{
+		//TODO must perfect the math here
 		int difficulty = depth + mob.worldObj.rand.nextInt(50);
 		monsterLevel = MathHelper.clamp_int(difficulty / 7, 1, 10);
 		int baseBonus = monsterLevel * 2;
@@ -92,6 +93,5 @@ public class ExtendMob implements IExtendedEntityProperties
 		minDmg = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
 		maxDmg = (int)(mob.worldObj.rand.nextInt(13) * monsterLevel / 4) + baseBonus;
 		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
-		mob.setAIMoveSpeed(agility);
 	}
 }

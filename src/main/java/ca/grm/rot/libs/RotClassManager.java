@@ -27,7 +27,7 @@ public class RotClassManager
 	public static String professionScholar = "Arcane Scholar";
 	
 	public static RotProfession[] professions = new RotProfession[] {
-			new RotProfession("Nomand",
+			new RotProfession("Nomad",
 					"Someone that chooses to not settle down, and instead travel the world."),
 			new RotProfession(
 					professionMiner,

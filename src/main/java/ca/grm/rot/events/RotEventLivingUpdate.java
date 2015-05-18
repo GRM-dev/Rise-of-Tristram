@@ -1,5 +1,7 @@
 package ca.grm.rot.events;
 
+import java.util.List;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -13,7 +15,9 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,8 +28,9 @@ import ca.grm.rot.libs.UtilityNBTHelper;
 
 public class RotEventLivingUpdate
 {
-	//TODO use a livingJumpEvent to alter jumpheight? also like the fall event, needs Athletic Score
-	
+	// TODO use a livingJumpEvent to alter jumpheight? also like the fall event,
+	// needs Athletic Score
+
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event)
 	{
@@ -42,6 +47,27 @@ public class RotEventLivingUpdate
 				Rot.proxy.updatePlayer(player);
 			}
 			handlePlayerStats(props, player);
+
+			if ((player.worldObj.getWorldTime() % 10) == 0)
+			{
+				List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
+						new AxisAlignedBB(player.getPosition().getX() + 5, player.getPosition()
+								.getY() + 5, player.getPosition().getZ() + 5, player.getPosition()
+								.getX() - 5, player.getPosition().getY() - 5, player.getPosition()
+								.getZ() - 5));
+				if (!entities.isEmpty())
+				{
+					for (EntityItem ei : entities)
+					{ //MathHelper.clamp_float(p_76131_0_, -1f, 1);
+//						ei.motionX = (MathHelper.clamp_float(player.getPosition().getX() - ei.getPosition().getX(), -0.1f, 0.1f));
+//						ei.motionY = (MathHelper.clamp_float(player.getPosition().getY() - ei.getPosition().getY(), -0.3f, 0.3f));
+//						ei.motionZ = (MathHelper.clamp_float(player.getPosition().getZ() - ei.getPosition().getZ(), -0.1f, 0.1f));
+						ei.motionX = (player.getPosition().getX() - ei.getPosition().getX() < 0 ? -0.1f: 0.1f);
+						ei.motionY = (player.getPosition().getY() - ei.getPosition().getY() < 0 ? -0.2f: 0.2f);
+						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.1f: 0.1f);
+					}
+				}
+			}
 
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
@@ -91,7 +117,7 @@ public class RotEventLivingUpdate
 				props.replenishMana();
 				props.replenishStam();
 			}
-			props.regenMana((5f  + (props.getIntelligence() * 3)) / timeMath);
+			props.regenMana((5f + (props.getIntelligence() * 3)) / timeMath);
 			if (!player.isSprinting())
 			{
 				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 4) / timeMath));
@@ -246,8 +272,10 @@ public class RotEventLivingUpdate
 					.getItem() instanceof ItemBow))
 			{
 				getBasicStats(held, stats, statsS);
-				/*if (!player.worldObj.isRemote) if (held.getItemDamage() > 0) held
-						.setItemDamage(held.getItemDamage() - 1);*/
+				/*
+				 * if (!player.worldObj.isRemote) if (held.getItemDamage() > 0)
+				 * held .setItemDamage(held.getItemDamage() - 1);
+				 */
 			}
 		}
 		if (armor1 != null)

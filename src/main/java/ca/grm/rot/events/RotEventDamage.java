@@ -130,7 +130,7 @@ public class RotEventDamage
 	@SubscribeEvent
 	public void onEntityDeath(LivingDropsEvent e)
 	{
-		// TODO make drops based on monsterLevel
+		// TODO This needs improvement, also needs better math
 		if (e.entity instanceof EntityLiving)
 		{
 			EntityLiving entity = (EntityLiving) e.entity;

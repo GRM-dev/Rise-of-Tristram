@@ -138,7 +138,7 @@ public class RotEventItems
 				rightChancePointer -= (0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)));
 				for (int tries = 0; tries < 50; tries++)
 				{
-					int r = random.nextInt(baseStats.length - 1);
+					int r = random.nextInt(baseStats.length);
 					// System.out.println("trying to add: " + baseStats[r]);
 					int statValue = UtilityNBTHelper.getInt(is, baseStats[r]);
 					// System.out.println("stat found: " + statValue);

@@ -21,6 +21,7 @@ import ca.grm.rot.libs.ExtendPlayer;
 public class ClientProxy extends CommonProxy
 {
 
+	//TODO figure out why controls are being doubled
 	public static KeyBinding classKey = new KeyBinding("Class Menu", Keyboard.KEY_Y, "keys.rot");
 	public static KeyBinding customizeItemKey = new KeyBinding("Item Customization Menu",
 			Keyboard.KEY_I, "keys.rot");
