@@ -1,7 +1,7 @@
 {
     "parent":"items:builtin/generated",
     "textures": {
-        "layer0":"RoT:items/ringMailArmorChestplate"   
+        "layer0":"RoT:items/ancientArmorLeggings"   
     },
     "display": {
         "thirdperson": {

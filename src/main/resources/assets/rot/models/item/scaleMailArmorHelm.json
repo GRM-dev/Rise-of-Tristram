@@ -1,7 +1,7 @@
 {
 	"parent":"items:builtin/generated",
 	"textures": {
-		"layer0":"RoT:items/studdedArmorHelm"	
+		"layer0":"RoT:items/scaleMailArmorHelm"	
 	},
     "display": {
         "thirdperson": {
