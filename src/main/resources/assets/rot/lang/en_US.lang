@@ -69,6 +69,36 @@ item.quiltedArmorChestplate.name=Quilted Chestplate
 item.quiltedArmorLeggings.name=Quilted Leggings
 item.quiltedArmorBoots.name=Quilted Boots
 
+item.hardLeatherArmorHelm.name=Hard Leather Helmet
+item.hardLeatherArmorChestplate.name=Hard Leather Chestplate
+item.hardLeatherArmorLeggings.name=Hard Leather Leggings
+item.hardLeatherArmorBoots.name=Hard Leather Boots
+
+item.studdedArmorHelm.name=Studded Helmet
+item.studdedArmorChestplate.name=Studded Chestplate
+item.studdedArmorLeggings.name=Studded Leggings
+item.studdedArmorBoots.name=Studded Boots
+
+item.quiltedArmorHelm.name=Quilted Helmet
+item.quiltedArmorChestplate.name=Quilted Chestplate
+item.quiltedArmorLeggings.name=Quilted Leggings
+item.quiltedArmorBoots.name=Quilted Boots
+
+item.quiltedArmorHelm.name=Quilted Helmet
+item.quiltedArmorChestplate.name=Quilted Chestplate
+item.quiltedArmorLeggings.name=Quilted Leggings
+item.quiltedArmorBoots.name=Quilted Boots
+
+item.quiltedArmorHelm.name=Quilted Helmet
+item.quiltedArmorChestplate.name=Quilted Chestplate
+item.quiltedArmorLeggings.name=Quilted Leggings
+item.quiltedArmorBoots.name=Quilted Boots
+
+item.quiltedArmorHelm.name=Quilted Helmet
+item.quiltedArmorChestplate.name=Quilted Chestplate
+item.quiltedArmorLeggings.name=Quilted Leggings
+item.quiltedArmorBoots.name=Quilted Boots
+
 item.silverNugget.name=Silver Nugget
 item.bronzeNugget.name=Bronze Nugget
 item.copperNugget.name=Copper Nugget
