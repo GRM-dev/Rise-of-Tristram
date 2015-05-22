@@ -24,7 +24,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.ExtendMob;
 import ca.grm.rot.libs.ExtendPlayer;
-import ca.grm.rot.libs.UtilityNBTHelper;
+import ca.grm.rot.libs.UtilNBTHelper;
+import ca.grm.rot.libs.UtilNBTKeys;
 
 public class RotEventLivingUpdate
 {
@@ -52,20 +53,28 @@ public class RotEventLivingUpdate
 			{
 				int pullDistance = 7;
 				List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
-						new AxisAlignedBB(player.getPosition().getX() + pullDistance, player.getPosition()
-								.getY() + pullDistance, player.getPosition().getZ() + pullDistance, player.getPosition()
-								.getX() - pullDistance, player.getPosition().getY() - pullDistance, player.getPosition()
-								.getZ() - pullDistance));
+						new AxisAlignedBB(player.getPosition().getX() + pullDistance, player
+								.getPosition().getY() + pullDistance,
+								player.getPosition().getZ() + pullDistance, player.getPosition()
+										.getX() - pullDistance,
+								player.getPosition().getY() - pullDistance, player.getPosition()
+										.getZ() - pullDistance));
 				if (!entities.isEmpty())
 				{
 					for (EntityItem ei : entities)
-					{ //MathHelper.clamp_float(p_76131_0_, -1f, 1);
-//						ei.motionX = (MathHelper.clamp_float(player.getPosition().getX() - ei.getPosition().getX(), -0.1f, 0.1f));
-//						ei.motionY = (MathHelper.clamp_float(player.getPosition().getY() - ei.getPosition().getY(), -0.3f, 0.3f));
-//						ei.motionZ = (MathHelper.clamp_float(player.getPosition().getZ() - ei.getPosition().getZ(), -0.1f, 0.1f));
-						ei.motionX = (player.getPosition().getX() - ei.getPosition().getX() < 0 ? -0.05f: 0.05f);
-						ei.motionY = (player.getPosition().getY() - ei.getPosition().getY() < 0 ? -0.3f: 0.3f);
-						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.05f: 0.05f);
+					{ // MathHelper.clamp_float(p_76131_0_, -1f, 1);
+						// ei.motionX =
+						// (MathHelper.clamp_float(player.getPosition().getX() -
+						// ei.getPosition().getX(), -0.1f, 0.1f));
+						// ei.motionY =
+						// (MathHelper.clamp_float(player.getPosition().getY() -
+						// ei.getPosition().getY(), -0.3f, 0.3f));
+						// ei.motionZ =
+						// (MathHelper.clamp_float(player.getPosition().getZ() -
+						// ei.getPosition().getZ(), -0.1f, 0.1f));
+						ei.motionX = (player.getPosition().getX() - ei.getPosition().getX() < 0 ? -0.05f : 0.05f);
+						ei.motionY = (player.getPosition().getY() - ei.getPosition().getY() < 0 ? -0.3f : 0.3f);
+						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.05f : 0.05f);
 					}
 				}
 			}
@@ -252,7 +261,7 @@ public class RotEventLivingUpdate
 	{
 		for (int i = 0; i < listCollect.length; i++)
 		{
-			listCollect[i] += UtilityNBTHelper.getInt(is, ListSearch[i]);
+			listCollect[i] += UtilNBTHelper.getInt(is, ListSearch[i]);
 		}
 	}
 
@@ -261,8 +270,10 @@ public class RotEventLivingUpdate
 		// Stat handling
 		// int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0, intMod = 0,
 		// minDmg = 0, maxDmg = 0, defBonus = 0;
-		int[] stats = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		String[] statsS = new String[] { RotEventItems.strStat, RotEventItems.dexStat, RotEventItems.vitStat, RotEventItems.agiStat, RotEventItems.intStat, RotEventItems.minDmgStat, RotEventItems.maxDmgStat, RotEventItems.defStat };
+		int[] stats = new int[]
+			{ 0, 0, 0, 0, 0, 0, 0, 0 };
+		String[] statsS = new String[]
+			{ UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat, UtilNBTKeys.minDmgStat, UtilNBTKeys.maxDmgStat, UtilNBTKeys.defStat };
 		ItemStack held = player.getEquipmentInSlot(0), armor1 = player.getEquipmentInSlot(1), armor2 = player
 				.getEquipmentInSlot(2), armor3 = player.getEquipmentInSlot(3), armor4 = player
 				.getEquipmentInSlot(4);

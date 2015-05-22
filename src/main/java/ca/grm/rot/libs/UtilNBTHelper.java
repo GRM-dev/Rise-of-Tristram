@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 /** This is not my Class, Pahimar has made this public **/
-public class UtilityNBTHelper {
+public class UtilNBTHelper {
 	// boolean
 	public static boolean getBoolean(ItemStack itemStack, String keyName) {
 		initNBTTagCompound(itemStack);
