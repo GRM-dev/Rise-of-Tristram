@@ -1,5 +1,7 @@
 package ca.grm.rot.libs;
 
+import java.util.Random;
+
 public class RotAffixManager
 {
 	public RotAffixManager()
@@ -21,12 +23,39 @@ public class RotAffixManager
 	// Returns where that rank level starts
 	public static int getRankStart(int rank, RotItemAffix[] affix)
 	{
-		int lastRank = 0;
+		if (rank > 4) return affix.length;
 		for (int index = 0; index < affix.length; index++)
 		{
 			if (rank == affix[index].rankRequirement) return index;
 		}
 		return -1;
+	}
+
+	// Return the affix out of the array
+	public static RotItemAffix getAffix(int rank, RotItemAffix[] affix, Random random)
+	{	
+		//Try to get where in the array to start for affix ranking requirement
+		if (rank > 4) return affix[affix.length - 1];
+		int affixIndex = getRankStart(rank, affix);
+		if (affixIndex != -1)
+		{
+			//Get how far up the affix array to search
+			int rankRange = getRankCount(rank, affix);
+			if (rankRange > 1)
+			{
+				if (affixIndex > 0)
+				{
+					//If the index is not at the start get a random spot in the range
+					int randomIndex = random.nextInt(rankRange);
+					//And if it so happens to be at the start, try to go back one ranking
+					if (randomIndex == 0) randomIndex -= random.nextInt(1);
+					return affix[randomIndex + affixIndex];
+				}
+				else return affix[random.nextInt(rankRange)];
+			}
+			else return affix[affixIndex];
+		}
+		return null;
 	}
 
 	/** Prefixes **/

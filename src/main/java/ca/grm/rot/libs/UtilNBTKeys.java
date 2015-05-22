@@ -48,4 +48,7 @@ public class UtilNBTKeys
 	public static String dmgEnhance = Rot.MOD_ID + "enhancedDamage";
 	public static String dmgPrice = Rot.MOD_ID + "enhancedDamagePrice";
 	
+	public static String prefixName = Rot.MOD_ID + "prefixDisplay";
+	public static String suffixName = Rot.MOD_ID + "suffixDisplay";
+	
 }
