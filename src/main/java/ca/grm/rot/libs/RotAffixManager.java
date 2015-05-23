@@ -213,5 +213,5 @@ public class RotAffixManager
 	public static RotItemAffix[] selfRepairSuffixes = new RotItemAffix[] { new RotItemAffix(
 			"Self-Repair", 1, UtilNBTKeys.selfRepairing, 30f), new RotItemAffix("Restoration", 1,
 			UtilNBTKeys.selfRepairing, 22f), new RotItemAffix("Ages", 1,
-			UtilNBTKeys.indestructible, 1f) };
+					"Unbreakable", 1f) };
 }

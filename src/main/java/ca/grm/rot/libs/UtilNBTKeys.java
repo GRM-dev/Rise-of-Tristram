@@ -34,8 +34,7 @@ public class UtilNBTKeys
 	public static String numSockets = Rot.MOD_ID + "numSocketsModifier";
 	public static String lifeSteal = Rot.MOD_ID + "lifeStealModifier";
 	public static String manaSteal = Rot.MOD_ID + "manaStealModifier";
-	public static String qualityDisplay = Rot.MOD_ID + "qualityDisplay";
-	public static String qualityValue = Rot.MOD_ID + "qualityValue";
+	public static String qualityIndex = Rot.MOD_ID + "qualityIndex";
 	public static String identifiedState = Rot.MOD_ID + "isIdentified";
 	public static String indestructible = Rot.MOD_ID + "isIndestructible";
 	public static String selfRepairing = Rot.MOD_ID + "selfRepair";

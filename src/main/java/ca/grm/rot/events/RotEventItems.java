@@ -82,8 +82,7 @@ public class RotEventItems
 	public static void applyItemStats(ItemStack is, Random random, int rank, int quality)
 	{
 		UtilNBTHelper.setInteger(is, UtilNBTKeys.itemRank, rank);
-		UtilNBTHelper.setString(is, UtilNBTKeys.qualityDisplay, qualityNames[quality]);
-		UtilNBTHelper.setInteger(is, UtilNBTKeys.qualityValue, qualityValues[quality]);
+		UtilNBTHelper.setInteger(is, UtilNBTKeys.qualityIndex, quality);
 		statRoll(is, random);
 	}
 
@@ -91,19 +90,19 @@ public class RotEventItems
 			int[] qualityLimitStartEnd)
 	{
 		int newRank = 1;
-		int quality = random.nextInt(qualityLimitStartEnd[1] - qualityLimitStartEnd[0]) + qualityLimitStartEnd[0];
+		int quality = MathHelper.clamp_int(random.nextInt(qualityLimitStartEnd[1] - qualityLimitStartEnd[0]) + qualityLimitStartEnd[0], 0, qualityValues.length) ;
 		if (rankStartEnd[0] - rankStartEnd[1] != 0) newRank = random
 				.nextInt(rankStartEnd[1] - rankStartEnd[0]) + rankStartEnd[0];
 		else newRank = rankStartEnd[0];
 		UtilNBTHelper.setInteger(is, UtilNBTKeys.itemRank, newRank);
-		UtilNBTHelper.setString(is, UtilNBTKeys.qualityDisplay, qualityNames[quality]);
-		UtilNBTHelper.setInteger(is, UtilNBTKeys.qualityValue, qualityValues[quality]);
+		UtilNBTHelper.setInteger(is, UtilNBTKeys.qualityIndex, quality);
 		statRoll(is, random);
 	}
 
 	private static void statRoll(ItemStack is, Random random)
 	{
-		int quality = UtilNBTHelper.getInt(is, UtilNBTKeys.qualityValue);
+
+		int quality = qualityValues[UtilNBTHelper.getInt(is, UtilNBTKeys.qualityIndex)];
 		int rank = UtilNBTHelper.getInt(is, UtilNBTKeys.itemRank);
 		float leftChancePointer = (0.3f - (0.05f * quality));
 		float rightChancePointer = (0.7f + (0.05f * quality));
@@ -152,7 +151,6 @@ public class RotEventItems
 							is,
 							UtilNBTKeys.maxDmgStat,
 							(23 * rank) + (random.nextInt(30) * rank) + (random.nextInt(9) * (quality - 1)));
-			applyPrefix(is, random, rank);
 		}
 		if (is.getItem() instanceof ItemArmor)
 		{
@@ -162,52 +160,52 @@ public class RotEventItems
 							UtilNBTKeys.defStat,
 							(11 * rank) + (random.nextInt(10) * rank) + (random.nextInt(6) * (quality - 1)));
 		}
+		applyPrefix(is, random, rank);
+		applySuffix(is, random, rank);
+		setItemDisplayName(is);
 	}
 
 	public static void applyItemQuality(ItemStack is, Random random, int rank)
 	{
-		String name = UtilNBTHelper.getString(is, UtilNBTKeys.qualityDisplay);
+
 		int value = 0;
 		float roll = MathHelper.clamp_float(random.nextFloat() + ((10 * (rank - 1)) / 100), 0f, 1f);
-		if (name == "")
+
+		if (roll >= 0 && roll <= 0.2f)
 		{
-			if (roll >= 0 && roll <= 0.2f)
-			{
-				value = 0;
-			}
-			else if (roll > 0.2f && roll <= 0.4f)
-			{
-				value = 1;
-			}
-			else if (roll > 0.4f && roll <= 0.5f)
-			{
-				value = 2;
-			}
-			else if (roll > 0.5f && roll <= 0.55f)
-			{
-				value = 3;
-			}
-			else if (roll > 0.55f && roll < 0.6f)
-			{
-				value = 4;
-			}
-			else if (roll > 0.6f && roll < 0.65f)
-			{
-				value = 5;
-			}
-			else if (roll > 0.65f && roll <= 0.8f)
-			{
-				value = 6;
-			}
-			else
-			{
-				// UtilityNBTHelper.setBoolean(is, identifiedState, true);
-				value = 7;
-				//applyPrefix(is, random, rank);
-			}
+			value = 0;
 		}
-		UtilNBTHelper.setString(is, UtilNBTKeys.qualityDisplay, qualityNames[value]);
-		UtilNBTHelper.setInteger(is, UtilNBTKeys.qualityValue, qualityValues[value]);
+		else if (roll > 0.2f && roll <= 0.4f)
+		{
+			value = 1;
+		}
+		else if (roll > 0.4f && roll <= 0.5f)
+		{
+			value = 2;
+		}
+		else if (roll > 0.5f && roll <= 0.55f)
+		{
+			value = 3;
+		}
+		else if (roll > 0.55f && roll < 0.6f)
+		{
+			value = 4;
+		}
+		else if (roll > 0.6f && roll < 0.65f)
+		{
+			value = 5;
+		}
+		else if (roll > 0.65f && roll <= 0.8f)
+		{
+			value = 6;
+		}
+		else
+		{
+			// UtilityNBTHelper.setBoolean(is, identifiedState, true);
+			value = 7;
+		}
+
+		UtilNBTHelper.setInteger(is, UtilNBTKeys.qualityIndex, value);
 	}
 
 	public static void applyPrefix(ItemStack is, Random random, int rank)
@@ -215,12 +213,13 @@ public class RotEventItems
 		float roll = MathHelper.clamp_float(random.nextFloat() + ((10 * (rank - 1)) / 100), 0f, 1f);
 		if (roll > 0.6f)
 		{
-			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemBow || is.getItem() instanceof ItemTool)
+			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemBow || is
+					.getItem() instanceof ItemTool)
 			{
-				boolean gotPrefix = false;
+				boolean gotAffix = false;
 				for (int i = 0; i < 50; i++)
 				{
-					if (gotPrefix)break;
+					if (gotAffix) break;
 					int affixTypeRoll = random.nextInt(6);
 					RotItemAffix affix;
 					switch (affixTypeRoll)
@@ -234,7 +233,7 @@ public class RotEventItems
 						UtilNBTHelper.setInteger(is, affix.nbtKeys[1], (UtilNBTHelper.getInt(is,
 								affix.nbtKeys[1]) + (int) affix.nbtValues[1]));
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
-						gotPrefix = true;
+						gotAffix = true;
 						break;
 					case 1:// Enhanced Damage
 						affix = RotAffixManager.getAffix(rank, RotAffixManager.damageExtraPrefixes,
@@ -243,7 +242,7 @@ public class RotEventItems
 						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
 						UtilNBTHelper.setFloat(is, affix.nbtKeys[1], affix.nbtValues[1]);
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
-						gotPrefix = true;
+						gotAffix = true;
 						break;
 					case 2: // Poison
 						affix = RotAffixManager.getAffix(rank, RotAffixManager.poisonPrefixes,
@@ -251,7 +250,7 @@ public class RotEventItems
 						if (affix == null) break;
 						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
-						gotPrefix = true;
+						gotAffix = true;
 						break;
 					case 3: // Sickness
 						affix = RotAffixManager
@@ -259,28 +258,280 @@ public class RotEventItems
 						if (affix == null) break;
 						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
-						gotPrefix = true;
+						gotAffix = true;
 						break;
 					case 4: // Vile
 						if (rank < RotAffixManager.vilePrefix.rankRequirement) break;
 						UtilNBTHelper.setBoolean(is, RotAffixManager.vilePrefix.nbtKeys[0], true);
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName,
 								RotAffixManager.vilePrefix.affixName);
-						gotPrefix = true;
+						gotAffix = true;
 						break;
 					case 5: // Socket
 						affix = RotAffixManager.getAffix(rank, RotAffixManager.socketPrefixes,
 								random);
 						if (affix == null) break;
-						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (int) affix.nbtValues[0]);
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
-						gotPrefix = true;
+						gotAffix = true;
 						break;
 					}
 				}// For loop End
 			}
+			if (is.getItem() instanceof ItemArmor)// TODO create magic trinkets,
+													// rings and amulets
+			{
+				boolean gotAffix = false;
+				for (int i = 0; i < 50; i++)
+				{
+					if (gotAffix) break;
+					int affixTypeRoll = random.nextInt(6);
+					RotItemAffix affix;
+					switch (affixTypeRoll)
+					{
+					case 0: // Defence
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.defencePrefixes,
+								random);
+						if (affix == null) break;
+						UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(is,
+								affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+						gotAffix = true;
+						break;
+					case 1:// Mana
+						affix = RotAffixManager
+								.getAffix(rank, RotAffixManager.manaPrefixes, random);
+						if (affix == null) break;
+						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						gotAffix = true;
+						break;
+					case 2:// Stam
+						affix = RotAffixManager
+								.getAffix(rank, RotAffixManager.stamPrefixes, random);
+						if (affix == null) break;
+						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						gotAffix = true;
+						break;
+					case 3:// Stam Regen
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.stamRegenPrefixes,
+								random);
+						if (affix == null) break;
+						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						gotAffix = true;
+						break;
+					case 4:// Mana Regen
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.manaRegenPrefixes,
+								random);
+						if (affix == null) break;
+						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						gotAffix = true;
+						break;
+					case 5:// Socket
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.socketPrefixes,
+								random);
+						if (affix == null) break;
+						UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (int) affix.nbtValues[0]);
+						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
+						gotAffix = true;
+						break;
+					}
+				}
+			}
 
 		}
+	}
+
+	public static void applySuffix(ItemStack is, Random random, int rank)
+	{
+		float roll = MathHelper.clamp_float(random.nextFloat() + ((10 * (rank - 1)) / 100), 0f, 1f);
+		if (roll > 0.6f)
+		{
+			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool)
+			{
+				boolean gotAffix = false;
+				for (int i = 0; i < 50; i++)
+				{
+					if (gotAffix) break;
+					int affixTypeRoll = random.nextInt(4);
+					RotItemAffix affix;
+					switch (affixTypeRoll)
+					{
+					case 0:// lifeSteal
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.lifeStealSuffixes,
+								random);
+						if (affix == null) break;
+						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+						gotAffix = true;
+						break;
+					case 1:// manaSteal
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.manaStealSuffixes,
+								random);
+						if (affix == null) break;
+						UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+						UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+						gotAffix = true;
+						break;
+					case 2: // Str
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.strSuffixes, random);
+						if (affix == null) break;
+						UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(is,
+								affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+						UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+						gotAffix = true;
+						break;
+					case 3: // durability
+						affix = RotAffixManager.getAffix(rank, RotAffixManager.selfRepairSuffixes,
+								random);
+						if (affix == null) break;
+						if (affix.affixName != "Ages")
+						{
+							UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+							UtilNBTHelper.setFloat(is, affix.nbtKeys[1], affix.nbtValues[1]);
+						}
+						else UtilNBTHelper.setBoolean(is, affix.nbtKeys[0], true);
+						UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+						gotAffix = true;
+						break;
+					}// For loop End
+				}
+				if (is.getItem() instanceof ItemBow)
+				{
+					for (int i = 0; i < 50; i++)
+					{
+						if (gotAffix) break;
+						int affixTypeRoll = random.nextInt(2);
+						RotItemAffix affix;
+						switch (affixTypeRoll)
+						{
+						case 0:// Dex
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.dexSuffixes,
+									random);
+							if (affix == null) break;
+							UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(
+									is, affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 1:// durability
+							affix = RotAffixManager.getAffix(rank,
+									RotAffixManager.selfRepairSuffixes, random);
+							if (affix == null) break;
+							if (affix.affixName != "Ages")
+							{
+								UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+								UtilNBTHelper.setFloat(is, affix.nbtKeys[1], affix.nbtValues[1]);
+							}
+							else UtilNBTHelper.setBoolean(is, affix.nbtKeys[0], true);
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						}
+					}
+				}
+				if (is.getItem() instanceof ItemArmor)// TODO create magic
+														// trinkets, rings and
+														// amulets
+				{
+					for (int i = 0; i < 50; i++)
+					{
+						if (gotAffix) break;
+						int affixTypeRoll = random.nextInt(7);
+						RotItemAffix affix;
+						switch (affixTypeRoll)
+						{
+						case 0: // Vit
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.vitSuffixes,
+									random);
+							if (affix == null) break;
+							UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(
+									is, affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 1:// Dex
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.dexSuffixes,
+									random);
+							if (affix == null) break;
+							UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(
+									is, affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 2:// Str
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.strSuffixes,
+									random);
+							if (affix == null) break;
+							UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(
+									is, affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 3:// All Stats
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.allBaseSuffixes,
+									random);
+							if (affix == null) break;
+							for (int j = 0; j < affix.nbtKeys.length; j++)
+							{
+								UtilNBTHelper.setInteger(is, affix.nbtKeys[j], UtilNBTHelper
+										.getInt(is, affix.nbtKeys[j]) + (int) affix.nbtValues[j]);
+							}
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 4:// int
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.intSuffixes,
+									random);
+							if (affix == null) break;
+							UtilNBTHelper.setInteger(is, affix.nbtKeys[0], (UtilNBTHelper.getInt(
+									is, affix.nbtKeys[0]) + (int) affix.nbtValues[0]));
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 5:// hp regen
+							affix = RotAffixManager.getAffix(rank, RotAffixManager.hpRegenSuffixes,
+									random);
+							if (affix == null) break;
+							UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						case 6:// durability
+							affix = RotAffixManager.getAffix(rank,
+									RotAffixManager.selfRepairSuffixes, random);
+							if (affix == null) break;
+							if (affix.affixName != "Ages")
+							{
+								UtilNBTHelper.setFloat(is, affix.nbtKeys[0], affix.nbtValues[0]);
+								UtilNBTHelper.setFloat(is, affix.nbtKeys[1], affix.nbtValues[1]);
+							}
+							else UtilNBTHelper.setBoolean(is, affix.nbtKeys[0], true);
+							UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
+							gotAffix = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static void setItemDisplayName(ItemStack is)
+	{
+		boolean hasPrefix = false;
+		String newName = "";
+		if (UtilNBTHelper.getString(is, UtilNBTKeys.prefixName).trim() != "")
+		{
+			newName += UtilNBTHelper.getString(is, UtilNBTKeys.prefixName) + " " + is
+					.getDisplayName();
+			hasPrefix = true;
+		}
+		if (UtilNBTHelper.getString(is, UtilNBTKeys.suffixName).trim() != "")
+		{
+			if (hasPrefix) newName += " of " + UtilNBTHelper.getString(is, UtilNBTKeys.suffixName);
+			else newName += is.getDisplayName() + " of " + UtilNBTHelper.getString(is,
+					UtilNBTKeys.suffixName);
+		}
+		if (newName != "") is.setStackDisplayName(newName);
 	}
 
 	@SubscribeEvent
@@ -309,29 +560,26 @@ public class RotEventItems
 
 				int defBonus = UtilNBTHelper.getInt(is, UtilNBTKeys.defStat);
 
-				int quality = UtilNBTHelper.getInt(i.itemStack, UtilNBTKeys.qualityValue);
-				String qualityName = UtilNBTHelper.getString(i.itemStack,
-						UtilNBTKeys.qualityDisplay);
+				int quality = qualityValues[UtilNBTHelper.getInt(i.itemStack,
+						UtilNBTKeys.qualityIndex)];
+				String qualityName = qualityNames[UtilNBTHelper.getInt(i.itemStack,
+						UtilNBTKeys.qualityIndex)];
 
-				if (qualityName == "Useless" || qualityName == "Broken" || qualityName == "Crude")
+				if (quality >= -3 && quality < 0)
 				{
-					UtilNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
-							EnumChatFormatting.RED + qualityName);
+					qualityName = EnumChatFormatting.RED + qualityName;
 				}
-				else if (qualityName == "Normal")
+				else if (quality == 0 || quality == 1)
 				{
-					UtilNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
-							EnumChatFormatting.YELLOW + qualityName);
+					qualityName = EnumChatFormatting.YELLOW + qualityName;
 				}
-				else if (qualityName == "Superior")
+				else if (quality > 1 && quality < 4)
 				{
-					UtilNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
-							EnumChatFormatting.GREEN + qualityName);
+					qualityName = EnumChatFormatting.GREEN + qualityName;
 				}
-				else if (qualityName == "Magic")
+				else if (quality == 4)
 				{
-					UtilNBTHelper.setString(is, Rot.MOD_ID + "qualityDisplay",
-							EnumChatFormatting.AQUA + qualityName);
+					qualityName = EnumChatFormatting.AQUA + qualityName;
 				}
 
 				// Start Adding New Data
@@ -395,27 +643,19 @@ public class RotEventItems
 					i.toolTip
 							.add((dex > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Dexterity Modifier: " + dex);
 				}
-				
-				String prefixName = UtilNBTHelper.getString(is, UtilNBTKeys.prefixName);
-				if (prefixName.trim() != "")
-				{
-					i.toolTip.add(prefixName);
-				}
-				// NBTTagList nbttaglist = i.itemStack.getEnchantmentTagList();
-				//
-				// if (nbttaglist != null)
+
+				// String prefixName = UtilNBTHelper.getString(is,
+				// UtilNBTKeys.prefixName);
+				// if (prefixName.trim() != "")
 				// {
-				// for (int j = 0; j < nbttaglist.tagCount(); ++j)
-				// {
-				// short short1 = nbttaglist.getCompoundTagAt(j).getShort("id");
-				// short short2 =
-				// nbttaglist.getCompoundTagAt(j).getShort("lvl");
-				//
-				// if (Enchantment.getEnchantmentById(short1) != null)
-				// {
-				// i.toolTip.add(Enchantment.getEnchantmentById(short1).getTranslatedName(short2));
+				// i.toolTip.add(prefixName);
 				// }
-				// }
+				//
+				// String suffixName = UtilNBTHelper.getString(is,
+				// UtilNBTKeys.suffixName);
+				// if (suffixName.trim() != "")
+				// {
+				// i.toolTip.add(suffixName);
 				// }
 			}
 		}
