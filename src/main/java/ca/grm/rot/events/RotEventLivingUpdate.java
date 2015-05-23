@@ -274,6 +274,7 @@ public class RotEventLivingUpdate
 			{ 0, 0, 0, 0, 0, 0, 0, 0 };
 		String[] statsS = new String[]
 			{ UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat, UtilNBTKeys.minDmgStat, UtilNBTKeys.maxDmgStat, UtilNBTKeys.defStat };
+		float lifeSteal = 0, manaSteal = 0;
 		ItemStack held = player.getEquipmentInSlot(0), armor1 = player.getEquipmentInSlot(1), armor2 = player
 				.getEquipmentInSlot(2), armor3 = player.getEquipmentInSlot(3), armor4 = player
 				.getEquipmentInSlot(4);
@@ -284,6 +285,8 @@ public class RotEventLivingUpdate
 					.getItem() instanceof ItemBow))
 			{
 				getBasicStats(held, stats, statsS);
+				lifeSteal += UtilNBTHelper.getFloat(held, UtilNBTKeys.lifeSteal);
+				manaSteal += UtilNBTHelper.getFloat(held, UtilNBTKeys.lifeSteal);
 				/*
 				 * if (!player.worldObj.isRemote) if (held.getItemDamage() > 0)
 				 * held .setItemDamage(held.getItemDamage() - 1);
@@ -339,6 +342,14 @@ public class RotEventLivingUpdate
 		if (props.getDefBonus() != stats[7])
 		{
 			props.setDefBonus(stats[7]);
+		}
+		if (props.getLifeSteal() != lifeSteal)
+		{
+			props.setLifeSteal(lifeSteal);
+		}
+		if (props.getManaSteal() != manaSteal)
+		{
+			props.setManaSteal(manaSteal);
 		}
 	}
 }

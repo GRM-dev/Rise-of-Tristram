@@ -10,6 +10,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ca.grm.rot.Rot;
+import ca.grm.rot.managers.RotClassManager;
 
 public class ExtendPlayer implements IExtendedEntityProperties
 {
@@ -294,6 +295,16 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		return this.strength;
 	}
+	
+	public float getLifeSteal()
+	{
+		return this.lifeSteal;
+	}
+	
+	public float getManaSteal()
+	{
+		return this.manaSteal;
+	}
 
 	/**
 	 * outputs an Object array of String className, Float currentMana, Float
@@ -544,6 +555,16 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		this.strength = MathHelper.clamp_int(value + pickedClass.strStat, -statMax, statMax);
 		// setMaxStam(classAttributeStam[this.currentClass]);
+	}
+	
+	public void setLifeSteal(float value)
+	{
+		this.lifeSteal = value;
+	}
+	
+	public void setManaSteal(float value)
+	{
+		this.manaSteal = value;
 	}
 
 	public void setVitality(int value)

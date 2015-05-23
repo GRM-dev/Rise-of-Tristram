@@ -13,7 +13,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.libs.ExtendPlayer;
-import ca.grm.rot.libs.RotClassManager;
+import ca.grm.rot.managers.RotClassManager;
 
 public class RotEventTeamsClasses
 {

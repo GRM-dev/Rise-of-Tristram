@@ -1,4 +1,7 @@
-package ca.grm.rot.libs;
+package ca.grm.rot.managers;
+
+import ca.grm.rot.libs.RotClass;
+import ca.grm.rot.libs.RotProfession;
 
 public class RotClassManager
 {

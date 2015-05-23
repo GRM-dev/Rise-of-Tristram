@@ -21,12 +21,12 @@ import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CommonProxy;
 import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.comms.EnderPearlPacket;
-import ca.grm.rot.comms.NetworkManager;
 import ca.grm.rot.events.RotEventDamage;
-import ca.grm.rot.events.RotEventManager;
 import ca.grm.rot.events.RotEventLivingUpdate;
 import ca.grm.rot.gui.GuiHandler;
 import ca.grm.rot.items.RotItems;
+import ca.grm.rot.managers.NetworkManager;
+import ca.grm.rot.managers.RotEventManager;
 
 @Mod(modid = Rot.MOD_ID, version = Rot.VERSION, name = Rot.MOD_NAME)
 public class Rot

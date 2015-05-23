@@ -1,5 +1,12 @@
-package ca.grm.rot.events;
+package ca.grm.rot.managers;
 
+import ca.grm.rot.events.RotEventDamage;
+import ca.grm.rot.events.RotEventItems;
+import ca.grm.rot.events.RotEventLivingUpdate;
+import ca.grm.rot.events.RotEventPlayerClone;
+import ca.grm.rot.events.RotEventRenderLivingEvent;
+import ca.grm.rot.events.RotEventTeamsClasses;
+import ca.grm.rot.events.RotFMLEventItems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 

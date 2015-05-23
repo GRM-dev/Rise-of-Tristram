@@ -9,9 +9,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -22,6 +25,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.libs.ExtendMob;
 import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.libs.UtilNBTHelper;
+import ca.grm.rot.libs.UtilNBTKeys;
 
 public class RotEventDamage
 {
@@ -39,6 +44,47 @@ public class RotEventDamage
 			if (source.getEntity() instanceof EntityPlayer)
 			{
 				EntityPlayer player = (EntityPlayer) source.getEntity();
+				if (player.getHeldItem() != null)
+				if (player.getHeldItem().getItem() instanceof ItemSword || player.getHeldItem()
+						.getItem() instanceof ItemTool || player.getHeldItem().getItem() instanceof ItemBow)
+				{
+					float poisonLevel = UtilNBTHelper.getFloat(player.getHeldItem(), UtilNBTKeys.poison);
+					if (poisonLevel != 0)
+					{
+						switch((int)poisonLevel)
+						{
+						case 1:
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id, 60, 1));
+							break;
+						case 2:
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
+							break;
+						case 3:
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+							break;
+						}
+					}
+					
+					float sickLevel = UtilNBTHelper.getFloat(player.getHeldItem(), UtilNBTKeys.sickness);
+					if (sickLevel != 0)
+					{
+						switch((int)sickLevel)
+						{
+						case 1:
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.confusion.id, 120, 1));
+							break;
+						case 2:
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.confusion.id, 120, 2));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120, 1));
+							break;
+						case 3:
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.confusion.id, 120, 3));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120, 2));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.weakness.id, 120, 1));
+							break;
+						}
+					}
+				}
 				ExtendPlayer props = ExtendPlayer.get(player);
 				float tempDmg = event.ammount * upscalePercent;
 				if (event.source.getDamageType() == "player")
@@ -48,6 +94,8 @@ public class RotEventDamage
 					int newDmg = ((int) finalMaxDmg - (int) finalMinDmg) + (int) finalMinDmg;
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
+					if (props.getLifeSteal() != 0)player.heal(event.ammount * props.getLifeSteal());
+					if (props.getManaSteal() != 0)props.regenMana(event.ammount * props.getManaSteal());
 				}
 				else if (event.source.getDamageType() == "arrow")
 				{
@@ -56,6 +104,8 @@ public class RotEventDamage
 					int newDmg = ((int) finalMaxDmg - (int) finalMinDmg) + (int) finalMinDmg;
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
+					if (props.getLifeSteal() != 0)player.heal(event.ammount * props.getLifeSteal());
+					if (props.getManaSteal() != 0)props.regenMana(event.ammount * props.getManaSteal());
 				}
 			}
 			else
@@ -187,9 +237,10 @@ public class RotEventDamage
 							leftChancePointer += (0.1f - (0.01f * (monsterLevel - 1)));
 							rightChancePointer -= (0.1f - (0.01f * (monsterLevel - 1)));
 							ItemStack item = lootList1[entity.worldObj.rand
-														.nextInt(lootList1.length - 1)];
-							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemArmor)
-								RotEventItems.applyItemStats(item, entity.worldObj.rand, monsterLevel);
+									.nextInt(lootList1.length)];
+							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
+									.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(
+									item, entity.worldObj.rand, monsterLevel);
 							e.drops.add(new EntityItem(entity.worldObj,
 									entity.getPosition().getX(), entity.getPosition().getY(),
 									entity.getPosition().getZ(), item));
@@ -207,9 +258,10 @@ public class RotEventDamage
 							leftChancePointer += (0.1f - (0.01f * (monsterLevel - 1)));
 							rightChancePointer -= (0.1f - (0.01f * (monsterLevel - 1)));
 							ItemStack item = lootList2[entity.worldObj.rand
-														.nextInt(lootList2.length - 1)];
-							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemArmor)
-								RotEventItems.applyItemStats(item, entity.worldObj.rand, monsterLevel);
+									.nextInt(lootList2.length)];
+							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
+									.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(
+									item, entity.worldObj.rand, monsterLevel);
 							e.drops.add(new EntityItem(entity.worldObj,
 									entity.getPosition().getX(), entity.getPosition().getY(),
 									entity.getPosition().getZ(), item));
@@ -231,9 +283,10 @@ public class RotEventDamage
 							leftChancePointer += (0.1f - (0.001f * (monsterLevel - 1)));
 							rightChancePointer -= (0.1f - (0.001f * (monsterLevel - 1)));
 							ItemStack item = lootList3[entity.worldObj.rand
-														.nextInt(lootList3.length - 1)];
-							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item.getItem() instanceof ItemArmor)
-								RotEventItems.applyItemStats(item, entity.worldObj.rand, monsterLevel);
+									.nextInt(lootList3.length)];
+							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
+									.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(
+									item, entity.worldObj.rand, monsterLevel);
 							e.drops.add(new EntityItem(entity.worldObj,
 									entity.getPosition().getX(), entity.getPosition().getY(),
 									entity.getPosition().getZ(), item));
@@ -249,7 +302,7 @@ public class RotEventDamage
 	}
 
 	@SubscribeEvent
-	public void onEntityDeath(EnderTeleportEvent e)
+	public void onEnderPearlTeleport(EnderTeleportEvent e)
 	{
 		if (e.entity instanceof EntityPlayer) e.attackDamage = 0;
 	}

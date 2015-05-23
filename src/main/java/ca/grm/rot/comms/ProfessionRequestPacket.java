@@ -8,8 +8,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import ca.grm.rot.libs.ExtendPlayer;
-import ca.grm.rot.libs.RotClassManager;
 import ca.grm.rot.libs.UtilityFunctions;
+import ca.grm.rot.managers.RotClassManager;
 
 public class ProfessionRequestPacket implements IMessage
 {
