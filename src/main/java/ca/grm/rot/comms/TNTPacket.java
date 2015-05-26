@@ -2,7 +2,7 @@ package ca.grm.rot.comms;
 
 import java.lang.reflect.Field;
 
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -20,8 +20,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class TNTPacket implements IMessage
 {
 
-	public static class TNTPacketHandler implements
-			IMessageHandler<TNTPacket, IMessage>
+	public static class TNTPacketHandler implements IMessageHandler<TNTPacket, IMessage>
 	{
 
 		@Override
@@ -34,15 +33,15 @@ public class TNTPacket implements IMessage
 			 */
 			if (ExtendPlayer.get(player).consumeStam(10f))
 			{
-				//TODO Miner Skill?, also make it require and consume TNT
+				// TODO Miner Skill?, also make it require and consume TNT
 				EntityArrow arrow = new EntityArrow(player.worldObj, player, 1f);
-				//EntityTNTPrimed tnt = new EntityTNTPrimed(player.worldObj, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getY(), player);
 				EntityTNTPrimed tnt = new EntityTNTPrimed(player.worldObj);
 				tnt.motionX = arrow.motionX;
 				tnt.motionY = arrow.motionY;
 				tnt.motionZ = arrow.motionZ;
 				tnt.setPosition(arrow.posX, arrow.posY, arrow.posZ);
-				tnt.fuse = 80;				
+				tnt.fuse = 80;
+				tnt.forceSpawn=true;
 				player.worldObj.spawnEntityInWorld(tnt);
 			}
 			return null;

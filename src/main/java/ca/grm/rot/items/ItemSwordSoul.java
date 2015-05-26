@@ -1,6 +1,6 @@
 package ca.grm.rot.items;
 
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

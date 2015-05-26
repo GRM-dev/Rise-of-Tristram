@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.libs.UtilityFunctions;
 import ca.grm.rot.managers.RotClassManager;
 

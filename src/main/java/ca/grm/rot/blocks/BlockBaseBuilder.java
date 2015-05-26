@@ -33,4 +33,10 @@ public class BlockBaseBuilder extends BlockContainer {
 		}
 		return true;
 	}
+	
+	@Override
+	public int getRenderType()
+	{
+		return 3;
+	}
 }

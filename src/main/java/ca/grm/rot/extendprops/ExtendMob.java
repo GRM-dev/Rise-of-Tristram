@@ -1,4 +1,4 @@
-package ca.grm.rot.libs;
+package ca.grm.rot.extendprops;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -83,7 +83,7 @@ public class ExtendMob implements IExtendedEntityProperties
 	public void rollStats(int depth)
 	{
 		//TODO must perfect the math here
-		int difficulty = depth + mob.worldObj.rand.nextInt(50);
+		int difficulty = depth + mob.worldObj.rand.nextInt(20);
 		monsterLevel = MathHelper.clamp_int(difficulty / 7, 1, 10);
 		int baseBonus = monsterLevel * 2;
 		strength = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;

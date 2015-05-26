@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 
 // First item I went out on a limb to make
 public class ItemRelicRepair extends Item {

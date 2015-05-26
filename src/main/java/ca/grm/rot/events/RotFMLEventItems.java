@@ -4,7 +4,7 @@ import java.util.Random;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.managers.RotClassManager;
 
 public class RotFMLEventItems

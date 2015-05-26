@@ -1,8 +1,10 @@
 package ca.grm.rot.events;
 
-import java.awt.List;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+
+import com.sun.media.jfxmedia.events.PlayerEvent;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
@@ -16,17 +18,20 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import ca.grm.rot.extendprops.ExtendMob;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.items.RotItems;
-import ca.grm.rot.libs.ExtendMob;
-import ca.grm.rot.libs.ExtendPlayer;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
+import ca.grm.rot.managers.RotLootManager;
 
 public class RotEventDamage
 {
@@ -41,52 +46,78 @@ public class RotEventDamage
 		{
 			EntityDamageSource source = (EntityDamageSource) event.source;
 			Random rand = new Random();
+			// If a player there are some extra features to use
 			if (source.getEntity() instanceof EntityPlayer)
 			{
 				EntityPlayer player = (EntityPlayer) source.getEntity();
-				if (player.getHeldItem() != null)
-				if (player.getHeldItem().getItem() instanceof ItemSword || player.getHeldItem()
-						.getItem() instanceof ItemTool || player.getHeldItem().getItem() instanceof ItemBow)
+				// Apply Special Weapon Effects
+				if (player.getHeldItem() != null) if (player.getHeldItem().getItem() instanceof ItemSword || player
+						.getHeldItem().getItem() instanceof ItemTool || player.getHeldItem()
+						.getItem() instanceof ItemBow)
 				{
-					float poisonLevel = UtilNBTHelper.getFloat(player.getHeldItem(), UtilNBTKeys.poison);
+					// Poison and Wither
+					float poisonLevel = UtilNBTHelper.getFloat(player.getHeldItem(),
+							UtilNBTKeys.poison);
 					if (poisonLevel != 0)
 					{
-						switch((int)poisonLevel)
+						switch ((int) poisonLevel)
 						{
 						case 1:
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id, 60, 1));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id,
+									60, 1));
 							break;
 						case 2:
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.poison.id,
+									100, 2));
 							break;
 						case 3:
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id,
+									100, 1));
 							break;
 						}
 					}
-					
-					float sickLevel = UtilNBTHelper.getFloat(player.getHeldItem(), UtilNBTKeys.sickness);
+
+					// Debuff Effects
+					float sickLevel = UtilNBTHelper.getFloat(player.getHeldItem(),
+							UtilNBTKeys.sickness);
 					if (sickLevel != 0)
 					{
-						switch((int)sickLevel)
+						switch ((int) sickLevel)
 						{
 						case 1:
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.confusion.id, 120, 1));
+							event.entityLiving.addPotionEffect(new PotionEffect(
+									Potion.confusion.id, 120, 1));
 							break;
 						case 2:
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.confusion.id, 120, 2));
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120, 1));
+							event.entityLiving.addPotionEffect(new PotionEffect(
+									Potion.confusion.id, 120, 2));
+							event.entityLiving.addPotionEffect(new PotionEffect(
+									Potion.moveSlowdown.id, 120, 1));
 							break;
 						case 3:
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.confusion.id, 120, 3));
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 120, 2));
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.weakness.id, 120, 1));
+							event.entityLiving.addPotionEffect(new PotionEffect(
+									Potion.confusion.id, 120, 3));
+							event.entityLiving.addPotionEffect(new PotionEffect(
+									Potion.moveSlowdown.id, 120, 2));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.weakness.id,
+									120, 1));
 							break;
 						}
+					}
+					// Health Regeneration prevention/Hunger
+					if (UtilNBTHelper.getBoolean(player.getHeldItem(), UtilNBTKeys.vile))
+					{
+						event.entityLiving.addPotionEffect(new PotionEffect(Potion.hunger.id, 120));
 					}
 				}
 				ExtendPlayer props = ExtendPlayer.get(player);
-				float tempDmg = event.ammount * upscalePercent;
+				float tempDmg = event.ammount * upscalePercent;// Take the
+																// current
+																// damage
+																// whatever it
+																// may be, and
+																// scale it up
+				// If the damage is melee which is tracked as "player"
 				if (event.source.getDamageType() == "player")
 				{
 					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getStrength() + 100) / 100;
@@ -94,9 +125,12 @@ public class RotEventDamage
 					int newDmg = ((int) finalMaxDmg - (int) finalMinDmg) + (int) finalMinDmg;
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
-					if (props.getLifeSteal() != 0)player.heal(event.ammount * props.getLifeSteal());
-					if (props.getManaSteal() != 0)props.regenMana(event.ammount * props.getManaSteal());
+					if (props.getLifeSteal() != 0) player
+							.heal(event.ammount * props.getLifeSteal());
+					if (props.getManaSteal() != 0) props.regenMana(event.ammount * props
+							.getManaSteal());
 				}
+				// If the damage was from an arrow
 				else if (event.source.getDamageType() == "arrow")
 				{
 					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getDexterity() + 100) / 100;
@@ -104,15 +138,20 @@ public class RotEventDamage
 					int newDmg = ((int) finalMaxDmg - (int) finalMinDmg) + (int) finalMinDmg;
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
-					if (props.getLifeSteal() != 0)player.heal(event.ammount * props.getLifeSteal());
-					if (props.getManaSteal() != 0)props.regenMana(event.ammount * props.getManaSteal());
+					if (props.getLifeSteal() != 0) player
+							.heal(event.ammount * props.getLifeSteal());
+					if (props.getManaSteal() != 0) props.regenMana(event.ammount * props
+							.getManaSteal());
 				}
 			}
 			else
+			// Now if what did the damage was not a player, but still a living
+			// entity
 			{
 				if (source.getEntity() instanceof EntityLiving)
 				{
 					EntityLiving mob = (EntityLiving) source.getEntity();
+					// If said mob has extra stats
 					if (ExtendMob.get(mob) != null)
 					{
 						ExtendMob props = ExtendMob.get(mob);
@@ -134,11 +173,14 @@ public class RotEventDamage
 							else event.ammount -= newDmg;
 						}
 					}
-					else event.ammount *= upscalePercent;
+					else event.ammount *= upscalePercent; // if no extra stats,
+															// just upscale
 				}
 			}
 		}
-		else event.ammount *= upscalePercent;
+		else event.ammount *= upscalePercent; // If it is some other damage
+												// source say falling, fire just
+												// upscale the damage
 
 		// Defense
 		if (event.entity instanceof EntityPlayer)
@@ -151,7 +193,7 @@ public class RotEventDamage
 			float adjustedHP = adjustedMaxHP - event.ammount;
 			float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
 			float newDamage = player.getMaxHealth() * adjustedHPPercent;
-			event.ammount = newDamage;
+			event.ammount = newDamage < 0 ? 0 : newDamage;
 		}
 		else
 		{
@@ -164,7 +206,7 @@ public class RotEventDamage
 				float adjustedHP = adjustedMaxHP - event.ammount;
 				float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
 				float newDamage = e.getMaxHealth() * adjustedHPPercent;
-				event.ammount = newDamage;
+				event.ammount = newDamage < 0 ? 0 : newDamage;
 			}
 			else
 			{
@@ -172,7 +214,7 @@ public class RotEventDamage
 				float adjustedHP = adjustedMaxHP - event.ammount;
 				float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
 				float newDamage = e.getMaxHealth() * adjustedHPPercent;
-				event.ammount = newDamage;
+				event.ammount = newDamage < 0 ? 0 : newDamage;
 			}
 		}
 	}
@@ -186,116 +228,13 @@ public class RotEventDamage
 			EntityLiving entity = (EntityLiving) e.entity;
 			if (ExtendMob.get(entity) != null && e.source.getEntity() instanceof EntityPlayer)
 			{
-				ItemStack[] lootList1 = new ItemStack[] { new ItemStack(Items.wooden_sword), new ItemStack(
-						Items.stone_sword), new ItemStack(Items.wooden_pickaxe), new ItemStack(
-						Items.wooden_axe), new ItemStack(Items.wooden_shovel), new ItemStack(
-						Items.stone_pickaxe), new ItemStack(Items.stone_axe), new ItemStack(
-						Items.stone_shovel), new ItemStack(Items.coal, (entity.worldObj.rand
-						.nextInt(2) + 1)), new ItemStack(Items.stick, (entity.worldObj.rand
-						.nextInt(5) + 1)), new ItemStack(Items.flint, (entity.worldObj.rand
-						.nextInt(1) + 1)), new ItemStack(Items.clay_ball, (entity.worldObj.rand
-						.nextInt(5) + 1)), new ItemStack(Items.leather_boots), new ItemStack(
-						Items.leather_chestplate), new ItemStack(Items.leather_helmet), new ItemStack(
-						Items.leather_leggings) };
-
-				ItemStack[] lootList2 = new ItemStack[] { new ItemStack(Items.iron_sword), new ItemStack(
-						Items.iron_shovel), new ItemStack(Items.iron_axe), new ItemStack(
-						Items.iron_pickaxe), new ItemStack(Items.iron_ingot, (entity.worldObj.rand
-						.nextInt(1) + 1)), new ItemStack(Items.saddle), new ItemStack(
-						Items.iron_horse_armor), new ItemStack(Items.iron_helmet), new ItemStack(
-						Items.iron_chestplate), new ItemStack(Items.iron_leggings), new ItemStack(
-						Items.iron_boots), new ItemStack(Items.redstone, (entity.worldObj.rand
-						.nextInt(2) + 1)), new ItemStack(Items.chainmail_helmet), new ItemStack(
-						Items.chainmail_chestplate), new ItemStack(Items.chainmail_leggings), new ItemStack(
-						Items.chainmail_boots) };
-
-				ItemStack[] lootList3 = new ItemStack[] { new ItemStack(Items.golden_sword), new ItemStack(
-						Items.golden_axe), new ItemStack(Items.golden_shovel), new ItemStack(
-						Items.golden_pickaxe), new ItemStack(Items.diamond_sword), new ItemStack(
-						Items.diamond_axe), new ItemStack(Items.diamond_shovel), new ItemStack(
-						Items.diamond_pickaxe), new ItemStack(Items.golden_helmet), new ItemStack(
-						Items.golden_chestplate), new ItemStack(Items.golden_leggings), new ItemStack(
-						Items.golden_boots), new ItemStack(Items.diamond_helmet), new ItemStack(
-						Items.diamond_chestplate), new ItemStack(Items.diamond_leggings), new ItemStack(
-						Items.diamond_boots), new ItemStack(Items.glowstone_dust,
-						(entity.worldObj.rand.nextInt(2) + 1)), new ItemStack(Items.emerald,
-						(entity.worldObj.rand.nextInt(2) + 1)) };
-
 				int monsterLevel = ExtendMob.get(entity).monsterLevel;
-				float leftChancePointer = (0.3f - (0.05f * (monsterLevel - 1)));
-				float rightChancePointer = (0.7f + (0.05f * (monsterLevel - 1)));
-				float rngRoll = 0;
-				switch (monsterLevel)
+				EntityItem[] newDrops = RotLootManager.addLoot(e.entity, monsterLevel);
+				if (newDrops != null)
+				for (EntityItem ei : newDrops)
 				{
-				case 1:
-				case 2:
-					for (int i = 0; i < 50; i++)
-					{
-						rngRoll = entity.worldObj.rand.nextFloat();
-						if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
-						{
-							leftChancePointer += (0.1f - (0.01f * (monsterLevel - 1)));
-							rightChancePointer -= (0.1f - (0.01f * (monsterLevel - 1)));
-							ItemStack item = lootList1[entity.worldObj.rand
-									.nextInt(lootList1.length)];
-							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
-									.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(
-									item, entity.worldObj.rand, monsterLevel);
-							e.drops.add(new EntityItem(entity.worldObj,
-									entity.getPosition().getX(), entity.getPosition().getY(),
-									entity.getPosition().getZ(), item));
-						}
-						else break;
-					}
-					break;
-				case 3:
-				case 4:
-					for (int i = 0; i < 50; i++)
-					{
-						rngRoll = entity.worldObj.rand.nextFloat();
-						if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
-						{
-							leftChancePointer += (0.1f - (0.01f * (monsterLevel - 1)));
-							rightChancePointer -= (0.1f - (0.01f * (monsterLevel - 1)));
-							ItemStack item = lootList2[entity.worldObj.rand
-									.nextInt(lootList2.length)];
-							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
-									.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(
-									item, entity.worldObj.rand, monsterLevel);
-							e.drops.add(new EntityItem(entity.worldObj,
-									entity.getPosition().getX(), entity.getPosition().getY(),
-									entity.getPosition().getZ(), item));
-						}
-						else break;
-					}
-					break;
-				case 5:
-				case 6:
-				case 7:
-				case 8:
-				case 9:
-				case 10:
-					for (int i = 0; i < 50; i++)
-					{
-						rngRoll = entity.worldObj.rand.nextFloat();
-						if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
-						{
-							leftChancePointer += (0.1f - (0.001f * (monsterLevel - 1)));
-							rightChancePointer -= (0.1f - (0.001f * (monsterLevel - 1)));
-							ItemStack item = lootList3[entity.worldObj.rand
-									.nextInt(lootList3.length)];
-							if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
-									.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(
-									item, entity.worldObj.rand, monsterLevel);
-							e.drops.add(new EntityItem(entity.worldObj,
-									entity.getPosition().getX(), entity.getPosition().getY(),
-									entity.getPosition().getZ(), item));
-						}
-						else break;
-					}
-					break;
+					e.drops.add(ei);
 				}
-
 			}
 		}
 
@@ -310,29 +249,22 @@ public class RotEventDamage
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event)
 	{
-		// TODO Create an Athletic Score in ExtendPlayer
-		// Remember that so far we have only added ExtendedPlayer properties
-		// so check if it's the right kind of entity first
 		if (event.entity instanceof EntityPlayer)
 		{
 			ExtendPlayer props = ExtendPlayer.get((EntityPlayer) event.entity);
+			event.distance -= (props.getAthleticScore() / 10);
+		}
+	}
 
-			// This 'if' statement just saves a little processing time and
-			// makes it so we only deplete mana from a fall that would injure
-			// the
-			// player
-			if (event.distance > 3.0F && props.getCurrentMana() > 0)
-			{
-				float reduceby = props.getCurrentStam() < (event.distance - 3.0F) ? props
-						.getCurrentStam() : (event.distance - 3.0F);
-				event.distance -= reduceby;
+	@SubscribeEvent
+	public void onLivingJumpEvent(LivingJumpEvent event)
+	{
+		if (event.entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer) event.entity;
+			ExtendPlayer props = ExtendPlayer.get(player);
 
-				// Cast reduceby to 'int' to match our method parameter
-				props.consumeStam(reduceby);
-
-				// System.out.println("[EVENT] Adjusted fall distance: " +
-				// event.distance);
-			}
+			if (player.isSprinting()) (player).motionY += (props.getAthleticScore() / 20);
 		}
 	}
 }

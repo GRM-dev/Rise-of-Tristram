@@ -1,4 +1,4 @@
-package ca.grm.rot.libs;
+package ca.grm.rot.extendprops;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

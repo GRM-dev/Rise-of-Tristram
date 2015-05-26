@@ -9,7 +9,7 @@ import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClientProxy;
 import ca.grm.rot.comms.EnderPearlPacket;
 import ca.grm.rot.comms.TNTPacket;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 
 public class KeyHandleEvent
 {

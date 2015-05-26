@@ -14,9 +14,9 @@ import org.lwjgl.input.Keyboard;
 import ca.grm.rot.Rot;
 import ca.grm.rot.blocks.RotBlocks;
 import ca.grm.rot.events.KeyHandleEvent;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
 import ca.grm.rot.items.RotItems;
-import ca.grm.rot.libs.ExtendPlayer;
 
 public class ClientProxy extends CommonProxy
 {

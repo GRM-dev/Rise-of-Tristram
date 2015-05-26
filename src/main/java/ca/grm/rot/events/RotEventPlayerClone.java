@@ -6,8 +6,13 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.village.MerchantRecipe;
+import net.minecraft.village.MerchantRecipeList;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -15,8 +20,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ProfessionRequestPacket;
-import ca.grm.rot.libs.ExtendMob;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendMob;
+import ca.grm.rot.extendprops.ExtendPlayer;
 
 public class RotEventPlayerClone
 {
@@ -58,7 +63,7 @@ public class RotEventPlayerClone
 				{
 					int depth = 0;
 					BlockPos depthChecker = new BlockPos(mob.getPosition());
-					for (int i = 0; i < 50; i++)
+					for (int i = 0; i < 200; i++)
 					{
 						if (mob.worldObj.canBlockSeeSky(depthChecker)) break;
 						depth++;
@@ -72,9 +77,6 @@ public class RotEventPlayerClone
 		}
 	}
 
-	// In your TutEventHandler class - the name of the method doesn't matter
-	// Only the Event type parameter is what's important (see below for
-	// explanations of some types)
 	@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event)
 	{

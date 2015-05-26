@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ProfessionRequestPacket;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.managers.RotClassManager;
 
 public class GuiClassSelection extends GuiContainer

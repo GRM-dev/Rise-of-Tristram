@@ -22,8 +22,8 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
-import ca.grm.rot.libs.ExtendMob;
-import ca.grm.rot.libs.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendMob;
+import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
 
@@ -324,7 +324,7 @@ public class RotEventLivingUpdate
 		if (props.getAgility() != (stats[3] - props.getClassModifers()[1]))
 		{
 			props.setAgility(stats[3]);
-			ExtendPlayer.get(player).updateMoveSpeed();
+			ExtendPlayer.get(player).updateAthleticScore();
 		}
 		if (props.getIntelligence() != (stats[4] - props.getClassModifers()[2]))
 		{
