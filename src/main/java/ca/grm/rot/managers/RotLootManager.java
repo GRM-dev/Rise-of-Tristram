@@ -1,16 +1,16 @@
 package ca.grm.rot.managers;
 
-import java.util.List;
 import java.util.Random;
 
-import ca.grm.rot.events.RotEventItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import ca.grm.rot.events.RotEventItems;
 
 public class RotLootManager
 {
@@ -129,8 +129,8 @@ public class RotLootManager
 			{
 				ItemStack item = getLoot(rank, entity.worldObj.rand);
 				if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
-						.getItem() instanceof ItemArmor) RotEventItems.applyItemStats(item,
-						entity.worldObj.rand, rank);
+						.getItem() instanceof ItemArmor || item.getItem() instanceof ItemBow) RotEventItems
+						.applyItemStats(item, entity.worldObj.rand, new int[]{rank,rank+2},new int[]{rank,rank+2});
 				newList[i] = new EntityItem(entity.worldObj, entity.getPosition().getX(), entity
 						.getPosition().getY(), entity.getPosition().getZ(), item);
 			}
