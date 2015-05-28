@@ -4,7 +4,7 @@ import ca.grm.rot.events.RotEventDamage;
 import ca.grm.rot.events.RotEventItems;
 import ca.grm.rot.events.RotEventLivingUpdate;
 import ca.grm.rot.events.RotEventPlayerClone;
-import ca.grm.rot.events.RotEventRenderLivingEvent;
+import ca.grm.rot.events.RotEventRenderLiving;
 import ca.grm.rot.events.RotEventTeamsClasses;
 import ca.grm.rot.events.RotFMLEventItems;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,7 +24,7 @@ public class RotEventManager
 		MinecraftForge.EVENT_BUS.register(new RotEventItems());
 		MinecraftForge.EVENT_BUS.register(new RotEventPlayerClone());
 		MinecraftForge.EVENT_BUS.register(new RotEventTeamsClasses());
-		MinecraftForge.EVENT_BUS.register(new RotEventRenderLivingEvent());
+		MinecraftForge.EVENT_BUS.register(new RotEventRenderLiving());
 		FMLCommonHandler.instance().bus().register(new RotFMLEventItems());
 	}
 }
