@@ -35,7 +35,7 @@ public class RotEventRenderLiving {
         GlStateManager.enableBlend();
 		GlStateManager.disableTexture2D();
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-		if (entity instanceof EntityLiving && ((EntityLiving) entity).canEntityBeSeen((Entity)Minecraft.getMinecraft().thePlayer))
+		if (entity instanceof EntityLiving && ((EntityLiving) entity).canEntityBeSeen((Entity)Minecraft.getMinecraft().thePlayer) && !entity.isSneaking())
 		{
 			// Draw the grey background
 			tw.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.5F);
