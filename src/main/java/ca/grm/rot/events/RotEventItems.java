@@ -93,7 +93,7 @@ public class RotEventItems
 		int quality = MathHelper
 				.clamp_int(
 						random.nextInt(qualityLimitStartEnd[1] - qualityLimitStartEnd[0]) + qualityLimitStartEnd[0],
-						0, qualityValues.length);
+						0, qualityValues.length - 1);
 		if (rankStartEnd[0] - rankStartEnd[1] != 0) newRank = random
 				.nextInt(rankStartEnd[1] - rankStartEnd[0]) + rankStartEnd[0];
 		else newRank = rankStartEnd[0];
