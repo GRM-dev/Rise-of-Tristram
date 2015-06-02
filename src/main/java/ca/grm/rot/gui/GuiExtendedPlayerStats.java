@@ -66,7 +66,9 @@ public class GuiExtendedPlayerStats extends Gui
 		String s = (int) (props.getMaxMana() * (props.getCurrentMana() / props.realManaStamMaxes)) + "/" + (int) props
 				.getMaxMana();
 		drawText(s, xPos + 2, yPos + this.barH + 2, 0x0097d9);
-
+		
+		// Draw gold under mana bar
+		drawText("Gold: " + props.getGold(), xPos + 2, yPos + this.barH + 16, 0xdbdd15);
 		// Draw Stamina Bar
 		this.mc.getTextureManager().bindTexture(staminaTexture);
 

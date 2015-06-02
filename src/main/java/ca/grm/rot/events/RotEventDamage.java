@@ -235,6 +235,11 @@ public class RotEventDamage
 				{
 					e.drops.add(ei);
 				}
+				
+				
+				// TODO use the getEntityItem function that takes an ItemStack. See EntityItem.class
+				EntityItem goldDrops = new EntityItem(entity.worldObj, entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ(), new ItemStack(RotItems.gold, ExtendMob.get(entity).gold));
+				e.drops.add(goldDrops);
 			}
 		}
 

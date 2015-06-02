@@ -21,9 +21,9 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	private int statMax = 255;
 
-	// TODO add in a gold variable
 	// TODO add in skills
 	// TODO Create SkillsClass
+	
 	private int currentClass;
 	private int currentProfession;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
@@ -40,6 +40,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	private float currentMana, maxMana, currentStam, maxStam;
 	private int strength, agility, intelligence, dexterity, vitality;
 	private int minDmg, maxDmg, defBonus;
+	private int gold;
 	private float lifeSteal, manaSteal;
 
 	public static final int MANA_WATCHER = 20;
@@ -62,6 +63,8 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.defBonus = 0;
 		this.lifeSteal = 0;
 		this.manaSteal = 0;
+		
+		this.gold = 0;
 
 		// this.currentMana = this.maxMana = pickedClass.baseMana;
 		// this.currentStam = this.maxStam = pickedClass.baseStam;
@@ -280,6 +283,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.dexterity = properties.getInteger(Rot.MOD_ID + "Dexterity");
 		this.intelligence = properties.getInteger(Rot.MOD_ID + "Intelligence");
 		this.agility = properties.getInteger(Rot.MOD_ID + "Agility");
+		this.gold = properties.getInteger(Rot.MOD_ID + "Gold");
 
 		this.player.getDataWatcher().updateObject(MANA_WATCHER,
 				properties.getFloat(Rot.MOD_ID + "CurrentMana"));
@@ -390,6 +394,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		properties.setInteger(Rot.MOD_ID + "Intelligence", this.intelligence);
 		properties.setInteger(Rot.MOD_ID + "Agility", this.agility);
 		properties.setInteger(Rot.MOD_ID + "Vitality", this.vitality);
+		properties.setInteger(Rot.MOD_ID + "Gold", this.gold);
 
 		properties.setInteger(Rot.MOD_ID + "Class", this.currentClass);
 		properties.setInteger(Rot.MOD_ID + "Profession", this.currentProfession);
@@ -524,5 +529,20 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public int getGold()
+	{
+		return this.gold;
+	}
+	
+	public void setGold(int value)
+	{
+		this.gold = value;
+	}
+	
+	public void addGold(int value)
+	{
+		this.gold += value;
 	}
 }

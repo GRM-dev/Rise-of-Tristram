@@ -11,7 +11,6 @@ import ca.grm.rot.Rot;
 public class RotItems {
 	
 	// Armor Materials
-	
 	public static ArmorMaterial QUILTED = EnumHelper.addArmorMaterial("QUILTED", Rot.MOD_ID + ":quiltedArmor", 5, new int[] {1, 2, 3, 1}, 13);
 	public static ArmorMaterial HARDLEATHER = EnumHelper.addArmorMaterial("HARDLEATHER", Rot.MOD_ID + ":hardLeatherArmor", 7, new int[] {1, 2, 3, 1}, 14);
 	public static ArmorMaterial STUDDED = EnumHelper.addArmorMaterial("STUDDED", Rot.MOD_ID + ":studdedArmor", 9, new int[] {1, 2, 3, 1}, 13);
@@ -131,6 +130,9 @@ public class RotItems {
 	public static Item ancientArmorLeggings;
 	public static Item ancientArmorBoots;
 	
+	// Gold
+	public static Item gold;
+	
 	public static void init()
 	{
 		// Nuggets
@@ -236,6 +238,9 @@ public class RotItems {
 		ancientArmorChestplate = new RotArmors("ancientArmorChestplate", ANCIENT, 2, 1).setCreativeTab(Rot.tabRot);
 		ancientArmorLeggings = new RotArmors("ancientArmorLeggings", ANCIENT, 1, 2).setCreativeTab(Rot.tabRot);
 		ancientArmorBoots = new RotArmors("ancientArmorBoots", ANCIENT, 1, 3).setCreativeTab(Rot.tabRot);
+		
+		// Gold
+		gold = new Item().setUnlocalizedName("gold");
 	}
 	
 	public static void register()
@@ -326,6 +331,8 @@ public class RotItems {
 		GameRegistry.registerItem(ancientArmorChestplate, ancientArmorChestplate.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(ancientArmorLeggings, ancientArmorLeggings.getUnlocalizedName().substring(5));
 		GameRegistry.registerItem(ancientArmorBoots, ancientArmorBoots.getUnlocalizedName().substring(5));
+		
+		GameRegistry.registerItem(gold, gold.getUnlocalizedName().substring(5));
 	}
 	
 	public static void registerRenders()
@@ -416,6 +423,8 @@ public class RotItems {
 		registerRender(ancientArmorChestplate);
 		registerRender(ancientArmorLeggings);
 		registerRender(ancientArmorBoots);
+		
+		registerRender(gold);
 	}
 	
 	public static void registerRender(Item item)

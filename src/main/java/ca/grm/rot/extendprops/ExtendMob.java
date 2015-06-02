@@ -17,6 +17,7 @@ public class ExtendMob implements IExtendedEntityProperties
 	public int monsterLevel = 0;
 	public int strength, agility, dexterity, vitality;
 	public int minDmg, maxDmg, defBonus;
+	public int gold;
 
 	public ExtendMob(EntityLiving mob)
 	{
@@ -25,6 +26,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.agility = 0;
 		this.strength = 0;
 		this.vitality = 0;
+		this.gold = 0;
 	}
 
 	public static final ExtendMob get(EntityLiving mob)
@@ -57,6 +59,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		properties.setInteger(Rot.MOD_ID + "MinDamage", this.minDmg);
 		properties.setInteger(Rot.MOD_ID + "MaxDamage", this.maxDmg);
 		properties.setInteger(Rot.MOD_ID + "DefenceBonus", this.defBonus);
+		properties.setInteger(Rot.MOD_ID + "Gold", this.gold);
 		compound.setTag(EXT_PROP_NAME, properties);
 	}
 
@@ -72,6 +75,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.minDmg = properties.getInteger(Rot.MOD_ID + "MinDamage");
 		this.maxDmg = properties.getInteger(Rot.MOD_ID + "MaxDamage");
 		this.defBonus = properties.getInteger(Rot.MOD_ID + "DefenceBonus");
+		this.gold = properties.getInteger(Rot.MOD_ID + "Gold");
 	}
 
 	@Override
@@ -93,5 +97,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		minDmg = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
 		maxDmg = (int)(mob.worldObj.rand.nextInt(13) * monsterLevel / 4) + baseBonus;
 		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
+		
+		//TODO write actual gold code here.
+		gold = (int)(mob.worldObj.rand.nextInt(10) * monsterLevel);
 	}
 }
