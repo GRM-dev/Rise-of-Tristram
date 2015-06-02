@@ -4,7 +4,7 @@ tile.baseBuilder.name=Base Node
 
 tile.air.name=Air
 
-
+item.gold.name=Gold Coins
 
 item.manaConverter.name=Mana Converter
 

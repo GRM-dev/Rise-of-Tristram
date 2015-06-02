@@ -240,7 +240,7 @@ public class RotItems {
 		ancientArmorBoots = new RotArmors("ancientArmorBoots", ANCIENT, 1, 3).setCreativeTab(Rot.tabRot);
 		
 		// Gold
-		gold = new Item().setUnlocalizedName("gold");
+		gold = new RotGoldItem().setUnlocalizedName("gold");
 	}
 	
 	public static void register()
