@@ -16,7 +16,7 @@ public class RotSkillsManager
 	}
 	
 	public static RotSkill[] attackSkills = new RotSkill[]{};
-	public static RotSkill[] buffSkills = new RotSkill[]{};
+	public static RotSkill[] buffSkills = new RotSkill[]{new RotSkill(healSkill, 0, null, 20, 1)};
 	
 	public static RotSkillToggle[] oneShotSkills = new RotSkillToggle[]{};
 	public static RotSkillToggle[] toggleSkills = new RotSkillToggle[]{};

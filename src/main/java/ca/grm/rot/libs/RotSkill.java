@@ -1,6 +1,7 @@
 package ca.grm.rot.libs;
 
 import ca.grm.rot.Rot;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class RotSkill
@@ -19,7 +20,7 @@ public class RotSkill
 		this.skillName = name;
 		this.skillIconIndex = iconIndex;
 		this.packet = packet;
-		this.maxCoolDown = coolDown;
+		this.maxCoolDown = (coolDown * 20);
 		this.requiredLevel = reqLevel;
 	}
 	
