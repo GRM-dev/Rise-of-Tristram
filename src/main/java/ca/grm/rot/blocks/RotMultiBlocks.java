@@ -37,7 +37,7 @@ public class RotMultiBlocks extends Item{
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Rot.MOD_ID + ":" + item.getUnlocalizedName().substring(5), "inventory"));
 	}
 	
-	// TODO Finish this shit.
+	// TODO Finish this shit. TODO <- Make this make more sense.
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
 	{

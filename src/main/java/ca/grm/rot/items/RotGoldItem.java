@@ -32,6 +32,11 @@ public class RotGoldItem extends Item{
 		{
 			EntityLiving living = (EntityLiving)entityIn;
 			ExtendMob props = ExtendMob.get(living);
+			props.gold += stack.stackSize;
+			for (int i = 0; i < stack.stackSize; i++)
+			{
+				
+			}
 		}
 	}
 }

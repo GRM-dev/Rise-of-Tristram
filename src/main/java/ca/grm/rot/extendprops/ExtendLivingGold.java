@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 public class ExtendLivingGold implements IExtendedEntityProperties {
+	//TODO Remove all references to this file if there are any and delete this. Its not used anymore.
 	public final static String		EXT_PROP_NAME	= "ExtendLivingBaseRot";
 
 	private final EntityLivingBase	entity;
