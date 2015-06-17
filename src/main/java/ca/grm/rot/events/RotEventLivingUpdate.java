@@ -1,8 +1,5 @@
 package ca.grm.rot.events;
 
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -16,19 +13,13 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
-import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
-import ca.grm.rot.libs.ThreadTest;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
-import ca.grm.rot.libs.UtilityFunctions;
 
 public class RotEventLivingUpdate
 {
@@ -95,7 +86,10 @@ public class RotEventLivingUpdate
 			float timeMath = 3 * 60 * 10;
 			if (player.shouldHeal() && ((player.worldObj.getWorldTime() % 30) == 0))
 			{
-				player.heal((((25 * props.pickedClass.hpPerVit) + props.getVitality()) / timeMath));
+				if (!player.isPotionActive(Potion.hunger))
+				{
+					player.heal((((25 * props.pickedClass.hpPerVit) + props.getVitality()) / timeMath));
+				}
 			}
 			int notExhaustedFoodLevel = 8;
 			int exhaustedFoodLevel = 3;
@@ -114,7 +108,10 @@ public class RotEventLivingUpdate
 					exhaustedFoodLevel = 3;
 					if (foodLevel > exhaustedFoodLevel)
 					{
-						player.heal((foodLevel - exhaustedFoodLevel) / 4f);
+						if (!player.isPotionActive(Potion.hunger))
+						{
+							player.heal((foodLevel - exhaustedFoodLevel) / 4f);
+						}
 					}
 					player.getFoodStats().setFoodLevel(exhaustedFoodLevel);
 					player.getFoodStats().setFoodSaturationLevel(100f);
@@ -126,7 +123,10 @@ public class RotEventLivingUpdate
 				{
 					if (foodLevel > notExhaustedFoodLevel)
 					{
-						player.heal((foodLevel - notExhaustedFoodLevel) / 4f);
+						if (!player.isPotionActive(Potion.hunger))
+						{
+							player.heal((foodLevel - notExhaustedFoodLevel) / 4f);
+						}
 					}
 
 					player.getFoodStats().setFoodLevel(notExhaustedFoodLevel);
@@ -136,9 +136,12 @@ public class RotEventLivingUpdate
 
 			if (player.isPlayerSleeping())
 			{
-				player.heal(1f);
-				props.replenishMana();
-				props.replenishStam();
+				if (!player.isPotionActive(Potion.hunger))
+				{
+					player.heal(1f);
+					props.replenishMana();
+					props.replenishStam();
+				}
 			}
 			props.regenMana((5f + (props.getIntelligence() * 3)) / timeMath);
 			if (!player.isSprinting())
@@ -159,7 +162,10 @@ public class RotEventLivingUpdate
 		else if (event.entity instanceof EntityIronGolem)
 		{
 			EntityIronGolem golem = (EntityIronGolem) event.entity;
-			golem.heal(0.05f);
+			if (!golem.isPotionActive(Potion.hunger))
+			{
+				golem.heal(0.05f);
+			}
 			if (!golem.worldObj.isRemote)
 			{
 				float r = golem.worldObj.rand.nextFloat();
@@ -178,7 +184,10 @@ public class RotEventLivingUpdate
 		else if (event.entity instanceof EntityVillager)
 		{
 			EntityVillager villager = (EntityVillager) event.entity;
-			villager.heal(0.075f);
+			if (!villager.isPotionActive(Potion.hunger))
+			{
+				villager.heal(0.075f);
+			}
 			if (!villager.worldObj.isRemote)
 			{
 				float r = villager.worldObj.rand.nextFloat();
@@ -246,12 +255,18 @@ public class RotEventLivingUpdate
 		else if (event.entity instanceof EntityWolf)
 		{
 			EntityWolf wolf = (EntityWolf) event.entity;
-			wolf.heal(0.05f);
+			if (!wolf.isPotionActive(Potion.hunger))
+			{
+				wolf.heal(0.05f);
+			}
 		}
 		else if (event.entity instanceof EntityHorse)
 		{
 			EntityHorse horse = (EntityHorse) event.entity;
-			horse.heal(0.05f);
+			if (!horse.isPotionActive(Potion.hunger))
+			{
+				horse.heal(0.05f);
+			}
 		}
 		else
 		{
@@ -265,7 +280,10 @@ public class RotEventLivingUpdate
 					e.hurtResistantTime = 5;
 					e.arrowHitTimer = 1;
 				}
-				e.heal(0.0025f);
+				if (!e.isPotionActive(Potion.hunger))
+				{
+					e.heal(0.0025f);
+				}
 			}
 		}
 	}
