@@ -13,6 +13,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.lwjgl.opengl.GL11;
 
+import ca.grm.rot.extendprops.ExtendMob;
+
 public class RotEventRenderLiving
 {
 
@@ -113,8 +115,11 @@ public class RotEventRenderLiving
 				GlStateManager.scale(0.02f, 0.02f, 0.02f);
 				GlStateManager.rotate(180, 0, 0, 1);
 				GlStateManager.translate(0 - ((float)entity.getName().length() * 2.75f), -15, 0);
-				Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(entity.getName(),
+				if (ExtendMob.get((EntityLiving) entity) != null)
+				{
+				Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("(" + ExtendMob.get((EntityLiving) entity).monsterLevel + ") " + entity.getName(),
 						(float) x, (float) y, 0xffffff);
+				}
 			}
 
 			tw.setTranslation(0, 0, 0);

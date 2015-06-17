@@ -88,15 +88,17 @@ public class ExtendMob implements IExtendedEntityProperties
 	{
 		//TODO must perfect the math here
 		int difficulty = depth + mob.worldObj.rand.nextInt(20);
-		monsterLevel = MathHelper.clamp_int(difficulty / 7, 1, 10);
-		int baseBonus = monsterLevel * 2;
-		strength = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
-		dexterity = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
-		agility = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
-		vitality = (int)(mob.worldObj.rand.nextInt(12) * monsterLevel / 4) + baseBonus;
-		minDmg = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
-		maxDmg = (int)(mob.worldObj.rand.nextInt(13) * monsterLevel / 4) + baseBonus;
-		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterLevel / 4) + baseBonus;
+		int monsterDifficultyRoll = MathHelper.clamp_int(difficulty / 7, 1, 10); // This exists to replace the old calculation that used monsterLevel so as that monsterLevel is calculated based on the stats.
+		int baseBonus = monsterDifficultyRoll * 2;
+		strength = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		dexterity = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		agility = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		vitality = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		minDmg = (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
+		maxDmg = (int)(mob.worldObj.rand.nextInt(13) * monsterDifficultyRoll / 4) + baseBonus;
+		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
+		monsterLevel = (int)(((strength+dexterity+agility+vitality) / 4)/2); // /4 gets the average, the /2 is just to get a lower number for the level.
+		//TODO Change the /2 in monsterLevel's calculation to be something better.
 		
 		//TODO write actual gold code here.
 		gold = (int)(mob.worldObj.rand.nextInt(10) * monsterLevel);
