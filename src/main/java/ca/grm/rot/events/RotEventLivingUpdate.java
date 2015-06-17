@@ -2,6 +2,7 @@ package ca.grm.rot.events;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -24,8 +25,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
+import ca.grm.rot.libs.ThreadTest;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
+import ca.grm.rot.libs.UtilityFunctions;
 
 public class RotEventLivingUpdate
 {
@@ -47,9 +50,18 @@ public class RotEventLivingUpdate
 			{
 				Rot.proxy.updatePlayer(player);
 			}
+			/*if (Minecraft.getMinecraft() != null && player.worldObj.isRemote)
+			{
+				System.out.println(UtilityFunctions.getEntitesFromLine(player, 7f));
+			}*/
 			handlePlayerStats(props, player);
+			
+			/*Thread thread = new ThreadTest();
+			if (!thread.isAlive())
+			thread.start();*/
 
-			if ((player.worldObj.getWorldTime() % 5) == 0)
+			//TODO attach this to Magic Hand skill passive
+			/*if ((player.worldObj.getWorldTime() % 5) == 0)
 			{
 				int pullDistance = 7;
 				List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
@@ -77,7 +89,7 @@ public class RotEventLivingUpdate
 						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.05f : 0.05f);
 					}
 				}
-			}
+			}*/
 
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
@@ -124,6 +136,7 @@ public class RotEventLivingUpdate
 
 			if (player.isPlayerSleeping())
 			{
+				player.heal(1f);
 				props.replenishMana();
 				props.replenishStam();
 			}
@@ -134,7 +147,7 @@ public class RotEventLivingUpdate
 			}
 			else
 			{
-				if (!props.consumeStam(0.257f))
+				if (!props.consumeStam(0.157f))
 				{
 					props.isExhausted = true;
 					player.getFoodStats().setFoodLevel(exhaustedFoodLevel);
@@ -142,6 +155,7 @@ public class RotEventLivingUpdate
 			}
 
 		}
+		//Start of other Entities Updates events
 		else if (event.entity instanceof EntityIronGolem)
 		{
 			EntityIronGolem golem = (EntityIronGolem) event.entity;
