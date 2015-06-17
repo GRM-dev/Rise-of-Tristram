@@ -146,7 +146,10 @@ public class RotEventLivingUpdate
 			props.regenMana((5f + (props.getIntelligence() * 3)) / timeMath);
 			if (!player.isSprinting())
 			{
-				props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 4) / timeMath));
+				if (!player.isPotionActive(Potion.hunger))
+				{
+					props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 4) / timeMath));
+				}
 			}
 			else
 			{
