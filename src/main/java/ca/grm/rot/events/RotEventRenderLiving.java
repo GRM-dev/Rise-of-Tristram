@@ -114,13 +114,27 @@ public class RotEventRenderLiving
 
 			if (renderBar)
 			{
-				GlStateManager.scale(0.02f, 0.02f, 0.02f);
-				GlStateManager.rotate(180, 0, 0, 1);
-				GlStateManager.translate(0 - ((float)entity.getName().length() * 2.75f), -15, 0);
+				String stringToBeDrawn = "";
 				if (ExtendMob.get((EntityLiving) entity) != null)
 				{
-					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("(" + ExtendMob.get((EntityLiving) entity).monsterLevel + ") " + entity.getName(),
-						(float) x, (float) y, 0xffffff);
+					stringToBeDrawn = "(" + ExtendMob.get((EntityLiving) entity).monsterLevel + ") " + ExtendMob.get((EntityLiving) entity).prefix + " " + entity.getName() + " " + ExtendMob.get((EntityLiving) entity).suffix;
+					GlStateManager.scale(0.02f, 0.02f, 0.02f);
+					GlStateManager.rotate(180, 0, 0, 1);
+					GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);
+				}
+				else
+				{
+					GlStateManager.scale(0.02f, 0.02f, 0.02f);
+					GlStateManager.rotate(180, 0, 0, 1);
+					GlStateManager.translate(0 - ((float)entity.getName().length() * 2.75f), -15, 0);
+				}
+				if (stringToBeDrawn != "")
+				{
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stringToBeDrawn, (float) x, (float) y, 0xffffff);
+				}
+				else
+				{
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(entity.getName(), (float) x, (float) y, 0xffffff);
 				}
 			}
 

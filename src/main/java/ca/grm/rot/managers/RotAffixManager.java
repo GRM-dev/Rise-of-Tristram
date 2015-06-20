@@ -37,7 +37,7 @@ public class RotAffixManager
 	// Return the affix out of the array
 	public static RotItemAffix getAffix(int rank, RotItemAffix[] affix, Random random)
 	{	
-		//Try to get where in the array to start for affix ranking requirement
+		//Try to get where, in the array, to start for affix ranking requirement
 		if (rank > 4) return affix[affix.length - 1];
 		int affixIndex = getRankStart(rank, affix);
 		if (affixIndex != -1)

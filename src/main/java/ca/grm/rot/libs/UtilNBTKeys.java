@@ -50,4 +50,7 @@ public class UtilNBTKeys
 	public static String prefixName = Rot.MOD_ID + "prefixDisplay";
 	public static String suffixName = Rot.MOD_ID + "suffixDisplay";
 	
+	public static String mobPrefixName = Rot.MOD_ID + "mobPrefixName";
+	public static String mobSuffixName = Rot.MOD_ID + "mobSuffixName";
+	
 }

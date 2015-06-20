@@ -1,5 +1,7 @@
 package ca.grm.rot.extendprops;
 
+import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
@@ -7,6 +9,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ca.grm.rot.Rot;
+import ca.grm.rot.libs.RotMobAffix;
+import ca.grm.rot.managers.RotMobAffixManager;
 
 public class ExtendMob implements IExtendedEntityProperties
 {
@@ -18,6 +22,8 @@ public class ExtendMob implements IExtendedEntityProperties
 	public int strength, agility, dexterity, vitality;
 	public int minDmg, maxDmg, defBonus;
 	public int gold;
+	public String prefix;
+	public String suffix;
 
 	public ExtendMob(EntityLiving mob)
 	{
@@ -27,6 +33,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.strength = 0;
 		this.vitality = 0;
 		this.gold = 0;
+		this.suffix = "";
+		this.prefix = "";
 	}
 
 	public static final ExtendMob get(EntityLiving mob)
@@ -60,6 +68,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		properties.setInteger(Rot.MOD_ID + "MaxDamage", this.maxDmg);
 		properties.setInteger(Rot.MOD_ID + "DefenceBonus", this.defBonus);
 		properties.setInteger(Rot.MOD_ID + "Gold", this.gold);
+		properties.setString(Rot.MOD_ID + "Prefix", this.prefix);
+		properties.setString(Rot.MOD_ID + "Suffix", this.suffix);
 		compound.setTag(EXT_PROP_NAME, properties);
 	}
 
@@ -76,12 +86,52 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.maxDmg = properties.getInteger(Rot.MOD_ID + "MaxDamage");
 		this.defBonus = properties.getInteger(Rot.MOD_ID + "DefenceBonus");
 		this.gold = properties.getInteger(Rot.MOD_ID + "Gold");
+		this.prefix = properties.getString(Rot.MOD_ID + "Prefix");
+		this.suffix = properties.getString(Rot.MOD_ID + "Suffix");
 	}
 
 	@Override
 	public void init(Entity entity, World world)
 	{
 
+	}
+	
+	private RotMobAffix rollPrefixes()
+	{
+		Random random = new Random();
+		return RotMobAffixManager.getAffix(1, RotMobAffixManager.getRandomPrefixArray(), random);
+	}
+	
+	private RotMobAffix rollSuffixes()
+	{
+		Random random = new Random();
+		return RotMobAffixManager.getAffix(1, RotMobAffixManager.getRandomSuffixArray(), random);
+	}
+	
+	public void rollAffixes()
+	{
+		// First decide if it's gonna be one or both.
+		int roll = mob.worldObj.rand.nextInt(10);
+		if (roll < 4)
+		{
+			// Prefix
+			prefix = rollPrefixes().titleName;
+		}
+		else if (roll > 3 && roll < 7)
+		{
+			// Suffix
+			suffix = rollSuffixes().titleName;
+		}
+		else if (roll == 8)
+		{
+			// Both
+			prefix = rollPrefixes().titleName;
+			suffix = rollSuffixes().titleName;
+		}
+		else if (roll > 8)
+		{
+			// Nothing.
+		}
 	}
 
 	public void rollStats(int depth)
@@ -99,6 +149,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
 		monsterLevel = (int)(((strength+dexterity+agility+vitality) / 4)/2); // /4 gets the average, the /2 is just to get a lower number for the level.
 		//TODO Change the /2 in monsterLevel's calculation to be something better.
+		
+		rollAffixes();
 		
 		//TODO write actual gold code here.
 		gold = (int)(mob.worldObj.rand.nextInt(10) * monsterLevel);
