@@ -99,13 +99,13 @@ public class ExtendMob implements IExtendedEntityProperties
 	private RotMobAffix rollPrefixes()
 	{
 		Random random = new Random();
-		return RotMobAffixManager.getAffix(1, RotMobAffixManager.getRandomPrefixArray(), random);
+		return RotMobAffixManager.getAffix(this.monsterLevel, RotMobAffixManager.getRandomPrefixArray(), random);
 	}
 	
 	private RotMobAffix rollSuffixes()
 	{
 		Random random = new Random();
-		return RotMobAffixManager.getAffix(1, RotMobAffixManager.getRandomSuffixArray(), random);
+		return RotMobAffixManager.getAffix(this.monsterLevel, RotMobAffixManager.getRandomSuffixArray(), random);
 	}
 	
 	public void rollAffixes()

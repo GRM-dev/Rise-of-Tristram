@@ -94,7 +94,7 @@ public class GuiExtendedPlayerStats extends Gui
 				.getVitality());
 		float currentHPPercent = this.mc.thePlayer.getHealth() / this.mc.thePlayer.getMaxHealth();
 
-		currentbarwidth = MathHelper.clamp_int((int) (currentHPPercent) * this.barW, 0, this.barW);
+		currentbarwidth = MathHelper.clamp_int((int)( (currentHPPercent) * this.barW), 0, this.barW);
 
 		drawTexturedModalRect(xPos + (this.barW * 2) + 2, yPos, 0, this.barH, currentbarwidth,
 				this.barH);

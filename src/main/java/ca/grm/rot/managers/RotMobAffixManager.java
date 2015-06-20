@@ -62,32 +62,45 @@ public class RotMobAffixManager {
 	
 	public static RotMobAffix[] getRandomPrefixArray()
 	{
-		int numberOfPrefixArrays = 1; // Change this each time you add an array of prefixes
+		int numberOfPrefixArrays = 3; // Change this each time you add an array of prefixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfPrefixArrays);
 		switch (roll) {
 		case 0: 
-			return testerinoPrefixio;
+			return size;
+		case 1: 
+			return ice;
+		case 2:
+			return healing;
 		}
-		return null;
+		System.out.println("p " + roll);
+		return strength;
 	}
 	
 	public static RotMobAffix[] getRandomSuffixArray()
 	{
-		int numberOfSuffixArrays = 1; // Change this each time you add an array of suffixes
+		int numberOfSuffixArrays = 2; // Change this each time you add an array of suffixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfSuffixArrays);
 		switch (roll) {
 		case 0:
-			return testerinoSuffixio;
+			return health;
+		case 1:
+			return strength;
 		}
-		return null;
-		
+		System.out.println("s " + roll);
+		return ice;
 	}
 	
 	/* Prefixes */
-	public static RotMobAffix[] testerinoPrefixio = new RotMobAffix[] { new RotMobAffix("Fuckboii", 1) };
+	// The general idea for these is to deal with mobly-stuff. Stuff like size or skills or attributes.
+	public static RotMobAffix[] size = new RotMobAffix[] { new RotMobAffix("Big", 5), new RotMobAffix("Huge", 8), new RotMobAffix("Giant", 12), new RotMobAffix("Massive", 16) };
+	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("Cold", 3) };
+	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Aura", 6) };
 	
 	/* Suffixes */
-	public static RotMobAffix[] testerinoSuffixio = new RotMobAffix[] { new RotMobAffix("Rich Homie Quan", 1) };
+	// The general idea for these is to deal with stats, stuff like health and strength.
+	public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("the Fed", 4), new RotMobAffix("the Hearty", 7), new RotMobAffix("the Obese", 15)};
+	public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("the Bulky", 6), new RotMobAffix("the Muscular", 14), new RotMobAffix("the Ripped", 18)};
+
 }
