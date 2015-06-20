@@ -8,12 +8,14 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.extendprops.ExtendMob;
+import ca.grm.rot.extendprops.ExtendPlayer;
 
 public class RotEventRenderLiving
 {
@@ -108,7 +110,7 @@ public class RotEventRenderLiving
 			}
 			t.draw();
 			GlStateManager.enableTexture2D();
-			tw.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
+			tw.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);	
 
 			if (renderBar)
 			{
@@ -117,7 +119,7 @@ public class RotEventRenderLiving
 				GlStateManager.translate(0 - ((float)entity.getName().length() * 2.75f), -15, 0);
 				if (ExtendMob.get((EntityLiving) entity) != null)
 				{
-				Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("(" + ExtendMob.get((EntityLiving) entity).monsterLevel + ") " + entity.getName(),
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow("(" + ExtendMob.get((EntityLiving) entity).monsterLevel + ") " + entity.getName(),
 						(float) x, (float) y, 0xffffff);
 				}
 			}
