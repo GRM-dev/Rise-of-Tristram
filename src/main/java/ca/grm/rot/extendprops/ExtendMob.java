@@ -1,5 +1,7 @@
 package ca.grm.rot.extendprops;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;

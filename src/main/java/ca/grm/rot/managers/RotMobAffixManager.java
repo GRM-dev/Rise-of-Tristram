@@ -67,7 +67,7 @@ public class RotMobAffixManager {
 		int roll = random.nextInt(numberOfPrefixArrays);
 		switch (roll) {
 		case 0: 
-			return size;
+			return fireImmunity;
 		case 1: 
 			return ice;
 		case 2:
@@ -94,7 +94,7 @@ public class RotMobAffixManager {
 	
 	/* Prefixes */
 	// The general idea for these is to deal with mobly-stuff. Stuff like size or skills or attributes.
-	public static RotMobAffix[] size = new RotMobAffix[] { new RotMobAffix("Big", 5), new RotMobAffix("Huge", 8), new RotMobAffix("Giant", 12), new RotMobAffix("Massive", 16) };
+	public static RotMobAffix[] fireImmunity = new RotMobAffix[] { new RotMobAffix("Heated", 8)};
 	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("Cold", 3) };
 	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Aura", 6) };
 	

@@ -1,5 +1,8 @@
 package ca.grm.rot.events;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -8,6 +11,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -147,40 +151,10 @@ public class RotEventRenderLiving
 			GL11.glPopMatrix();
 		}
 	}
-	
-	public void sizeMobPrefixHandler(Entity entity, RendererLivingEntity renderer)
-	{
-		// Only run if the entity is ExtendMob and has the 'size' prefix
-		if (ExtendMob.get((EntityLiving) entity) != null)
-		{
-			ExtendMob monster = ExtendMob.get((EntityLiving) entity);
-			if (monster.prefix == "Big")
-			{
-				entity.width = 2;
-				entity.height = 4;
-			}
-			else if (monster.prefix == "Huge")
-			{
-				entity.width = 2;
-				entity.height = 4;
-			}
-			else if (monster.prefix == "Giant")
-			{
-				entity.width = 2;
-				entity.height = 4;
-			}
-			else if (monster.prefix == "Massive")
-			{
-				entity.width = 2;
-				entity.height = 4;
-			}
-		}
-	}
 
 	@SubscribeEvent
 	public void handlerRenderLiving(RenderLivingEvent.Pre event)
 	{
 		drawNameWithHealth(event.entity, event.renderer);
-		sizeMobPrefixHandler(event.entity, event.renderer);
 	}
 }
