@@ -30,7 +30,7 @@ public class RotMobAffixManager {
 		{
 			if (level == affix[index].levelRequirement) return index;
 		}
-		return -1;
+		return 0;
 	}
 	
 	// Return the affix out of the array
