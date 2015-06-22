@@ -206,9 +206,7 @@ public class RotEventDamage
 					System.out.println(props.prefix + " " + props.suffix + "  z: " + event.entityLiving.posZ);
 					if (props.prefix == "Heated")
 					{
-						System.out.println("Amount: " + event.ammount);
 						event.ammount = 0; // Cancels all fire damage.
-						System.out.println("Amount2: " + event.ammount);
 					}
 				}
 				float adjustedMaxHP = (e.getMaxHealth() * upscalePercent) + (props.vitality * (props.monsterLevel * 2.5f));

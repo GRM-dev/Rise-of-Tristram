@@ -287,7 +287,15 @@ public class RotEventLivingUpdate
 				}
 				if (!e.isPotionActive(Potion.hunger))
 				{
-					e.heal(0.0025f + em.getHpRegenBonusPercent());
+					if (em != null)
+					{
+						e.heal(0.0025f + em.getHpRegenBonusPercent());
+					}
+					else
+					{
+						e.heal(0.0025f);
+					}
+					
 				}
 			}
 		}
