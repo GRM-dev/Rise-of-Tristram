@@ -202,7 +202,15 @@ public class RotEventDamage
 			{
 				ExtendMob props = ExtendMob.get(e);
 				if (event.source instanceof EntityDamageSource) event.ammount -= props.defBonus;
-				//if (e isBurning())
+				if (event.source.isFireDamage()) {
+					System.out.println(props.prefix + " " + props.suffix + "  z: " + event.entityLiving.posZ);
+					if (props.prefix == "Heated")
+					{
+						System.out.println("Amount: " + event.ammount);
+						event.ammount = 0; // Cancels all fire damage.
+						System.out.println("Amount2: " + event.ammount);
+					}
+				}
 				float adjustedMaxHP = (e.getMaxHealth() * upscalePercent) + (props.vitality * (props.monsterLevel * 2.5f));
 				float adjustedHP = adjustedMaxHP - event.ammount;
 				float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);

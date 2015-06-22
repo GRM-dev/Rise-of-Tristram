@@ -101,6 +101,6 @@ public class RotMobAffixManager {
 	/* Suffixes */
 	// The general idea for these is to deal with stats, stuff like health and strength.
 	public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("the Fed", 4), new RotMobAffix("the Hearty", 7), new RotMobAffix("the Obese", 15)};
-	public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("the Bulky", 6), new RotMobAffix("the Muscular", 14), new RotMobAffix("the Ripped", 18)};
+	public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("the Bulky", 6), new RotMobAffix("the Muscular", 14), new RotMobAffix("the Ripped", 18), new RotMobAffix("the Beefcastle", 18)};
 
 }
