@@ -17,6 +17,7 @@ import net.minecraft.potion.Potion;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
+import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
@@ -273,11 +274,12 @@ public class RotEventLivingUpdate
 		}
 		else
 		{
-			if (event.entity instanceof EntityArmorStand)
+			if (event.entity instanceof EntityArmorStand) // ArmorStands don't do anything.
 			{}
-			else
+			else // Everything that isn't an ArmorStand, Horse, Wolf, Villager or IronGolem.
 			{
 				EntityLiving e = (EntityLiving) event.entity;
+				ExtendMob em = ExtendMob.get(e);
 				if (e.hurtResistantTime != 5)
 				{
 					e.hurtResistantTime = 5;
@@ -285,7 +287,7 @@ public class RotEventLivingUpdate
 				}
 				if (!e.isPotionActive(Potion.hunger))
 				{
-					e.heal(0.0025f);
+					e.heal(0.0025f + em.getHpRegenBonusPercent());
 				}
 			}
 		}

@@ -22,9 +22,14 @@ public class ExtendMob implements IExtendedEntityProperties
 
 	public int monsterLevel = 0;
 	public int strength, agility, dexterity, vitality;
+	private float hpRegenBonusPercent = 0.0f; // Set this with method, later it gets divided by 20 - the number of ticks in a second - to become the next number.
 	public int minDmg, maxDmg, defBonus;
 	public int gold;
+	public boolean isBoss;
 	public String prefix;
+	public String bossPrefix2;
+	public String bossPrefix3;
+	public String bossPrefix4; // An array isn't used here because it's simpler to just use these. The max # of prefixes isn't dynamic and its not massive.
 	public String suffix;
 
 	public ExtendMob(EntityLiving mob)
@@ -34,9 +39,14 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.agility = 0;
 		this.strength = 0;
 		this.vitality = 0;
+		this.hpRegenBonusPercent = 0; 
 		this.gold = 0;
 		this.suffix = "";
 		this.prefix = "";
+		this.bossPrefix2 = "";
+		this.bossPrefix3 = "";
+		this.bossPrefix4 = "";
+		this.isBoss = false;
 	}
 
 	public static final ExtendMob get(EntityLiving mob)
@@ -98,13 +108,51 @@ public class ExtendMob implements IExtendedEntityProperties
 
 	}
 	
-	private RotMobAffix rollPrefixes()
+	public boolean isBoss()
+	{
+		if(this.isBoss)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public void setHpRegenBonusPercent(float amountPerSecond)
+	{
+		this.hpRegenBonusPercent = amountPerSecond / 20;
+	}
+	
+	public float getHpRegenBonusPercent()
+	{
+		return hpRegenBonusPercent;
+	}
+	
+	public void rollBossStatus(int depth)
+	{
+		if ((mob.worldObj.rand.nextInt(100) + depth > 75))
+		{
+			isBoss = true;
+			
+			// TODO Make the boss bonuses more balanced.
+			strength += 10;
+			dexterity += 10;
+			agility += 10;
+			vitality += 10;
+			minDmg += 10;
+			maxDmg += 10;
+			defBonus+= 10;
+			gold += 100;
+			setHpRegenBonusPercent(1); // half heart per second.
+		}
+	}
+	
+	private RotMobAffix rollPrefix()
 	{
 		Random random = new Random();
 		return RotMobAffixManager.getAffix(this.monsterLevel, RotMobAffixManager.getRandomPrefixArray(), random);
 	}
 	
-	private RotMobAffix rollSuffixes()
+	private RotMobAffix rollSuffix()
 	{
 		Random random = new Random();
 		return RotMobAffixManager.getAffix(this.monsterLevel, RotMobAffixManager.getRandomSuffixArray(), random);
@@ -112,49 +160,62 @@ public class ExtendMob implements IExtendedEntityProperties
 	
 	public void rollAffixes()
 	{
-		// First decide if it's gonna be one or both.
-		int roll = mob.worldObj.rand.nextInt(10);
-		if (roll < 4)
+		if (this.isBoss()) // If its a boss, give it a prefix, up to 3 more prefixes, and maybe suffix.
 		{
-			// Prefix
-			prefix = rollPrefixes().titleName;
+			this.prefix = rollPrefix().titleName;
+			switch (mob.worldObj.rand.nextInt(4)) {
+			case 0:
+				break;
+			case 1:
+				this.bossPrefix2 = rollPrefix().titleName;
+				break;
+			case 2:
+				this.bossPrefix2 = rollPrefix().titleName;
+				this.bossPrefix3 = rollPrefix().titleName;
+				break;
+			case 3:
+				this.bossPrefix2 = rollPrefix().titleName;
+				this.bossPrefix3 = rollPrefix().titleName;
+				this.bossPrefix4 = rollPrefix().titleName;
+				break;
+			}
+			if (mob.worldObj.rand.nextInt(10) < 4) // 40% chance (0-3 = winrar)
+			{
+				this.suffix = rollSuffix().titleName;
+			}
 		}
-		else if (roll > 3 && roll < 7)
+		else // If its not a boss, never give a prefix and only maybe a suffix.
 		{
-			// Suffix
-			suffix = rollSuffixes().titleName;
-		}
-		else if (roll == 8)
-		{
-			// Both
-			prefix = rollPrefixes().titleName;
-			suffix = rollSuffixes().titleName;
-		}
-		else if (roll > 8)
-		{
-			// Nothing.
+			if (mob.worldObj.rand.nextInt(10) < 2) // 20% chance (0-1 = winrar)
+			{
+				this.suffix = rollSuffix().titleName;
+			}
 		}
 	}
 
 	public void rollStats(int depth)
 	{
 		//TODO must perfect the math here
+		//TODO Change the /2 in monsterLevel's calculation to be something better.
 		int difficulty = depth + mob.worldObj.rand.nextInt(20);
 		int monsterDifficultyRoll = MathHelper.clamp_int(difficulty / 7, 1, 10); // This exists to replace the old calculation that used monsterLevel so as that monsterLevel is calculated based on the stats.
 		int baseBonus = monsterDifficultyRoll * 2;
-		strength = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
-		dexterity = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
-		agility = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
-		vitality = (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
-		minDmg = (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
-		maxDmg = (int)(mob.worldObj.rand.nextInt(13) * monsterDifficultyRoll / 4) + baseBonus;
-		defBonus = (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
-		monsterLevel = (int)(((strength+dexterity+agility+vitality) / 4)/2); // /4 gets the average, the /2 is just to get a lower number for the level.
-		//TODO Change the /2 in monsterLevel's calculation to be something better.
-		
-		rollAffixes();
-		
+		strength += (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		dexterity += (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		agility += (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		vitality += (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
+		minDmg += (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
+		maxDmg += (int)(mob.worldObj.rand.nextInt(13) * monsterDifficultyRoll / 4) + baseBonus;
+		defBonus += (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
+		monsterLevel += (int)(((strength+dexterity+agility+vitality) / 4)/2); // /4 gets the average, the /2 is just to get a lower number for the level.
 		//TODO write actual gold code here.
-		gold = (int)(mob.worldObj.rand.nextInt(10) * monsterLevel);
+		gold += (int)(mob.worldObj.rand.nextInt(10) * monsterLevel);
+	}
+	
+	public void rollExtendMob(int depth)
+	{
+		rollBossStatus(depth);
+		rollStats(depth);
+		rollAffixes();
 	}
 }

@@ -119,12 +119,36 @@ public class RotEventRenderLiving
 			if (renderBar)
 			{
 				String stringToBeDrawn = "";
-				if (ExtendMob.get((EntityLiving) entity) != null)
+				ExtendMob e = ExtendMob.get((EntityLiving) entity);
+				if (e != null)
 				{
-					stringToBeDrawn = "(" + ExtendMob.get((EntityLiving) entity).monsterLevel + ") " + ExtendMob.get((EntityLiving) entity).prefix + " " + entity.getName() + " " + ExtendMob.get((EntityLiving) entity).suffix;
-					GlStateManager.scale(0.02f, 0.02f, 0.02f);
-					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);
+					if (!e.isBoss())
+					{
+						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + entity.getName() + " " + e.suffix;
+						GlStateManager.scale(0.02f, 0.02f, 0.02f);
+						GlStateManager.rotate(180, 0, 0, 1);
+						GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);
+					}
+					else
+					{
+						String prefixCompilation = "";
+						if (e.bossPrefix2 != "")
+						{
+							prefixCompilation += e.bossPrefix2 + " ";
+						}
+						if (e.bossPrefix3 != "")
+						{
+							prefixCompilation += e.bossPrefix3 + " ";
+						}
+						if (e.bossPrefix4 != "")
+						{
+							prefixCompilation += e.bossPrefix4 + " ";
+						}
+						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + prefixCompilation + entity.getName() + " " + e.suffix;
+						GlStateManager.scale(0.02f, 0.02f, 0.02f);
+						GlStateManager.rotate(180, 0, 0, 1);
+						GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);
+					}
 				}
 				else
 				{

@@ -71,7 +71,7 @@ public class RotEventPlayerClone
 								.getY() + i, mob.getPosition().getZ());
 					}
 
-					ExtendMob.get(mob).rollStats(depth);
+					ExtendMob.get(mob).rollExtendMob(depth);
 				}
 			}
 		}

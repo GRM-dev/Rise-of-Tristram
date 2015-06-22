@@ -12,7 +12,7 @@ public class RotMobAffixManager {
 		
 	}
 	
-	// Returns how long the rank array extends
+	/*// Returns how long the rank array extends
 	public static int getLevelCount(int level, RotMobAffix[] affix)
 	{
 		int count = 0;
@@ -32,11 +32,11 @@ public class RotMobAffixManager {
 		}
 		return 0;
 	}
-	
+	*/
 	// Return the affix out of the array
 	public static RotMobAffix getAffix(int level, RotMobAffix[] affix, Random random)
 	{	
-		//Try to get where, in the array, to start for affix ranking requirement
+		/*//Try to get where, in the array, to start for affix ranking requirement
 		if (level > 4) return affix[affix.length - 1];
 		int affixIndex = getLevelStart(level, affix);
 		if (affixIndex != -1)
@@ -56,7 +56,8 @@ public class RotMobAffixManager {
 				else return affix[random.nextInt(levelRange)];
 			}
 			else return affix[affixIndex];
-		}
+		}*/
+		
 		return null;
 	}
 	
