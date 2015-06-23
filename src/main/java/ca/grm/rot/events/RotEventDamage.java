@@ -204,7 +204,7 @@ public class RotEventDamage
 				if (event.source instanceof EntityDamageSource) event.ammount -= props.defBonus;
 				if (event.source.isFireDamage()) {
 					System.out.println(props.prefix + " " + props.suffix + "  z: " + event.entityLiving.posZ);
-					if (props.prefix == "Heated")
+					if (props.suffix == "the Heated")
 					{
 						event.ammount = 0; // Cancels all fire damage.
 					}

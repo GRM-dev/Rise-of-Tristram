@@ -157,6 +157,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		Random random = new Random();
 		return RotMobAffixManager.getAffix(this.monsterLevel, RotMobAffixManager.getRandomSuffixArray(), random);
 	}
+
 	
 	public void rollAffixes()
 	{
@@ -191,8 +192,473 @@ public class ExtendMob implements IExtendedEntityProperties
 				this.suffix = rollSuffix().titleName;
 			}
 		}
+		
+		applyAffixStats(); // This just makes the affixes do stuff. Mostly prefixes.
 	}
-
+	
+	public void applyAffixStats()
+	{
+		/* Prefixes */
+		if (this.prefix == "Fed")
+		{
+			//this.health += 3
+		}
+		
+		if (this.bossPrefix2 == "Fed" && this.isBoss())
+		{
+			//this.health += 3
+		}
+		
+		if (this.bossPrefix3 == "Fed" && this.isBoss())
+		{
+			//this.health += 3
+		}
+		
+		if (this.bossPrefix4 == "Fed" && this.isBoss())
+		{
+			//this.health += 3
+		}
+		
+		if (this.prefix == "Hearty")
+		{
+			//this.health += 6
+		}
+		
+		if (this.bossPrefix2 == "Hearty" && this.isBoss())
+		{
+			//this.health += 6
+		}
+		
+		if (this.bossPrefix3 == "Hearty" && this.isBoss())
+		{
+			//this.health += 6
+		}
+		
+		if (this.bossPrefix4 == "Hearty" && this.isBoss())
+		{
+			//this.health += 6
+		}
+		
+		if (this.prefix == "Obese")
+		{
+			//this.health += 12
+		}
+		
+		if (this.bossPrefix2 == "Obese" && this.isBoss())
+		{
+			//this.health += 12
+		}
+		
+		if (this.bossPrefix3 == "Obese" && this.isBoss())
+		{
+			//this.health += 12
+		}
+		
+		if (this.bossPrefix4 == "Obese" && this.isBoss())
+		{
+			//this.health += 12
+		}		
+		if (this.prefix == "Bulky")
+		{
+			this.strength += 5;
+		}
+		
+		if (this.bossPrefix2 == "Bulky" && this.isBoss())
+		{
+			this.strength += 5;
+		}
+		
+		if (this.bossPrefix3 == "Bulky" && this.isBoss())
+		{
+			this.strength += 5;
+		}
+		
+		if (this.bossPrefix4 == "Bulky" && this.isBoss())
+		{
+			this.strength += 5;
+		}		
+		if (this.prefix == "Muscular")
+		{
+			this.strength += 10;
+		}
+		
+		if (this.bossPrefix2 == "Muscular" && this.isBoss())
+		{
+			this.strength += 10;
+		}
+		
+		if (this.bossPrefix3 == "Muscular" && this.isBoss())
+		{
+			this.strength += 10;
+		}
+		
+		if (this.bossPrefix4 == "Muscular" && this.isBoss())
+		{
+			this.strength += 10;
+		}		
+		if (this.prefix == "Ripped")
+		{
+			this.strength += 15;
+		}
+		
+		if (this.bossPrefix2 == "Ripped" && this.isBoss())
+		{
+			this.strength += 15;
+		}
+		
+		if (this.bossPrefix3 == "Ripped" && this.isBoss())
+		{
+			this.strength += 15;
+		}
+		
+		if (this.bossPrefix4 == "Ripped" && this.isBoss())
+		{
+			this.strength += 15;
+		}		
+		if (this.prefix == "Beefcastle")
+		{
+			this.strength += 20;
+		}
+		
+		if (this.bossPrefix2 == "Beefcastle" && this.isBoss())
+		{
+			this.strength += 20;
+		}
+		
+		if (this.bossPrefix3 == "Beefcastle" && this.isBoss())
+		{
+			this.strength += 20;
+		}
+		
+		if (this.bossPrefix4 == "Beefcastle" && this.isBoss())
+		{
+			this.strength += 20;
+		}		
+		if (this.prefix == "Sharp-Eye")
+		{
+			this.dexterity += 5;
+		}
+		
+		if (this.bossPrefix2 == "Sharp-Eye" && this.isBoss())
+		{
+			this.dexterity += 5;
+		}
+		
+		if (this.bossPrefix3 == "Sharp-Eye" && this.isBoss())
+		{
+			this.dexterity += 5;
+		}
+		
+		if (this.bossPrefix4 == "Sharp-Eye" && this.isBoss())
+		{
+			this.dexterity += 5;
+		}		
+		if (this.prefix == "Eagle-Eye")
+		{
+			this.dexterity += 10;
+		}
+		
+		if (this.bossPrefix2 == "Eagle-Eye" && this.isBoss())
+		{
+			this.dexterity += 10;
+		}
+		
+		if (this.bossPrefix3 == "Eagle-Eye" && this.isBoss())
+		{
+			this.dexterity += 10;
+		}
+		
+		if (this.bossPrefix4 == "Eagle-Eye" && this.isBoss())
+		{
+			this.dexterity += 10;
+		}		
+		if (this.prefix == "Marksman")
+		{
+			this.dexterity += 15;
+		}
+		
+		if (this.bossPrefix2 == "Marksman" && this.isBoss())
+		{
+			this.dexterity += 15;
+		}
+		
+		if (this.bossPrefix3 == "Marksman" && this.isBoss())
+		{
+			this.dexterity += 15;
+		}
+		
+		if (this.bossPrefix4 == "Marksman" && this.isBoss())
+		{
+			this.dexterity += 15;
+		}		
+		if (this.prefix == "Sniper")
+		{
+			this.dexterity += 20;
+		}
+		
+		if (this.bossPrefix2 == "Sniper" && this.isBoss())
+		{
+			this.dexterity += 20;
+		}
+		
+		if (this.bossPrefix3 == "Sniper" && this.isBoss())
+		{
+			this.dexterity += 20;
+		}
+		
+		if (this.bossPrefix4 == "Sniper" && this.isBoss())
+		{
+			this.dexterity += 20;
+		}		
+		if (this.prefix == "Quick")
+		{
+			this.agility += 5;
+		}
+		
+		if (this.bossPrefix2 == "Quick" && this.isBoss())
+		{
+			this.agility += 5;
+		}
+		
+		if (this.bossPrefix3 == "Quick" && this.isBoss())
+		{
+			this.agility += 5;
+		}
+		
+		if (this.bossPrefix4 == "Quick" && this.isBoss())
+		{
+			this.agility += 5;
+		}		
+		if (this.prefix == "Fast")
+		{
+			this.agility += 10;
+		}
+		
+		if (this.bossPrefix2 == "Fast" && this.isBoss())
+		{
+			this.agility += 10;
+		}
+		
+		if (this.bossPrefix3 == "Fast" && this.isBoss())
+		{
+			this.agility += 10;
+		}
+		
+		if (this.bossPrefix4 == "Fast" && this.isBoss())
+		{
+			this.agility += 10;
+		}		
+		if (this.prefix == "Wicked Speed")
+		{
+			this.agility += 15;
+		}
+		
+		if (this.bossPrefix2 == "Wicked Speed" && this.isBoss())
+		{
+			this.agility += 15;
+		}
+		
+		if (this.bossPrefix3 == "Wicked Speed" && this.isBoss())
+		{
+			this.agility += 15;
+		}
+		
+		if (this.bossPrefix4 == "Wicked Speed" && this.isBoss())
+		{
+			this.agility += 15;
+		}		
+		if (this.prefix == "Flash")
+		{
+			this.agility += 20;
+		}
+		
+		if (this.bossPrefix2 == "Flash" && this.isBoss())
+		{
+			this.agility += 20;
+		}
+		
+		if (this.bossPrefix3 == "Flash" && this.isBoss())
+		{
+			this.agility += 20;
+		}
+		
+		if (this.bossPrefix4 == "Flash" && this.isBoss())
+		{
+			this.agility += 20;
+		}		
+		if (this.prefix == "Strong-Will")
+		{
+			this.vitality += 5;
+		}
+		
+		if (this.bossPrefix2 == "Strong-Will" && this.isBoss())
+		{
+			this.vitality += 5;
+		}
+		
+		if (this.bossPrefix3 == "Strong-Will" && this.isBoss())
+		{
+			this.vitality += 5;
+		}
+		
+		if (this.bossPrefix4 == "Strong-Will" && this.isBoss())
+		{
+			this.vitality += 5;
+		}		
+		if (this.prefix == "Stonewall")
+		{
+			this.vitality += 10;
+		}
+		
+		if (this.bossPrefix2 == "Stonewall" && this.isBoss())
+		{
+			this.vitality += 10;
+		}
+		
+		if (this.bossPrefix3 == "Stonewall" && this.isBoss())
+		{
+			this.vitality += 10;
+		}
+		
+		if (this.bossPrefix4 == "Stonewall" && this.isBoss())
+		{
+			this.vitality += 10;
+		}		
+		if (this.prefix == "Tough-Skin")
+		{
+			this.vitality += 15;
+		}
+		
+		if (this.bossPrefix2 == "Tough-Skin" && this.isBoss())
+		{
+			this.vitality += 15;
+		}
+		
+		if (this.bossPrefix3 == "Tough-Skin" && this.isBoss())
+		{
+			this.vitality += 15;
+		}
+		
+		if (this.bossPrefix4 == "Tough-Skin" && this.isBoss())
+		{
+			this.vitality += 15;
+		}		
+		if (this.prefix == "Death Transcending")
+		{
+			this.vitality += 20;
+		}
+		
+		if (this.bossPrefix2 == "Death Transcending" && this.isBoss())
+		{
+			this.vitality += 20;
+		}
+		
+		if (this.bossPrefix3 == "Death Transcending" && this.isBoss())
+		{
+			this.vitality += 20;
+		}
+		
+		if (this.bossPrefix4 == "Death Transcending" && this.isBoss())
+		{
+			this.vitality += 20;
+		}		
+		if (this.prefix == "Healing")
+		{
+			setHpRegenBonusPercent(1);
+		}
+		
+		if (this.bossPrefix2 == "Healing" && this.isBoss())
+		{
+			setHpRegenBonusPercent(1);
+		}
+		
+		if (this.bossPrefix3 == "Healing" && this.isBoss())
+		{
+			setHpRegenBonusPercent(1);
+		}
+		
+		if (this.bossPrefix4 == "Healing" && this.isBoss())
+		{
+			setHpRegenBonusPercent(1);
+		}		
+		if (this.prefix == "Blessed")
+		{
+			setHpRegenBonusPercent(1.5f);
+		}
+		
+		if (this.bossPrefix2 == "Blessed" && this.isBoss())
+		{
+			setHpRegenBonusPercent(1.5f);
+		}
+		
+		if (this.bossPrefix3 == "Blessed" && this.isBoss())
+		{
+			setHpRegenBonusPercent(1.5f);
+		}
+		
+		if (this.bossPrefix4 == "Blessed" && this.isBoss())
+		{
+			setHpRegenBonusPercent(1.5f);
+		}		
+		if (this.prefix == "Cleric")
+		{
+			setHpRegenBonusPercent(2f);
+		}
+		
+		if (this.bossPrefix2 == "Cleric" && this.isBoss())
+		{
+			setHpRegenBonusPercent(2f);
+		}
+		
+		if (this.bossPrefix3 == "Cleric" && this.isBoss())
+		{
+			setHpRegenBonusPercent(2f);
+		}
+		
+		if (this.bossPrefix4 == "Cleric" && this.isBoss())
+		{
+			setHpRegenBonusPercent(2f);
+		}		
+		if (this.prefix == "Altar-Betraying")
+		{
+			setHpRegenBonusPercent(2.5f);
+		}
+		
+		if (this.bossPrefix2 == "Altar-Betraying" && this.isBoss())
+		{
+			setHpRegenBonusPercent(2.5f);
+		}
+		
+		if (this.bossPrefix3 == "Altar-Betraying" && this.isBoss())
+		{
+			setHpRegenBonusPercent(2.5f);
+		}
+		
+		if (this.bossPrefix4 == "Altar-Betraying" && this.isBoss())
+		{
+			setHpRegenBonusPercent(2.5f);
+		}		
+		if (this.prefix == "Tropical")
+		{
+			this.gold += 150;
+		}
+		
+		if (this.bossPrefix2 == "Tropical" && this.isBoss())
+		{
+			this.gold += 150;
+		}
+		
+		if (this.bossPrefix3 == "Tropical" && this.isBoss())
+		{
+			this.gold += 150;
+		}
+		
+		if (this.bossPrefix4 == "Tropical" && this.isBoss())
+		{
+			this.gold += 150;
+		}
+	}
+	
 	public void rollStats(int depth)
 	{
 		//TODO must perfect the math here

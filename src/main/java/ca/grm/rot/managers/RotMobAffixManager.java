@@ -50,7 +50,7 @@ public class RotMobAffixManager {
 					//If the index is not at the start get a random spot in the range
 					int randomIndex = random.nextInt(levelRange);
 					//And if it so happens to be at the start, try to go back one ranking
-					if (randomIndex == 0) randomIndex -= random.nextInt(1);
+					if (randomIndex == 0) randomIndex -= random.nextInt(2);
 					return affix[randomIndex + affixIndex];
 				}
 				else return affix[random.nextInt(levelRange)];
@@ -63,16 +63,14 @@ public class RotMobAffixManager {
 	
 	public static RotMobAffix[] getRandomPrefixArray()
 	{
-		int numberOfPrefixArrays = 3; // Change this each time you add an array of prefixes
+		int numberOfPrefixArrays = 2; // Change this each time you add an array of prefixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfPrefixArrays);
 		switch (roll) {
 		case 0: 
-			return fireImmunity;
+			return health;
 		case 1: 
-			return ice;
-		case 2:
-			return healing;
+			return strength;
 		}
 		System.out.println("p " + roll);
 		return null;
@@ -80,7 +78,7 @@ public class RotMobAffixManager {
 	
 	public static RotMobAffix[] getRandomSuffixArray()
 	{
-		int numberOfSuffixArrays = 2; // Change this each time you add an array of suffixes
+		int numberOfSuffixArrays = 3; // Change this each time you add an array of suffixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfSuffixArrays);
 		switch (roll) {
@@ -93,15 +91,19 @@ public class RotMobAffixManager {
 		return null;
 	}
 	
-	/* Prefixes */
-	// The general idea for these is to deal with mobly-stuff. Stuff like size or skills or attributes.
-	public static RotMobAffix[] fireImmunity = new RotMobAffix[] { new RotMobAffix("Heated", 8)};
-	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("Cold", 3) };
-	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Aura", 6) };
-	
 	/* Suffixes */
+	// The general idea for these is to deal with mobly-stuff. Stuff like size or skills or attributes.
+	public static RotMobAffix[] fireImmunity = new RotMobAffix[] { new RotMobAffix("the Heated", 10)};
+	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("the Cold", 5) };
+	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Full of Aura", 15) };
+	
+	/* Prefixes */
 	// The general idea for these is to deal with stats, stuff like health and strength.
-	public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("the Fed", 4), new RotMobAffix("the Hearty", 7), new RotMobAffix("the Obese", 15)};
-	public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("the Bulky", 6), new RotMobAffix("the Muscular", 14), new RotMobAffix("the Ripped", 18), new RotMobAffix("the Beefcastle", 18)};
-
+	public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("Fed", 1), new RotMobAffix("Hearty", 7), new RotMobAffix("Obese", 13)};
+	public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("Bulky", 2), new RotMobAffix("Muscular", 8), new RotMobAffix("Ripped", 14), new RotMobAffix("Beefcastle", 19)};
+	public static RotMobAffix[] dexterity = new RotMobAffix[] { new RotMobAffix("Sharp-Eye", 3), new RotMobAffix("Eagle-Eye", 9), new RotMobAffix("Marksman", 15), new RotMobAffix("Sniper", 20)};
+	public static RotMobAffix[] agility = new RotMobAffix[] { new RotMobAffix("Quick", 4), new RotMobAffix("Fast", 10), new RotMobAffix("Wicked Speed", 16), new RotMobAffix("Flash", 21)};
+	public static RotMobAffix[] vitality = new RotMobAffix[] { new RotMobAffix("Strong-Will", 5), new RotMobAffix("Stonewall", 11), new RotMobAffix("Tough-Skin", 17), new RotMobAffix("Death Transcending", 22)};
+	public static RotMobAffix[] hpRegenBonusPercent = new RotMobAffix[] { new RotMobAffix("Healing", 6), new RotMobAffix("Blessed", 12), new RotMobAffix("Cleric", 18), new RotMobAffix("Altar-Betraying", 23)};
+	public static RotMobAffix[] gold = new RotMobAffix[] { new RotMobAffix("Tropical", 7) };
 }
