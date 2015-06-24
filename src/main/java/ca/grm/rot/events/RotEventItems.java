@@ -622,6 +622,11 @@ public class RotEventItems
 				if (manaSteal != 0) i.toolTip
 						.add(EnumChatFormatting.AQUA + "Mana Steal: " + (int) (manaSteal * 100) + "%");
 
+				if (is.getItemDamage() != is.getMaxDamage())
+				{
+					i.toolTip.add(EnumChatFormatting.WHITE + ("Durability: " + (is.getMaxDamage() - is.getItemDamage()) + " / " + is.getMaxDamage()));
+				}
+				
 				if (qualityName != "") i.toolTip
 						.add(EnumChatFormatting.WHITE + "Quality: " + qualityName);
 
