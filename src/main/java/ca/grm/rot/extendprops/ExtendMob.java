@@ -82,6 +82,9 @@ public class ExtendMob implements IExtendedEntityProperties
 		properties.setInteger(Rot.MOD_ID + "Gold", this.gold);
 		properties.setString(Rot.MOD_ID + "Prefix", this.prefix);
 		properties.setString(Rot.MOD_ID + "Suffix", this.suffix);
+		properties.setString(Rot.MOD_ID + "BossPrefix2", this.bossPrefix2);
+		properties.setString(Rot.MOD_ID + "BossPrefix3", this.bossPrefix3);
+		properties.setString(Rot.MOD_ID + "BossPrefix4", this.bossPrefix4);
 		compound.setTag(EXT_PROP_NAME, properties);
 	}
 
@@ -100,6 +103,9 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.gold = properties.getInteger(Rot.MOD_ID + "Gold");
 		this.prefix = properties.getString(Rot.MOD_ID + "Prefix");
 		this.suffix = properties.getString(Rot.MOD_ID + "Suffix");
+		this.bossPrefix2 = properties.getString(Rot.MOD_ID + "BossPrefix2");
+		this.bossPrefix3 = properties.getString(Rot.MOD_ID + "BossPrefix3");
+		this.bossPrefix4 = properties.getString(Rot.MOD_ID + "BossPrefix4");
 	}
 
 	@Override

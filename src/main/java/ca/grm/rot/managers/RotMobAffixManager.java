@@ -1,5 +1,6 @@
 package ca.grm.rot.managers;
 
+import java.lang.reflect.Array;
 import java.util.Random;
 
 import ca.grm.rot.libs.RotItemAffix;
@@ -13,10 +14,10 @@ public class RotMobAffixManager {
 	}
 	
 	// Returns how long the rank array extends
-	public static int getLevelCount(int level, RotMobAffix[] affix)
+	/*public static int getLevelCount(int level, RotMobAffix[] affix)
 	{
 		int count = 0;
-		for (RotMobAffix a : affix)
+		for (RotMobAffix a : affix) // 'for each' affix in array
 		{
 			if (level == a.levelRequirement) count++;
 		}
@@ -25,17 +26,16 @@ public class RotMobAffixManager {
 	
 	public static int getLevelStart(int level, RotMobAffix[] affix)
 	{
-		if (level > 4) return affix.length;
 		for (int index = 0; index < affix.length; index++)
 		{
 			if (level == affix[index].levelRequirement) return index;
 		}
 		return 0;
-	}
+	}*/
 	
 	// Return the affix out of the array
 	public static RotMobAffix getAffix(int level, RotMobAffix[] affix, Random random)
-	{	
+	{	/*
 		//Try to get where, in the array, to start for affix ranking requirement
 		if (level > 4) return affix[affix.length - 1];
 		int affixIndex = getLevelStart(level, affix);
@@ -57,13 +57,37 @@ public class RotMobAffixManager {
 			}
 			else return affix[affixIndex];
 		}
-		
+		*/
+		for (int i = 0; i < Array.getLength(affix); i++) // 'for each' affix in array
+		{
+			if (level <= affix[i].levelRequirement)  // If our level is lessthan/equalto affix's level requirement
+			{
+				if (i > 0) // If we're not at the first one -- to avoid an index out of bounds error
+				{
+					if (affix[i-1].levelRequirement < level) // If our level is greater than the affix before this one and less than this one.
+					{
+						return affix[i-1];
+					}
+				}
+				else // If we're at the first one and we're still less than it:
+				{
+					return affix[i];
+				}
+			}
+			else
+			{
+				if (i == Array.getLength(affix)-1) // If we're at the very last one and we're *still* higher than it:
+				{
+					return affix[i];
+				}
+			}
+		}
 		return null;
 	}
 	
 	public static RotMobAffix[] getRandomPrefixArray()
 	{
-		int numberOfPrefixArrays = 2; // Change this each time you add an array of prefixes
+		int numberOfPrefixArrays = 7; // Change this each time you add an array of prefixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfPrefixArrays);
 		switch (roll) {
@@ -71,6 +95,16 @@ public class RotMobAffixManager {
 			return health;
 		case 1: 
 			return strength;
+		case 2:
+			return dexterity;
+		case 3:
+			return agility;
+		case 4:
+			return vitality;
+		case 5:
+			return hpRegenBonusPercent;
+		case 6:
+			return gold;
 		}
 		System.out.println("p " + roll);
 		return null;
@@ -78,14 +112,16 @@ public class RotMobAffixManager {
 	
 	public static RotMobAffix[] getRandomSuffixArray()
 	{
-		int numberOfSuffixArrays = 2; // Change this each time you add an array of suffixes
+		int numberOfSuffixArrays = 3; // Change this each time you add an array of suffixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfSuffixArrays);
 		switch (roll) {
 		case 0:
-			return health;
+			return fireImmunity;
 		case 1:
-			return strength;
+			return ice;
+		case 2:
+			return healing;
 		}
 		System.out.println("s " + roll);
 		return null;
