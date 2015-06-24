@@ -172,6 +172,11 @@ public class RotEventDamage
 							if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 							else event.ammount -= newDmg;
 						}
+						
+						if (props.suffix == "the Cursed")
+						{
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+						}
 					}
 					else event.ammount *= upscalePercent; // if no extra stats,
 															// just upscale

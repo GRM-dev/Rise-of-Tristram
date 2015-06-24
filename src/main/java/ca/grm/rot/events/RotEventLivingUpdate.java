@@ -342,6 +342,10 @@ public class RotEventLivingUpdate
 					{
 						renderParticle(e, EnumParticleTypes.HEART);
 					}
+					else if (em.suffix == "the Cursed")
+					{
+						renderParticle(e, EnumParticleTypes.SPELL_WITCH);
+					}
 				}
 			}
 		}

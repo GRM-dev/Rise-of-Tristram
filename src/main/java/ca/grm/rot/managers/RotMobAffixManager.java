@@ -122,6 +122,8 @@ public class RotMobAffixManager {
 			return ice;
 		case 2:
 			return healing;
+		case 3:
+			return cursed;
 		}
 		System.out.println("s " + roll);
 		return null;
@@ -132,6 +134,7 @@ public class RotMobAffixManager {
 	public static RotMobAffix[] fireImmunity = new RotMobAffix[] { new RotMobAffix("the Heated", 10)};
 	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("the Cold", 5) };
 	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Full of Life", 15) };
+	public static RotMobAffix[] cursed = new RotMobAffix[] { new RotMobAffix("the Cursed", 20) };
 	
 	/* Prefixes */
 	// The general idea for these is to deal with stats, stuff like health and strength.
