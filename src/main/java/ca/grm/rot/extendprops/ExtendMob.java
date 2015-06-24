@@ -663,6 +663,9 @@ public class ExtendMob implements IExtendedEntityProperties
 		{
 			this.gold += 150;
 		}
+		
+		
+		/* Suffixes */
 	}
 	
 	public void rollStats(int depth)

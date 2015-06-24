@@ -1,5 +1,6 @@
 package ca.grm.rot.events;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -8,12 +9,15 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
@@ -296,6 +300,33 @@ public class RotEventLivingUpdate
 						e.heal(0.0025f);
 					}
 					
+				}
+				if (em != null && !e.worldObj.isRemote)
+				{
+					if (em.suffix == "the Cold")
+					{
+						// Deal with placing snow
+						int i = MathHelper.floor_double(e.posX);
+			            int j = MathHelper.floor_double(e.posY);
+			            int k = MathHelper.floor_double(e.posZ);
+			            
+						for (int l = 0; l < 4; ++l)
+			            {
+			                i = MathHelper.floor_double(e.posX + (double)((float)(l % 2 * 2 - 1) * 0.25F));
+			                j = MathHelper.floor_double(e.posY);
+			                k = MathHelper.floor_double(e.posZ + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F));
+			                if (e.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock().getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(e.worldObj, new BlockPos(i, j, k)))
+			                {
+			                    e.worldObj.setBlockState(new BlockPos(i, j, k), Blocks.snow_layer.getDefaultState());
+			                }
+			            }
+			            
+						// Extinguish if it's on fire.
+						if (e.isBurning())
+						{
+							e.extinguish();
+						}
+					}
 				}
 			}
 		}
