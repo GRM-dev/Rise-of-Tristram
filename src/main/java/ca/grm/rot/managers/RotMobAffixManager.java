@@ -78,7 +78,7 @@ public class RotMobAffixManager {
 	
 	public static RotMobAffix[] getRandomSuffixArray()
 	{
-		int numberOfSuffixArrays = 3; // Change this each time you add an array of suffixes
+		int numberOfSuffixArrays = 2; // Change this each time you add an array of suffixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfSuffixArrays);
 		switch (roll) {

@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 import ca.grm.rot.Rot;
 import ca.grm.rot.blocks.RotBlocks;
 import ca.grm.rot.events.KeyHandleEvent;
+import ca.grm.rot.events.RotEventRenderLiving;
 import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
 import ca.grm.rot.items.RotItems;
@@ -85,6 +86,7 @@ public class ClientProxy extends CommonProxy
 		 * RotStamGui(Minecraft.getMinecraft()));
 		 */
 		MinecraftForge.EVENT_BUS.register(new GuiExtendedPlayerStats(Minecraft.getMinecraft()));
+		MinecraftForge.EVENT_BUS.register(new RotEventRenderLiving());
 		// MinecraftForgeClient.registerItemRenderer(RotItems.itemSwordSoul, new
 		// ItemRendererScaled(.75f));
 		/*

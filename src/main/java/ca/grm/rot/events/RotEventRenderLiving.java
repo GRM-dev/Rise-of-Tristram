@@ -118,6 +118,7 @@ public class RotEventRenderLiving
 
 			if (renderBar)
 			{
+				int stringColor = 0xffffff;
 				String stringToBeDrawn = "";
 				ExtendMob e = ExtendMob.get((EntityLiving) entity);
 				if (e != null)
@@ -127,7 +128,8 @@ public class RotEventRenderLiving
 						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + entity.getName();
 						GlStateManager.scale(0.02f, 0.02f, 0.02f);
 						GlStateManager.rotate(180, 0, 0, 1);
-						GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);
+						GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);	
+						stringColor = 0xffff00;
 					}
 					else
 					{
@@ -158,11 +160,11 @@ public class RotEventRenderLiving
 				}
 				if (stringToBeDrawn != "")
 				{
-					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stringToBeDrawn, (float) x, (float) y, 0xffffff);
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stringToBeDrawn, (float) x, (float) y, stringColor);
 				}
 				else
 				{
-					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(entity.getName(), (float) x, (float) y, 0xffffff);
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(entity.getName(), (float) x, (float) y, stringColor);
 				}
 			}
 
