@@ -195,7 +195,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		{
 			if (mob.worldObj.rand.nextInt(10) < 2) // 20% chance (0-1 = winrar)
 			{
-				this.suffix = rollSuffix().titleName;
+				this.prefix = rollPrefix().titleName;
 			}
 		}
 		
