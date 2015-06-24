@@ -112,7 +112,7 @@ public class RotMobAffixManager {
 	
 	public static RotMobAffix[] getRandomSuffixArray()
 	{
-		int numberOfSuffixArrays = 3; // Change this each time you add an array of suffixes
+		int numberOfSuffixArrays = 5; // Change this each time you add an array of suffixes
 		Random random = new Random();
 		int roll = random.nextInt(numberOfSuffixArrays);
 		switch (roll) {
@@ -124,6 +124,8 @@ public class RotMobAffixManager {
 			return healing;
 		case 3:
 			return cursed;
+		case 4:
+			return manaBurn;
 		}
 		System.out.println("s " + roll);
 		return null;
@@ -135,6 +137,7 @@ public class RotMobAffixManager {
 	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("the Cold", 5) };
 	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Full of Life", 15) };
 	public static RotMobAffix[] cursed = new RotMobAffix[] { new RotMobAffix("the Cursed", 20) };
+	public static RotMobAffix[] manaBurn = new RotMobAffix[] { new RotMobAffix("who Targets Mana", 10), new RotMobAffix("who Ruins Mana", 25) };
 	
 	/* Prefixes */
 	// The general idea for these is to deal with stats, stuff like health and strength.

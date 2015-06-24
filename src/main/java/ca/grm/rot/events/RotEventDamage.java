@@ -173,9 +173,28 @@ public class RotEventDamage
 							else event.ammount -= newDmg;
 						}
 						
+						// Handle suffixes for mobs
 						if (props.suffix == "the Cursed")
 						{
 							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+						}
+						
+						if (props.suffix == "who Targets Mana")
+						{
+							if (event.entity instanceof EntityPlayer)
+							{
+								ExtendPlayer player = ExtendPlayer.get((EntityPlayer) event.entity);
+								player.consumeMana(10);
+							}
+						}
+						
+						if (props.suffix == "who Ruins Mana")
+						{
+							if (event.entity instanceof EntityPlayer)
+							{
+								ExtendPlayer player = ExtendPlayer.get((EntityPlayer) event.entity);
+								player.consumeMana(100);
+							}
 						}
 					}
 					else event.ammount *= upscalePercent; // if no extra stats,
