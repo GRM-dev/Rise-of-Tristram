@@ -16,6 +16,7 @@ import ca.grm.rot.managers.RotMobAffixManager;
 
 public class ExtendMob implements IExtendedEntityProperties
 {
+	// This comment is purely for testing and should be ignored.
 	public final static String EXT_PROP_NAME = "EEMobRot";
 
 	private final EntityLiving mob;
