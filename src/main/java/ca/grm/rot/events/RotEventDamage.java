@@ -184,7 +184,7 @@ public class RotEventDamage
 							if (event.entity instanceof EntityPlayer)
 							{
 								ExtendPlayer player = ExtendPlayer.get((EntityPlayer) event.entity);
-								player.consumeMana(10);
+								player.consumeMana(75); // Could maybe change to an amount based on damage delt?
 							}
 						}
 						
@@ -193,7 +193,7 @@ public class RotEventDamage
 							if (event.entity instanceof EntityPlayer)
 							{
 								ExtendPlayer player = ExtendPlayer.get((EntityPlayer) event.entity);
-								player.consumeMana(100);
+								player.consumeMana(300); // See above.
 							}
 						}
 					}
