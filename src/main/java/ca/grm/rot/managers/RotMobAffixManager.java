@@ -131,7 +131,7 @@ public class RotMobAffixManager {
 	// The general idea for these is to deal with mobly-stuff. Stuff like size or skills or attributes.
 	public static RotMobAffix[] fireImmunity = new RotMobAffix[] { new RotMobAffix("the Heated", 10)};
 	public static RotMobAffix[] ice = new RotMobAffix[] { new RotMobAffix("the Cold", 5) };
-	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Full of Aura", 15) };
+	public static RotMobAffix[] healing = new RotMobAffix[] { new RotMobAffix("Full of Life", 15) };
 	
 	/* Prefixes */
 	// The general idea for these is to deal with stats, stuff like health and strength.

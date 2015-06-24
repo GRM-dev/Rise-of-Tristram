@@ -1,6 +1,8 @@
 package ca.grm.rot.events;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -17,6 +19,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -328,10 +331,45 @@ public class RotEventLivingUpdate
 						}
 					}
 				}
+				else if (em != null && e.worldObj.isRemote)
+				{
+					// Render Particles
+					if (em.suffix == "the Heated")
+					{
+						renderParticle(e, EnumParticleTypes.FLAME);
+					}
+					else if (em.suffix == "Full of Life")
+					{
+						renderParticle(e, EnumParticleTypes.HEART);
+					}
+				}
 			}
 		}
 	}
 
+	public void renderParticle(EntityLiving e, EnumParticleTypes ep)
+	{
+		if (e.worldObj.rand.nextInt(25) == 0)
+        {
+            int i = MathHelper.floor_double(e.posX);
+            int j = MathHelper.floor_double(e.posY - 0.20000000298023224D);
+            int k = MathHelper.floor_double(e.posZ);
+            IBlockState iblockstate = e.worldObj.getBlockState(new BlockPos(i, j, k));
+            Block block = iblockstate.getBlock();
+
+            if (block.getMaterial() != Material.air)
+            {
+            	double xCoord = (e.posX + ((double)e.worldObj.rand.nextFloat() - 0.5D) * ((double)e.width+0.5D));
+            	double yCoord = e.getEntityBoundingBox().minY + ((double)e.worldObj.rand.nextFloat());
+            	double zCoord = (e.posZ + ((double)e.worldObj.rand.nextFloat() - 0.5D) * ((double)e.width+0.5D));
+            	double xOffset = ((double)e.worldObj.rand.nextFloat() - 0.5D)*0.1D;
+            	double yOffset = 0.1D;
+            	double zOffset = ((double)e.worldObj.rand.nextFloat() - 0.5D)*0.1D;
+            	
+                e.worldObj.spawnParticle(ep, xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, new int[] {Block.getStateId(iblockstate)});
+            }
+        }
+	}
 	/** Collect NBT tags that are common from held and worn items **/
 	private void getBasicStats(ItemStack is, int[] listCollect, String[] ListSearch)
 	{
