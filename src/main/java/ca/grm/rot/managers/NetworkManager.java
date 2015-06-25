@@ -8,6 +8,8 @@ import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.comms.EnderPearlPacket;
+import ca.grm.rot.comms.GoldRequestPacket;
+import ca.grm.rot.comms.GoldResponsePacket;
 import ca.grm.rot.comms.MobRequestPacket;
 import ca.grm.rot.comms.MobResponsePacket;
 import ca.grm.rot.comms.MobResponsePacket.MobResponsePacketHandler;
@@ -37,6 +39,11 @@ public class NetworkManager
 				MobRequestPacket.class, this.packetId++, Side.SERVER);
 		net.registerMessage(MobResponsePacket.MobResponsePacketHandler.class,
 				MobResponsePacket.class, this.packetId++, Side.CLIENT);
+		
+		net.registerMessage(GoldRequestPacket.GoldRequestHandler.class,
+				GoldRequestPacket.class, this.packetId++, Side.SERVER);
+		net.registerMessage(GoldResponsePacket.GoldResponseHandler.class,
+				GoldResponsePacket.class, this.packetId++, Side.CLIENT);
 		
 		net.registerMessage(ClassRequestPacket.ClassRequestPacketHandler.class,
 				ClassRequestPacket.class, this.packetId++, Side.SERVER);

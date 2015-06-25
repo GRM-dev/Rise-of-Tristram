@@ -19,6 +19,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassRequestPacket;
+import ca.grm.rot.comms.GoldRequestPacket;
 import ca.grm.rot.comms.ProfessionRequestPacket;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
@@ -37,6 +38,7 @@ public class RotEventPlayerClone
 				properties.setValues(old.getValues());
 				Rot.net.sendToServer(new ClassRequestPacket(0));
 				Rot.net.sendToServer(new ProfessionRequestPacket(0));
+				Rot.net.sendToServer(new GoldRequestPacket());
 			}
 		}
 	}

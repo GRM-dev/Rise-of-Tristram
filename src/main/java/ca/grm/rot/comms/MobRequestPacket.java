@@ -16,7 +16,7 @@ public class MobRequestPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(MobRequestPacket message, MessageContext ctx) {
-			// Send the client back the response packet.
+			// This happens when the server gets the packet
 			World world = ctx.getServerHandler().playerEntity.worldObj;
 			Entity o = world.getEntityByID(message.entityID);                   
         	if (o instanceof EntityLiving)
