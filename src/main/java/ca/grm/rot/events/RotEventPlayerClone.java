@@ -55,23 +55,25 @@ public class RotEventPlayerClone
 		else if (e.entity instanceof EntityLiving)
 		{
 			EntityLiving mob = (EntityLiving) e.entity;
-
-			// Roll some stats
-			if (ExtendMob.get(mob) != null)
+			if (!mob.worldObj.isRemote) // Only roll on server side.
 			{
-				if (ExtendMob.get(mob).monsterLevel == 0)
+				// Roll some stats
+				if (ExtendMob.get(mob) != null)
 				{
-					int depth = 0;
-					BlockPos depthChecker = new BlockPos(mob.getPosition());
-					for (int i = 0; i < 200; i++)
+					if (ExtendMob.get(mob).monsterLevel == 0)
 					{
-						if (mob.worldObj.canBlockSeeSky(depthChecker)) break;
-						depth++;
-						depthChecker = new BlockPos(mob.getPosition().getX(), mob.getPosition()
-								.getY() + i, mob.getPosition().getZ());
+						int depth = 0;
+						BlockPos depthChecker = new BlockPos(mob.getPosition());
+						for (int i = 0; i < 200; i++)
+						{
+							if (mob.worldObj.canBlockSeeSky(depthChecker)) break;
+							depth++;
+							depthChecker = new BlockPos(mob.getPosition().getX(), mob.getPosition()
+									.getY() + i, mob.getPosition().getZ());
+						}
+	
+						ExtendMob.get(mob).rollExtendMob(depth);
 					}
-
-					ExtendMob.get(mob).rollExtendMob(depth);
 				}
 			}
 		}

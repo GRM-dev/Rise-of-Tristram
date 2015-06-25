@@ -3,6 +3,7 @@ package ca.grm.rot.events;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -24,6 +25,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
+import ca.grm.rot.comms.MobRequestPacket;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.libs.UtilNBTHelper;
@@ -169,6 +171,7 @@ public class RotEventLivingUpdate
 			}
 
 		}
+		
 		//Start of other Entities Updates events
 		else if (event.entity instanceof EntityIronGolem)
 		{
@@ -287,6 +290,18 @@ public class RotEventLivingUpdate
 			{
 				EntityLiving e = (EntityLiving) event.entity;
 				ExtendMob em = ExtendMob.get(e);
+				
+				if (em != null)
+				{
+					if (Minecraft.getMinecraft() != null)
+					{
+						if (e.worldObj.isRemote && em.needsUpdate == true)
+						{
+							
+							Rot.net.sendToServer(new MobRequestPacket(e.getEntityId()));
+						}
+					}
+				}
 				if (e.hurtResistantTime != 5)
 				{
 					e.hurtResistantTime = 5;

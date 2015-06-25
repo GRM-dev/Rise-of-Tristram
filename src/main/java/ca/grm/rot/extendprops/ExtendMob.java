@@ -23,10 +23,11 @@ public class ExtendMob implements IExtendedEntityProperties
 
 	public int monsterLevel = 0;
 	public int strength, agility, dexterity, vitality;
-	private float hpRegenBonusPercent = 0.0f; // Set this with method, later it gets divided by 20 - the number of ticks in a second - to become the next number.
 	public int minDmg, maxDmg, defBonus;
 	public int gold;
+	private float hpRegenBonusPercent = 0.0f; // Set this with method, later it gets divided by 20 - the number of ticks in a second - to become the next number.
 	public boolean isBoss;
+	public boolean needsUpdate;
 	public String prefix;
 	public String bossPrefix2;
 	public String bossPrefix3;
@@ -48,6 +49,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.bossPrefix3 = "";
 		this.bossPrefix4 = "";
 		this.isBoss = false;
+		this.needsUpdate = true;
 	}
 
 	public static final ExtendMob get(EntityLiving mob)
