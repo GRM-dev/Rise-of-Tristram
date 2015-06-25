@@ -194,7 +194,7 @@ public class ExtendMob implements IExtendedEntityProperties
 				this.suffix = rollSuffix().titleName;
 			}
 		}
-		else // If its not a boss, never give a prefix and only maybe a suffix.
+		else // If its not a boss, never give a suffix and maybe a prefix.
 		{
 			if (mob.worldObj.rand.nextInt(10) < 2) // 20% chance (0-1 = winrar)
 			{

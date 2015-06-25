@@ -139,13 +139,13 @@ public class RotMobAffixManager {
 	public static RotMobAffix[] cursed = new RotMobAffix[] { new RotMobAffix("the Cursed", 20) };
 	public static RotMobAffix[] manaBurn = new RotMobAffix[] { new RotMobAffix("who Targets Mana", 10), new RotMobAffix("who Ruins Mana", 25) };
 	
-	/* Prefixes */
-	// The general idea for these is to deal with stats, stuff like health and strength.
-	public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("Fed", 1), new RotMobAffix("Hearty", 7), new RotMobAffix("Obese", 13)};
-	public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("Bulky", 2), new RotMobAffix("Muscular", 8), new RotMobAffix("Ripped", 14), new RotMobAffix("Beefcastle", 19)};
-	public static RotMobAffix[] dexterity = new RotMobAffix[] { new RotMobAffix("Sharp-Eye", 3), new RotMobAffix("Eagle-Eye", 9), new RotMobAffix("Marksman", 15), new RotMobAffix("Sniper", 20)};
-	public static RotMobAffix[] agility = new RotMobAffix[] { new RotMobAffix("Quick", 4), new RotMobAffix("Fast", 10), new RotMobAffix("Wicked Speed", 16), new RotMobAffix("Flash", 21)};
-	public static RotMobAffix[] vitality = new RotMobAffix[] { new RotMobAffix("Strong-Will", 5), new RotMobAffix("Stonewall", 11), new RotMobAffix("Tough-Skin", 17), new RotMobAffix("Death Transcending", 22)};
-	public static RotMobAffix[] hpRegenBonusPercent = new RotMobAffix[] { new RotMobAffix("Healing", 6), new RotMobAffix("Blessed", 12), new RotMobAffix("Cleric", 18), new RotMobAffix("Altar-Betraying", 23)};
-	public static RotMobAffix[] gold = new RotMobAffix[] { new RotMobAffix("Tropical", 7) };
+		/* Prefixes */
+		// The general idea for these is to deal with stats, stuff like health and strength.
+		public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("Fed", 1), new RotMobAffix("Hearty", 7), new RotMobAffix("Obese", 13)};
+		public static RotMobAffix[] strength = new RotMobAffix[] { new RotMobAffix("Bulky", 2), new RotMobAffix("Muscular", 8), new RotMobAffix("Ripped", 14), new RotMobAffix("Beefcastle", 19)};
+		public static RotMobAffix[] dexterity = new RotMobAffix[] { new RotMobAffix("Sharp-Eye", 3), new RotMobAffix("Eagle-Eye", 9), new RotMobAffix("Marksman", 15), new RotMobAffix("Sniper", 20)};
+		public static RotMobAffix[] agility = new RotMobAffix[] { new RotMobAffix("Quick", 4), new RotMobAffix("Fast", 10), new RotMobAffix("Wicked Speed", 16), new RotMobAffix("Flash", 21)};
+		public static RotMobAffix[] vitality = new RotMobAffix[] { new RotMobAffix("Strong-Will", 5), new RotMobAffix("Stonewall", 11), new RotMobAffix("Tough-Skin", 17), new RotMobAffix("Death Transcending", 22)};
+		public static RotMobAffix[] hpRegenBonusPercent = new RotMobAffix[] { new RotMobAffix("Healing", 6), new RotMobAffix("Blessed", 12), new RotMobAffix("Cleric", 18), new RotMobAffix("Altar-Betraying", 23)};
+		public static RotMobAffix[] gold = new RotMobAffix[] { new RotMobAffix("Tropical", 7) };
 }
