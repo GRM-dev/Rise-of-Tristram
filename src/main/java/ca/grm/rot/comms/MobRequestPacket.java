@@ -19,25 +19,22 @@ public class MobRequestPacket implements IMessage {
 			// Send the client back the response packet.
 			World world = ctx.getServerHandler().playerEntity.worldObj;
 			Entity o = world.getEntityByID(message.entityID);                   
-	        if(o.getEntityId() == message.entityID)
-	        {
-	        	if (o instanceof EntityLiving)
-	        	{
-	        		ExtendMob e = ExtendMob.get((EntityLiving)o);
-	        		int isBossInt;
-	        		if (e.isBoss())
-	        		{
-	        			isBossInt = 1;
-	        		}
-	        		else
-	        		{
-	        			isBossInt = 0;
-	        		}
-	        		int[] responseIntArray = new int[]{e.monsterLevel, e.strength, e.agility, e.dexterity, e.vitality, e.minDmg, e.maxDmg, e.defBonus, e.gold, isBossInt};
-	        		String[] responseStringArray = new String[] {e.prefix, e.bossPrefix2, e.bossPrefix3, e.bossPrefix4, e.suffix};
-	        		return new MobResponsePacket(responseIntArray, responseStringArray, e.getHpRegenBonusPercent(), ((Entity)o).getEntityId());
-	        	}
-	        }
+        	if (o instanceof EntityLiving)
+        	{
+        		ExtendMob e = ExtendMob.get((EntityLiving)o);
+        		int isBossInt;
+        		if (e.isBoss())
+        		{
+        			isBossInt = 1;
+        		}
+        		else
+        		{
+        			isBossInt = 0;
+        		}
+        		int[] responseIntArray = new int[]{e.monsterLevel, e.strength, e.agility, e.dexterity, e.vitality, e.minDmg, e.maxDmg, e.defBonus, e.gold, isBossInt};
+        		String[] responseStringArray = new String[] {e.prefix, e.bossPrefix2, e.bossPrefix3, e.bossPrefix4, e.suffix};
+        		return new MobResponsePacket(responseIntArray, responseStringArray, e.getHpRegenBonusPercent(), ((Entity)o).getEntityId());
+        	}
 			return null;
 		}
 		
