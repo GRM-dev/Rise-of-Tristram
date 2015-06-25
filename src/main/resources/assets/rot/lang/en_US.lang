@@ -74,30 +74,55 @@ item.hardLeatherArmorChestplate.name=Hard Leather Chestplate
 item.hardLeatherArmorLeggings.name=Hard Leather Leggings
 item.hardLeatherArmorBoots.name=Hard Leather Boots
 
-item.studdedArmorHelm.name=Studded Helmet
-item.studdedArmorChestplate.name=Studded Chestplate
-item.studdedArmorLeggings.name=Studded Leggings
-item.studdedArmorBoots.name=Studded Boots
+item.ringMailArmorHelm.name=Ring Mail Helmet
+item.ringMailArmorChestplate.name=Ring Mail Chestplate
+item.ringMailArmorLeggings.name=Ring Mail Leggings
+item.ringMailArmorBoots.name=Ring Mail Boots
 
-item.quiltedArmorHelm.name=Quilted Helmet
-item.quiltedArmorChestplate.name=Quilted Chestplate
-item.quiltedArmorLeggings.name=Quilted Leggings
-item.quiltedArmorBoots.name=Quilted Boots
+item.scaleMailArmorHelm.name=Scale Mail Helmet
+item.scaleMailArmorChestplate.name=Scale Mail Chestplate
+item.scaleMailArmorLeggings.name=Scale Mail Leggings
+item.scaleMailArmorBoots.name=Scale Mail Boots
 
-item.quiltedArmorHelm.name=Quilted Helmet
-item.quiltedArmorChestplate.name=Quilted Chestplate
-item.quiltedArmorLeggings.name=Quilted Leggings
-item.quiltedArmorBoots.name=Quilted Boots
+item.breastPlateArmorHelm.name=Breast Plate Helmet
+item.breastPlateArmorChestplate.name=Breast Plate Chestplate
+item.breastPlateArmorLeggings.name=Breast Plate Leggings
+item.breastPlateArmorBoots.name=Breast Plate Boots
 
-item.quiltedArmorHelm.name=Quilted Helmet
-item.quiltedArmorChestplate.name=Quilted Chestplate
-item.quiltedArmorLeggings.name=Quilted Leggings
-item.quiltedArmorBoots.name=Quilted Boots
+item.splintMailArmorHelm.name=Splint Mail Helmet
+item.splintMailArmorChestplate.name=Splint Mail Chestplate
+item.splintMailArmorLeggings.name=Splint Mail Leggings
+item.splintMailArmorBoots.name=Splint Mail Boots
 
-item.quiltedArmorHelm.name=Quilted Helmet
-item.quiltedArmorChestplate.name=Quilted Chestplate
-item.quiltedArmorLeggings.name=Quilted Leggings
-item.quiltedArmorBoots.name=Quilted Boots
+item.lightPlateArmorHelm.name=Light Plate Helmet
+item.lightPlateArmorChestplate.name=Light Plate Chestplate
+item.lightPlateArmorLeggings.name=Light Plate Leggings
+item.lightPlateArmorBoots.name=Light Plate Boots
+
+item.fieldPlateArmorHelm.name=Field Plate Helmet
+item.fieldPlateArmorChestplate.name=Field Plate Chestplate
+item.fieldPlateArmorLeggings.name=Field Plate Leggings
+item.fieldPlateArmorBoots.name=Field Plate Boots
+
+item.plateMailArmorHelm.name=Plate Mail Helmet
+item.plateMailArmorChestplate.name=Plate Mail Chestplate
+item.plateMailArmorLeggings.name=Plate Mail Leggings
+item.plateMailArmorBoots.name=Plate Mail Boots
+
+item.gothicPlateArmorHelm.name=Gothic Plate Helmet
+item.gothicPlateArmorChestplate.name=Gothic Plate Chestplate
+item.gothicPlateArmorLeggings.name=Gothic Plate Leggings
+item.gothicPlateArmorBoots.name=Gothic Plate Boots
+
+item.fullPlateArmorHelm.name=Full Plate Helmet
+item.fullPlateArmorChestplate.name=Full Plate Chestplate
+item.fullPlateArmorLeggings.name=Full Plate Leggings
+item.fullPlateArmorBoots.name=Full Plate Boots
+
+item.ancientArmorHelm.name=Ancient Helmet
+item.ancientArmorChestplate.name=Ancient Chestplate
+item.ancientArmorLeggings.name=Ancient Leggings
+item.ancientArmorBoots.name=Ancient Boots
 
 item.silverNugget.name=Silver Nugget
 item.bronzeNugget.name=Bronze Nugget
