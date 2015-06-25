@@ -685,7 +685,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		defBonus += (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
 		monsterLevel += (int)(((strength+dexterity+agility+vitality) / 4)/2); // /4 gets the average, the /2 is just to get a lower number for the level.
 		//TODO write actual gold code here.
-		gold += (int)(mob.worldObj.rand.nextInt(10) * monsterLevel);
+		gold += (int)(mob.worldObj.rand.nextInt(30) * monsterLevel) + monsterLevel;
+		if (this.isBoss()) gold+= mob.worldObj.rand.nextInt(100) + 50;
 	}
 	
 	public void rollExtendMob(int depth)

@@ -37,21 +37,11 @@ public class RotBlocksItemsRecipes {
 	}
 
 	public static void smelting() {
-		GameRegistry.addSmelting(new ItemStack(Items.rotten_flesh), new ItemStack(
-				Items.leather), 1f); // idk if I should get rid of this, it seems nice.		
+		GameRegistry.addSmelting(new ItemStack(Items.rotten_flesh), new ItemStack(Items.leather), 1f);
 		GameRegistry.addSmelting(new ItemStack(RotBlocks.copperOre), new ItemStack(RotItems.copperIngot), 0.8f);
 		GameRegistry.addSmelting(new ItemStack(RotBlocks.leadOre), new ItemStack(RotItems.leadIngot), 0.8f);
 		GameRegistry.addSmelting(new ItemStack(RotBlocks.platinumOre), new ItemStack(RotItems.platinumIngot), 0.8f);
 		GameRegistry.addSmelting(new ItemStack(RotBlocks.silverOre), new ItemStack(RotItems.silverIngot), 0.8f);
 		GameRegistry.addSmelting(new ItemStack(RotBlocks.tinOre), new ItemStack(RotItems.tinIngot), 0.8f);
-		
-		// Galena ore is special and can return lead w/ 50% chance of silver too.
-		// This exists incase anyone mines Galena with a silk touch pickaxe
-		ArrayList <ItemStack> galenaDrops = new ArrayList<ItemStack>();
-		galenaDrops.add(new ItemStack(RotItems.leadIngot));
-		Random rand = new Random();
-		if (rand.nextFloat() < 0.5F)
-	        galenaDrops.add(new ItemStack(RotItems.silverIngot));
-		GameRegistry.addSmelting(new ItemStack(RotBlocks.galenaOre), RotBlocksItemsRecipes.galenaDrops, 0.8f);
 	}
 }

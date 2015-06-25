@@ -220,7 +220,7 @@ public class RotAffixManager
 			"Immortality", 5, new String[] { UtilNBTKeys.lifeRegenStat }, new float[] { 25f }) };
 
 	public static RotItemAffix[] selfRepairSuffixes = new RotItemAffix[] { new RotItemAffix(
-			"Self-Repair", 1, UtilNBTKeys.selfRepairing, 30f), new RotItemAffix("Restoration", 1,
-			UtilNBTKeys.selfRepairing, 22f), new RotItemAffix("Ages", 1,
+			"Self-Repair", 1, new String[] {UtilNBTKeys.selfRepairing, UtilNBTKeys.selfRepairTime}, new float[]{33f,33f}), new RotItemAffix("Restoration", 1,
+					new String[] {UtilNBTKeys.selfRepairing, UtilNBTKeys.selfRepairTime}, new float[]{33f,33f}), new RotItemAffix("Ages", 1,
 					"Unbreakable", 1f) };
 }
