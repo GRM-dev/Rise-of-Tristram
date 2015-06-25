@@ -36,9 +36,9 @@ public class RotEventPlayerClone
 				ExtendPlayer old = ExtendPlayer.get(event.original);
 				ExtendPlayer properties = ExtendPlayer.get(event.entityPlayer);
 				properties.setValues(old.getValues());
+				Rot.net.sendToServer(new GoldRequestPacket());
 				Rot.net.sendToServer(new ClassRequestPacket(0));
 				Rot.net.sendToServer(new ProfessionRequestPacket(0));
-				Rot.net.sendToServer(new GoldRequestPacket());
 			}
 		}
 	}

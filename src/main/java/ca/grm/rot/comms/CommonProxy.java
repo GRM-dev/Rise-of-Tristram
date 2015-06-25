@@ -23,6 +23,11 @@ public class CommonProxy {
 	{
 		return;
 	}
+	
+	public void handleGoldMessage(GoldResponsePacket message, MessageContext ctx)
+	{
+		return;
+	}
 
 	public void registerKeyBindings() {}
 

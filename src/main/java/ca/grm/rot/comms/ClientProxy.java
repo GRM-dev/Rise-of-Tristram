@@ -58,6 +58,21 @@ public class ClientProxy extends CommonProxy
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	@Override
+	public void handleGoldMessage(GoldResponsePacket message, MessageContext ctx)
+	{
+		// This happens when the client gets the server packet
+		System.out.println("got a gold response about changing to: " + message.gold);
+		try
+		{
+			ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setGold(message.gold);
+		}
+		catch (NullPointerException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
 
 	/*
 	 * @Override public int addArmor(String armor) { return
@@ -112,10 +127,9 @@ public class ClientProxy extends CommonProxy
 		{
 			try{
 			ExtendPlayer props = ExtendPlayer.get(player);
-			Rot.net.sendTo(new ClassResponsePacket(props.getCurrentClassIndex()),
-					(EntityPlayerMP) player);
-			Rot.net.sendTo(new ProfessionResponsePacket(props.getCurrentProfessionIndex()),
-					(EntityPlayerMP) player);
+			Rot.net.sendToServer(new ClassRequestPacket(props.getCurrentClassIndex()));
+			Rot.net.sendToServer(new ProfessionRequestPacket(props.getCurrentProfessionIndex()));
+			Rot.net.sendToServer(new GoldRequestPacket());
 			props.needsUpdate = false;
 			}
 			catch(Exception e)
