@@ -46,6 +46,10 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	public static final int MANA_WATCHER = 20;
 	public static final int STAM_WATCHER = 21;
 
+	// Player Settings
+	public int skill1; // Used in keeping track of hotkeys
+	public int skill2; // So users can switch what skill is used.
+	
 	public ExtendPlayer(EntityPlayer player)
 	{
 		this.player = player;
@@ -72,6 +76,10 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.currentStam = this.maxStam = realManaStamMaxes;
 		this.player.getDataWatcher().addObject(MANA_WATCHER, this.maxMana);
 		this.player.getDataWatcher().addObject(STAM_WATCHER, this.maxStam);
+		
+		// Default Settings
+		this.skill1 = 0;
+		this.skill2 = 1;
 	}
 
 	/**
