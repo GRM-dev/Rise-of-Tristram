@@ -141,7 +141,8 @@ public class RotMobAffixManager {
 	
 	// "Hidden" Suffixes
 	// Cannot be obtained via rolls.
-	public static RotMobAffix[] master;
+	public static RotMobAffix[] master = new RotMobAffix[] { new RotMobAffix("the Master", 1) };
+	public static RotMobAffix[] minion = new RotMobAffix[] { new RotMobAffix("the Minion", 1) };
 	
 		/* Prefixes */
 		// The general idea for these is to deal with stats, stuff like health and strength.
