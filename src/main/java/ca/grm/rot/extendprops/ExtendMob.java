@@ -143,13 +143,13 @@ public class ExtendMob implements IExtendedEntityProperties
 			isBoss = true;
 			
 			// TODO Make the boss bonuses more balanced.
-			strength += 10;
-			dexterity += 10;
-			agility += 10;
-			vitality += 10;
-			minDmg += 10;
-			maxDmg += 10;
-			defBonus+= 10;
+			strength += 8;
+			dexterity += 8;
+			agility += 8;
+			vitality += 8;
+			minDmg += 8;
+			maxDmg += 8;
+			defBonus+= 8;
 			gold += 100;
 			setHpRegenBonusPercent(1); // half heart per second.
 		}
@@ -674,9 +674,8 @@ public class ExtendMob implements IExtendedEntityProperties
 	public void rollStats(int depth)
 	{
 		//TODO must perfect the math here
-		//TODO Change the /2 in monsterLevel's calculation to be something better.
 		int difficulty = depth + mob.worldObj.rand.nextInt(20);
-		int monsterDifficultyRoll = MathHelper.clamp_int(difficulty / 7, 1, 10); // This exists to replace the old calculation that used monsterLevel so as that monsterLevel is calculated based on the stats.
+		int monsterDifficultyRoll = MathHelper.clamp_int(difficulty / 10, 1, 10); 
 		int baseBonus = monsterDifficultyRoll * 2;
 		strength += (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
 		dexterity += (int)(mob.worldObj.rand.nextInt(12) * monsterDifficultyRoll / 4) + baseBonus;
@@ -685,7 +684,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		minDmg += (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
 		maxDmg += (int)(mob.worldObj.rand.nextInt(13) * monsterDifficultyRoll / 4) + baseBonus;
 		defBonus += (int)(mob.worldObj.rand.nextInt(5) * monsterDifficultyRoll / 4) + baseBonus;
-		monsterLevel += (int)(((strength+dexterity+agility+vitality) / 4)/2); // /4 gets the average, the /2 is just to get a lower number for the level.
+		monsterLevel += (int)(((strength+dexterity+agility+vitality+minDmg+maxDmg+defBonus) / 7)); // /4 gets the average, the /2 is just to get a lower number for the level.
 		//TODO write actual gold code here.
 		gold += (int)(mob.worldObj.rand.nextInt(30) * monsterLevel) + monsterLevel;
 		if (this.isBoss()) gold+= mob.worldObj.rand.nextInt(100) + 50;

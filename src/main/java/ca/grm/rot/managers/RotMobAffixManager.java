@@ -139,6 +139,10 @@ public class RotMobAffixManager {
 	public static RotMobAffix[] cursed = new RotMobAffix[] { new RotMobAffix("the Cursed", 20) };
 	public static RotMobAffix[] manaBurn = new RotMobAffix[] { new RotMobAffix("who Targets Mana", 10), new RotMobAffix("who Ruins Mana", 25) };
 	
+	// "Hidden" Suffixes
+	// Cannot be obtained via rolls.
+	public static RotMobAffix[] master;
+	
 		/* Prefixes */
 		// The general idea for these is to deal with stats, stuff like health and strength.
 		public static RotMobAffix[] health = new RotMobAffix[] { new RotMobAffix("Fed", 1), new RotMobAffix("Hearty", 7), new RotMobAffix("Obese", 13)};
