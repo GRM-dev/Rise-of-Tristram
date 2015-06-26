@@ -16,6 +16,7 @@ public class GoldResponsePacket implements IMessage {
 		@Override
 		public IMessage onMessage(GoldResponsePacket message, MessageContext ctx) {
 			Rot.proxy.handleGoldMessage(message, ctx);
+			System.out.println("1 " + message.gold);
 			return null;
 		}
 		
@@ -28,7 +29,7 @@ public class GoldResponsePacket implements IMessage {
 	}
 	
 	public GoldResponsePacket(int gold) {
-		
+		this.gold = gold;
 	}
 	
 	@Override
