@@ -73,7 +73,7 @@ public class RotEventPlayerClone
 							depthChecker = new BlockPos(mob.getPosition().getX(), mob.getPosition()
 									.getY() + i, mob.getPosition().getZ());
 						}
-	
+
 						ExtendMob.get(mob).rollExtendMob(depth);
 					}
 				}

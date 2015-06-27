@@ -51,46 +51,42 @@ public class RotEventLivingUpdate
 			{
 				Rot.proxy.updatePlayer(player);
 			}
-			/*if (Minecraft.getMinecraft() != null && player.worldObj.isRemote)
-			{
-				System.out.println(UtilityFunctions.getEntitesFromLine(player, 7f));
-			}*/
+			/*
+			 * if (Minecraft.getMinecraft() != null && player.worldObj.isRemote)
+			 * { System.out.println(UtilityFunctions.getEntitesFromLine(player,
+			 * 7f)); }
+			 */
 			handlePlayerStats(props, player);
-			
-			/*Thread thread = new ThreadTest();
-			if (!thread.isAlive())
-			thread.start();*/
 
-			//TODO attach this to Magic Hand skill passive
-			/*if ((player.worldObj.getWorldTime() % 5) == 0)
-			{
-				int pullDistance = 7;
-				List<EntityItem> entities = player.worldObj.getEntitiesWithinAABB(EntityItem.class,
-						new AxisAlignedBB(player.getPosition().getX() + pullDistance, player
-								.getPosition().getY() + pullDistance,
-								player.getPosition().getZ() + pullDistance, player.getPosition()
-										.getX() - pullDistance,
-								player.getPosition().getY() - pullDistance, player.getPosition()
-										.getZ() - pullDistance));
-				if (!entities.isEmpty())
-				{
-					for (EntityItem ei : entities)
-					{ // MathHelper.clamp_float(p_76131_0_, -1f, 1);
-						// ei.motionX =
-						// (MathHelper.clamp_float(player.getPosition().getX() -
-						// ei.getPosition().getX(), -0.1f, 0.1f));
-						// ei.motionY =
-						// (MathHelper.clamp_float(player.getPosition().getY() -
-						// ei.getPosition().getY(), -0.3f, 0.3f));
-						// ei.motionZ =
-						// (MathHelper.clamp_float(player.getPosition().getZ() -
-						// ei.getPosition().getZ(), -0.1f, 0.1f));
-						ei.motionX = (player.getPosition().getX() - ei.getPosition().getX() < 0 ? -0.05f : 0.05f);
-						ei.motionY = (player.getPosition().getY() - ei.getPosition().getY() < 0 ? -0.3f : 0.3f);
-						ei.motionZ = (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ? -0.05f : 0.05f);
-					}
-				}
-			}*/
+			/*
+			 * Thread thread = new ThreadTest(); if (!thread.isAlive())
+			 * thread.start();
+			 */
+
+			// TODO attach this to Magic Hand skill passive
+			/*
+			 * if ((player.worldObj.getWorldTime() % 5) == 0) { int pullDistance
+			 * = 7; List<EntityItem> entities =
+			 * player.worldObj.getEntitiesWithinAABB(EntityItem.class, new
+			 * AxisAlignedBB(player.getPosition().getX() + pullDistance, player
+			 * .getPosition().getY() + pullDistance, player.getPosition().getZ()
+			 * + pullDistance, player.getPosition() .getX() - pullDistance,
+			 * player.getPosition().getY() - pullDistance, player.getPosition()
+			 * .getZ() - pullDistance)); if (!entities.isEmpty()) { for
+			 * (EntityItem ei : entities) { //
+			 * MathHelper.clamp_float(p_76131_0_, -1f, 1); // ei.motionX = //
+			 * (MathHelper.clamp_float(player.getPosition().getX() - //
+			 * ei.getPosition().getX(), -0.1f, 0.1f)); // ei.motionY = //
+			 * (MathHelper.clamp_float(player.getPosition().getY() - //
+			 * ei.getPosition().getY(), -0.3f, 0.3f)); // ei.motionZ = //
+			 * (MathHelper.clamp_float(player.getPosition().getZ() - //
+			 * ei.getPosition().getZ(), -0.1f, 0.1f)); ei.motionX =
+			 * (player.getPosition().getX() - ei.getPosition().getX() < 0 ?
+			 * -0.05f : 0.05f); ei.motionY = (player.getPosition().getY() -
+			 * ei.getPosition().getY() < 0 ? -0.3f : 0.3f); ei.motionZ =
+			 * (player.getPosition().getZ() - ei.getPosition().getZ() < 0 ?
+			 * -0.05f : 0.05f); } } }
+			 */
 
 			// Mana and Stamina regeneration
 			float timeMath = 3 * 60 * 10;
@@ -171,8 +167,8 @@ public class RotEventLivingUpdate
 			}
 
 		}
-		
-		//Start of other Entities Updates events
+
+		// Start of other Entities Updates events
 		else if (event.entity instanceof EntityIronGolem)
 		{
 			EntityIronGolem golem = (EntityIronGolem) event.entity;
@@ -284,20 +280,23 @@ public class RotEventLivingUpdate
 		}
 		else
 		{
-			if (event.entity instanceof EntityArmorStand) // ArmorStands don't do anything.
+			if (event.entity instanceof EntityArmorStand) // ArmorStands don't
+															// do anything.
 			{}
-			else // Everything that isn't an ArmorStand, Horse, Wolf, Villager or IronGolem.
+			else
+			// Everything that isn't an ArmorStand, Horse, Wolf, Villager or
+			// IronGolem.
 			{
 				EntityLiving e = (EntityLiving) event.entity;
 				ExtendMob em = ExtendMob.get(e);
-				
+
 				if (em != null)
 				{
 					if (Minecraft.getMinecraft() != null)
 					{
 						if (e.worldObj.isRemote && em.needsUpdate == true)
 						{
-							
+
 							Rot.net.sendToServer(new MobRequestPacket(e.getEntityId()));
 						}
 					}
@@ -317,7 +316,7 @@ public class RotEventLivingUpdate
 					{
 						e.heal(0.0025f);
 					}
-					
+
 				}
 				if (em != null && !e.worldObj.isRemote)
 				{
@@ -325,20 +324,25 @@ public class RotEventLivingUpdate
 					{
 						// Deal with placing snow
 						int i = MathHelper.floor_double(e.posX);
-			            int j = MathHelper.floor_double(e.posY);
-			            int k = MathHelper.floor_double(e.posZ);
-			            
+						int j = MathHelper.floor_double(e.posY);
+						int k = MathHelper.floor_double(e.posZ);
+
 						for (int l = 0; l < 4; ++l)
-			            {
-			                i = MathHelper.floor_double(e.posX + (double)((float)(l % 2 * 2 - 1) * 0.25F));
-			                j = MathHelper.floor_double(e.posY);
-			                k = MathHelper.floor_double(e.posZ + (double)((float)(l / 2 % 2 * 2 - 1) * 0.25F));
-			                if (e.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock().getMaterial() == Material.air && Blocks.snow_layer.canPlaceBlockAt(e.worldObj, new BlockPos(i, j, k)))
-			                {
-			                    e.worldObj.setBlockState(new BlockPos(i, j, k), Blocks.snow_layer.getDefaultState());
-			                }
-			            }
-			            
+						{
+							i = MathHelper
+									.floor_double(e.posX + (double) ((float) (l % 2 * 2 - 1) * 0.25F));
+							j = MathHelper.floor_double(e.posY);
+							k = MathHelper
+									.floor_double(e.posZ + (double) ((float) (l / 2 % 2 * 2 - 1) * 0.25F));
+							if (e.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock()
+									.getMaterial() == Material.air && Blocks.snow_layer
+									.canPlaceBlockAt(e.worldObj, new BlockPos(i, j, k)))
+							{
+								e.worldObj.setBlockState(new BlockPos(i, j, k), Blocks.snow_layer
+										.getDefaultState());
+							}
+						}
+
 						// Extinguish if it's on fire.
 						if (e.isBurning())
 						{
@@ -369,26 +373,29 @@ public class RotEventLivingUpdate
 	public void renderParticle(EntityLiving e, EnumParticleTypes ep)
 	{
 		if (e.worldObj.rand.nextInt(25) == 0)
-        {
-            int i = MathHelper.floor_double(e.posX);
-            int j = MathHelper.floor_double(e.posY - 0.20000000298023224D);
-            int k = MathHelper.floor_double(e.posZ);
-            IBlockState iblockstate = e.worldObj.getBlockState(new BlockPos(i, j, k));
-            Block block = iblockstate.getBlock();
+		{
+			int i = MathHelper.floor_double(e.posX);
+			int j = MathHelper.floor_double(e.posY - 0.20000000298023224D);
+			int k = MathHelper.floor_double(e.posZ);
+			IBlockState iblockstate = e.worldObj.getBlockState(new BlockPos(i, j, k));
+			Block block = iblockstate.getBlock();
 
-            if (block.getMaterial() != Material.air)
-            {
-            	double xCoord = (e.posX + ((double)e.worldObj.rand.nextFloat() - 0.5D) * ((double)e.width+0.5D));
-            	double yCoord = e.getEntityBoundingBox().minY + ((double)e.worldObj.rand.nextFloat());
-            	double zCoord = (e.posZ + ((double)e.worldObj.rand.nextFloat() - 0.5D) * ((double)e.width+0.5D));
-            	double xOffset = ((double)e.worldObj.rand.nextFloat() - 0.5D)*0.1D;
-            	double yOffset = 0.1D;
-            	double zOffset = ((double)e.worldObj.rand.nextFloat() - 0.5D)*0.1D;
-            	
-                e.worldObj.spawnParticle(ep, xCoord, yCoord, zCoord, xOffset, yOffset, zOffset, new int[] {Block.getStateId(iblockstate)});
-            }
-        }
+			if (block.getMaterial() != Material.air)
+			{
+				double xCoord = (e.posX + ((double) e.worldObj.rand.nextFloat() - 0.5D) * ((double) e.width + 0.5D));
+				double yCoord = e.getEntityBoundingBox().minY + ((double) e.worldObj.rand
+						.nextFloat());
+				double zCoord = (e.posZ + ((double) e.worldObj.rand.nextFloat() - 0.5D) * ((double) e.width + 0.5D));
+				double xOffset = ((double) e.worldObj.rand.nextFloat() - 0.5D) * 0.1D;
+				double yOffset = 0.1D;
+				double zOffset = ((double) e.worldObj.rand.nextFloat() - 0.5D) * 0.1D;
+
+				e.worldObj.spawnParticle(ep, xCoord, yCoord, zCoord, xOffset, yOffset, zOffset,
+						new int[] { Block.getStateId(iblockstate) });
+			}
+		}
 	}
+
 	/** Collect NBT tags that are common from held and worn items **/
 	private void getBasicStats(ItemStack is, int[] listCollect, String[] ListSearch)
 	{
@@ -403,10 +410,8 @@ public class RotEventLivingUpdate
 		// Stat handling
 		// int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0, intMod = 0,
 		// minDmg = 0, maxDmg = 0, defBonus = 0;
-		int[] stats = new int[]
-			{ 0, 0, 0, 0, 0, 0, 0, 0 };
-		String[] statsS = new String[]
-			{ UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat, UtilNBTKeys.minDmgStat, UtilNBTKeys.maxDmgStat, UtilNBTKeys.defStat };
+		int[] stats = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		String[] statsS = new String[] { UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat, UtilNBTKeys.minDmgStat, UtilNBTKeys.maxDmgStat, UtilNBTKeys.defStat };
 		float lifeSteal = 0, manaSteal = 0;
 		ItemStack held = player.getEquipmentInSlot(0), armor1 = player.getEquipmentInSlot(1), armor2 = player
 				.getEquipmentInSlot(2), armor3 = player.getEquipmentInSlot(3), armor4 = player

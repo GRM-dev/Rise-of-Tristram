@@ -114,7 +114,7 @@ public class RotEventRenderLiving
 			}
 			t.draw();
 			GlStateManager.enableTexture2D();
-			tw.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);	
+			tw.setColorRGBA_F(0.0F, 0.0F, 0.0F, 1.0F);
 
 			if (renderBar)
 			{
@@ -125,10 +125,12 @@ public class RotEventRenderLiving
 				{
 					if (!e.isBoss())
 					{
-						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + entity.getName();
+						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + entity
+								.getName();
 						GlStateManager.scale(0.02f, 0.02f, 0.02f);
 						GlStateManager.rotate(180, 0, 0, 1);
-						GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);	
+						GlStateManager.translate(0 - ((float) stringToBeDrawn.length() * 2.75f),
+								-15, 0);
 					}
 					else
 					{
@@ -145,10 +147,12 @@ public class RotEventRenderLiving
 						{
 							prefixCompilation += e.bossPrefix4 + " ";
 						}
-						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + prefixCompilation + entity.getName() + " " + e.suffix;
+						stringToBeDrawn = "(" + e.monsterLevel + ") " + e.prefix + " " + prefixCompilation + entity
+								.getName() + " " + e.suffix;
 						GlStateManager.scale(0.02f, 0.02f, 0.02f);
 						GlStateManager.rotate(180, 0, 0, 1);
-						GlStateManager.translate(0 - ((float)stringToBeDrawn.length() * 2.75f), -15, 0);
+						GlStateManager.translate(0 - ((float) stringToBeDrawn.length() * 2.75f),
+								-15, 0);
 						stringColor = 0xffff00;
 					}
 				}
@@ -156,15 +160,18 @@ public class RotEventRenderLiving
 				{
 					GlStateManager.scale(0.02f, 0.02f, 0.02f);
 					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.translate(0 - ((float)entity.getName().length() * 2.75f), -15, 0);
+					GlStateManager.translate(0 - ((float) entity.getName().length() * 2.75f), -15,
+							0);
 				}
 				if (stringToBeDrawn != "")
 				{
-					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stringToBeDrawn, (float) x, (float) y, stringColor);
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(stringToBeDrawn,
+							(float) x, (float) y, stringColor);
 				}
 				else
 				{
-					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(entity.getName(), (float) x, (float) y, stringColor);
+					Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(entity.getName(),
+							(float) x, (float) y, stringColor);
 				}
 			}
 

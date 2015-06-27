@@ -12,8 +12,8 @@ public class TextPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(TextPacket message, MessageContext ctx) {
-			System.out.println(String.format("Received %s from %s", message.text,
-					ctx.getServerHandler().playerEntity.getDisplayName()));
+//			System.out.println(String.format("Received %s from %s", message.text,
+//					ctx.getServerHandler().playerEntity.getDisplayName()));
 			return null;
 		}
 		

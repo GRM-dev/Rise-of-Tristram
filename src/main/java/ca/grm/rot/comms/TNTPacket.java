@@ -41,7 +41,7 @@ public class TNTPacket implements IMessage
 				tnt.motionZ = arrow.motionZ;
 				tnt.setPosition(arrow.posX, arrow.posY, arrow.posZ);
 				tnt.fuse = 80;
-				tnt.forceSpawn=true;
+				tnt.forceSpawn = true;
 				player.worldObj.spawnEntityInWorld(tnt);
 			}
 			return null;

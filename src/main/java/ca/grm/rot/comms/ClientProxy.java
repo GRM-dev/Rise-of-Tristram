@@ -22,56 +22,45 @@ import ca.grm.rot.items.RotItems;
 public class ClientProxy extends CommonProxy
 {
 
-	//TODO figure out why controls are being doubled
+	// TODO figure out why controls are being doubled
 	public static KeyBinding classKey = new KeyBinding("Class Menu", Keyboard.KEY_Y, "keys.rot");
 	public static KeyBinding customizeItemKey = new KeyBinding("Item Customization Menu",
 			Keyboard.KEY_I, "keys.rot");
-	public static KeyBinding skill1 = new KeyBinding("Active Skill 1",
-			Keyboard.KEY_F, "keys.rot");
-	public static KeyBinding skill2 = new KeyBinding("Active Skill 2",
-			Keyboard.KEY_R, "keys.rot");
+	public static KeyBinding skill1 = new KeyBinding("Active Skill 1", Keyboard.KEY_F, "keys.rot");
+	public static KeyBinding skill2 = new KeyBinding("Active Skill 2", Keyboard.KEY_R, "keys.rot");
 
 	@Override
 	public void handleClassMessage(ClassResponsePacket message, MessageContext ctx)
 	{
-		System.out.println("got a response about changing to: " + message.classID);
 		try
 		{
 			ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentClass(message.classID);
 		}
 		catch (NullPointerException e)
-		{
-			System.out.println(e.getMessage());
-		}
+		{}
 	}
 
 	@Override
 	public void handleProfessionMessage(ProfessionResponsePacket message, MessageContext ctx)
 	{
-		System.out.println("got a response about changing to: " + message.professionID);
 		try
 		{
-			ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentProfession(message.professionID);
+			ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setCurrentProfession(
+					message.professionID);
 		}
 		catch (NullPointerException e)
-		{
-			System.out.println(e.getMessage());
-		}
+		{}
 	}
-	
+
 	@Override
 	public void handleGoldMessage(GoldResponsePacket message, MessageContext ctx)
 	{
-		// This happens when the client gets the server packet
-		System.out.println("got a gold response about changing to: " + message.gold);
 		try
 		{
 			ExtendPlayer.get(Minecraft.getMinecraft().thePlayer).setGold(message.gold);
 		}
 		catch (NullPointerException e)
-		{
-			System.out.println(e.getMessage());
-		}
+		{}
 	}
 
 	/*
@@ -125,17 +114,16 @@ public class ClientProxy extends CommonProxy
 	{
 		if (Minecraft.getMinecraft().thePlayer != null)
 		{
-			try{
-			ExtendPlayer props = ExtendPlayer.get(player);
-			Rot.net.sendToServer(new ClassRequestPacket(props.getCurrentClassIndex()));
-			Rot.net.sendToServer(new ProfessionRequestPacket(props.getCurrentProfessionIndex()));
-			Rot.net.sendToServer(new GoldRequestPacket());
-			props.needsUpdate = false;
-			}
-			catch(Exception e)
+			try
 			{
-				System.out.println(e.getMessage());
+				ExtendPlayer props = ExtendPlayer.get(player);
+				Rot.net.sendToServer(new ClassRequestPacket(props.getCurrentClassIndex()));
+				Rot.net.sendToServer(new ProfessionRequestPacket(props.getCurrentProfessionIndex()));
+				Rot.net.sendToServer(new GoldRequestPacket());
+				props.needsUpdate = false;
 			}
+			catch (Exception e)
+			{}
 		}
 	}
 }

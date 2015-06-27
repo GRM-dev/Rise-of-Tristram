@@ -106,7 +106,6 @@ public class RotMobAffixManager {
 		case 6:
 			return gold;
 		}
-		System.out.println("p " + roll);
 		return null;
 	}
 	
@@ -127,7 +126,6 @@ public class RotMobAffixManager {
 		case 4:
 			return manaBurn;
 		}
-		System.out.println("s " + roll);
 		return null;
 	}
 	

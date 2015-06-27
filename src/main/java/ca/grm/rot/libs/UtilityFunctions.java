@@ -156,7 +156,6 @@ public class UtilityFunctions
 		if (items.length != amounts.length)// Just to make sure you checked
 											// right
 		{
-			System.out.println("items and amounts do not match up in lengths.");
 			return false;
 		}
 		boolean[] correctAmount = new boolean[items.length];

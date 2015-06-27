@@ -21,8 +21,8 @@ public class KeyHandleEvent
 		ExtendPlayer props = ExtendPlayer.get(player);
 		if (ClientProxy.classKey.isPressed())
 		{
-			FMLNetworkHandler.openGui(player, Rot.instance, 1, player.worldObj,
-					(int) player.posX, (int) player.posY, (int) player.posZ);
+			FMLNetworkHandler.openGui(player, Rot.instance, 1, player.worldObj, (int) player.posX,
+					(int) player.posY, (int) player.posZ);
 		}
 		if (ClientProxy.skill1.isPressed())
 		{

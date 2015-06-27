@@ -22,23 +22,16 @@ public class ClassRequestPacket implements IMessage
 		{
 			if (message.classID == 0) { return new ClassResponsePacket(ExtendPlayer.get(
 					ctx.getServerHandler().playerEntity).getCurrentClassIndex()); }
-
-			System.out.println("got a request to change to: " + message.classID);
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
 			if (ExtendPlayer.get(player).pickedClass == RotClassManager.classes[0])
 			{
-				System.out.println("Yeah player has no class, free change");
 				ExtendPlayer.get(player).setCurrentClass(message.classID);
 				return new ClassResponsePacket(message.classID);
 			}
 			else
 			{
-				System.out.println("Player has a class, gonna cost 27g");
-				System.out.println("Current Class is: " + ExtendPlayer.get(player)
-						.getCurrentClassName());
 				if (UtilityFunctions.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory))
 				{
-					System.out.println("Player has 3 ingots");
 					for (int i = 0; i < 3; i++)
 					{
 						player.inventory.consumeInventoryItem(Items.gold_ingot);
@@ -50,7 +43,6 @@ public class ClassRequestPacket implements IMessage
 				else if (UtilityFunctions.checkForItemAndAmount(Items.gold_nugget, 27,
 						player.inventory))
 				{
-					System.out.println("Player has 27 nuggets");
 					for (int i = 0; i < 27; i++)
 					{
 						player.inventory.consumeInventoryItem(Items.gold_nugget);

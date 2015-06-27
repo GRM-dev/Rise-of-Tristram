@@ -624,9 +624,11 @@ public class RotEventItems
 
 				if (is.getItemDamage() != is.getMaxDamage())
 				{
-					i.toolTip.add(EnumChatFormatting.WHITE + ("Durability: " + (is.getMaxDamage() - is.getItemDamage()) + " / " + is.getMaxDamage()));
+					i.toolTip
+							.add(EnumChatFormatting.WHITE + ("Durability: " + (is.getMaxDamage() - is
+									.getItemDamage()) + " / " + is.getMaxDamage()));
 				}
-				
+
 				if (qualityName != "") i.toolTip
 						.add(EnumChatFormatting.WHITE + "Quality: " + qualityName);
 

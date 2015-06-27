@@ -14,8 +14,6 @@ public class GoldRequestPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(GoldRequestPacket message, MessageContext ctx) {
-			// This happens when the server gets the packet
-			System.out.println("Server has recieved gold request packet. " + ExtendPlayer.get(ctx.getServerHandler().playerEntity).getGold());
 			return new GoldResponsePacket(ExtendPlayer.get(ctx.getServerHandler().playerEntity).getGold());
 		}
 		

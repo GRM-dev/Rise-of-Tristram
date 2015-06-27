@@ -1,16 +1,10 @@
 package ca.grm.rot.events;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
-
-import com.sun.media.jfxmedia.events.PlayerEvent;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -18,7 +12,6 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -172,22 +165,25 @@ public class RotEventDamage
 							if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 							else event.ammount -= newDmg;
 						}
-						
+
 						// Handle suffixes for mobs
 						if (props.suffix == "the Cursed")
 						{
-							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id, 100, 1));
+							event.entityLiving.addPotionEffect(new PotionEffect(Potion.wither.id,
+									100, 1));
 						}
-						
+
 						if (props.suffix == "who Targets Mana")
 						{
 							if (event.entity instanceof EntityPlayer)
 							{
 								ExtendPlayer player = ExtendPlayer.get((EntityPlayer) event.entity);
-								player.consumeMana(75); // Could maybe change to an amount based on damage delt?
+								player.consumeMana(75); // Could maybe change to
+														// an amount based on
+														// damage delt?
 							}
 						}
-						
+
 						if (props.suffix == "who Ruins Mana")
 						{
 							if (event.entity instanceof EntityPlayer)
@@ -226,8 +222,8 @@ public class RotEventDamage
 			{
 				ExtendMob props = ExtendMob.get(e);
 				if (event.source instanceof EntityDamageSource) event.ammount -= props.defBonus;
-				if (event.source.isFireDamage()) {
-					System.out.println(props.prefix + " " + props.suffix + "  z: " + event.entityLiving.posZ);
+				if (event.source.isFireDamage())
+				{
 					if (props.suffix == "the Heated")
 					{
 						event.ammount = 0; // Cancels all fire damage.
@@ -261,15 +257,16 @@ public class RotEventDamage
 			{
 				int monsterLevel = ExtendMob.get(entity).monsterLevel;
 				EntityItem[] newDrops = RotLootManager.addLoot(e.entity, monsterLevel);
-				if (newDrops != null)
-				for (EntityItem ei : newDrops)
+				if (newDrops != null) for (EntityItem ei : newDrops)
 				{
 					e.drops.add(ei);
 				}
-				
-				
-				// TODO use the getEntityItem function that takes an ItemStack. See EntityItem.class
-				EntityItem goldDrops = new EntityItem(entity.worldObj, entity.getPosition().getX(), entity.getPosition().getY(), entity.getPosition().getZ(), new ItemStack(RotItems.gold, ExtendMob.get(entity).gold));
+
+				// TODO use the getEntityItem function that takes an ItemStack.
+				// See EntityItem.class
+				EntityItem goldDrops = new EntityItem(entity.worldObj, entity.getPosition().getX(),
+						entity.getPosition().getY(), entity.getPosition().getZ(), new ItemStack(
+								RotItems.gold, ExtendMob.get(entity).gold));
 				e.drops.add(goldDrops);
 			}
 		}
