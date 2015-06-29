@@ -94,7 +94,7 @@ public class RotEventLivingUpdate
 			{
 				if (!player.isPotionActive(Potion.hunger))
 				{
-					player.heal((((25 * props.pickedClass.hpPerVit) + props.getHealthRegen()) / timeMath));
+					player.heal((((5 * props.pickedClass.hpPerVit) + props.getHealthRegen()) / timeMath));
 				}
 			}
 			int notExhaustedFoodLevel = 8;

@@ -223,7 +223,7 @@ public class RotEventDamage
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
 			if (event.source instanceof EntityDamageSource) event.ammount -= props.getDefBonus();
-			float newDamage = player.getMaxHealth() * (1f - (props.getAdjustedMaxHealth() - event.ammount / props
+			float newDamage = player.getMaxHealth() * (1f - ((props.getAdjustedMaxHealth() - event.ammount) / props
 					.getAdjustedMaxHealth()));
 			event.ammount = newDamage < 0 ? 0 : newDamage;
 		}
