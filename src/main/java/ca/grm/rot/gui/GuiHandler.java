@@ -38,8 +38,7 @@ public class GuiHandler implements IGuiHandler {
 			case 0 :
 				if (entity instanceof TileEntityBaseBuilder) {
 					return null;
-					// ContainerPedestal(player.inventory, (TileEntityPedestal)
-					// te);
+					//ContainerPedestal(player.inventory, (TileEntityPedestal)te);
 				} else {
 					return null;
 				}
