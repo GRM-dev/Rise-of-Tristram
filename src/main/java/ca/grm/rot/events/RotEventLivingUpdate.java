@@ -47,7 +47,7 @@ public class RotEventLivingUpdate
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
-			if (props.needsUpdate && ((player.worldObj.getWorldTime() % 120) == 0))
+			if (props.needsUpdate && ((player.worldObj.getWorldTime() % 40) == 0))
 			{
 				Rot.proxy.updatePlayer(player);
 			}
@@ -291,8 +291,7 @@ public class RotEventLivingUpdate
 
 				if (em != null)
 				{
-					if (e.worldObj.isRemote && em.needsUpdate == true && ((e.worldObj
-							.getWorldTime() % 180) == 0))
+					if (e.worldObj.isRemote && em.needsUpdate && ((e.worldObj.getWorldTime() % 40) == 0))
 					{
 						Rot.net.sendToServer(new MobRequestPacket(e.getEntityId()));
 					}
