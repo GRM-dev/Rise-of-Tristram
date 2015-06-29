@@ -44,13 +44,15 @@ public class RotEventDamage
 			{
 				EntityPlayer player = (EntityPlayer) source.getEntity();
 				// Apply Special Weapon Effects
+				float dmgBoost = 0f;
+				float dmgPrice = 0f;
 				if (player.getHeldItem() != null) if (player.getHeldItem().getItem() instanceof ItemSword || player
 						.getHeldItem().getItem() instanceof ItemTool || player.getHeldItem()
 						.getItem() instanceof ItemBow)
 				{
+					ItemStack is = player.getHeldItem();
 					// Poison and Wither
-					float poisonLevel = UtilNBTHelper.getFloat(player.getHeldItem(),
-							UtilNBTKeys.poison);
+					float poisonLevel = UtilNBTHelper.getFloat(is, UtilNBTKeys.poison);
 					if (poisonLevel != 0)
 					{
 						switch ((int) poisonLevel)
@@ -71,8 +73,7 @@ public class RotEventDamage
 					}
 
 					// Debuff Effects
-					float sickLevel = UtilNBTHelper.getFloat(player.getHeldItem(),
-							UtilNBTKeys.sickness);
+					float sickLevel = UtilNBTHelper.getFloat(is, UtilNBTKeys.sickness);
 					if (sickLevel != 0)
 					{
 						switch ((int) sickLevel)
@@ -98,10 +99,13 @@ public class RotEventDamage
 						}
 					}
 					// Health Regeneration prevention/Hunger
-					if (UtilNBTHelper.getBoolean(player.getHeldItem(), UtilNBTKeys.vile))
+					if (UtilNBTHelper.getBoolean(is, UtilNBTKeys.vile))
 					{
 						event.entityLiving.addPotionEffect(new PotionEffect(Potion.hunger.id, 120));
 					}
+					// Damage Boosts
+					dmgBoost = UtilNBTHelper.getFloat(is, UtilNBTKeys.dmgEnhance);
+					dmgPrice = UtilNBTHelper.getFloat(is, UtilNBTKeys.dmgPrice);
 				}
 				ExtendPlayer props = ExtendPlayer.get(player);
 				float tempDmg = event.ammount * upscalePercent;// Take the
@@ -116,10 +120,21 @@ public class RotEventDamage
 					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getStrength() + 100) / 100;
 					float finalMaxDmg = 20 + tempDmg + props.getMaxDmg() * (props.getStrength() + 100) / 100;
 					int newDmg = ((int) finalMaxDmg - (int) finalMinDmg) + (int) finalMinDmg;
+					//TODO finish the bonus dmg and hp cost code, this is kinda working
+					/*if (dmgBoost > 0f)
+					{
+						float healthPayment = newDmg * dmgPrice;
+						System.out.println(healthPayment);
+						System.out.println(((player.getMaxHealth() * upscalePercent) * (1f - ((props.getAdjustedMaxHealth() - healthPayment) / props
+								.getAdjustedMaxHealth()))) * -1f);
+						player.heal(((player.getMaxHealth() * upscalePercent) * (1f - ((props.getAdjustedMaxHealth() - healthPayment) / props
+								.getAdjustedMaxHealth()))) * -1f);
+						newDmg *= dmgBoost;
+					}*/
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
 					if (props.getLifeSteal() != 0) player
-							.heal(event.ammount * props.getLifeSteal());
+							.heal((event.ammount * props.getLifeSteal())/10);
 					if (props.getManaSteal() != 0) props.regenMana(event.ammount * props
 							.getManaSteal());
 				}
@@ -208,11 +223,8 @@ public class RotEventDamage
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
 			if (event.source instanceof EntityDamageSource) event.ammount -= props.getDefBonus();
-			float adjustedMaxHP = (player.getMaxHealth() * upscalePercent) + props.pickedClass.baseHp + (props
-					.getVitality() * props.pickedClass.hpPerVit);
-			float adjustedHP = adjustedMaxHP - event.ammount;
-			float adjustedHPPercent = 1f - (adjustedHP / adjustedMaxHP);
-			float newDamage = player.getMaxHealth() * adjustedHPPercent;
+			float newDamage = player.getMaxHealth() * (1f - (props.getAdjustedMaxHealth() - event.ammount / props
+					.getAdjustedMaxHealth()));
 			event.ammount = newDamage < 0 ? 0 : newDamage;
 		}
 		else
