@@ -24,6 +24,7 @@ import ca.grm.rot.comms.EnderPearlPacket;
 import ca.grm.rot.events.RotEventDamage;
 import ca.grm.rot.events.RotEventLivingUpdate;
 import ca.grm.rot.gui.GuiHandler;
+import ca.grm.rot.hooks.RotChestHook;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.managers.NetworkManager;
 import ca.grm.rot.managers.RotEventManager;
@@ -55,7 +56,7 @@ public class Rot
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		proxy.registerKeyBindings();
 		proxy.registerRenderers();
-
+		RotChestHook.addChestHooks();
 	}
 
 	@EventHandler
