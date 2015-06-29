@@ -23,7 +23,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	// TODO add in skills
 	// TODO Create SkillsClass
-	
+
 	private int currentClass;
 	private int currentProfession;
 	public RotClass pickedClass = RotClassManager.classes[currentClass];
@@ -33,8 +33,8 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	public final float realManaStamMaxes = 100f;
 
-	private float bonusMana;
-	private float bonusStam;
+	private float bonusMana, bonusStam, bonusHealth;
+	private float bonusManaRegen, bonusStamRegen, bonusHealthRegen;
 	private float athleticScore = 0;
 
 	private float currentMana, maxMana, currentStam, maxStam;
@@ -49,7 +49,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	// Player Settings
 	public int skill1; // Used in keeping track of hotkeys
 	public int skill2; // So users can switch what skill is used.
-	
+
 	public ExtendPlayer(EntityPlayer player)
 	{
 		this.player = player;
@@ -67,7 +67,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.defBonus = 0;
 		this.lifeSteal = 0;
 		this.manaSteal = 0;
-		
+
 		this.gold = 0;
 
 		// this.currentMana = this.maxMana = pickedClass.baseMana;
@@ -76,7 +76,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		this.currentStam = this.maxStam = realManaStamMaxes;
 		this.player.getDataWatcher().addObject(MANA_WATCHER, this.maxMana);
 		this.player.getDataWatcher().addObject(STAM_WATCHER, this.maxStam);
-		
+
 		// Default Settings
 		this.skill1 = 0;
 		this.skill2 = 1;
@@ -230,7 +230,76 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		return this.realManaStamMaxes + pickedClass.baseStam + bonusStam + (this.vitality * pickedClass.stamPerVitStat);
 	}
+	
+	/** Returns the adjusted max health**/
+	public float getAdjustedMaxHealth()
+	{
+		return (player.getMaxHealth() * 5) + bonusHealth + pickedClass.baseHp + (this.vitality * pickedClass.hpPerVit);
+	}
+	
+	//Bonus Regen
+	public float getHealthRegen()
+	{
+		return this.bonusHealthRegen;
+	}
+	
+	public void setHealthRegen(float value)
+	{
+		this.bonusHealthRegen = value;
+	}
+	
+	public float getManaRegen()
+	{
+		return this.bonusManaRegen;
+	}
+	
+	public void setManaRegen(float value)
+	{
+		this.bonusManaRegen = value;
+	}
+	
+	public float getStamRegen()
+	{
+		return this.bonusStamRegen;
+	}
+	
+	public void setStamRegen(float value)
+	{
+		this.bonusStamRegen = value;
+	}
+	
+	//Bonus Stats
+	public float getBonusHealth()
+	{
+		return this.bonusHealth;
+	}
+	
+	public void setBonusHealth(float value)
+	{
+		this.bonusHealth = value;
+	}
+	
+	public float getBonusMana()
+	{
+		return this.bonusMana;
+	}
+	
+	public void setBonusMana(float value)
+	{
+		this.bonusMana = value;
+	}
+	
+	public float getBonusStam()
+	{
+		return this.bonusStam;
+	}
+	
+	public void setBonusStam(float value)
+	{
+		this.bonusStam = value;
+	}
 
+	//Base Stats
 	public int getStrength()
 	{
 		return this.strength;
@@ -462,7 +531,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	public void setIntelligence(int value)
 	{
 		this.intelligence = MathHelper.clamp_int(value + pickedClass.intStat, -statMax, statMax);
-		//setMaxMana(pickedClass.baseMana);
+		// setMaxMana(pickedClass.baseMana);
 	}
 
 	public void setMaxMana(float readFloat)
@@ -501,7 +570,7 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	public void setVitality(int value)
 	{
 		this.vitality = MathHelper.clamp_int(value + pickedClass.vitStat, -statMax, statMax);
-		//setMaxStam(pickedClass.baseStam);
+		// setMaxStam(pickedClass.baseStam);
 	}
 
 	public float getAthleticScore()
@@ -542,12 +611,12 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		return this.gold;
 	}
-	
+
 	public void setGold(int value)
 	{
 		this.gold = value;
 	}
-	
+
 	public void addGold(int value)
 	{
 		this.gold += value;

@@ -564,6 +564,20 @@ public class RotEventItems
 				int maxDmg = UtilNBTHelper.getInt(is, UtilNBTKeys.maxDmgStat);
 				float lifeSteal = UtilNBTHelper.getFloat(is, UtilNBTKeys.lifeSteal);
 				float manaSteal = UtilNBTHelper.getFloat(is, UtilNBTKeys.manaSteal);
+				float bonusHealth = UtilNBTHelper.getFloat(is, UtilNBTKeys.lifeStat), bonusMana = UtilNBTHelper
+						.getFloat(is, UtilNBTKeys.manaStat), bonusStam = UtilNBTHelper.getFloat(is,
+						UtilNBTKeys.stamStat), bonusHealthRegen = UtilNBTHelper.getFloat(is,
+						UtilNBTKeys.lifeRegenStat), bonusManaRegen = UtilNBTHelper.getFloat(is,
+						UtilNBTKeys.manaRegenStat), bonusStamRegen = UtilNBTHelper.getFloat(is,
+						UtilNBTKeys.stamRegenStat);
+				float poisonLevel = UtilNBTHelper.getFloat(is, UtilNBTKeys.poison);
+				float sickLevel = UtilNBTHelper.getFloat(is, UtilNBTKeys.sickness);
+				boolean isVile = UtilNBTHelper.getBoolean(is, UtilNBTKeys.vile);
+				float selfRepair = UtilNBTHelper.getFloat(is, UtilNBTKeys.selfRepairing);
+				float sockets = UtilNBTHelper.getFloat(is, UtilNBTKeys.sockets);
+				float socketsUsed = UtilNBTHelper.getFloat(is, UtilNBTKeys.socketsUsed);
+				float dmgBoost = UtilNBTHelper.getFloat(is, UtilNBTKeys.dmgEnhance), dmgPrice = UtilNBTHelper
+						.getFloat(is, UtilNBTKeys.dmgPrice);
 
 				int defBonus = UtilNBTHelper.getInt(is, UtilNBTKeys.defStat);
 
@@ -614,19 +628,75 @@ public class RotEventItems
 					}
 				}
 
+				if (dmgBoost > 0f)
+				{
+					i.toolTip
+							.add(EnumChatFormatting.DARK_BLUE + "Damage Percent Boost: " + (int) ((dmgBoost - 1f) * 100) + "%");
+					i.toolTip
+							.add(EnumChatFormatting.DARK_RED + "Damage Health Cost: " + (int) (dmgPrice * 100) + "%");
+				}
+
 				if (is.getItem() instanceof ItemArmor) i.toolTip.add(defBonus + (((ItemArmor) is
 						.getItem()).damageReduceAmount * 5) + " Armor");
+
+				if (bonusHealth > 0f)
+				{
+					i.toolTip.add(EnumChatFormatting.RED + "Bonus Health: " + (int) bonusHealth);
+				}
+				if (bonusHealthRegen > 0f)
+				{
+					i.toolTip
+							.add(EnumChatFormatting.RED + "Bonus Health Regen: " + (int) bonusHealthRegen);
+				}
+
+				if (bonusMana > 0f)
+				{
+					i.toolTip.add(EnumChatFormatting.BLUE + "Bonus Mana: " + (int) bonusMana);
+				}
+				if (bonusManaRegen > 0f)
+				{
+					i.toolTip
+							.add(EnumChatFormatting.BLUE + "Bonus Mana Regen: " + (int) bonusManaRegen);
+				}
+
+				if (bonusStam > 0f)
+				{
+					i.toolTip.add(EnumChatFormatting.YELLOW + "Bonus Stamina: " + (int) bonusStam);
+				}
+				if (bonusStamRegen > 0f)
+				{
+					i.toolTip
+							.add(EnumChatFormatting.YELLOW + "Bonus Stamina Regen: " + (int) bonusStamRegen);
+				}
 
 				if (lifeSteal != 0) i.toolTip
 						.add(EnumChatFormatting.RED + "Life Steal: " + (int) (lifeSteal * 100) + "%");
 				if (manaSteal != 0) i.toolTip
 						.add(EnumChatFormatting.AQUA + "Mana Steal: " + (int) (manaSteal * 100) + "%");
-
-				if (is.getItemDamage() != is.getMaxDamage())
+				if (poisonLevel > 0f)
 				{
-					i.toolTip
-							.add(EnumChatFormatting.WHITE + ("Durability: " + (is.getMaxDamage() - is
-									.getItemDamage()) + " / " + is.getMaxDamage()));
+					if (poisonLevel == 1f) i.toolTip
+							.add(EnumChatFormatting.GREEN + "Poison for 3 seconds");
+					if (poisonLevel == 2f) i.toolTip
+							.add(EnumChatFormatting.GREEN + "Poison for 5 seconds");
+					if (poisonLevel == 3f) i.toolTip
+							.add(EnumChatFormatting.GREEN + "Wither for 5 seconds");
+				}
+
+				if (sickLevel > 0f)
+				{
+					if (sickLevel >= 1f) i.toolTip
+							.add(EnumChatFormatting.GREEN + "Nausea for 6 seconds");
+					if (sickLevel >= 2f) i.toolTip
+							.add(EnumChatFormatting.GREEN + "Slow for 6 seconds");
+					if (sickLevel == 3f) i.toolTip
+							.add(EnumChatFormatting.GREEN + "Weakness for 6 seconds");
+				}
+
+				if (isVile)
+				{
+					i.toolTip.add(EnumChatFormatting.GREEN + "Prevents Health and");
+					i.toolTip.add(EnumChatFormatting.GREEN + "Stamina Regen for 6 seconds");
 				}
 
 				if (qualityName != "") i.toolTip
@@ -648,6 +718,25 @@ public class RotEventItems
 
 				if (dex != 0) i.toolTip
 						.add((dex > 0 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + "Dexterity Modifier: " + dex);
+
+				if (selfRepair != 1f && is.isItemStackDamageable())
+				{
+					i.toolTip
+							.add(EnumChatFormatting.WHITE + ("Durability: " + (is.getMaxDamage() - is
+									.getItemDamage()) + " / " + is.getMaxDamage()));
+					if (selfRepair > 1f)
+					{
+						i.toolTip
+								.add(EnumChatFormatting.WHITE + ("Repairs in: " + (int) (UtilNBTHelper
+										.getFloat(is, UtilNBTKeys.selfRepairTime) / 20) + "s"));
+					}
+				}
+
+				if (sockets > 0)
+				{
+					i.toolTip
+							.add(EnumChatFormatting.WHITE + ("Sockets: " + (int) (sockets) + " free: " + (int) (sockets - socketsUsed)));
+				}
 
 				// String prefixName = UtilNBTHelper.getString(is,
 				// UtilNBTKeys.prefixName);

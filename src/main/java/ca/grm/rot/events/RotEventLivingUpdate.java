@@ -47,7 +47,7 @@ public class RotEventLivingUpdate
 		{
 			EntityPlayer player = (EntityPlayer) event.entity;
 			ExtendPlayer props = ExtendPlayer.get(player);
-			if (props.needsUpdate)
+			if (props.needsUpdate && ((player.worldObj.getWorldTime() % 40) == 0))
 			{
 				Rot.proxy.updatePlayer(player);
 			}
@@ -94,7 +94,7 @@ public class RotEventLivingUpdate
 			{
 				if (!player.isPotionActive(Potion.hunger))
 				{
-					player.heal((((25 * props.pickedClass.hpPerVit) + props.getVitality()) / timeMath));
+					player.heal((((25 * props.pickedClass.hpPerVit) + props.getHealthRegen()) / timeMath));
 				}
 			}
 			int notExhaustedFoodLevel = 8;
@@ -149,12 +149,12 @@ public class RotEventLivingUpdate
 					props.replenishStam();
 				}
 			}
-			props.regenMana((5f + (props.getIntelligence() * 3)) / timeMath);
+			props.regenMana((5f + (props.getManaRegen())) / timeMath);
 			if (!player.isSprinting())
 			{
 				if (!player.isPotionActive(Potion.hunger))
 				{
-					props.regenStam(((30f + (props.getVitality() * 3)) / timeMath) + (((player.experienceLevel) * 4) / timeMath));
+					props.regenStam(((30f + (props.getStamRegen())) / timeMath) + (((player.experienceLevel) * 4) / timeMath));
 				}
 			}
 			else
@@ -165,7 +165,6 @@ public class RotEventLivingUpdate
 					player.getFoodStats().setFoodLevel(exhaustedFoodLevel);
 				}
 			}
-
 		}
 
 		// Start of other Entities Updates events
@@ -285,20 +284,16 @@ public class RotEventLivingUpdate
 			{}
 			else
 			// Everything that isn't an ArmorStand, Horse, Wolf, Villager or
-			// IronGolem.
+			// IronGolem and of course not a player.
 			{
 				EntityLiving e = (EntityLiving) event.entity;
 				ExtendMob em = ExtendMob.get(e);
 
 				if (em != null)
 				{
-					if (Minecraft.getMinecraft() != null)
+					if (e.worldObj.isRemote && em.needsUpdate && ((e.worldObj.getWorldTime() % 40) == 0))
 					{
-						if (e.worldObj.isRemote && em.needsUpdate == true)
-						{
-
-							Rot.net.sendToServer(new MobRequestPacket(e.getEntityId()));
-						}
+						Rot.net.sendToServer(new MobRequestPacket(e.getEntityId()));
 					}
 				}
 				if (e.hurtResistantTime != 5)
@@ -405,6 +400,32 @@ public class RotEventLivingUpdate
 		}
 	}
 
+	private void getBonusStats(ItemStack is, float[] listCollect, String[] ListSearch)
+	{
+		for (int i = 0; i < listCollect.length; i++)
+		{
+			listCollect[i] += UtilNBTHelper.getFloat(is, ListSearch[i]);
+		}
+	}
+
+	private void selfRepair(ItemStack item)
+	{
+		if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairing) > 1f)
+		{
+			if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairTime) == 0)
+			{
+				item.setItemDamage(item.getItemDamage() - 1);
+				UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, UtilNBTHelper.getFloat(
+						item, UtilNBTKeys.selfRepairing) * 20);
+			}
+			else
+			{
+				UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, UtilNBTHelper.getFloat(
+						item, UtilNBTKeys.selfRepairTime) - 1);
+			}
+		}
+	}
+
 	private void handlePlayerStats(ExtendPlayer props, EntityPlayer player)
 	{
 		// Stat handling
@@ -412,7 +433,11 @@ public class RotEventLivingUpdate
 		// minDmg = 0, maxDmg = 0, defBonus = 0;
 		int[] stats = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		String[] statsS = new String[] { UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat, UtilNBTKeys.minDmgStat, UtilNBTKeys.maxDmgStat, UtilNBTKeys.defStat };
-		float lifeSteal = 0, manaSteal = 0;
+		float[] bonusStats = new float[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		String[] bonusStatsS = new String[] { UtilNBTKeys.lifeSteal, UtilNBTKeys.manaSteal, UtilNBTKeys.manaStat, UtilNBTKeys.stamStat, UtilNBTKeys.lifeStat, UtilNBTKeys.manaRegenStat, UtilNBTKeys.stamRegenStat, UtilNBTKeys.lifeRegenStat };
+		// float lifeSteal = 0, manaSteal = 0;
+		// float bonusMana = 0, bonusStam = 0, bonusHealth = 0, bonusManaRegen =
+		// 0, bonusStamRegen = 0, bonusHealthRegen = 0;
 		ItemStack held = player.getEquipmentInSlot(0), armor1 = player.getEquipmentInSlot(1), armor2 = player
 				.getEquipmentInSlot(2), armor3 = player.getEquipmentInSlot(3), armor4 = player
 				.getEquipmentInSlot(4);
@@ -423,30 +448,35 @@ public class RotEventLivingUpdate
 					.getItem() instanceof ItemBow))
 			{
 				getBasicStats(held, stats, statsS);
-				lifeSteal += UtilNBTHelper.getFloat(held, UtilNBTKeys.lifeSteal);
-				manaSteal += UtilNBTHelper.getFloat(held, UtilNBTKeys.lifeSteal);
-				/*
-				 * if (!player.worldObj.isRemote) if (held.getItemDamage() > 0)
-				 * held .setItemDamage(held.getItemDamage() - 1);
-				 */
+				getBonusStats(held, bonusStats, bonusStatsS);
+				selfRepair(held);
 			}
 		}
 		if (armor1 != null)
 		{
 			getBasicStats(armor1, stats, statsS);
+			getBonusStats(armor1, bonusStats, bonusStatsS);
+			selfRepair(armor1);
 		}
 		if (armor2 != null)
 		{
 			getBasicStats(armor2, stats, statsS);
+			getBonusStats(armor2, bonusStats, bonusStatsS);
+			selfRepair(armor2);
 		}
 		if (armor3 != null)
 		{
 			getBasicStats(armor3, stats, statsS);
+			getBonusStats(armor3, bonusStats, bonusStatsS);
+			selfRepair(armor3);
 		}
 		if (armor4 != null)
 		{
 			getBasicStats(armor4, stats, statsS);
+			getBonusStats(armor4, bonusStats, bonusStatsS);
+			selfRepair(armor4);
 		}
+
 		if (props.getStrength() != (stats[0] - props.getClassModifers()[0]))
 		{
 			props.setStrength(stats[0]);
@@ -481,13 +511,39 @@ public class RotEventLivingUpdate
 		{
 			props.setDefBonus(stats[7]);
 		}
-		if (props.getLifeSteal() != lifeSteal)
+		if (props.getLifeSteal() != bonusStats[0])
 		{
-			props.setLifeSteal(lifeSteal);
+			props.setLifeSteal(bonusStats[0]);
 		}
-		if (props.getManaSteal() != manaSteal)
+		if (props.getManaSteal() != bonusStats[1])
 		{
-			props.setManaSteal(manaSteal);
+			props.setManaSteal(bonusStats[1]);
+		}
+
+		if (props.getBonusMana() != bonusStats[2])
+		{
+			props.setBonusMana(bonusStats[2]);
+		}
+		if (props.getBonusStam() != bonusStats[3])
+		{
+			props.setBonusStam(bonusStats[3]);
+		}
+		if (props.getBonusHealth() != bonusStats[4])
+		{
+			props.setBonusHealth(bonusStats[4]);
+		}
+
+		if (props.getManaRegen() != bonusStats[5])
+		{
+			props.setManaRegen(bonusStats[5]);
+		}
+		if (props.getStamRegen() != bonusStats[6])
+		{
+			props.setStamRegen(bonusStats[6]);
+		}
+		if (props.getHealthRegen() != bonusStats[7])
+		{
+			props.setHealthRegen(bonusStats[7]);
 		}
 	}
 }

@@ -33,6 +33,7 @@ public class MobRequestPacket implements IMessage {
         		}
         		int[] responseIntArray = new int[]{e.monsterLevel, e.strength, e.agility, e.dexterity, e.vitality, e.minDmg, e.maxDmg, e.defBonus, e.gold, isBossInt};
         		String[] responseStringArray = new String[] {e.prefix, e.bossPrefix2, e.bossPrefix3, e.bossPrefix4, e.suffix};
+        		e.needsUpdate = false;
         		return new MobResponsePacket(responseIntArray, responseStringArray, e.getHpRegenBonusPercent(), ((Entity)o).getEntityId());
         	}
 			return null;

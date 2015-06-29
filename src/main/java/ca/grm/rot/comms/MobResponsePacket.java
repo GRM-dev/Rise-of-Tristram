@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import ca.grm.rot.Rot;
 import ca.grm.rot.extendprops.ExtendMob;
 
 public class MobResponsePacket implements IMessage {
@@ -18,42 +19,7 @@ public class MobResponsePacket implements IMessage {
 		@Override
 		public IMessage onMessage(MobResponsePacket message, MessageContext ctx) {
 			// This happens when the client gets the server packet
-			World world = Minecraft.getMinecraft().thePlayer.worldObj;
-			Entity o = world.getEntityByID(message.entityID);
-	        if(o.getEntityId() == message.entityID)                        
-	        {
-	        	if (o instanceof EntityLiving)
-	        	{
-	        		ExtendMob e = ExtendMob.get((EntityLiving)o);
-	        		e.monsterLevel = message.monsterLevel;
-	        		e.strength = message.strength;
-	        		e.agility = message.agility;
-	        		e.dexterity = message.dexterity;
-	        		e.vitality = message.vitality;
-	        		e.minDmg = message.minDmg;
-	        		e.maxDmg = message.maxDmg;
-	        		e.defBonus = message.defBonus;
-	        		e.gold = message.gold;
-	        		
-	        		if (message.isBoss == 0)
-	        		{
-	        			e.isBoss = false;
-	        		}
-	        		else
-	        		{
-	        			e.isBoss = true;
-	        		}
-	        		
-	        		e.prefix = message.prefix;
-	        		e.bossPrefix2 = message.bossPrefix2;
-	        		e.bossPrefix3 = message.bossPrefix3;
-	        		e.bossPrefix4 = message.bossPrefix4;
-	        		e.suffix = message.suffix;
-	        		
-	        		e.setHpRegenBonusPercent(message.hpRegenBonusPercent);
-	        		e.needsUpdate = false;
-	        	}
-	        }
+			Rot.proxy.handleMobData(message, ctx);
 			return null;
 		}
 		

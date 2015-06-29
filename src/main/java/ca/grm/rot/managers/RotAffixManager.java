@@ -36,21 +36,24 @@ public class RotAffixManager
 
 	// Return the affix out of the array
 	public static RotItemAffix getAffix(int rank, RotItemAffix[] affix, Random random)
-	{	
-		//Try to get where, in the array, to start for affix ranking requirement
+	{
+		// Try to get where, in the array, to start for affix ranking
+		// requirement
 		if (rank > 4) return affix[affix.length - 1];
 		int affixIndex = getRankStart(rank, affix);
 		if (affixIndex != -1)
 		{
-			//Get how far up the affix array to search
+			// Get how far up the affix array to search
 			int rankRange = getRankCount(rank, affix);
 			if (rankRange > 1)
 			{
 				if (affixIndex > 0)
 				{
-					//If the index is not at the start get a random spot in the range
+					// If the index is not at the start get a random spot in the
+					// range
 					int randomIndex = random.nextInt(rankRange);
-					//And if it so happens to be at the start, try to go back one ranking
+					// And if it so happens to be at the start, try to go back
+					// one ranking
 					if (randomIndex == 0) randomIndex -= random.nextInt(1);
 					return affix[randomIndex + affixIndex];
 				}
@@ -168,7 +171,7 @@ public class RotAffixManager
 			UtilNBTKeys.manaSteal, 0.07f), new RotItemAffix("the Lich", 4, UtilNBTKeys.manaSteal,
 			0.08f), new RotItemAffix("the Demon", 5, UtilNBTKeys.manaSteal, 0.09f) };
 
-	/** Int, size of array 1**/
+	/** Int, size of array 1 **/
 	public static RotItemAffix[] vitSuffixes = new RotItemAffix[] { new RotItemAffix("the Jackel",
 			1, UtilNBTKeys.vitStat, 6f), new RotItemAffix("the Fox", 1, UtilNBTKeys.vitStat, 9f), new RotItemAffix(
 			"Hope", 2, UtilNBTKeys.vitStat, 12f), new RotItemAffix("the Wolf", 2,
@@ -177,7 +180,7 @@ public class RotAffixManager
 			UtilNBTKeys.vitStat, 24f), new RotItemAffix("the Whale", 4, UtilNBTKeys.vitStat, 27f), new RotItemAffix(
 			"the Colossus", 5, UtilNBTKeys.vitStat, 30f) };
 
-	/** Int, size of array 1**/
+	/** Int, size of array 1 **/
 	public static RotItemAffix[] dexSuffixes = new RotItemAffix[] { new RotItemAffix("Dexterity",
 			1, UtilNBTKeys.dexStat, 6f), new RotItemAffix("Skill", 1, UtilNBTKeys.dexStat, 9f), new RotItemAffix(
 			"Talent", 2, UtilNBTKeys.dexStat, 12f), new RotItemAffix("Hunting", 2,
@@ -186,7 +189,7 @@ public class RotAffixManager
 			UtilNBTKeys.dexStat, 24f), new RotItemAffix("Perfection", 4, UtilNBTKeys.dexStat, 27f), new RotItemAffix(
 			"Nirvana", 5, UtilNBTKeys.dexStat, 30f) };
 
-	/** Int, size of array 1**/
+	/** Int, size of array 1 **/
 	public static RotItemAffix[] strSuffixes = new RotItemAffix[] { new RotItemAffix("Strength", 1,
 			UtilNBTKeys.strStat, 6f), new RotItemAffix("Might", 1, UtilNBTKeys.strStat, 9f), new RotItemAffix(
 			"the Bull", 2, UtilNBTKeys.strStat, 12f), new RotItemAffix("the Ox", 2,
@@ -195,7 +198,7 @@ public class RotAffixManager
 			UtilNBTKeys.strStat, 24f), new RotItemAffix("Titans", 4, UtilNBTKeys.strStat, 27f), new RotItemAffix(
 			"Atlas", 5, UtilNBTKeys.strStat, 30f) };
 
-	/** Int, size of array 1**/
+	/** Int, size of array 1 **/
 	public static RotItemAffix[] intSuffixes = new RotItemAffix[] { new RotItemAffix("Energy", 1,
 			UtilNBTKeys.intStat, 6f), new RotItemAffix("Knowledge", 1, UtilNBTKeys.intStat, 9f), new RotItemAffix(
 			"Mind", 2, UtilNBTKeys.intStat, 12f), new RotItemAffix("Thoughts", 2,
@@ -204,14 +207,14 @@ public class RotAffixManager
 			UtilNBTKeys.intStat, 24f), new RotItemAffix("Wizardry", 4, UtilNBTKeys.intStat, 27f), new RotItemAffix(
 			"Enlightenment", 5, UtilNBTKeys.intStat, 30f) };
 
-	/** Int, size of array 5**/
+	/** Int, size of array 5 **/
 	public static RotItemAffix[] allBaseSuffixes = new RotItemAffix[] { new RotItemAffix(
 			"Zodiac",
 			1,
 			new String[] { UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat },
 			new float[] { 12f, 12f, 12f, 12f, 12f }) };
 
-	/** Float, size of array 1**/
+	/** Float, size of array 1 **/
 	public static RotItemAffix[] hpRegenSuffixes = new RotItemAffix[] { new RotItemAffix("Honor",
 			1, new String[] { UtilNBTKeys.lifeRegenStat }, new float[] { 5f }), new RotItemAffix(
 			"Regeneration", 2, new String[] { UtilNBTKeys.lifeRegenStat }, new float[] { 10f }), new RotItemAffix(
@@ -220,7 +223,9 @@ public class RotAffixManager
 			"Immortality", 5, new String[] { UtilNBTKeys.lifeRegenStat }, new float[] { 25f }) };
 
 	public static RotItemAffix[] selfRepairSuffixes = new RotItemAffix[] { new RotItemAffix(
-			"Self-Repair", 1, new String[] {UtilNBTKeys.selfRepairing, UtilNBTKeys.selfRepairTime}, new float[]{33f,33f}), new RotItemAffix("Restoration", 1,
-					new String[] {UtilNBTKeys.selfRepairing, UtilNBTKeys.selfRepairTime}, new float[]{33f,33f}), new RotItemAffix("Ages", 1,
-					"Unbreakable", 1f) };
+			"Self-Repair", 1,
+			new String[] { UtilNBTKeys.selfRepairing, UtilNBTKeys.selfRepairTime },
+			new float[] { 33f, 33f * 20 }), new RotItemAffix("Restoration", 3,
+			new String[] { UtilNBTKeys.selfRepairing, UtilNBTKeys.selfRepairTime },
+			new float[] { 20f, 20f * 20 }), new RotItemAffix("Ages", 5, "Unbreakable", 1f) };
 }
