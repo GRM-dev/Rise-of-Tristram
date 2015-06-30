@@ -11,6 +11,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -119,18 +120,16 @@ public class RotEventDamage
 				{
 					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getStrength() + 100) / 100;
 					float finalMaxDmg = 20 + tempDmg + props.getMaxDmg() * (props.getStrength() + 100) / 100;
-					int newDmg = ((int) finalMaxDmg - (int) finalMinDmg) + (int) finalMinDmg;
+					int newDmg = (player.getRNG().nextInt((int) finalMaxDmg - (int) finalMinDmg)) + (int) finalMinDmg;
 					//TODO finish the bonus dmg and hp cost code, this is kinda working
-					/*if (dmgBoost > 0f)
+					if (dmgBoost > 0f)
 					{
-						float healthPayment = newDmg * dmgPrice;
-						System.out.println(healthPayment);
-						System.out.println(((player.getMaxHealth() * upscalePercent) * (1f - ((props.getAdjustedMaxHealth() - healthPayment) / props
-								.getAdjustedMaxHealth()))) * -1f);
-						player.heal(((player.getMaxHealth() * upscalePercent) * (1f - ((props.getAdjustedMaxHealth() - healthPayment) / props
-								.getAdjustedMaxHealth()))) * -1f);
+						float healthPayment = ((newDmg * dmgPrice) * (1f - ((props.getAdjustedMaxHealth() - event.ammount) / props
+								.getAdjustedMaxHealth())));
+						player.attackEntityFrom(new DamageSource("magic"), (newDmg * dmgPrice)/*healthPayment*/);
+						//player.heal(healthPayment );
 						newDmg *= dmgBoost;
-					}*/
+					}
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
 					if (props.getLifeSteal() != 0) player
