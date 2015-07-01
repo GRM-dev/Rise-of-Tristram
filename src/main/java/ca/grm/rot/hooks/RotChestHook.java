@@ -29,8 +29,7 @@ public class RotChestHook {
 	
 	public static void setChestLoot()
 	{
-		// Adds to every chest.
-		// This is where you call 'setChestsForAll'
+		// This is where you call 'addLootToAll'
 		addLootToAll(RotItems.ancientArmorBoots, 1, 1, 1); // Stupidly rare
 		addLootToAll(RotItems.ancientArmorChestplate, 1, 1, 1);
 		addLootToAll(RotItems.ancientArmorHelm, 1, 1, 1);
