@@ -7,14 +7,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import ca.grm.rot.items.RotItems;
+import ca.grm.rot.Rot;
 
 public class RotTrinketInventory implements IInventory {
 	/** The inventory slots need to be initialized during construction */
 	protected ItemStack[] inventory = new ItemStack[3];
 	private String inventoryTitle = "Rise of Tristram Trinkets";
 	public int slotsCount = 3;
-	private String tagName = "Rot.AmuletInv";
+	private String tagName = Rot.MOD_ID + "TrinketInventory";
 
 	public RotTrinketInventory() {		
 		
