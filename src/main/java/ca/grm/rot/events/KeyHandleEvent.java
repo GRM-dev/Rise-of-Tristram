@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import ca.grm.rot.Rot;
+import ca.grm.rot.comms.ClassGUIPacket;
 import ca.grm.rot.comms.ClientProxy;
 import ca.grm.rot.comms.EnderPearlPacket;
 import ca.grm.rot.comms.TNTPacket;
@@ -21,8 +22,8 @@ public class KeyHandleEvent
 		ExtendPlayer props = ExtendPlayer.get(player);
 		if (ClientProxy.classKey.isPressed())
 		{
-			FMLNetworkHandler.openGui(player, Rot.instance, 1, player.worldObj, (int) player.posX,
-					(int) player.posY, (int) player.posZ);
+			//FMLNetworkHandler.openGui(player, Rot.instance, 1, player.worldObj, (int) player.posX,(int) player.posY, (int) player.posZ);
+			Rot.net.sendToServer(new ClassGUIPacket());
 		}
 		if (ClientProxy.skill1.isPressed())
 		{

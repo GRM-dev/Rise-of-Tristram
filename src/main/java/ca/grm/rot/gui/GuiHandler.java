@@ -42,6 +42,8 @@ public class GuiHandler implements IGuiHandler {
 				} else {
 					return null;
 				}
+			case 1 : 
+				return new ContainerPseudoPlayer(player.inventory, player);
 			default :
 				return null;
 		}

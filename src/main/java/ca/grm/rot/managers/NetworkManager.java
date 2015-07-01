@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
 import ca.grm.rot.comms.BaseNodeResponsePacket;
+import ca.grm.rot.comms.ClassGUIPacket;
 import ca.grm.rot.comms.ClassRequestPacket;
 import ca.grm.rot.comms.ClassResponsePacket;
 import ca.grm.rot.comms.CustomItemPacket;
@@ -12,7 +13,6 @@ import ca.grm.rot.comms.GoldRequestPacket;
 import ca.grm.rot.comms.GoldResponsePacket;
 import ca.grm.rot.comms.MobRequestPacket;
 import ca.grm.rot.comms.MobResponsePacket;
-import ca.grm.rot.comms.MobResponsePacket.MobResponsePacketHandler;
 import ca.grm.rot.comms.ProfessionRequestPacket;
 import ca.grm.rot.comms.ProfessionResponsePacket;
 import ca.grm.rot.comms.TNTPacket;
@@ -61,6 +61,9 @@ public class NetworkManager
 				this.packetId++, Side.SERVER);
 		net.registerMessage(TNTPacket.TNTPacketHandler.class, TNTPacket.class,
 				this.packetId++, Side.SERVER);
+		
+		net.registerMessage(ClassGUIPacket.ClassGUIPacketHandler.class,
+				ClassGUIPacket.class, this.packetId++, Side.SERVER);
 	}
 
 }

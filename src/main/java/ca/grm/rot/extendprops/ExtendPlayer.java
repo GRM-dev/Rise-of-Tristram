@@ -10,6 +10,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ca.grm.rot.Rot;
+import ca.grm.rot.inventory.RotTrinketInventory;
 import ca.grm.rot.libs.RotClass;
 import ca.grm.rot.libs.RotProfession;
 import ca.grm.rot.managers.RotClassManager;
@@ -45,6 +46,8 @@ public class ExtendPlayer implements IExtendedEntityProperties
 
 	public static final int MANA_WATCHER = 20;
 	public static final int STAM_WATCHER = 21;
+	
+	public final RotTrinketInventory inventory = new RotTrinketInventory();
 
 	// Player Settings
 	public int skill1; // Used in keeping track of hotkeys
@@ -372,6 +375,9 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		setCurrentClass(currentClass);
 		this.currentProfession = properties.getInteger(Rot.MOD_ID + "Profession");
 		setCurrentProfession(currentProfession);
+		
+		this.inventory.readFromNBT(properties);
+		
 		// Just so you know it's working, add this line:
 		// System.out.println("[TUT PROPS] Mana from NBT: " + this.currentMana +
 		// "/" + this.maxMana);
@@ -475,6 +481,8 @@ public class ExtendPlayer implements IExtendedEntityProperties
 		properties.setInteger(Rot.MOD_ID + "Class", this.currentClass);
 		properties.setInteger(Rot.MOD_ID + "Profession", this.currentProfession);
 
+		this.inventory.writeToNBT(properties);
+		
 		compound.setTag(EXT_PROP_NAME, properties);
 
 	}
