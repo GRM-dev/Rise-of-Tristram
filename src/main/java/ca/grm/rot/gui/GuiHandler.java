@@ -6,6 +6,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import ca.grm.rot.blocks.TileEntityBaseBuilder;
+import ca.grm.rot.extendprops.ExtendPlayer;
 
 public class GuiHandler implements IGuiHandler {
 	@Override
@@ -43,7 +44,7 @@ public class GuiHandler implements IGuiHandler {
 					return null;
 				}
 			case 1 : 
-				return new ContainerPseudoPlayer(player.inventory, player);
+				return new ContainerPseudoPlayer(player.inventory, player, ExtendPlayer.get(player).inventory);
 			default :
 				return null;
 		}

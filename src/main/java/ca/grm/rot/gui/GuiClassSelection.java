@@ -27,7 +27,7 @@ public class GuiClassSelection extends GuiContainer
 
 	public GuiClassSelection(EntityPlayer player)
 	{
-		super(new ContainerPseudoPlayer(player.inventory, player));
+		super(new ContainerPseudoPlayer(player.inventory, player, ExtendPlayer.get(player).inventory));
 
 		this.player = player;
 		this.xSize = 176;

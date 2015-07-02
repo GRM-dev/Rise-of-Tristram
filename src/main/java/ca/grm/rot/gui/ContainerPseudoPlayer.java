@@ -22,7 +22,7 @@ public class ContainerPseudoPlayer extends Container{
 		return true;
 	}
 	
-	public ContainerPseudoPlayer(InventoryPlayer realPlayerInventory, EntityPlayer player)
+	public ContainerPseudoPlayer(InventoryPlayer realPlayerInventory, EntityPlayer player, RotTrinketInventory inventory)
 	{
 		int i;
         int j;
@@ -45,7 +45,7 @@ public class ContainerPseudoPlayer extends Container{
 		// Trinkets
 		for (i = 0; i < 3; i++)
 		{
-			this.addSlotToContainer(new Slot(new RotTrinketInventory(), i, 26, 8 + i * 18));
+			this.addSlotToContainer(new Slot(inventory, i, 26, 8 + i * 18));
 		}
 		
 		// Armor, literally copy-pasted from container-player
