@@ -5,7 +5,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -20,8 +19,10 @@ import ca.grm.rot.events.KeyHandleEvent;
 import ca.grm.rot.events.RotEventRenderLiving;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendVillager;
 import ca.grm.rot.gui.GuiExtendedPlayerStats;
 import ca.grm.rot.items.RotItems;
+import ca.grm.rot.managers.RotShopTypeManager;
 
 public class ClientProxy extends CommonProxy
 {
@@ -115,6 +116,24 @@ public class ClientProxy extends CommonProxy
 		{}
 	}
 
+	public void handleVillagerData(VillagerResponsePacket message,MessageContext ctx) {
+		try
+		{
+			World world = Minecraft.getMinecraft().thePlayer.worldObj;
+			Entity o = world.getEntityByID(message.entityID);
+	        if(o.getEntityId() == message.entityID)                        
+	        {
+	        	if (o instanceof EntityLiving)
+	        	{
+	        		ExtendVillager e = ExtendVillager.get((EntityLiving)o);
+	        		e.shopType = RotShopTypeManager.getShopTypeFromIndex(message.villagerShopType);
+	        		e.needsUpdate = false;
+	        	}
+	        }
+		}
+		catch (NullPointerException e)
+		{}
+	}
 	/*
 	 * @Override public int addArmor(String armor) { return
 	 * RenderingRegistry.addNewArmourRendererPrefix(armor); }

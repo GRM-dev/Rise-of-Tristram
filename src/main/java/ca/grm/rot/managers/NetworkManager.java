@@ -16,6 +16,8 @@ import ca.grm.rot.comms.MobResponsePacket;
 import ca.grm.rot.comms.ProfessionRequestPacket;
 import ca.grm.rot.comms.ProfessionResponsePacket;
 import ca.grm.rot.comms.TNTPacket;
+import ca.grm.rot.comms.VillagerRequestPacket;
+import ca.grm.rot.comms.VillagerResponsePacket;
 
 public class NetworkManager
 {
@@ -54,6 +56,11 @@ public class NetworkManager
 				ProfessionRequestPacket.class, this.packetId++, Side.SERVER);
 		net.registerMessage(ProfessionResponsePacket.ProfessionResponsePacketHandler.class,
 				ProfessionResponsePacket.class, this.packetId++, Side.CLIENT);
+		
+		net.registerMessage(VillagerRequestPacket.VillagerRequestHandler.class,
+				VillagerRequestPacket.class, this.packetId++, Side.SERVER);
+		net.registerMessage(VillagerResponsePacket.VillagerResponsePacketHandler.class,
+				VillagerResponsePacket.class, this.packetId++, Side.CLIENT);
 
 		net.registerMessage(CustomItemPacket.CustomItemPacketHandler.class, CustomItemPacket.class,
 				this.packetId++, Side.SERVER);

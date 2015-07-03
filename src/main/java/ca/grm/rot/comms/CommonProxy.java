@@ -31,6 +31,9 @@ public class CommonProxy
 	{
 	}
 
+	public void handleVillagerData(VillagerResponsePacket message,
+			MessageContext ctx) {}
+	
 	public void registerKeyBindings()
 	{
 	}
@@ -44,5 +47,7 @@ public class CommonProxy
 	{
 
 	}
+
+
 
 }

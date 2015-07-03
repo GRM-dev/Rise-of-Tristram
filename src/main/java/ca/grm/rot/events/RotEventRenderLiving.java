@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendVillager;
 
 public class RotEventRenderLiving
 {
@@ -121,6 +122,7 @@ public class RotEventRenderLiving
 				int stringColor = 0xffffff;
 				String stringToBeDrawn = "";
 				ExtendMob e = ExtendMob.get((EntityLiving) entity);
+				ExtendVillager v = ExtendVillager.get((EntityLiving) entity);
 				if (e != null)
 				{
 					if (!e.isBoss())
@@ -155,6 +157,15 @@ public class RotEventRenderLiving
 								-15, 0);
 						stringColor = 0xffff00;
 					}
+				}
+				else if (v != null && v.shopType != null)
+				{
+					stringToBeDrawn = entity.getName() + " " + v.shopType.title;
+					GlStateManager.scale(0.02f, 0.02f, 0.02f);
+					GlStateManager.rotate(180, 0, 0, 1);
+					GlStateManager.translate(0 - ((float) stringToBeDrawn.length() * 2.75f),
+							-15, 0);
+					stringColor = 0xffff00;
 				}
 				else
 				{

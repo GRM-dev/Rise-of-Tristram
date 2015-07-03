@@ -3,7 +3,6 @@ package ca.grm.rot.events;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
@@ -26,8 +25,10 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.MobRequestPacket;
+import ca.grm.rot.comms.VillagerRequestPacket;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendVillager;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
 
@@ -193,6 +194,16 @@ public class RotEventLivingUpdate
 		else if (event.entity instanceof EntityVillager)
 		{
 			EntityVillager villager = (EntityVillager) event.entity;
+			EntityLiving e = (EntityLiving) event.entity;
+			ExtendVillager ev = ExtendVillager.get(e);
+
+			if (ev != null)
+			{
+				if (e.worldObj.isRemote && ev.needsUpdate && ((e.worldObj.getWorldTime() % 40) == 0))
+				{
+					Rot.net.sendToServer(new VillagerRequestPacket(e.getEntityId()));
+				}
+			}
 			if (!villager.isPotionActive(Potion.hunger))
 			{
 				villager.heal(0.075f);

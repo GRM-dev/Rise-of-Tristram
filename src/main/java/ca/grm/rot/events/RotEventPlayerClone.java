@@ -23,6 +23,7 @@ import ca.grm.rot.comms.GoldRequestPacket;
 import ca.grm.rot.comms.ProfessionRequestPacket;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
+import ca.grm.rot.extendprops.ExtendVillager;
 
 public class RotEventPlayerClone
 {
@@ -52,6 +53,17 @@ public class RotEventPlayerClone
 			{
 				ExtendPlayer props = ExtendPlayer.get((EntityPlayer) e.entity);
 				props.needsUpdate = true;
+			}
+		}
+		else if (e.entity instanceof EntityVillager)
+		{
+			EntityLiving villager = (EntityLiving) e.entity;
+			if (!villager.worldObj.isRemote) // Only roll on server side.
+			{
+				if (ExtendVillager.get(villager) != null)
+				{
+					ExtendVillager.get(villager).rollExtendVillager();
+				}
 			}
 		}
 		else if (e.entity instanceof EntityLiving)
@@ -97,6 +109,10 @@ public class RotEventPlayerClone
 				.get((EntityCaveSpider) event.entity) == null))
 		{
 			ExtendMob.register((EntityLiving) event.entity);
+		}
+		if ((event.entity instanceof EntityVillager) && (ExtendVillager.get((EntityVillager) event.entity) == null))
+		{
+			ExtendVillager.register((EntityVillager)event.entity);
 		}
 
 	}
