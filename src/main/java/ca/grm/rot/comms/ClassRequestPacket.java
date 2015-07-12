@@ -20,35 +20,44 @@ public class ClassRequestPacket implements IMessage
 		@Override
 		public IMessage onMessage(ClassRequestPacket message, MessageContext ctx)
 		{
+			final int goldCost = 500;
+			
 			if (message.classID == 0) { return new ClassResponsePacket(ExtendPlayer.get(
 					ctx.getServerHandler().playerEntity).getCurrentClassIndex()); }
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
-			if (ExtendPlayer.get(player).pickedClass == RotClassManager.classes[0])
+			ExtendPlayer props = ExtendPlayer.get(player);
+			if (props.pickedClass == RotClassManager.classes[0])
 			{
-				ExtendPlayer.get(player).setCurrentClass(message.classID);
+				props.setCurrentClass(message.classID);
 				return new ClassResponsePacket(message.classID);
 			}
 			else
 			{
-				if (UtilityFunctions.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory))
+				
+//				if (UtilityFunctions.checkForItemAndAmount(Items.gold_ingot, 3, player.inventory))
+//				{
+//					for (int i = 0; i < 3; i++)
+//					{
+//						player.inventory.consumeInventoryItem(Items.gold_ingot);
+//						player.inventory.markDirty();
+//					}
+//					ExtendPlayer.get(player).setCurrentClass(message.classID);
+//					return new ClassResponsePacket(message.classID);
+//				}
+//				else if (UtilityFunctions.checkForItemAndAmount(Items.gold_nugget, 27,
+//						player.inventory))
+//				{
+//					for (int i = 0; i < 27; i++)
+//					{
+//						player.inventory.consumeInventoryItem(Items.gold_nugget);
+//						player.inventory.markDirty();
+//					}
+//					ExtendPlayer.get(player).setCurrentClass(message.classID);
+//					return new ClassResponsePacket(message.classID);
+//				}
+				if (props.getGold() >= goldCost)
 				{
-					for (int i = 0; i < 3; i++)
-					{
-						player.inventory.consumeInventoryItem(Items.gold_ingot);
-						player.inventory.markDirty();
-					}
-					ExtendPlayer.get(player).setCurrentClass(message.classID);
-					return new ClassResponsePacket(message.classID);
-				}
-				else if (UtilityFunctions.checkForItemAndAmount(Items.gold_nugget, 27,
-						player.inventory))
-				{
-					for (int i = 0; i < 27; i++)
-					{
-						player.inventory.consumeInventoryItem(Items.gold_nugget);
-						player.inventory.markDirty();
-					}
-					ExtendPlayer.get(player).setCurrentClass(message.classID);
+					props.setGold(props.getGold() - goldCost);
 					return new ClassResponsePacket(message.classID);
 				}
 			}

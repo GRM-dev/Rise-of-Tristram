@@ -10,8 +10,9 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import ca.grm.rot.events.RotEventItems;
+import ca.grm.rot.events.EventItemToolTip;
 import ca.grm.rot.items.RotItems;
+import ca.grm.rot.libs.UtilItemStats;
 
 public class RotLootManager
 {
@@ -20,6 +21,7 @@ public class RotLootManager
 
 	}
 
+	public static final int lootRange = 5;
 	private static int lowLevel = 7, midLevel = 14, midHighLevel = 21, highLevel = 30;
 
 	public static ItemStack getMaterialLoot(int level, Random random)
@@ -166,7 +168,7 @@ public class RotLootManager
 			{
 				ItemStack item = getLoot(rank, entity.worldObj.rand);
 				if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
-						.getItem() instanceof ItemArmor || item.getItem() instanceof ItemBow) RotEventItems
+						.getItem() instanceof ItemArmor || item.getItem() instanceof ItemBow) UtilItemStats
 						.applyItemStats(item, entity.worldObj.rand, new int[]{rank,rank+2},new int[]{rank,rank+2});
 				newList[i] = new EntityItem(entity.worldObj, entity.getPosition().getX(), entity
 						.getPosition().getY(), entity.getPosition().getZ(), item);

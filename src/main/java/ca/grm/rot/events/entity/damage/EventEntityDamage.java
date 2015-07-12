@@ -1,4 +1,4 @@
-package ca.grm.rot.events;
+package ca.grm.rot.events.entity.damage;
 
 import java.util.Random;
 
@@ -27,11 +27,18 @@ import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;
 import ca.grm.rot.managers.RotLootManager;
 
-public class RotEventDamage
+public class EventEntityDamage
 {
 
 	private static float upscalePercent = 5f;
 
+	@SubscribeEvent
+	public void onEnderPearlTeleport(EnderTeleportEvent e)
+	{
+		if (e.entity instanceof EntityPlayer) e.attackDamage = 0;
+	}
+
+	// Very long method, defense calculations are handled at the bottom
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onDamage(LivingHurtEvent event)
 	{
@@ -121,19 +128,21 @@ public class RotEventDamage
 					float finalMinDmg = 10 + tempDmg + props.getMinDmg() * (props.getStrength() + 100) / 100;
 					float finalMaxDmg = 20 + tempDmg + props.getMaxDmg() * (props.getStrength() + 100) / 100;
 					int newDmg = (player.getRNG().nextInt((int) finalMaxDmg - (int) finalMinDmg)) + (int) finalMinDmg;
-					//TODO finish the bonus dmg and hp cost code, this is kinda working
+					// TODO finish the bonus dmg and hp cost code, this is kinda
+					// working
 					if (dmgBoost > 0f)
 					{
-						float healthPayment = ((newDmg * dmgPrice) * (1f - ((props.getAdjustedMaxHealth() - event.ammount) / props
+						float healthPayment = ((newDmg * dmgPrice) * (1f - ((props
+								.getAdjustedMaxHealth() - event.ammount) / props
 								.getAdjustedMaxHealth())));
-						player.attackEntityFrom(new DamageSource("magic"), (newDmg * dmgPrice)/*healthPayment*/);
-						//player.heal(healthPayment );
+						player.attackEntityFrom(new DamageSource("magic"), (newDmg * dmgPrice)/* healthPayment */);
+						// player.heal(healthPayment );
 						newDmg *= dmgBoost;
 					}
 					if (newDmg > 0) event.ammount += (rand.nextInt(newDmg));
 					else event.ammount -= newDmg;
-					if (props.getLifeSteal() != 0) player
-							.heal((event.ammount * props.getLifeSteal())/10);
+					if (props.getLifeSteal() != 0) player.heal((event.ammount * props
+							.getLifeSteal()) / 10);
 					if (props.getManaSteal() != 0) props.regenMana(event.ammount * props
 							.getManaSteal());
 				}
@@ -254,61 +263,6 @@ public class RotEventDamage
 				float newDamage = e.getMaxHealth() * adjustedHPPercent;
 				event.ammount = newDamage < 0 ? 0 : newDamage;
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onEntityDeath(LivingDropsEvent e)
-	{
-		// TODO This needs improvement, also needs better math
-		if (e.entity instanceof EntityLiving)
-		{
-			EntityLiving entity = (EntityLiving) e.entity;
-			if (ExtendMob.get(entity) != null && e.source.getEntity() instanceof EntityPlayer)
-			{
-				int monsterLevel = ExtendMob.get(entity).monsterLevel;
-				EntityItem[] newDrops = RotLootManager.addLoot(e.entity, monsterLevel);
-				if (newDrops != null) for (EntityItem ei : newDrops)
-				{
-					e.drops.add(ei);
-				}
-
-				// TODO use the getEntityItem function that takes an ItemStack.
-				// See EntityItem.class
-				EntityItem goldDrops = new EntityItem(entity.worldObj, entity.getPosition().getX(),
-						entity.getPosition().getY(), entity.getPosition().getZ(), new ItemStack(
-								RotItems.gold, ExtendMob.get(entity).gold));
-				e.drops.add(goldDrops);
-			}
-		}
-
-	}
-
-	@SubscribeEvent
-	public void onEnderPearlTeleport(EnderTeleportEvent e)
-	{
-		if (e.entity instanceof EntityPlayer) e.attackDamage = 0;
-	}
-
-	@SubscribeEvent
-	public void onLivingFallEvent(LivingFallEvent event)
-	{
-		if (event.entity instanceof EntityPlayer)
-		{
-			ExtendPlayer props = ExtendPlayer.get((EntityPlayer) event.entity);
-			event.distance -= (props.getAthleticScore() / 10);
-		}
-	}
-
-	@SubscribeEvent
-	public void onLivingJumpEvent(LivingJumpEvent event)
-	{
-		if (event.entity instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer) event.entity;
-			ExtendPlayer props = ExtendPlayer.get(player);
-
-			if (player.isSprinting()) (player).motionY += (props.getAthleticScore() / 20);
 		}
 	}
 }
