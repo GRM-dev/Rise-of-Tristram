@@ -629,4 +629,9 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	{
 		this.gold += value;
 	}
+	
+	public void subtractGold(int value)
+	{
+		this.gold -= value;
+	}
 }
