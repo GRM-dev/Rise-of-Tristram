@@ -324,15 +324,16 @@ public class ExtendPlayer implements IExtendedEntityProperties
 	 **/
 	public Object[] getValues()
 	{
-		Object[] data = new Object[] { getCurrentClassIndex(), getCurrentMana(), getCurrentStam() };
+		Object[] data = new Object[] { getCurrentClassIndex(), getGold(), getCurrentMana(), getCurrentStam() };
 		return data;
 	}
 
 	public void setValues(Object[] data)
 	{
 		setCurrentClass(Integer.parseInt(data[0].toString()));
-		setCurrentMana(Float.parseFloat(data[1].toString()));
-		setCurrentStam(Float.parseFloat(data[2].toString()));
+		setGold(Integer.parseInt(data[1].toString()));
+		setCurrentMana(Float.parseFloat(data[2].toString()));
+		setCurrentStam(Float.parseFloat(data[3].toString()));
 	}
 
 	public int getVitality()
