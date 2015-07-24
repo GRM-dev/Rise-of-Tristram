@@ -19,7 +19,8 @@ public class EventEntityDeath {
 		{
 			EntityPlayer player = (EntityPlayer) e.entity;
 			ExtendPlayer dplayer = ExtendPlayer.get(player);
-			if (dplayer.getGold() > 0) {
+			if (dplayer.getGold() > 0) 
+			{
 				EntityItem goldDrops = new EntityItem(player.worldObj, player.getPosition().getX(), player.getPosition().getY(),player.getPosition().getZ(), new ItemStack(RotItems.gold,
 								Math.round(dplayer.getGold() * 0.1f)));
 				dplayer.subtractGold(Math.round(dplayer.getGold() * 0.1f));

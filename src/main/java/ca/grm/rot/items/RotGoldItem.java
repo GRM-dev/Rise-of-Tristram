@@ -22,10 +22,10 @@ public class RotGoldItem extends Item{
 		{
 			EntityPlayer player = (EntityPlayer)entityIn;
 			ExtendPlayer props = ExtendPlayer.get(player);
-			props.addGold(stack.stackSize);
 			for (int i = 0; i < stack.stackSize; i++)
 			{
 				player.inventory.consumeInventoryItem(RotItems.gold);
+				props.addGold(1);
 			}
 		}
 		else 
