@@ -4,6 +4,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import ca.grm.rot.events.EventItemToolTip;
 import ca.grm.rot.events.FMLEventItems;
+import ca.grm.rot.events.RotEventGuiOpen;
 import ca.grm.rot.events.RotEventTeamsClasses;
 import ca.grm.rot.events.entity.EventEntityConstruction;
 import ca.grm.rot.events.entity.EventEntityJoin;
@@ -41,6 +42,8 @@ public class RotEventManager
 		MinecraftForge.EVENT_BUS.register(new EventEntityJoin());
 
 		MinecraftForge.EVENT_BUS.register(new RotEventTeamsClasses());
+		
+		MinecraftForge.EVENT_BUS.register(new RotEventGuiOpen());
 		// MinecraftForge.EVENT_BUS.register(new RotEventRenderLiving());
 		// //moved to client proxy like keyhandler
 

@@ -11,6 +11,7 @@ import ca.grm.rot.comms.CustomItemPacket;
 import ca.grm.rot.comms.EnderPearlPacket;
 import ca.grm.rot.comms.GoldRequestPacket;
 import ca.grm.rot.comms.GoldResponsePacket;
+import ca.grm.rot.comms.MerchantGUIPacket;
 import ca.grm.rot.comms.MobRequestPacket;
 import ca.grm.rot.comms.MobResponsePacket;
 import ca.grm.rot.comms.ProfessionRequestPacket;
@@ -71,6 +72,8 @@ public class NetworkManager
 		
 		net.registerMessage(ClassGUIPacket.ClassGUIPacketHandler.class,
 				ClassGUIPacket.class, this.packetId++, Side.SERVER);
+		
+		net.registerMessage(MerchantGUIPacket.MerchantGUIPacketHandler.class, MerchantGUIPacket.class, this.packetId++, Side.SERVER);
 	}
 
 }
