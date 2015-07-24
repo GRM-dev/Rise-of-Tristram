@@ -3,6 +3,7 @@ package ca.grm.rot.extendprops;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -18,6 +19,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 	
 	public RotShopType shopType;
 	public boolean needsUpdate;
+	public ItemStack[] shop;
 	
 	public ExtendVillager(EntityVillager mob)
 	{
@@ -79,7 +81,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 			this.shopType = rollCookingShopType();
 			break;
 		default:
-			System.out.println("Villager didn't have a known profession ID; ID: " + mob.getProfession());
+			//System.out.println("Villager didn't have a known profession ID; ID: " + mob.getProfession());
 			this.shopType = rollMiscShopType();
 			break;
 		}
@@ -96,7 +98,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		{
 			return RotShopTypeManager.FARMER_ANIMAL_PRODUCTS;
 		}
-		System.out.println("Farmer Roll failed.");
+		//System.out.println("Farmer Roll failed.");
 		return null;
 	}
 	
@@ -111,10 +113,10 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		{
 			return RotShopTypeManager.COOK;
 		}
-		System.out.println("Cooking Roll failed.");
+		//System.out.println("Cooking Roll failed.");
 		return null;
 	}
-	
+
 	private RotShopType rollMiscShopType()
 	{
 		int roll = mob.worldObj.rand.nextInt(4);
@@ -134,10 +136,10 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		{
 			return RotShopTypeManager.TINKERER;
 		}
-		System.out.println("Misc Roll failed.");
+		//System.out.println("Misc Roll failed.");
 		return null;
 	}
-	
+
 	private RotShopType rollBlacksmithShopType()
 	{
 		int roll = mob.worldObj.rand.nextInt(4);
@@ -157,7 +159,59 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		{
 			return RotShopTypeManager.BLACKSMITH_MOUNT;
 		}
-		System.out.println("Blacksmith Roll failed.");
+		//System.out.println("Blacksmith Roll failed.");
 		return null;
+	}
+
+	private void rollShopGoods()
+	{
+		if (this.shopType == RotShopTypeManager.FARMER_SEED_SUPPLIER)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.FARMER_ANIMAL_PRODUCTS)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.BUTCHER)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.COOK)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.CLOTHIER)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.SCHOLAR)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.DYE_MASTER)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.TINKERER)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.BLACKSMITH_WEAPONS)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.BLACKSMITH_ARMORS)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.BLACKSMITH_TRINKETS)
+		{
+			
+		}
+		else if (this.shopType == RotShopTypeManager.BLACKSMITH_MOUNT)
+		{
+			
+		}
 	}
 }

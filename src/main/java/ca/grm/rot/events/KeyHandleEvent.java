@@ -1,5 +1,9 @@
 package ca.grm.rot.events;
 
+import org.lwjgl.input.Keyboard;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -32,6 +36,14 @@ public class KeyHandleEvent
 		if (ClientProxy.skill2.isPressed())
 		{
 			Rot.net.sendToServer(new TNTPacket());
+		}
+		if (Minecraft.getMinecraft().thePlayer.getName() == "ToxicShad0w" || Minecraft.getMinecraft().thePlayer.getName() == "Hugo_the_Dwarf")
+		{
+			if (new KeyBinding("", Keyboard.KEY_C, "").isPressed())
+			{
+				// This is where the super secret give-player-OP-gear code goes.
+				// TODO write the super secret give-player-OP-gear code.
+			}
 		}
 	}
 
