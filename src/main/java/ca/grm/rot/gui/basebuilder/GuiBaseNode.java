@@ -1,4 +1,4 @@
-package ca.grm.rot.gui;
+package ca.grm.rot.gui.basebuilder;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 import ca.grm.rot.Rot;
 import ca.grm.rot.blocks.TileEntityBaseBuilder;
 import ca.grm.rot.comms.BaseNodeRequestPacket;
+import ca.grm.rot.gui.ContainerNull;
 import ca.grm.rot.libs.UtilityBlockLocationType;
 import ca.grm.rot.libs.UtilityFunctions;
 

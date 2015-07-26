@@ -20,7 +20,7 @@ import ca.grm.rot.events.RotEventRenderLiving;
 import ca.grm.rot.extendprops.ExtendMob;
 import ca.grm.rot.extendprops.ExtendPlayer;
 import ca.grm.rot.extendprops.ExtendVillager;
-import ca.grm.rot.gui.GuiExtendedPlayerStats;
+import ca.grm.rot.gui.skills.GuiExtendedPlayerStats;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.managers.RotShopTypeManager;
 

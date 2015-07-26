@@ -1,7 +1,7 @@
 package ca.grm.rot.comms;
 
 import ca.grm.rot.Rot;
-import ca.grm.rot.gui.ContainerPseudoPlayer;
+import ca.grm.rot.gui.skills.ContainerPseudoPlayer;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.client.FMLClientHandler;

@@ -7,6 +7,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import ca.grm.rot.blocks.TileEntityBaseBuilder;
 import ca.grm.rot.extendprops.ExtendPlayer;
+import ca.grm.rot.gui.basebuilder.GuiBaseNode;
+import ca.grm.rot.gui.shop.ContainerMerchantPlayer;
+import ca.grm.rot.gui.shop.GuiMerchantRot;
+import ca.grm.rot.gui.skills.ContainerPseudoPlayer;
+import ca.grm.rot.gui.skills.GuiClassSelection;
 
 public class GuiHandler implements IGuiHandler {
 	@Override

@@ -1,4 +1,4 @@
-package ca.grm.rot.gui;
+package ca.grm.rot.gui.basebuilder;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;

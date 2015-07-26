@@ -1,21 +1,26 @@
-package ca.grm.rot.gui;
+package ca.grm.rot.gui.skills;
 
 import ca.grm.rot.Rot;
+import ca.grm.rot.libs.UtilityFunctions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiMerchantPurchaseButton extends GuiButton{
+public class GuiClassSelectionButton extends GuiButton
+{
+	private int type = 0;
+	private int dim = 8;
 	private static final ResourceLocation guiButtons = new ResourceLocation(
 			Rot.MOD_ID + ":textures/gui/guiButtons.png");
 
-	public GuiMerchantPurchaseButton(int buttonId, int x, int y, String buttonText)
+	public GuiClassSelectionButton(int buttonId, int x, int y, String buttonText, int type)
 	{
 		super(buttonId, x, y, buttonText);
-		this.width = 90;
-		this.height = 20;
+		this.type = type;
+		this.width = dim;
+		this.height = dim;
 	}
 
 	@Override
@@ -31,20 +36,10 @@ public class GuiMerchantPurchaseButton extends GuiButton{
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
-			int locationUVx = 0;
-			int locationUVy = 36; 
-			if (this.mousePressed(mc, mouseX, mouseY)) // TODO Doesn't seem to be working properly?
-			{
-				locationUVx = 0;
-				locationUVy = 56;
-			}
-			else if (this.hovered)
-			{
-				locationUVx = 0;
-				locationUVy = 16;
-			}
+			int locationUVx = dim * type;
+			int locationUVy = dim * (hovered ? 1:0);
 			this.drawTexturedModalRect(this.xPosition, this.yPosition, locationUVx, locationUVy,
-					90, 20);
+					this.dim, this.dim);
 
 			this.mouseDragged(mc, mouseX, mouseY);
 			int l = 14737632;
@@ -66,4 +61,5 @@ public class GuiMerchantPurchaseButton extends GuiButton{
 					this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
 		}
 	}
+
 }

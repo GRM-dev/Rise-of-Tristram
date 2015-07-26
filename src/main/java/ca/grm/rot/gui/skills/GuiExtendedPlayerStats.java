@@ -1,4 +1,4 @@
-package ca.grm.rot.gui;
+package ca.grm.rot.gui.skills;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
