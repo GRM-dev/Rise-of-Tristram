@@ -24,7 +24,6 @@ public class FMLEventItems
 	@SubscribeEvent
 	public void onEventPlayerPickup(ItemPickupEvent event)
 	{
-		// TODO make this actually work. But right now fuck this im going to fucking bed im so fucking mad rn why the fuck wont this work?
 		if (event.pickedUp.getEntityItem().getItem() == RotItems.gold)
 		{
 			

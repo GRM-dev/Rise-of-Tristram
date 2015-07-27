@@ -3,6 +3,8 @@ package ca.grm.rot.extendprops;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -19,7 +21,11 @@ public class ExtendVillager implements IExtendedEntityProperties{
 	
 	public RotShopType shopType;
 	public boolean needsUpdate;
-	public ItemStack[] shop;
+	public ItemStack[] shopUnlimited; // This would be a restock but because it's unlimited, it's also their inventory
+	public ItemStack[] shopLimited; // What the villager restocks to.
+	public ItemStack[] shopCurrentLimitedInventory; // This is what the villager actually has in their limited inventory
+	public int goldMax; // Used when we refresh the gold.
+	public int goldCurrent;
 	
 	public ExtendVillager(EntityVillager mob)
 	{
@@ -62,7 +68,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		mob.registerExtendedProperties(ExtendVillager.EXT_PROP_NAME, new ExtendVillager(mob));
 	}
 
-	public void rollExtendVillager() {
+	public void rollExtendVillager(World world) {
 		switch (mob.getProfession())
 		{
 		case 0:// farmer
@@ -85,6 +91,9 @@ public class ExtendVillager implements IExtendedEntityProperties{
 			this.shopType = rollMiscShopType();
 			break;
 		}
+		
+		this.goldMax = rollGold(world);
+		this.goldCurrent = this.goldMax;
 	}
 	
 	private RotShopType rollFarmerShopType()
@@ -165,53 +174,151 @@ public class ExtendVillager implements IExtendedEntityProperties{
 
 	private void rollShopGoods()
 	{
+		int i = -1;
+		int j = -1;
 		if (this.shopType == RotShopTypeManager.FARMER_SEED_SUPPLIER)
 		{
-			
+			// Unlimited Items
+			this.shopUnlimited[i++] = new ItemStack(Items.bone, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.cactus, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.brown_mushroom_block, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.cocoa, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.flower_pot, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.melon_seeds, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.pumpkin_seeds, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.red_mushroom_block, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.sapling, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.wheat_seeds, 9999);
+			// Limited Items
+			this.shopLimited[j++] = new ItemStack(Items.wooden_hoe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.iron_hoe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.golden_hoe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.diamond_hoe, 1);
 		}
 		else if (this.shopType == RotShopTypeManager.FARMER_ANIMAL_PRODUCTS)
 		{
-			
+			// Unlimited Items
+			this.shopUnlimited[i++] = new ItemStack(Items.apple, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.bucket, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.egg, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.oak_fence, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.oak_fence_gate, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.lead, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.name_tag, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.shears, 9999);
+			// Limited Items
+			this.shopLimited[j++] = new ItemStack(Items.saddle, 1);
+
 		}
 		else if (this.shopType == RotShopTypeManager.BUTCHER)
 		{
+			// Unlimited Items
+			this.shopUnlimited[i++] = new ItemStack(Items.beef, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.chicken, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.mutton, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.porkchop, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.rabbit, 9999);
+			
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.COOK)
 		{
+			// Unlimited Items
+			this.shopUnlimited[i++] = new ItemStack(Items.apple, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.bread, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.brown_mushroom_block, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.cake, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.carrot, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.cocoa, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.egg, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.melon, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.baked_potato, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.potato, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.rabbit_stew, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.sugar, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.wheat, 9999);
+			
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.CLOTHIER)
 		{
-			
+			// Unlimited Items
+			this.shopUnlimited[i++] = new ItemStack(Items.leather, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.rabbit_hide, 9999);
+			// Limited Items
+			this.shopLimited[j++] = new ItemStack(Items.leather_boots, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_chestplate, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_leggings, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_helmet, 1);
 		}
 		else if (this.shopType == RotShopTypeManager.SCHOLAR)
 		{
+			// Unlimited Items
+			// TODO Give the Scholar more stuff to sell
+			this.shopUnlimited[i++] = new ItemStack(Items.experience_bottle, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.book, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Items.map, 9999);
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.DYE_MASTER)
 		{
+			// Unlimited Items
+			// TODO Add all the dyes, I'm not sure how?
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999);
+			
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.TINKERER)
 		{
+			// Unlimited Items
+			
+			
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.BLACKSMITH_WEAPONS)
 		{
+			// Unlimited Items
+			
+			
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.BLACKSMITH_ARMORS)
 		{
+			// Unlimited Items
 			
+			
+			// Limited Items
+			this.shopLimited[j++] = new ItemStack(Items.iron_horse_armor, 1);
+			this.shopLimited[j++] = new ItemStack(Items.golden_horse_armor, 1);
+			this.shopLimited[j++] = new ItemStack(Items.diamond_horse_armor, 1);
 		}
 		else if (this.shopType == RotShopTypeManager.BLACKSMITH_TRINKETS)
 		{
+			// Unlimited Items
+			
+			
+			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.BLACKSMITH_MOUNT)
 		{
+			// Unlimited Items
+			
+			
+			// Limited Items
 			
 		}
+	}
+
+	private int rollGold(World world)
+	{
+		int gold = world.rand.nextInt(4000) + 1000; // 1000-5000 gold.
+		return gold;
 	}
 }
