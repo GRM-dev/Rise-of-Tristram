@@ -30,7 +30,7 @@ public class EventEntityJoin
 			{
 				if (ExtendVillager.get(villager) != null)
 				{
-					ExtendVillager.get(villager).rollExtendVillager();
+					ExtendVillager.get(villager).rollExtendVillager(villager.worldObj);
 				}
 			}
 		}

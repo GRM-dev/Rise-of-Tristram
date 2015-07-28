@@ -11,17 +11,18 @@ import net.minecraft.item.ItemStack;
 public class GuiMerchantShopSlotButton extends GuiButton
 {
 	private boolean isToggled = false;
-	private int price = 0;
+	public int buttonBoolIndex = 0;
 	private ItemStack item = null;
 	private TextureAtlasSprite tex = null;
 	
-	public GuiMerchantShopSlotButton (int buttonId, int x, int y, ItemStack item, int price)
+	public GuiMerchantShopSlotButton (int buttonId, int x, int y, ItemStack item, boolean toggled, int booleanIndex)
 	{
 		super(buttonId, x, y, "");
 		this.width = 18;
 		this.height = 18;
-		this.price = price;
+		this.isToggled = toggled;
 		this.item = item;
+		this.buttonBoolIndex = booleanIndex;
 		if (this.item != null)
 		{
 			tex = Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getItemModel(this.item).getTexture();
@@ -31,16 +32,6 @@ public class GuiMerchantShopSlotButton extends GuiButton
 	public ItemStack getItem()
 	{
 		return item;
-	}
-	
-	public int getPrice()
-	{
-		return price;
-	}
-	
-	public void toggle()
-	{
-		isToggled = !isToggled;
 	}
 	
 	@Override
@@ -75,11 +66,16 @@ public class GuiMerchantShopSlotButton extends GuiButton
             }
 
             int color = 0x55FFFFFF;
-            if (isToggled)color = 0x55FFFF00;
+            if (this.hovered)
+            {
+            	if (isToggled)color = 0x55FFFF00;
+                else color = 0x5500FFFF;
+            }
+            if (isToggled)color = 0x5500FF00;
             else color = 0x550000FF;
-            this.drawRect(this.xPosition + 1, this.yPosition + 1, this.xPosition + width, this.yPosition + height, color);
+            this.drawRect(this.xPosition + 1, this.yPosition + 1, this.xPosition + width - 1, this.yPosition + height - 1, color);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            if (tex != null) this.drawTexturedModalRect(this.xPosition, this.yPosition, tex, 16, 16);
+            if (tex != null) this.drawTexturedModalRect(this.xPosition + 1, this.yPosition + 1, tex, 16, 16);
             //this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
         }
     }
