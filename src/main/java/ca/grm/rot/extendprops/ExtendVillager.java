@@ -266,17 +266,34 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		else if (this.shopType == RotShopTypeManager.DYE_MASTER)
 		{
 			// Unlimited Items
-			// TODO Add all the dyes, I'm not sure how?
-			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999);
-			
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 0);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 1);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 2);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 3);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 4);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 5);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 6);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 7);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 8);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 9);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 10);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 12);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 13);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 14);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 15);
+			this.shopUnlimited[i++] = new ItemStack(Items.dye, 9999, 16);
 			// Limited Items
 			
 		}
 		else if (this.shopType == RotShopTypeManager.TINKERER)
 		{
 			// Unlimited Items
-			
-			
+			this.shopUnlimited[i++] = new ItemStack(Items.redstone, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.redstone_lamp, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.redstone_torch, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.rail, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.activator_rail, 9999);
+			this.shopUnlimited[i++] = new ItemStack(Blocks.detector_rail, 9999);
 			// Limited Items
 			
 		}
@@ -286,7 +303,18 @@ public class ExtendVillager implements IExtendedEntityProperties{
 			
 			
 			// Limited Items
-			
+			this.shopLimited[j++] = new ItemStack(Items.wooden_axe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.wooden_sword, 1);
+			this.shopLimited[j++] = new ItemStack(Items.wooden_pickaxe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.iron_axe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.iron_sword, 1);
+			this.shopLimited[j++] = new ItemStack(Items.iron_pickaxe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.golden_axe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.golden_sword, 1);
+			this.shopLimited[j++] = new ItemStack(Items.golden_pickaxe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.diamond_axe, 1);
+			this.shopLimited[j++] = new ItemStack(Items.diamond_sword, 1);
+			this.shopLimited[j++] = new ItemStack(Items.diamond_pickaxe, 1);
 		}
 		else if (this.shopType == RotShopTypeManager.BLACKSMITH_ARMORS)
 		{
@@ -294,9 +322,11 @@ public class ExtendVillager implements IExtendedEntityProperties{
 			
 			
 			// Limited Items
-			this.shopLimited[j++] = new ItemStack(Items.iron_horse_armor, 1);
-			this.shopLimited[j++] = new ItemStack(Items.golden_horse_armor, 1);
-			this.shopLimited[j++] = new ItemStack(Items.diamond_horse_armor, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_boots, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_leggings, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_helmet, 1);
+			this.shopLimited[j++] = new ItemStack(Items.leather_chestplate, 1);
+			
 		}
 		else if (this.shopType == RotShopTypeManager.BLACKSMITH_TRINKETS)
 		{
@@ -312,7 +342,9 @@ public class ExtendVillager implements IExtendedEntityProperties{
 			
 			
 			// Limited Items
-			
+			this.shopLimited[j++] = new ItemStack(Items.iron_horse_armor, 1);
+			this.shopLimited[j++] = new ItemStack(Items.golden_horse_armor, 1);
+			this.shopLimited[j++] = new ItemStack(Items.diamond_horse_armor, 1);
 		}
 	}
 
