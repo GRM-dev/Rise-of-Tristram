@@ -75,7 +75,7 @@ public class GuiMerchantShopSlotButton extends GuiButton
             else color = 0x550000FF;
             this.drawRect(this.xPosition + 1, this.yPosition + 1, this.xPosition + width - 1, this.yPosition + height - 1, color);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            if (tex != null) this.drawTexturedModalRect(this.xPosition + 1, this.yPosition + 1, tex, 16, 16);
+            if (tex != null) this.drawTexturedModalRect(this.xPosition + 1, this.yPosition + 2, tex, 16, 16);
             //this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
         }
     }

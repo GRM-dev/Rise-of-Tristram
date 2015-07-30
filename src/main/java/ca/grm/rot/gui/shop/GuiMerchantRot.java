@@ -45,13 +45,15 @@ public class GuiMerchantRot extends GuiContainer{
         	this.buttonList.add(new GuiMerchantShopSlotButton(1,this.guiLeft + 5, this.guiTop + 5, new ItemStack(Items.apple),500));
         }*/
         
+        int slotIndexCounter = 0;
         //Temp for now, using player's inventory
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             { 
                 //this.addSlotToContainer(new Slot(realPlayerInventory, j + (i + 1) * 9, 6 + j * 18, 86 + i * 18));
-            	this.buttonList.add(new GuiMerchantShopSlotButton(1 + (j + (i*j)),this.guiLeft + 5 + 18 * j, this.guiTop + 5 + 18 * i, player.inventory.getStackInSlot(10+(i*j)), villagerToggledSlots[j + (i*j)],(j + (i*j))));
+            	this.buttonList.add(new GuiMerchantShopSlotButton(1 + slotIndexCounter,this.guiLeft + 5 + 18 * j, this.guiTop + 5 + 18 * i, player.inventory.getStackInSlot(slotIndexCounter), villagerToggledSlots[slotIndexCounter],slotIndexCounter));
+            	slotIndexCounter++;
             }
         }
 	}
