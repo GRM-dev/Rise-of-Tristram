@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 public class GuiMerchantShopSlotButton extends GuiButton
 {
 	private boolean isToggled = false;
+	protected int trueHeight = 18;
 	public int buttonBoolIndex = 0;
 	private ItemStack item = null;
 	private TextureAtlasSprite tex = null;
@@ -18,9 +19,14 @@ public class GuiMerchantShopSlotButton extends GuiButton
 	public GuiMerchantShopSlotButton (int buttonId, int x, int y, ItemStack item, boolean toggled, int booleanIndex)
 	{
 		super(buttonId, x, y, "");
-		this.width = 18;
-		this.height = 18;
 		this.isToggled = toggled;
+		this.width = 18;
+		
+		if (isToggled)
+			this.height = 12;
+		else
+			this.height = trueHeight;
+		
 		this.item = item;
 		this.buttonBoolIndex = booleanIndex;
 		if (this.item != null)
@@ -42,7 +48,7 @@ public class GuiMerchantShopSlotButton extends GuiButton
             FontRenderer fontrenderer = mc.fontRendererObj;
             mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.trueHeight;
             int k = this.getHoverState(this.hovered);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -73,7 +79,7 @@ public class GuiMerchantShopSlotButton extends GuiButton
             }
             if (isToggled)color = 0x5500FF00;
             else color = 0x550000FF;
-            this.drawRect(this.xPosition + 1, this.yPosition + 1, this.xPosition + width - 1, this.yPosition + height - 1, color);
+            this.drawRect(this.xPosition + 1, this.yPosition + 1, this.xPosition + width - 1, this.yPosition + trueHeight - 1, color);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             if (tex != null) this.drawTexturedModalRect(this.xPosition + 1, this.yPosition + 2, tex, 16, 16);
             //this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, l);
