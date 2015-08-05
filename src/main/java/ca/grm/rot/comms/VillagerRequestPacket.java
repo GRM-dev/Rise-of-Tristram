@@ -23,8 +23,10 @@ public class VillagerRequestPacket implements IMessage {
         	{
         		ExtendVillager e = ExtendVillager.get((EntityLiving)o);
         		int villagerShopType = e.shopType.index;
+        		String firstName = e.firstName;
+        		String lastName = e.lastName;
         		e.needsUpdate = false;
-        		return new VillagerResponsePacket(villagerShopType, ((Entity)o).getEntityId());
+        		return new VillagerResponsePacket(villagerShopType, ((Entity)o).getEntityId(), firstName, lastName);
         	}
 			return null;
 		}

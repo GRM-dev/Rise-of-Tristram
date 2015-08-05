@@ -127,6 +127,8 @@ public class ClientProxy extends CommonProxy
 	        	{
 	        		ExtendVillager e = ExtendVillager.get((EntityLiving)o);
 	        		e.shopType = RotShopTypeManager.getShopTypeFromIndex(message.villagerShopType);
+	        		e.firstName = message.firstName;
+	        		e.lastName = message.lastName;
 	        		e.needsUpdate = false;
 	        	}
 	        }

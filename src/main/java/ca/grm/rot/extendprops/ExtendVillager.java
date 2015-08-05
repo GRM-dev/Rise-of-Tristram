@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.RotShopType;
+import ca.grm.rot.libs.RotNamer;
 import ca.grm.rot.managers.RotShopTypeManager;
 
 public class ExtendVillager implements IExtendedEntityProperties{
@@ -26,7 +27,8 @@ public class ExtendVillager implements IExtendedEntityProperties{
 	public ItemStack[] shopCurrentLimitedInventory; // This is what the villager actually has in their limited inventory
 	public int goldMax; // Used when we refresh the gold.
 	public int goldCurrent;
-	
+	public String firstName = "";
+	public String lastName = "";
 	public ExtendVillager(EntityVillager mob)
 	{
 		this.mob = mob;
@@ -69,6 +71,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 	}
 
 	public void rollExtendVillager(World world) {
+		rollNames(world);
 		switch (mob.getProfession())
 		{
 		case 0:// farmer
@@ -94,6 +97,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		
 		this.goldMax = rollGold(world);
 		this.goldCurrent = this.goldMax;
+		//rollShopGoods();
 	}
 	
 	private RotShopType rollFarmerShopType()
@@ -174,8 +178,8 @@ public class ExtendVillager implements IExtendedEntityProperties{
 
 	private void rollShopGoods()
 	{
-		int i = -1;
-		int j = -1;
+		int i = 0;
+		int j = 0;
 		if (this.shopType == RotShopTypeManager.FARMER_SEED_SUPPLIER)
 		{
 			// Unlimited Items
@@ -352,5 +356,14 @@ public class ExtendVillager implements IExtendedEntityProperties{
 	{
 		int gold = world.rand.nextInt(4000) + 1000; // 1000-5000 gold.
 		return gold;
+	}
+
+	private void rollNames(World world)
+	{
+		int firstNameSyllables = world.rand.nextInt(1)+2; // 2-3 syllables
+		int lastNameSyllables = world.rand.nextInt(2)+2; // 2-4 syllables
+		
+		this.firstName += RotNamer.getFirstName(firstNameSyllables);
+		this.lastName += RotNamer.getLastName(lastNameSyllables);
 	}
 }

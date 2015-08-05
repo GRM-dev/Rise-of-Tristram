@@ -1,14 +1,11 @@
 package ca.grm.rot.comms;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import ca.grm.rot.Rot;
-import ca.grm.rot.extendprops.ExtendVillager;
-import ca.grm.rot.libs.RotShopType;
 
 public class VillagerResponsePacket implements IMessage {
 
@@ -25,26 +22,34 @@ public class VillagerResponsePacket implements IMessage {
 	
 	public int villagerShopType;
 	public int entityID;
+	public String firstName;
+	public String lastName;
 	
 	public VillagerResponsePacket() {
 		
 	}
 	
-	public VillagerResponsePacket(int villagerShopType, int entityID) {
+	public VillagerResponsePacket(int villagerShopType, int entityID, String firstName, String lastName) {
 		this.entityID = entityID;
 		this.villagerShopType = villagerShopType;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		entityID = buf.readInt();
 		villagerShopType = buf.readInt();
+		firstName = ByteBufUtils.readUTF8String(buf);
+		lastName = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(entityID);
 		buf.writeInt(villagerShopType);
+		ByteBufUtils.writeUTF8String(buf, firstName);
+		ByteBufUtils.writeUTF8String(buf, lastName);
 	}
 
 }

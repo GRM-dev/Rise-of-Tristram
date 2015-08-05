@@ -158,9 +158,9 @@ public class RotEventRenderLiving
 						stringColor = 0xffff00;
 					}
 				}
-				else if (v != null && v.shopType != null)
+				else if (v != null && v.shopType != null && v.firstName != null && v.lastName != null)
 				{
-					stringToBeDrawn = entity.getName() + " " + v.shopType.title;
+					stringToBeDrawn = v.firstName + " " + v.lastName + " " + v.shopType.title;
 					GlStateManager.scale(0.02f, 0.02f, 0.02f);
 					GlStateManager.rotate(180, 0, 0, 1);
 					GlStateManager.translate(0 - ((float) stringToBeDrawn.length() * 2.75f),
