@@ -36,7 +36,7 @@ public class GuiMerchantRot extends GuiContainer{
 		
 		// Other goodies
         this.buttonList.clear();
-        this.buttonList.add(new GuiButton(0, this.guiLeft + 5, this.guiTop + 62,65,28, "Purchase"));
+        this.buttonList.add(new GuiButton(0, this.guiLeft + 5, this.guiTop + 62,65,20, "Purchase"));
         //this.buttonList.add(new GuiMerchantShopSlotButton(1,this.guiLeft + 5, this.guiTop + 5, player.inventory.getStackInSlot(3),500));
         //this.buttonList.add(new GuiMerchantShopSlotButton(1,this.guiLeft + 5 + 18, this.guiTop + 5 + 18, player.inventory.getStackInSlot(0),500));
         /*for (int i = 0; i < villager.inventory.size; i++)
@@ -52,7 +52,14 @@ public class GuiMerchantRot extends GuiContainer{
             for (int j = 0; j < 9; ++j)
             { 
                 //this.addSlotToContainer(new Slot(realPlayerInventory, j + (i + 1) * 9, 6 + j * 18, 86 + i * 18));
-            	this.buttonList.add(new GuiMerchantShopSlotButton(1 + slotIndexCounter,this.guiLeft + 5 + 18 * j, this.guiTop + 5 + 18 * i, player.inventory.getStackInSlot(slotIndexCounter), villagerToggledSlots[slotIndexCounter],slotIndexCounter));
+            	this.buttonList.add(new GuiMerchantShopSlotButton(1,this.guiLeft + 5 + 18 * j, this.guiTop + 5 + 18 * i, player.inventory.getStackInSlot(slotIndexCounter), villagerToggledSlots[slotIndexCounter],slotIndexCounter));
+            	if (villagerToggledSlots[slotIndexCounter])
+            	{            		
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(2, this.guiLeft + 5 + 18 * j + (5+8), (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Maximum Quantity"));
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(3, this.guiLeft + 5 + 18 * j + (5+4), (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Increase Quantity"));
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(4, this.guiLeft + 5 + 18 * j + 5, (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Decrease Quantity"));
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(5, this.guiLeft + 5 + 18 * j, (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Minimum Quantity"));            		
+            	}
             	slotIndexCounter++;
             }
         }
@@ -61,13 +68,21 @@ public class GuiMerchantRot extends GuiContainer{
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException
 	{
-		if (button.id < 1)
+		switch (button.id)
 		{
-			
-		}
-		else
-		{
-			villagerToggledSlots[((GuiMerchantShopSlotButton)button).buttonBoolIndex] = !villagerToggledSlots[((GuiMerchantShopSlotButton)button).buttonBoolIndex];
+			case 0:
+				break;
+			case 1:
+				villagerToggledSlots[((GuiMerchantShopSlotButton)button).buttonBoolIndex] = !villagerToggledSlots[((GuiMerchantShopSlotButton)button).buttonBoolIndex];
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
 		}
 		//super.actionPerformed(button);
 	}

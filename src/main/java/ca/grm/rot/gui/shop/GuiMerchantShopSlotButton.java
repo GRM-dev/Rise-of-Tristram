@@ -23,7 +23,7 @@ public class GuiMerchantShopSlotButton extends GuiButton
 		this.width = 18;
 		
 		if (isToggled)
-			this.height = 12;
+			this.height = 10;
 		else
 			this.height = trueHeight;
 		
