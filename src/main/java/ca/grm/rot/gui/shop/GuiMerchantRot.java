@@ -53,11 +53,29 @@ public class GuiMerchantRot extends GuiContainer{
             { 
                 //this.addSlotToContainer(new Slot(realPlayerInventory, j + (i + 1) * 9, 6 + j * 18, 86 + i * 18));
             	this.buttonList.add(new GuiMerchantShopSlotButton(1,this.guiLeft + 5 + 18 * j, this.guiTop + 5 + 18 * i, player.inventory.getStackInSlot(slotIndexCounter), villagerToggledSlots[slotIndexCounter],slotIndexCounter));
-            	if (villagerToggledSlots[slotIndexCounter])
+            	/*if (villagerToggledSlots[slotIndexCounter])
             	{            		
             		this.buttonList.add(new GuiMerchantQuantityControlButton(2, this.guiLeft + 5 + 18 * j + (5+8), (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Maximum Quantity"));
             		this.buttonList.add(new GuiMerchantQuantityControlButton(3, this.guiLeft + 5 + 18 * j + (5+4), (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Increase Quantity"));
             		this.buttonList.add(new GuiMerchantQuantityControlButton(4, this.guiLeft + 5 + 18 * j + 5, (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Decrease Quantity"));
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(5, this.guiLeft + 5 + 18 * j, (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Minimum Quantity"));            		
+            	}*/
+            	slotIndexCounter++;
+            }
+        }
+        
+        slotIndexCounter =0;
+        for (int i = 0; i < 3; ++i)
+        {
+            for (int j = 0; j < 9; ++j)
+            { 
+                //this.addSlotToContainer(new Slot(realPlayerInventory, j + (i + 1) * 9, 6 + j * 18, 86 + i * 18));
+            	//this.buttonList.add(new GuiMerchantShopSlotButton(1,this.guiLeft + 5 + 18 * j, this.guiTop + 5 + 18 * i, player.inventory.getStackInSlot(slotIndexCounter), villagerToggledSlots[slotIndexCounter],slotIndexCounter));
+            	if (villagerToggledSlots[slotIndexCounter])
+            	{            		
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(2, this.guiLeft + 5 + 18 * j + (5+8), (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Maximum Quantity"));
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(3, this.guiLeft + 5 + 18 * j + (5+4), (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, true, "Increase Quantity"));
+            		this.buttonList.add(new GuiMerchantQuantityControlButton(4, this.guiLeft + 5 + 18 * j + 5, (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, true, "Decrease Quantity"));
             		this.buttonList.add(new GuiMerchantQuantityControlButton(5, this.guiLeft + 5 + 18 * j, (this.guiTop + 5 + 18 * i) + 10, slotIndexCounter, false, "Minimum Quantity"));            		
             	}
             	slotIndexCounter++;

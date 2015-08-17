@@ -165,7 +165,7 @@ public class RotEventRenderLiving
 					GlStateManager.rotate(180, 0, 0, 1);
 					GlStateManager.translate(0 - ((float) stringToBeDrawn.length() * 2.75f),
 							-15, 0);
-					stringColor = 0xffffff;
+					stringColor = 0xffff00;
 				}
 				else
 				{

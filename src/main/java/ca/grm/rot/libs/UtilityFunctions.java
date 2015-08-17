@@ -1,6 +1,7 @@
 package ca.grm.rot.libs;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -10,7 +11,11 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -20,97 +25,152 @@ public class UtilityFunctions
 
 	/* THIS NEEDS TO BE MOVED */
 	// TODO move these somewhere else
-	public static Block[] blockTypeObjects = { Blocks.air, Blocks.planks, Blocks.cobblestone, Blocks.stone, Blocks.stonebrick, Blocks.glass, Blocks.glass_pane, Blocks.brick_block, Blocks.sandstone };
-	public static int[] blockTypeColors = { 0xFF00CCFF, 0xFFFFBB00, 0xFFAAAAAA, 0xFFBBBBBB, 0xFFBBBBBB, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFAA0000, 0xFFFFBB00 };
+	public static Block[] blockTypeObjects = {
+			Blocks.air,
+			Blocks.planks,
+			Blocks.cobblestone,
+			Blocks.stone,
+			Blocks.stonebrick,
+			Blocks.glass,
+			Blocks.glass_pane,
+			Blocks.brick_block,
+			Blocks.sandstone };
+	public static int[] blockTypeColors = {
+			0xFF00CCFF,
+			0xFFFFBB00,
+			0xFFAAAAAA,
+			0xFFBBBBBB,
+			0xFFBBBBBB,
+			0xFFFFFFFF,
+			0xFFFFFFFF,
+			0xFFAA0000,
+			0xFFFFBB00 };
 
+	private static boolean recursiveLogic(float leftPointer, float rightPointer)
+	{
+		Random rand = new Random();
+		float rngRoll = 0;
+
+		rngRoll = rand.nextFloat();
+		if (rngRoll >= leftPointer && rngRoll <= rightPointer)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, int offset, float offsetAmount)
+	{
+		for (int i = 0; i < loops;i++)
+		{
+			recursiveLogic();
+		}
+	}
+
+	// Get whatever the player is looking at
+	/**
+	 * Entity is the creature you want to use to "look" from Range is how many
+	 * blocks out it will find something
+	 **/
 	public static Entity getEntitesFromLine(Entity entity, double range)
 	{
-		//Entity entity = this.mc.getRenderViewEntity();
+		// Entity entity = this.mc.getRenderViewEntity();
 		Minecraft mc = Minecraft.getMinecraft();
 
-        if (entity != null)
-        {
-            if (mc.theWorld != null)
-            {
-            	mc.mcProfiler.startSection("pick");
-            	mc.pointedEntity = null;
-                mc.objectMouseOver = entity.rayTrace(range, 0f);//partial tick time?
-                double d1 = range;
-                Vec3 vec3 = entity.getPositionEyes(0f);//partial tick time?
+		if (entity != null)
+		{
+			if (mc.theWorld != null)
+			{
+				mc.mcProfiler.startSection("pick");
+				mc.pointedEntity = null;
+				mc.objectMouseOver = entity.rayTrace(range, 0f);// partial tick
+																// time?
+				double d1 = range;
+				Vec3 vec3 = entity.getPositionEyes(0f);// partial tick time?
 
-                if (mc.objectMouseOver != null)
-                {
-                    d1 = mc.objectMouseOver.hitVec.distanceTo(vec3);
-                }
+				if (mc.objectMouseOver != null)
+				{
+					d1 = mc.objectMouseOver.hitVec.distanceTo(vec3);
+				}
 
-                Vec3 vec31 = entity.getLook(0f);//partial tick time?
-                Vec3 vec32 = vec3.addVector(vec31.xCoord * range, vec31.yCoord * range, vec31.zCoord * range);
-                Entity pointedEntity = null;
-                Vec3 vec33 = null;
-                float f1 = 1.0F;
-                List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().addCoord(vec31.xCoord * range, vec31.yCoord * range, vec31.zCoord * range).expand((double)f1, (double)f1, (double)f1));
-                double d2 = d1;
+				Vec3 vec31 = entity.getLook(0f);// partial tick time?
+				Vec3 vec32 = vec3.addVector(vec31.xCoord * range, vec31.yCoord * range,
+						vec31.zCoord * range);
+				Entity pointedEntity = null;
+				Vec3 vec33 = null;
+				float f1 = 1.0F;
+				List list = mc.theWorld.getEntitiesWithinAABBExcludingEntity(entity, entity
+						.getEntityBoundingBox().addCoord(vec31.xCoord * range,
+								vec31.yCoord * range, vec31.zCoord * range).expand((double) f1,
+								(double) f1, (double) f1));
+				double d2 = d1;
 
-                for (int i = 0; i < list.size(); ++i)
-                {
-                    Entity entity1 = (Entity)list.get(i);
+				for (int i = 0; i < list.size(); ++i)
+				{
+					Entity entity1 = (Entity) list.get(i);
 
-                    if (entity1.canBeCollidedWith())
-                    {
-                        float f2 = entity1.getCollisionBorderSize();
-                        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double)f2, (double)f2, (double)f2);
-                        MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
+					if (entity1.canBeCollidedWith())
+					{
+						float f2 = entity1.getCollisionBorderSize();
+						AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(
+								(double) f2, (double) f2, (double) f2);
+						MovingObjectPosition movingobjectposition = axisalignedbb
+								.calculateIntercept(vec3, vec32);
 
-                        if (axisalignedbb.isVecInside(vec3))
-                        {
-                            if (0.0D < d2 || d2 == 0.0D)
-                            {
-                                pointedEntity = entity1;
-                                vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
-                                d2 = 0.0D;
-                            }
-                        }
-                        else if (movingobjectposition != null)
-                        {
-                            double d3 = vec3.distanceTo(movingobjectposition.hitVec);
+						if (axisalignedbb.isVecInside(vec3))
+						{
+							if (0.0D < d2 || d2 == 0.0D)
+							{
+								pointedEntity = entity1;
+								vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
+								d2 = 0.0D;
+							}
+						}
+						else if (movingobjectposition != null)
+						{
+							double d3 = vec3.distanceTo(movingobjectposition.hitVec);
 
-                            if (d3 < d2 || d2 == 0.0D)
-                            {
-                                if (entity1 == entity.ridingEntity && !entity.canRiderInteract())
-                                {
-                                    if (d2 == 0.0D)
-                                    {
-                                        pointedEntity = entity1;
-                                        vec33 = movingobjectposition.hitVec;
-                                    }
-                                }
-                                else
-                                {
-                                    pointedEntity = entity1;
-                                    vec33 = movingobjectposition.hitVec;
-                                    d2 = d3;
-                                }
-                            }
-                        }
-                    }
-                }
+							if (d3 < d2 || d2 == 0.0D)
+							{
+								if (entity1 == entity.ridingEntity && !entity.canRiderInteract())
+								{
+									if (d2 == 0.0D)
+									{
+										pointedEntity = entity1;
+										vec33 = movingobjectposition.hitVec;
+									}
+								}
+								else
+								{
+									pointedEntity = entity1;
+									vec33 = movingobjectposition.hitVec;
+									d2 = d3;
+								}
+							}
+						}
+					}
+				}
 
-                if (pointedEntity != null && (d2 < d1 || mc.objectMouseOver == null))
-                {
-                    mc.objectMouseOver = new MovingObjectPosition(pointedEntity, vec33);
+				if (pointedEntity != null && (d2 < d1 || mc.objectMouseOver == null))
+				{
+					mc.objectMouseOver = new MovingObjectPosition(pointedEntity, vec33);
 
-                    if (pointedEntity instanceof EntityLivingBase || pointedEntity instanceof EntityItemFrame)
-                    {
-                        mc.pointedEntity = pointedEntity;
-                    }
-                }
-                mc.mcProfiler.endSection();
-                return pointedEntity;
-            }
-        }
+					if (pointedEntity instanceof EntityLivingBase || pointedEntity instanceof EntityItemFrame)
+					{
+						mc.pointedEntity = pointedEntity;
+					}
+				}
+				mc.mcProfiler.endSection();
+				return pointedEntity;
+			}
+		}
 		return null;
 	}
-	
+
 	/**
 	 * Will Scan for an item, and check to see if the correct amount is in a
 	 * player's inventory
@@ -155,9 +215,7 @@ public class UtilityFunctions
 	{
 		if (items.length != amounts.length)// Just to make sure you checked
 											// right
-		{
-			return false;
-		}
+		{ return false; }
 		boolean[] correctAmount = new boolean[items.length];
 		int[] amountCounter = new int[amounts.length];
 		for (int i = 0; i < correctAmount.length; i++)

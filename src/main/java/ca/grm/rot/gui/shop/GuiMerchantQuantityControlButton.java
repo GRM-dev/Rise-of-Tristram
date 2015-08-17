@@ -62,7 +62,7 @@ public class GuiMerchantQuantityControlButton extends GuiButton
             }
 
             if (this.hovered)
-            	this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height) / 2, l);
+            	this.drawCenteredString(fontrenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height), l);
         }
     }
 }
