@@ -46,12 +46,10 @@ public class UtilityFunctions
 			0xFFAA0000,
 			0xFFFFBB00 };
 
-	private static boolean recursiveLogic(float leftPointer, float rightPointer)
+	public static boolean recursiveRandom(float leftPointer, float rightPointer)
 	{
 		Random rand = new Random();
-		float rngRoll = 0;
-
-		rngRoll = rand.nextFloat();
+		float rngRoll = rand.nextFloat();
 		if (rngRoll >= leftPointer && rngRoll <= rightPointer)
 		{
 			return true;
@@ -63,12 +61,45 @@ public class UtilityFunctions
 
 	}
 
-	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, int offset, float offsetAmount)
+	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, float degradeAmount, int offset, float offsetAmount)
 	{
+		float newLeftPointer = leftPointer - (offsetAmount * offset);
+		float newRightPointer = rightPointer + (offsetAmount * offset);
+		int successes = 0;
 		for (int i = 0; i < loops;i++)
 		{
-			recursiveLogic();
+			if(recursiveRandom(newLeftPointer,newRightPointer))successes++;
+			else break;
+			newLeftPointer += (degradeAmount - (offsetAmount * offset));
+			newRightPointer -= (degradeAmount- (offsetAmount * offset));
 		}
+		return successes;
+	}
+	
+	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, float degradeAmount, int[] offset, float[] offsetAmount)
+	{
+		float newLeftPointer = leftPointer;
+		float newRightPointer = rightPointer;
+		float offsetAvg = 0;
+		float offsetAmountAvg = 0;
+		for (int i = 0; i < offset.length;i++)
+		{
+			offsetAvg += offset[i];
+			offsetAmountAvg += offsetAmount[i];
+			newLeftPointer -= (offsetAmount[i] * offset[i]);
+			newRightPointer += (offsetAmount[i] * offset[i]);
+		}
+		offsetAvg /= offset.length;
+		offsetAmountAvg /= offsetAmount.length;
+		int successes = 0;
+		for (int i = 0; i < loops;i++)
+		{
+			if(recursiveRandom(newLeftPointer,newRightPointer))successes++;
+			else break;
+			newLeftPointer += (degradeAmount - (offsetAmountAvg * offsetAvg));
+			newRightPointer -= (degradeAmount- (offsetAmountAvg * offsetAvg));
+		}
+		return successes;
 	}
 
 	// Get whatever the player is looking at
