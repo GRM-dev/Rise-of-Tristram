@@ -3,7 +3,7 @@ package ca.grm.rot.managers;
 import java.lang.reflect.Array;
 import java.util.Random;
 
-import ca.grm.rot.libs.RotItemAffix;
+import ca.grm.rot.libs.ItemAffix;
 import ca.grm.rot.libs.RotMobAffix;
 import ca.grm.rot.libs.UtilNBTKeys;
 

@@ -1,8 +1,9 @@
 package ca.grm.rot.managers;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-import ca.grm.rot.libs.RotItemAffix;
+import ca.grm.rot.libs.ItemAffix;
 import ca.grm.rot.libs.UtilNBTKeys;
 
 public class RotAffixManager
@@ -12,288 +13,210 @@ public class RotAffixManager
 
 	}
 
-	// Returns how long the rank array extends
-	public static int getRankCount(int rank, RotItemAffix[] affix)
+	public static ItemAffix getPrefix(int rank, int itemType)
 	{
-		int count = 0;
-		for (RotItemAffix a : affix)
+		Random rand = new Random();
+		ArrayList<ItemAffix> returnableAffix = new ArrayList<ItemAffix>();
+		for (ItemAffix a : allPrefixes)
 		{
-			if (rank == a.rankRequirement) count++;
-		}
-		return count;
-	}
-
-	// Returns where that rank level starts
-	public static int getRankStart(int rank, RotItemAffix[] affix)
-	{
-		if (rank > 4) return affix.length;
-		for (int index = 0; index < affix.length; index++)
-		{
-			if (rank == affix[index].rankRequirement) return index;
-		}
-		return -1;
-	}
-
-	// Return the affix out of the array
-	public static RotItemAffix getAffix(int rank, RotItemAffix[] affix, Random random)
-	{
-		// Try to get where, in the array, to start for affix ranking
-		// requirement
-		if (rank > 4) return affix[affix.length - 1];
-		int affixIndex = getRankStart(rank, affix);
-		if (affixIndex != -1)
-		{
-			// Get how far up the affix array to search
-			int rankRange = getRankCount(rank, affix);
-			if (rankRange > 1)
+			if (a.type == 0 || a.type == itemType)
 			{
-				if (affixIndex > 0)
+				if (rank >= a.rankLowRequirement && rank <= a.rankHighRequirement)
 				{
-					// If the index is not at the start get a random spot in the
-					// range
-					int randomIndex = random.nextInt(rankRange);
-					// And if it so happens to be at the start, try to go back
-					// one ranking
-					if (randomIndex == 0) randomIndex -= random.nextInt(1);
-					return affix[randomIndex + affixIndex];
+					returnableAffix.add(a);
 				}
-				else return affix[random.nextInt(rankRange)];
 			}
-			else return affix[affixIndex];
 		}
-		return null;
+		if (!returnableAffix.isEmpty())
+		{
+			return returnableAffix.get(rand.nextInt(returnableAffix.size()));
+		}
+		else return null;
+	}
+	
+	public static ItemAffix getSuffix(int rank, int itemType)
+	{
+		Random rand = new Random();
+		ArrayList<ItemAffix> returnableAffix = new ArrayList<ItemAffix>();
+		for (ItemAffix a : allSuffixes)
+		{
+			if (a.type == 0 || a.type == itemType)
+			{
+				if (rank >= a.rankLowRequirement && rank <= a.rankHighRequirement)
+				{
+					returnableAffix.add(a);
+				}
+			}
+		}
+		if (!returnableAffix.isEmpty())
+		{
+			return returnableAffix.get(rand.nextInt(returnableAffix.size()));
+		}
+		else return null;
 	}
 
 	/** Prefixes **/
-	public static RotItemAffix vilePrefix = new RotItemAffix("Vile", 4, UtilNBTKeys.vile, 1f);
-
-	public static RotItemAffix[] poisonPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Poisonous", 2, UtilNBTKeys.poison, 1f),
-			new RotItemAffix("Venomous", 3, UtilNBTKeys.poison, 2f),
-			new RotItemAffix("Toxic", 4, UtilNBTKeys.poison, 3f) };
-
-	public static RotItemAffix[] sickPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Sickly", 2, UtilNBTKeys.sickness, 1f),
-			new RotItemAffix("Feverish", 3, UtilNBTKeys.sickness, 2f),
-			new RotItemAffix("Crippling", 4, UtilNBTKeys.sickness, 3f) };
-
-	public static RotItemAffix[] socketPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Mechanic's", 2, UtilNBTKeys.sockets, 1f),
-			new RotItemAffix("Artisan's", 3, UtilNBTKeys.sockets, 2f),
-			new RotItemAffix("Jeweler's", 4, UtilNBTKeys.sockets, 3f) };
-
-	public static RotItemAffix[] damagePrefixes = new RotItemAffix[] {
-			new RotItemAffix("Jagged", 1, new String[] {
+	public static ItemAffix[] allPrefixes = new ItemAffix[] {
+			new ItemAffix("Vile", 4, 5, UtilNBTKeys.vile, 1f, 1),
+			new ItemAffix("Poisonous", 2, 4, UtilNBTKeys.poison, 1f, 1),
+			new ItemAffix("Venomous", 3, 5, UtilNBTKeys.poison, 2f, 1),
+			new ItemAffix("Toxic", 4, 6, UtilNBTKeys.poison, 3f, 1),
+			new ItemAffix("Sickly", 2, 4, UtilNBTKeys.sickness, 1f, 1),
+			new ItemAffix("Feverish", 3, 5, UtilNBTKeys.sickness, 2f, 1),
+			new ItemAffix("Crippling", 4, 6, UtilNBTKeys.sickness, 3f, 1),
+			new ItemAffix("Mechanic's", 1, 2, UtilNBTKeys.sockets, 1f,3),
+			new ItemAffix("Artisan's", 1, 4, UtilNBTKeys.sockets, 2f,3),
+			new ItemAffix("Jeweler's", 3, 6, UtilNBTKeys.sockets, 3f,3),
+			new ItemAffix("Jagged", 1, 2, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 10f, 20f }),
-			new RotItemAffix("Deadly", 1, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 10f, 20f }, 1),
+			new ItemAffix("Deadly", 1, 3, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 21f, 31f }),
-			new RotItemAffix("Vicious", 2, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 21f, 31f }, 1),
+			new ItemAffix("Vicious", 2, 4, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 31f, 41f }),
-			new RotItemAffix("Brutal", 2, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 31f, 41f }, 1),
+			new ItemAffix("Brutal", 2, 5, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 41f, 51f }),
-			new RotItemAffix("Massive", 3, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 41f, 51f }, 1),
+			new ItemAffix("Massive", 3, 5, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 61f, 75f }),
-			new RotItemAffix("Savage", 3, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 61f, 75f }, 1),
+			new ItemAffix("Savage", 3, 6, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 66f, 80f }),
-			new RotItemAffix("Merciless", 4, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 66f, 80f }, 1),
+			new ItemAffix("Merciless", 4, 6, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 81f, 100f }),
-			new RotItemAffix("Ferocious", 4, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 81f, 100f }, 1),
+			new ItemAffix("Ferocious", 4, 6, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 101f, 200f }),
-			new RotItemAffix("Cruel", 5, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 101f, 200f }, 1),
+			new ItemAffix("Cruel", 5, 6, new String[] {
 					UtilNBTKeys.minDmgStat,
-					UtilNBTKeys.maxDmgStat }, new float[] { 201f, 300f }) };
-
-	public static RotItemAffix[] damageExtraPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Careless", 1, new String[] {
+					UtilNBTKeys.maxDmgStat }, new float[] { 201f, 300f }, 1),
+			new ItemAffix("Careless", 1, 3, new String[] {
 					UtilNBTKeys.dmgEnhance,
-					UtilNBTKeys.dmgPrice }, new float[] { 1.05f, 0.01f }),
-			new RotItemAffix("Reckless", 2, new String[] {
+					UtilNBTKeys.dmgPrice }, new float[] { 1.05f, 0.01f }, 1),
+			new ItemAffix("Reckless", 2, 5, new String[] {
 					UtilNBTKeys.dmgEnhance,
-					UtilNBTKeys.dmgPrice }, new float[] { 1.10f, 0.02f }),
-			new RotItemAffix("Vengeful", 3, new String[] {
+					UtilNBTKeys.dmgPrice }, new float[] { 1.10f, 0.02f }, 1),
+			new ItemAffix("Vengeful", 3, 6, new String[] {
 					UtilNBTKeys.dmgEnhance,
-					UtilNBTKeys.dmgPrice }, new float[] { 1.15f, 0.03f }),
-			new RotItemAffix("Suicidal", 4, new String[] {
+					UtilNBTKeys.dmgPrice }, new float[] { 1.15f, 0.03f }, 1),
+			new ItemAffix("Suicidal", 4, 6, new String[] {
 					UtilNBTKeys.dmgEnhance,
-					UtilNBTKeys.dmgPrice }, new float[] { 1.20f, 0.04f }),
-			new RotItemAffix("Sacrificial", 5, new String[] {
+					UtilNBTKeys.dmgPrice }, new float[] { 1.20f, 0.04f }, 1),
+			new ItemAffix("Sacrificial", 5, 6, new String[] {
 					UtilNBTKeys.dmgEnhance,
-					UtilNBTKeys.dmgPrice }, new float[] { 1.25f, 0.05f }) };
+					UtilNBTKeys.dmgPrice }, new float[] { 1.25f, 0.05f }, 1),
+			new ItemAffix("Stout", 1, 3, UtilNBTKeys.defStat, 10f, 2),
+			new ItemAffix("Sturdy", 1, 4, UtilNBTKeys.defStat, 20f, 2),
+			new ItemAffix("Strong", 2, 4, UtilNBTKeys.defStat, 30f, 2),
+			new ItemAffix("Glorious", 2, 5, UtilNBTKeys.defStat, 40f, 2),
+			new ItemAffix("Stalwart", 3, 5, UtilNBTKeys.defStat, 50f, 2),
+			new ItemAffix("Blessed", 3, 6, UtilNBTKeys.defStat, 60f, 2),
+			new ItemAffix("Saintly", 4, 6, UtilNBTKeys.defStat, 70f, 2),
+			new ItemAffix("Holy", 4, 6, UtilNBTKeys.defStat, 80f, 2),
+			new ItemAffix("Godly", 5, 6, UtilNBTKeys.defStat, 90f, 2),
+			new ItemAffix("Toad's", 1, 3, UtilNBTKeys.manaStat, 50f, 2),
+			new ItemAffix("Lizard's", 1, 4, UtilNBTKeys.manaStat, 70f, 2),
+			new ItemAffix("Snake's", 2, 4, UtilNBTKeys.manaStat, 90f, 2),
+			new ItemAffix("Serpent's", 2, 5, UtilNBTKeys.manaStat, 110f, 2),
+			new ItemAffix("Drake's", 3, 5, UtilNBTKeys.manaStat, 130f, 2),
+			new ItemAffix("Dragon's", 3, 6, UtilNBTKeys.manaStat, 150f, 2),
+			new ItemAffix("Wyrm's", 4, 6, UtilNBTKeys.manaStat, 170f, 2),
+			new ItemAffix("Great Wyrm's", 4, 6, UtilNBTKeys.manaStat, 190f, 2),
+			new ItemAffix("Bahamut's", 5, 6, UtilNBTKeys.manaStat, 210f, 2),
+			new ItemAffix("Invigorating", 1, 3, UtilNBTKeys.manaRegenStat, 5f, 2),
+			new ItemAffix("Rejuvenating", 2, 4, UtilNBTKeys.manaRegenStat, 10f, 2),
+			new ItemAffix("Exhilarating", 3, 5, UtilNBTKeys.manaRegenStat, 15f, 2),
+			new ItemAffix("Revitalizing", 4, 6, UtilNBTKeys.manaRegenStat, 20f, 2),
+			new ItemAffix("Refreshing", 5, 6, UtilNBTKeys.manaRegenStat, 25f, 2),
+			new ItemAffix("Rugged", 1, 3, UtilNBTKeys.stamStat, 150f, 2),
+			new ItemAffix("Vigourous", 2, 4, UtilNBTKeys.stamStat, 300f, 2),
+			new ItemAffix("Rigourous", 3, 5, UtilNBTKeys.stamStat, 450f, 2),
+			new ItemAffix("Provoking", 4, 6, UtilNBTKeys.stamStat, 600f, 2),
+			new ItemAffix("Grievous", 5, 6, UtilNBTKeys.stamStat, 750f, 2),
+			new ItemAffix("Eager", 1, 3, UtilNBTKeys.stamRegenStat, 10f, 2),
+			new ItemAffix("Restless", 2, 4, UtilNBTKeys.stamRegenStat, 20f, 2),
+			new ItemAffix("Tireless", 3, 5, UtilNBTKeys.stamRegenStat, 30f, 2),
+			new ItemAffix("Unwearying", 4, 6, UtilNBTKeys.stamRegenStat, 40f, 2),
+			new ItemAffix("Energetic", 5, 6, UtilNBTKeys.stamRegenStat, 50f, 2)
 
-	public static RotItemAffix[] defencePrefixes = new RotItemAffix[] {
-			new RotItemAffix("Stout", 1, UtilNBTKeys.defStat, 10f),
-			new RotItemAffix("Sturdy", 1, UtilNBTKeys.defStat, 20),
-			new RotItemAffix("Strong", 2, UtilNBTKeys.defStat, 30),
-			new RotItemAffix("Glorious", 2, UtilNBTKeys.defStat, 40),
-			new RotItemAffix("Stalwart", 3, UtilNBTKeys.defStat, 50f),
-			new RotItemAffix("Blessed", 3, UtilNBTKeys.defStat, 60),
-			new RotItemAffix("Saintly", 4, UtilNBTKeys.defStat, 70f),
-			new RotItemAffix("Holy", 4, UtilNBTKeys.defStat, 80f),
-			new RotItemAffix("Godly", 5, UtilNBTKeys.defStat, 90f) };
-
-	public static RotItemAffix[] manaPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Toad's", 1, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 50f }),
-			new RotItemAffix("Lizard's", 1, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 70 }),
-			new RotItemAffix("Snake's", 2, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 90 }),
-			new RotItemAffix("Serpent's", 2, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 110 }),
-			new RotItemAffix("Drake's", 3, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 130f }),
-			new RotItemAffix("Dragon's", 3, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 150 }),
-			new RotItemAffix("Wyrm's", 4, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 170f }),
-			new RotItemAffix("Great Wyrm's", 4, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 190f }),
-			new RotItemAffix("Bahamut's", 5, new String[] { UtilNBTKeys.manaStat },
-					new float[] { 210f }) };
-
-	public static RotItemAffix[] manaRegenPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Invigorating", 1, new String[] { UtilNBTKeys.manaRegenStat },
-					new float[] { 5f }),
-			new RotItemAffix("Rejuvenating", 2, new String[] { UtilNBTKeys.manaRegenStat },
-					new float[] { 10f }),
-			new RotItemAffix("Exhilarating", 3, new String[] { UtilNBTKeys.manaRegenStat },
-					new float[] { 15f }),
-			new RotItemAffix("Revitalizing", 4, new String[] { UtilNBTKeys.manaRegenStat },
-					new float[] { 20f }),
-			new RotItemAffix("Refreshing", 5, new String[] { UtilNBTKeys.manaRegenStat },
-					new float[] { 25f }) };
-
-	public static RotItemAffix[] stamPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Rugged", 1, new String[] { UtilNBTKeys.stamStat },
-					new float[] { 150f }),
-			new RotItemAffix("Vigourous", 2, new String[] { UtilNBTKeys.stamStat },
-					new float[] { 300f }),
-			new RotItemAffix("Rigourous", 3, new String[] { UtilNBTKeys.stamStat },
-					new float[] { 450f }),
-			new RotItemAffix("Provoking", 4, new String[] { UtilNBTKeys.stamStat },
-					new float[] { 600f }),
-			new RotItemAffix("Grievous", 5, new String[] { UtilNBTKeys.stamStat },
-					new float[] { 750f }) };
-
-	public static RotItemAffix[] stamRegenPrefixes = new RotItemAffix[] {
-			new RotItemAffix("Eager", 1, new String[] { UtilNBTKeys.stamRegenStat },
-					new float[] { 10f }),
-			new RotItemAffix("Restless", 2, new String[] { UtilNBTKeys.stamRegenStat }, new float[]
-			{ 20f }),
-			new RotItemAffix("Tireless", 3, new String[] { UtilNBTKeys.stamRegenStat }, new float[]
-			{ 30f }),
-			new RotItemAffix("Unwearying", 4, new String[] { UtilNBTKeys.stamRegenStat },
-					new float[] { 40f }),
-			new RotItemAffix("Energetic", 5, new String[] { UtilNBTKeys.stamRegenStat },
-					new float[] { 50f }) };
+	};
 
 	/** Suffixes **/
-	public static RotItemAffix[] lifeStealSuffixes = new RotItemAffix[] {
-			new RotItemAffix("the Flea", 1, UtilNBTKeys.lifeSteal, 0.01f),
-			new RotItemAffix("the Louse", 1, UtilNBTKeys.lifeSteal, 0.015f),
-			new RotItemAffix("the Mosquito", 2, UtilNBTKeys.lifeSteal, 0.02f),
-			new RotItemAffix("the Tick", 2, UtilNBTKeys.lifeSteal, 0.025f),
-			new RotItemAffix("the Leech", 3, UtilNBTKeys.lifeSteal, 0.03f),
-			new RotItemAffix("the Locust", 3, UtilNBTKeys.lifeSteal, 0.035f),
-			new RotItemAffix("the Spider", 4, UtilNBTKeys.lifeSteal, 0.04f),
-			new RotItemAffix("the Lamprey", 4, UtilNBTKeys.lifeSteal, 0.045f),
-			new RotItemAffix("the Parasite", 5, UtilNBTKeys.lifeSteal, 0.05f) };
-
-	public static RotItemAffix[] manaStealSuffixes = new RotItemAffix[] {
-			new RotItemAffix("the Bat", 1, UtilNBTKeys.manaSteal, 0.01f),
-			new RotItemAffix("the Shadow", 1, UtilNBTKeys.manaSteal, 0.015f),
-			new RotItemAffix("the Phantom", 2, UtilNBTKeys.manaSteal, 0.02f),
-			new RotItemAffix("the Ghost", 2, UtilNBTKeys.manaSteal, 0.025f),
-			new RotItemAffix("the Wraith", 3, UtilNBTKeys.manaSteal, 0.03f),
-			new RotItemAffix("the Spectre", 3, UtilNBTKeys.manaSteal, 0.035f),
-			new RotItemAffix("the Vampire", 4, UtilNBTKeys.manaSteal, 0.04f),
-			new RotItemAffix("the Lich", 4, UtilNBTKeys.manaSteal, 0.045f),
-			new RotItemAffix("the Demon", 5, UtilNBTKeys.manaSteal, 0.05f) };
-
-	/** Int, size of array 1 **/
-	public static RotItemAffix[] vitSuffixes = new RotItemAffix[] {
-			new RotItemAffix("the Jackel", 1, UtilNBTKeys.vitStat, 6f),
-			new RotItemAffix("the Fox", 1, UtilNBTKeys.vitStat, 9f),
-			new RotItemAffix("Hope", 2, UtilNBTKeys.vitStat, 12f),
-			new RotItemAffix("the Wolf", 2, UtilNBTKeys.vitStat, 15f),
-			new RotItemAffix("the Tiger", 3, UtilNBTKeys.vitStat, 18f),
-			new RotItemAffix("the Horse", 3, UtilNBTKeys.vitStat, 21f),
-			new RotItemAffix("the Mammoth", 4, UtilNBTKeys.vitStat, 24f),
-			new RotItemAffix("the Whale", 4, UtilNBTKeys.vitStat, 27f),
-			new RotItemAffix("the Colossus", 5, UtilNBTKeys.vitStat, 30f) };
-
-	/** Int, size of array 1 **/
-	public static RotItemAffix[] dexSuffixes = new RotItemAffix[] {
-			new RotItemAffix("Dexterity", 1, UtilNBTKeys.dexStat, 6f),
-			new RotItemAffix("Skill", 1, UtilNBTKeys.dexStat, 9f),
-			new RotItemAffix("Talent", 2, UtilNBTKeys.dexStat, 12f),
-			new RotItemAffix("Hunting", 2, UtilNBTKeys.dexStat, 15f),
-			new RotItemAffix("Accuracy", 3, UtilNBTKeys.dexStat, 18f),
-			new RotItemAffix("Sniping", 3, UtilNBTKeys.dexStat, 21f),
-			new RotItemAffix("Precision", 4, UtilNBTKeys.dexStat, 24f),
-			new RotItemAffix("Perfection", 4, UtilNBTKeys.dexStat, 27f),
-			new RotItemAffix("Nirvana", 5, UtilNBTKeys.dexStat, 30f) };
-
-	/** Int, size of array 1 **/
-	public static RotItemAffix[] strSuffixes = new RotItemAffix[] {
-			new RotItemAffix("Strength", 1, UtilNBTKeys.strStat, 6f),
-			new RotItemAffix("Might", 1, UtilNBTKeys.strStat, 9f),
-			new RotItemAffix("the Bull", 2, UtilNBTKeys.strStat, 12f),
-			new RotItemAffix("the Ox", 2, UtilNBTKeys.strStat, 15f),
-			new RotItemAffix("the Gorilla", 3, UtilNBTKeys.strStat, 18f),
-			new RotItemAffix("the Elephant", 3, UtilNBTKeys.strStat, 21f),
-			new RotItemAffix("Giants", 4, UtilNBTKeys.strStat, 24f),
-			new RotItemAffix("Titans", 4, UtilNBTKeys.strStat, 27f),
-			new RotItemAffix("Atlas", 5, UtilNBTKeys.strStat, 30f) };
-
-	/** Int, size of array 1 **/
-	public static RotItemAffix[] intSuffixes = new RotItemAffix[] {
-			new RotItemAffix("Energy", 1, UtilNBTKeys.intStat, 6f),
-			new RotItemAffix("Knowledge", 1, UtilNBTKeys.intStat, 9f),
-			new RotItemAffix("Mind", 2, UtilNBTKeys.intStat, 12f),
-			new RotItemAffix("Thoughts", 2, UtilNBTKeys.intStat, 15f),
-			new RotItemAffix("Inspiration", 3, UtilNBTKeys.intStat, 18f),
-			new RotItemAffix("Brilliancet", 3, UtilNBTKeys.intStat, 21f),
-			new RotItemAffix("Sorcery", 4, UtilNBTKeys.intStat, 24f),
-			new RotItemAffix("Wizardry", 4, UtilNBTKeys.intStat, 27f),
-			new RotItemAffix("Enlightenment", 5, UtilNBTKeys.intStat, 30f) };
-
-	/** Int, size of array 5 **/
-	public static RotItemAffix[] allBaseSuffixes = new RotItemAffix[] { new RotItemAffix("Zodiac",
-			1, new String[] {
+	public static ItemAffix[] allSuffixes = new ItemAffix[] {
+			new ItemAffix("the Flea", 1, 2, UtilNBTKeys.lifeSteal, 0.01f, 1),
+			new ItemAffix("the Louse", 1, 3, UtilNBTKeys.lifeSteal, 0.015f, 1),
+			new ItemAffix("the Mosquito", 2, 3, UtilNBTKeys.lifeSteal, 0.02f, 1),
+			new ItemAffix("the Tick", 2, 4, UtilNBTKeys.lifeSteal, 0.025f, 1),
+			new ItemAffix("the Leech", 3, 4, UtilNBTKeys.lifeSteal, 0.03f, 1),
+			new ItemAffix("the Locust", 3, 5, UtilNBTKeys.lifeSteal, 0.035f, 1),
+			new ItemAffix("the Spider", 4, 5, UtilNBTKeys.lifeSteal, 0.04f, 1),
+			new ItemAffix("the Lamprey", 4, 6, UtilNBTKeys.lifeSteal, 0.045f, 1),
+			new ItemAffix("the Parasite", 5, 6, UtilNBTKeys.lifeSteal, 0.05f, 1),
+			new ItemAffix("the Bat", 1, 2, UtilNBTKeys.manaSteal, 0.01f, 1),
+			new ItemAffix("the Shadow", 1, 3, UtilNBTKeys.manaSteal, 0.015f, 1),
+			new ItemAffix("the Phantom", 2, 3, UtilNBTKeys.manaSteal, 0.02f, 1),
+			new ItemAffix("the Ghost", 2, 4, UtilNBTKeys.manaSteal, 0.025f, 1),
+			new ItemAffix("the Wraith", 3, 4, UtilNBTKeys.manaSteal, 0.03f, 1),
+			new ItemAffix("the Spectre", 3, 5, UtilNBTKeys.manaSteal, 0.035f, 1),
+			new ItemAffix("the Vampire", 4, 5, UtilNBTKeys.manaSteal, 0.04f, 1),
+			new ItemAffix("the Lich", 4, 6, UtilNBTKeys.manaSteal, 0.045f, 1),
+			new ItemAffix("the Demon", 5, 6, UtilNBTKeys.manaSteal, 0.05f, 1),
+			new ItemAffix("the Jackel", 1, 2, UtilNBTKeys.vitStat, 6f),
+			new ItemAffix("the Fox", 1, 3, UtilNBTKeys.vitStat, 9f),
+			new ItemAffix("Hope", 2, 3, UtilNBTKeys.vitStat, 12f),
+			new ItemAffix("the Wolf", 2, 4, UtilNBTKeys.vitStat, 15f),
+			new ItemAffix("the Tiger", 3, 4, UtilNBTKeys.vitStat, 18f),
+			new ItemAffix("the Horse", 3, 5, UtilNBTKeys.vitStat, 21f),
+			new ItemAffix("the Mammoth", 4, 5, UtilNBTKeys.vitStat, 24f),
+			new ItemAffix("the Whale", 4, 6, UtilNBTKeys.vitStat, 27f),
+			new ItemAffix("the Colossus", 5, 6, UtilNBTKeys.vitStat, 30f),
+			new ItemAffix("Dexterity", 1, 2, UtilNBTKeys.dexStat, 6f),
+			new ItemAffix("Skill", 1, 3, UtilNBTKeys.dexStat, 9f),
+			new ItemAffix("Talent", 2, 3, UtilNBTKeys.dexStat, 12f),
+			new ItemAffix("Hunting", 2, 4, UtilNBTKeys.dexStat, 15f),
+			new ItemAffix("Accuracy", 3, 4, UtilNBTKeys.dexStat, 18f),
+			new ItemAffix("Sniping", 3, 5, UtilNBTKeys.dexStat, 21f),
+			new ItemAffix("Precision", 4, 5, UtilNBTKeys.dexStat, 24f),
+			new ItemAffix("Perfection", 4, 6, UtilNBTKeys.dexStat, 27f),
+			new ItemAffix("Nirvana", 5, 6, UtilNBTKeys.dexStat, 30f),
+			new ItemAffix("Strength", 1, 2, UtilNBTKeys.strStat, 6f),
+			new ItemAffix("Might", 1, 3, UtilNBTKeys.strStat, 9f),
+			new ItemAffix("the Bull", 2, 3, UtilNBTKeys.strStat, 12f),
+			new ItemAffix("the Ox", 2, 4, UtilNBTKeys.strStat, 15f),
+			new ItemAffix("the Gorilla", 3, 4, UtilNBTKeys.strStat, 18f),
+			new ItemAffix("the Elephant", 3, 5, UtilNBTKeys.strStat, 21f),
+			new ItemAffix("Giants", 4, 5, UtilNBTKeys.strStat, 24f),
+			new ItemAffix("Titans", 4, 6, UtilNBTKeys.strStat, 27f),
+			new ItemAffix("Atlas", 5, 6, UtilNBTKeys.strStat, 30f),
+			new ItemAffix("Energy", 1, 2, UtilNBTKeys.intStat, 6f),
+			new ItemAffix("Knowledge", 1, 3, UtilNBTKeys.intStat, 9f),
+			new ItemAffix("Mind", 2, 3, UtilNBTKeys.intStat, 12f),
+			new ItemAffix("Thoughts", 2, 4, UtilNBTKeys.intStat, 15f),
+			new ItemAffix("Inspiration", 3, 4, UtilNBTKeys.intStat, 18f),
+			new ItemAffix("Brilliancet", 3, 5, UtilNBTKeys.intStat, 21f),
+			new ItemAffix("Sorcery", 4, 5, UtilNBTKeys.intStat, 24f),
+			new ItemAffix("Wizardry", 4, 6, UtilNBTKeys.intStat, 27f),
+			new ItemAffix("Enlightenment", 5, 6, UtilNBTKeys.intStat, 30f),
+			new ItemAffix("Zodiac", 3, 6, new String[] {
 					UtilNBTKeys.strStat,
 					UtilNBTKeys.dexStat,
 					UtilNBTKeys.vitStat,
 					UtilNBTKeys.agiStat,
-					UtilNBTKeys.intStat }, new float[] { 12f, 12f, 12f, 12f, 12f }) };
-
-	/** Float, size of array 1 **/
-	public static RotItemAffix[] hpRegenSuffixes = new RotItemAffix[] {
-			new RotItemAffix("Honor", 1, new String[] { UtilNBTKeys.lifeRegenStat },
-					new float[] { 5f }),
-			new RotItemAffix("Regeneration", 2, new String[] { UtilNBTKeys.lifeRegenStat },
-					new float[] { 10f }),
-			new RotItemAffix("Regrowth", 3, new String[] { UtilNBTKeys.lifeRegenStat }, new float[]
-			{ 15f }),
-			new RotItemAffix("Revivification", 4, new String[] { UtilNBTKeys.lifeRegenStat },
-					new float[] { 20f }),
-			new RotItemAffix("Immortality", 5, new String[] { UtilNBTKeys.lifeRegenStat },
-					new float[] { 25f }) };
-
-	public static RotItemAffix[] selfRepairSuffixes = new RotItemAffix[] {
-			new RotItemAffix("Self-Repair", 1, new String[] {
+					UtilNBTKeys.intStat }, new float[] { 18f, 18f, 18f, 18f, 18f }),
+			new ItemAffix("Honor", 1, 3, UtilNBTKeys.lifeRegenStat, 5f, 2),
+			new ItemAffix("Regeneration", 2, 4, UtilNBTKeys.lifeRegenStat, 10f, 2),
+			new ItemAffix("Regrowth", 3, 5, UtilNBTKeys.lifeRegenStat, 15f, 2),
+			new ItemAffix("Revivification", 4, 6, UtilNBTKeys.lifeRegenStat, 20f, 2),
+			new ItemAffix("Immortality", 5, 6, UtilNBTKeys.lifeRegenStat, 25f, 2),
+			new ItemAffix("Self-Repair", 1, 3, new String[] {
 					UtilNBTKeys.selfRepairing,
-					UtilNBTKeys.selfRepairTime }, new float[] { 33f, 33f * 20 }),
-			new RotItemAffix("Restoration", 3, new String[] {
+					UtilNBTKeys.selfRepairTime }, new float[] { 33f, 33f * 20 },3),
+			new ItemAffix("Restoration", 3, 6, new String[] {
 					UtilNBTKeys.selfRepairing,
-					UtilNBTKeys.selfRepairTime }, new float[] { 20f, 20f * 20 }),
-			new RotItemAffix("Ages", 5, "Unbreakable", 1f) };
+					UtilNBTKeys.selfRepairTime }, new float[] { 20f, 20f * 20 },3),
+			new ItemAffix("Ages", 5, 6, UtilNBTKeys.indestructible, 1f,3) };
 }

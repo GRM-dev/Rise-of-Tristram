@@ -58,7 +58,6 @@ public class UtilityFunctions
 		{
 			return false;
 		}
-
 	}
 
 	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, float degradeAmount, int offset, float offsetAmount)

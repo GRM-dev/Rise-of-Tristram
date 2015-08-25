@@ -245,7 +245,7 @@ public class UtilItemStats
 				{
 					if (gotAffix) break;
 					int affixTypeRoll = random.nextInt(6);
-					RotItemAffix affix;
+					ItemAffix affix;
 					switch (affixTypeRoll)
 					{
 					case 0:// Damage
@@ -258,7 +258,7 @@ public class UtilItemStats
 								affix.nbtKeys[1]) + (int) affix.nbtValues[1]));
 						UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
 						gotAffix = true;
-						break;
+						break;not go
 					case 1:// Enhanced Damage
 						affix = RotAffixManager.getAffix(rank, RotAffixManager.damageExtraPrefixes,
 								random);
@@ -309,7 +309,7 @@ public class UtilItemStats
 				{
 					if (gotAffix) break;
 					int affixTypeRoll = random.nextInt(6);
-					RotItemAffix affix;
+					ItemAffix affix;
 					switch (affixTypeRoll)
 					{
 					case 0: // Defence
@@ -381,7 +381,7 @@ public class UtilItemStats
 				{
 					if (gotAffix) break;
 					int affixTypeRoll = random.nextInt(4);
-					RotItemAffix affix;
+					ItemAffix affix;
 					switch (affixTypeRoll)
 					{
 					case 0:// lifeSteal
@@ -431,7 +431,7 @@ public class UtilItemStats
 				{
 					if (gotAffix) break;
 					int affixTypeRoll = random.nextInt(2);
-					RotItemAffix affix;
+					ItemAffix affix;
 					switch (affixTypeRoll)
 					{
 					case 0:// Dex
@@ -466,7 +466,7 @@ public class UtilItemStats
 				{
 					if (gotAffix) break;
 					int affixTypeRoll = random.nextInt(7);
-					RotItemAffix affix;
+					ItemAffix affix;
 					switch (affixTypeRoll)
 					{
 					case 0: // Vit

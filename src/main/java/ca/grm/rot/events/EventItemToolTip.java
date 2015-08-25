@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import ca.grm.rot.Rot;
 import ca.grm.rot.extendprops.ExtendPlayer;
-import ca.grm.rot.libs.RotItemAffix;
+import ca.grm.rot.libs.ItemAffix;
 import ca.grm.rot.libs.UtilItemStats;
 import ca.grm.rot.libs.UtilNBTHelper;
 import ca.grm.rot.libs.UtilNBTKeys;

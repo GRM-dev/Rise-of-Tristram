@@ -39,7 +39,7 @@ public class UtilNBTKeys
 	public static String qualityIndex = Rot.MOD_ID + "qualityIndex";
 	
 	public static String identifiedState = Rot.MOD_ID + "isIdentified";
-	public static String indestructible = Rot.MOD_ID + "isIndestructible";
+	public static String indestructible = "Unbreakable"; //Vanilla NBT
 	public static String selfRepairing = Rot.MOD_ID + "selfRepair";
 	public static String selfRepairTime = Rot.MOD_ID + "selfRepairTime";
 	public static String sockets = Rot.MOD_ID + "sockets";

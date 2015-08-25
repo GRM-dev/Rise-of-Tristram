@@ -24,6 +24,8 @@ public class ExtendMob implements IExtendedEntityProperties
 	public int strength, agility, dexterity, vitality;
 	public int minDmg, maxDmg, defBonus;
 	public int gold;
+	public int lootRange = 0;
+	public int monsterRank = 0;
 	private float hpRegenBonusPercent = 0.0f; // Set this with method, later it
 												// gets divided by 20 - the
 												// number of ticks in a second -
