@@ -39,6 +39,7 @@ public class GuiHandler implements IGuiHandler {
 	// 0 is base builder
 	// 1 is class Menu
 	// 2 is merchant gui
+	// 3 is class profession info gui
 	@Override
 	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int x,
 			int y, int z) {
@@ -56,6 +57,8 @@ public class GuiHandler implements IGuiHandler {
 				return new ContainerPseudoPlayer(player.inventory, player, ExtendPlayer.get(player).inventory);
 			case 2 :
 				return new ContainerMerchantPlayer(player.inventory, player); // Gotta change this eventually. 
+			case 3 :
+				return null; //TODO make this actually open "ClassProfessionInfoGUI"
 			default :
 				return null;
 		}

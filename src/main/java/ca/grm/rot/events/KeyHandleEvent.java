@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassGUIPacket;
+import ca.grm.rot.comms.ClassProfessionInfoGUIPacket;
 import ca.grm.rot.comms.ClientProxy;
 import ca.grm.rot.comms.EnderPearlPacket;
 import ca.grm.rot.comms.TNTPacket;
@@ -43,6 +44,8 @@ public class KeyHandleEvent
 			{
 				// This is where the super secret give-player-OP-gear code goes.
 				// TODO write the super secret give-player-OP-gear code.
+				// For testing I'm gonna open a gui
+				Rot.net.sendToServer(new ClassProfessionInfoGUIPacket());
 			}
 		}
 	}
