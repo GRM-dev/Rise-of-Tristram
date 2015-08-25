@@ -155,7 +155,7 @@ public class ExtendVillager implements IExtendedEntityProperties{
 
 	private RotShopType rollBlacksmithShopType()
 	{
-		int roll = mob.worldObj.rand.nextInt(4);
+		int roll = mob.worldObj.rand.nextInt(5);
 		if (roll == 0)
 		{
 			return RotShopTypeManager.BLACKSMITH_WEAPONS;
@@ -171,6 +171,10 @@ public class ExtendVillager implements IExtendedEntityProperties{
 		else if (roll == 3)
 		{
 			return RotShopTypeManager.BLACKSMITH_MOUNT;
+		}
+		else if (roll == 4)
+		{
+			return RotShopTypeManager.BLACKSMITH;
 		}
 		//System.out.println("Blacksmith Roll failed.");
 		return null;

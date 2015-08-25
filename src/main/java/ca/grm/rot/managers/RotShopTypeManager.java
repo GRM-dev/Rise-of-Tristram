@@ -3,10 +3,10 @@ package ca.grm.rot.managers;
 import ca.grm.rot.libs.RotShopType;
 
 public class RotShopTypeManager {
-	public static RotShopType BLACKSMITH_WEAPONS = new RotShopType("the Weapon Smith", 0);
-	public static RotShopType BLACKSMITH_ARMORS = new RotShopType("the Armor Smith", 1);
-	public static RotShopType BLACKSMITH_TRINKETS = new RotShopType("the Trinket Smith", 2);
-	public static RotShopType BLACKSMITH_MOUNT = new RotShopType("the Mount-Gear Smith", 3);
+	public static RotShopType BLACKSMITH_WEAPONS = new RotShopType("the Weapon Merchant", 0);
+	public static RotShopType BLACKSMITH_ARMORS = new RotShopType("the Armor Merchant", 1);
+	public static RotShopType BLACKSMITH_TRINKETS = new RotShopType("the Trinket Merchant", 2);
+	public static RotShopType BLACKSMITH_MOUNT = new RotShopType("the Mount-Gear Merchant", 3);
 	public static RotShopType CLOTHIER = new RotShopType("the Clothier", 4);
 	public static RotShopType BUTCHER = new RotShopType("the Butcher", 5);
 	public static RotShopType COOK = new RotShopType("the Chef", 6);
@@ -15,6 +15,7 @@ public class RotShopTypeManager {
 	public static RotShopType SCHOLAR = new RotShopType("the Scholar", 9);
 	public static RotShopType DYE_MASTER = new RotShopType("the Dye Master", 10);
 	public static RotShopType TINKERER = new RotShopType("the Tinkerer", 11);
+	public static RotShopType BLACKSMITH = new RotShopType("the Blacksmith", 12);
 	
 	public static RotShopType getShopTypeFromIndex(int index)
 	{
@@ -65,6 +66,10 @@ public class RotShopTypeManager {
 		else if (index == TINKERER.index)
 		{
 			return TINKERER;
+		}
+		else if (index == BLACKSMITH.index)
+		{
+			return BLACKSMITH;
 		}
 		System.out.println("Get shop type from index failed.");
 		return null;
