@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
@@ -62,15 +63,16 @@ public class UtilityFunctions
 
 	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, float degradeAmount, int offset, float offsetAmount)
 	{
-		float newLeftPointer = leftPointer - (offsetAmount * offset);
-		float newRightPointer = rightPointer + (offsetAmount * offset);
+		float newLeftPointer = leftPointer ;
+		float newRightPointer = rightPointer;
 		int successes = 0;
 		for (int i = 0; i < loops;i++)
 		{
 			if(recursiveRandom(newLeftPointer,newRightPointer))successes++;
 			else break;
-			newLeftPointer += (degradeAmount - (offsetAmount * offset));
-			newRightPointer -= (degradeAmount- (offsetAmount * offset));
+			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.2f);
+			newRightPointer -= MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.2f);
+			if (newLeftPointer > newRightPointer)return successes;
 		}
 		return successes;
 	}
@@ -85,8 +87,6 @@ public class UtilityFunctions
 		{
 			offsetAvg += offset[i];
 			offsetAmountAvg += offsetAmount[i];
-			newLeftPointer -= (offsetAmount[i] * offset[i]);
-			newRightPointer += (offsetAmount[i] * offset[i]);
 		}
 		offsetAvg /= offset.length;
 		offsetAmountAvg /= offsetAmount.length;
@@ -95,8 +95,9 @@ public class UtilityFunctions
 		{
 			if(recursiveRandom(newLeftPointer,newRightPointer))successes++;
 			else break;
-			newLeftPointer += (degradeAmount - (offsetAmountAvg * offsetAvg));
-			newRightPointer -= (degradeAmount- (offsetAmountAvg * offsetAvg));
+			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.2f);
+			newRightPointer -= MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.2f);
+			if (newLeftPointer > newRightPointer)return successes;
 		}
 		return successes;
 	}

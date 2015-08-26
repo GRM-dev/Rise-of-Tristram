@@ -19,7 +19,22 @@ public class RotAffixManager
 		ArrayList<ItemAffix> returnableAffix = new ArrayList<ItemAffix>();
 		for (ItemAffix a : allPrefixes)
 		{
-			if (a.type == 0 || a.type == itemType)
+			//If the Item Type is Held or Worn
+			if (itemType == 1 || itemType == 2)
+			{
+				//All Prefixes that are General, Held/Worn, and For Held and Worn only
+				if (a.type == 0 || a.type == itemType || a.type == 3)
+				{
+					//And the item rank matches
+					if (rank >= a.rankLowRequirement && rank <= a.rankHighRequirement)
+					{
+						//Add the prefix to list of acceptable affixes
+						returnableAffix.add(a);
+					}
+				}
+			}
+			//If for some reason something that is not held or worn, just return prefixes that are general
+			else if (a.type == 0)
 			{
 				if (rank >= a.rankLowRequirement && rank <= a.rankHighRequirement)
 				{
@@ -40,7 +55,22 @@ public class RotAffixManager
 		ArrayList<ItemAffix> returnableAffix = new ArrayList<ItemAffix>();
 		for (ItemAffix a : allSuffixes)
 		{
-			if (a.type == 0 || a.type == itemType)
+			//If the Item Type is Held or Worn
+			if (itemType == 1 || itemType == 2)
+			{
+				//All Suffixes that are General, Held/Worn, and For Held and Worn only
+				if (a.type == 0 || a.type == itemType || a.type == 3)
+				{
+					//And the item rank matches
+					if (rank >= a.rankLowRequirement && rank <= a.rankHighRequirement)
+					{
+						//Add the suffix to list of acceptable affixes
+						returnableAffix.add(a);
+					}
+				}
+			}
+			//If for some reason something that is not held or worn, just return suffixes that are general
+			else if (a.type == 0)
 			{
 				if (rank >= a.rankLowRequirement && rank <= a.rankHighRequirement)
 				{

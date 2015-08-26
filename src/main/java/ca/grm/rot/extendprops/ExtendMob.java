@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import ca.grm.rot.Rot;
 import ca.grm.rot.libs.RotMobAffix;
+import ca.grm.rot.managers.RotLootManager;
 import ca.grm.rot.managers.RotMobAffixManager;
 
 public class ExtendMob implements IExtendedEntityProperties
@@ -25,7 +26,7 @@ public class ExtendMob implements IExtendedEntityProperties
 	public int minDmg, maxDmg, defBonus;
 	public int gold;
 	public int lootRange = 0;
-	public int monsterRank = 0;
+	public int monsterRank = 1;
 	private float hpRegenBonusPercent = 0.0f; // Set this with method, later it
 												// gets divided by 20 - the
 												// number of ticks in a second -
@@ -93,6 +94,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		properties.setString(Rot.MOD_ID + "BossPrefix2", this.bossPrefix2);
 		properties.setString(Rot.MOD_ID + "BossPrefix3", this.bossPrefix3);
 		properties.setString(Rot.MOD_ID + "BossPrefix4", this.bossPrefix4);
+		properties.setInteger(Rot.MOD_ID + "LootRange", this.lootRange);
+		properties.setInteger(Rot.MOD_ID + "MonsterRank", this.monsterRank);
 		compound.setTag(EXT_PROP_NAME, properties);
 	}
 
@@ -114,6 +117,8 @@ public class ExtendMob implements IExtendedEntityProperties
 		this.bossPrefix2 = properties.getString(Rot.MOD_ID + "BossPrefix2");
 		this.bossPrefix3 = properties.getString(Rot.MOD_ID + "BossPrefix3");
 		this.bossPrefix4 = properties.getString(Rot.MOD_ID + "BossPrefix4");
+		this.lootRange = properties.getInteger(Rot.MOD_ID + "LootRange");
+		this.monsterRank = properties.getInteger(Rot.MOD_ID + "MonsterRank");
 	}
 
 	@Override
@@ -710,11 +715,22 @@ public class ExtendMob implements IExtendedEntityProperties
 		gold += (int) (mob.worldObj.rand.nextInt(30) * monsterLevel) + monsterLevel;
 		if (this.isBoss()) gold += mob.worldObj.rand.nextInt(100) + 50;
 	}
+	
+	public void rollSpecialRanking()
+	{
+		lootRange = monsterLevel;
+		while(lootRange > RotLootManager.lootRange)
+		{
+			lootRange -= RotLootManager.lootRange;
+			monsterRank++;
+		}
+	}
 
 	public void rollExtendMob(int depth)
 	{
 		rollBossStatus(depth);
 		rollStats(depth);
+		rollSpecialRanking();
 		rollAffixes();
 	}
 }
