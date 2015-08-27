@@ -36,7 +36,8 @@ public class EventEntityDeath {
 					&& e.source.getEntity() instanceof EntityPlayer) // If the mob's killed by a player
 			{
 				int monsterLevel = ExtendMob.get(entity).monsterRank;
-				EntityItem[] newDrops = RotLootManager.addLoot(e.entity,
+				int lootRange = ExtendMob.get(entity).lootRange;
+				EntityItem[] newDrops = RotLootManager.addLoot(lootRange,
 						monsterLevel);
 				if (newDrops != null)
 					for (EntityItem ei : newDrops) {

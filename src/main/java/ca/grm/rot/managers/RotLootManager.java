@@ -13,6 +13,7 @@ import net.minecraft.item.ItemTool;
 import ca.grm.rot.events.EventItemToolTip;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.libs.UtilItemStats;
+import ca.grm.rot.libs.UtilityFunctions;
 
 public class RotLootManager
 {
@@ -231,26 +232,15 @@ public class RotLootManager
 		return null;
 	}
 
-	public static EntityItem[] addLoot(Entity entity, int rank)
+	public static EntityItem[] addLoot(int range, int rank)
 	{
 		EntityItem[] newList = new EntityItem[0];
 		int numOfItems = 0;
 		int numOfMaterialDrops = 0;
-		float leftChancePointer = (0.3f - (0.05f * (rank - 1)));
-		float rightChancePointer = (0.7f + (0.05f * (rank - 1)));
-		float rngRoll = 0;
-		for (int i = 0; i < numberOfLootDrops; i++)
-		{
-			rngRoll = entity.worldObj.rand.nextFloat();
-			if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
-			{
-				leftChancePointer += (0.1f - (0.00573f * (rank - 1)));
-				rightChancePointer -= (0.1f - (0.00573f * (rank - 1)));
-				if (entity.worldObj.rand.nextFloat() <= materialDropChance) numOfMaterialDrops++;
-				numOfItems++;
-			}
-			else break;
-		}
+		float leftPointer = 0.3f, rightPointer= 0.7f;
+		numOfItems = UtilityFunctions.recursiveRandom(numberOfLootDrops, leftPointer, rightPointer, 0.1f, rank - 1, 0.00573f);
+		numOfMaterialDrops = UtilityFunctions.recursiveRandom(numOfItems, leftPointer, rightPointer, 0.05f, 0, 0.01f);
+		//TODO search for vanilla item drops and do some math to remove numberofItems if it's able to have RotStats on it
 		if (numOfItems != 0)
 		{
 			newList = new EntityItem[numOfItems];
