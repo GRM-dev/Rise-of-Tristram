@@ -25,46 +25,42 @@ public class RotLootManager
 	public static final int lootRange = 5;
 	private static int numberOfLootDrops = 7;
 	private static float materialDropChance = 0.875f;
-	private static int lowLevel = 7, midLevel = 14, midHighLevel = 21, highLevel = 30;
+	//private static int lowLevel = 7, midLevel = 14, midHighLevel = 21, highLevel = 30;
 
-	public static ItemStack getMaterialLoot(int level, Random random)
+	public static ItemStack getMaterialLoot(int level, int lootRange)
 	{
 		ItemStack[] lootMaterialsLow = new ItemStack[] {
-				new ItemStack(Items.stick, (random.nextInt(5) + 1)),
-				new ItemStack(Items.flint, (random.nextInt(1) + 1)),
-				new ItemStack(Items.clay_ball, (random.nextInt(5) + 1)),
-				new ItemStack(RotItems.copperNugget, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.tinNugget, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.leadNugget, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.bronzeNugget, (random.nextInt(1) + 1)) };
+				new ItemStack(Items.stick, (1)),
+				new ItemStack(Items.flint, (1)),
+				new ItemStack(Items.clay_ball, (1)),
+				new ItemStack(RotItems.copperNugget, (1)),
+				new ItemStack(RotItems.tinNugget, (1)),
+				new ItemStack(RotItems.leadNugget, (1)),
+				new ItemStack(RotItems.bronzeNugget, (1)) };
 		ItemStack[] lootMaterialsMid = new ItemStack[] {
-				new ItemStack(Items.coal, (random.nextInt(2) + 1)),
+				new ItemStack(Items.coal, (1)),
 				new ItemStack(Items.saddle),
-				new ItemStack(Items.iron_ingot, (random.nextInt(1) + 1)),
-				new ItemStack(Items.redstone, (random.nextInt(2) + 1)),
-				new ItemStack(Items.glowstone_dust, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.silverNugget, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.platinumNugget, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.steelNugget, (random.nextInt(2) + 1)),
-				new ItemStack(RotItems.copperIngot, (random.nextInt(1) + 1)),
-				new ItemStack(RotItems.tinIngot, (random.nextInt(1) + 1)),
-				new ItemStack(RotItems.leadIngot, (random.nextInt(1) + 1)),
-				new ItemStack(RotItems.bronzeIngot, (random.nextInt(1) + 1)) };
+				new ItemStack(Items.iron_ingot, (1)),
+				new ItemStack(Items.redstone, (1)),
+				new ItemStack(Items.glowstone_dust, (1)),
+				new ItemStack(RotItems.silverNugget, (1)),
+				new ItemStack(RotItems.platinumNugget, (1)),
+				new ItemStack(RotItems.steelNugget, (1)),
+				new ItemStack(RotItems.copperIngot, (1)),
+				new ItemStack(RotItems.tinIngot, (1)),
+				new ItemStack(RotItems.leadIngot, (1)),
+				new ItemStack(RotItems.bronzeIngot, (1)) };
 		ItemStack[] lootMaterialsHigh = new ItemStack[] {
-				new ItemStack(Items.emerald, (random.nextInt(2) + 1)),
+				new ItemStack(Items.emerald, (1)),
 				new ItemStack(Items.diamond),
 				new ItemStack(RotItems.rawAmethyst),
 				new ItemStack(RotItems.rawDiamond),
 				new ItemStack(RotItems.rawEmerald),
 				new ItemStack(RotItems.rawRuby),
 				new ItemStack(RotItems.rawTopaz),
-				new ItemStack(RotItems.silverIngot, (random.nextInt(1) + 1)),
+				new ItemStack(RotItems.silverIngot, (1)),
 				new ItemStack(RotItems.platinumIngot),
-				new ItemStack(RotItems.steelIngot, (random.nextInt(1) + 1)), };
-		if (level <= lowLevel) return lootMaterialsLow[random.nextInt(lootMaterialsLow.length)];
-		else if (level <= midLevel) return lootMaterialsMid[random.nextInt(lootMaterialsMid.length)];
-		else if (level <= highLevel) return lootMaterialsHigh[random
-				.nextInt(lootMaterialsHigh.length)];
+				new ItemStack(RotItems.steelIngot, (1)), };		
 		return null; // lootMaterials[random.nextInt(lootMaterials.length)];
 	}
 
