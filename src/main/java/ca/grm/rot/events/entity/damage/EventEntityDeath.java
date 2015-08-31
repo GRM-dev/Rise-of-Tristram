@@ -38,7 +38,7 @@ public class EventEntityDeath {
 				int monsterLevel = ExtendMob.get(entity).monsterRank;
 				int lootRange = ExtendMob.get(entity).lootRange;
 				EntityItem[] newDrops = RotLootManager.addLoot(lootRange,
-						monsterLevel);
+						monsterLevel,entity);
 				if (newDrops != null)
 					for (EntityItem ei : newDrops) {
 						e.drops.add(ei);

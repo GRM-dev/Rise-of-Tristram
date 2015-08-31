@@ -716,7 +716,7 @@ public class ExtendMob implements IExtendedEntityProperties
 		if (this.isBoss()) gold += mob.worldObj.rand.nextInt(100) + 50;
 	}
 	
-	public void rollSpecialRanking()
+	public void rollSpecialRanking(int depth)
 	{
 		lootRange = monsterLevel;
 		while(lootRange > RotLootManager.lootRange)
@@ -724,13 +724,14 @@ public class ExtendMob implements IExtendedEntityProperties
 			lootRange -= RotLootManager.lootRange;
 			monsterRank++;
 		}
+		monsterRank+=(int)(depth / 8);
 	}
 
 	public void rollExtendMob(int depth)
 	{
 		rollBossStatus(depth);
 		rollStats(depth);
-		rollSpecialRanking();
+		rollSpecialRanking(depth);
 		rollAffixes();
 	}
 }

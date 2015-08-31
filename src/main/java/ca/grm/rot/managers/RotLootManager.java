@@ -3,6 +3,7 @@ package ca.grm.rot.managers;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemArmor;
@@ -10,6 +11,8 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import ca.grm.rot.events.EventItemToolTip;
 import ca.grm.rot.items.RotItems;
 import ca.grm.rot.libs.UtilItemStats;
@@ -24,34 +27,44 @@ public class RotLootManager
 
 	public static final int lootRange = 5;
 	private static int numberOfLootDrops = 7;
+	private static int stackDropSize = 8;
 	private static float materialDropChance = 0.875f;
+	private static Random rand = new Random();
 	//private static int lowLevel = 7, midLevel = 14, midHighLevel = 21, highLevel = 30;
+	
+	private static int generateLootAmount(int level, int lootRange)
+	{
+		float leftPoint = 0.4f, rightPoint = 0.7f,degrade = 0.1f,offsetAmount = 0.035f;
+		return 1 
+				+ (UtilityFunctions.recursiveRandom(stackDropSize, leftPoint, rightPoint, degrade, level + lootRange, offsetAmount) 
+				* UtilityFunctions.recursiveRandom(stackDropSize, leftPoint, rightPoint, degrade, level + lootRange, offsetAmount));
+	}
 
 	public static ItemStack getMaterialLoot(int level, int lootRange)
 	{
 		ItemStack[] lootMaterialsLow = new ItemStack[] {
-				new ItemStack(Items.stick, (1)),
-				new ItemStack(Items.flint, (1)),
-				new ItemStack(Items.clay_ball, (1)),
-				new ItemStack(RotItems.copperNugget, (1)),
-				new ItemStack(RotItems.tinNugget, (1)),
-				new ItemStack(RotItems.leadNugget, (1)),
-				new ItemStack(RotItems.bronzeNugget, (1)) };
+				new ItemStack(Items.stick, generateLootAmount(level,lootRange)),
+				new ItemStack(Items.flint, generateLootAmount(level,lootRange)),
+				new ItemStack(Items.clay_ball, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.copperNugget, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.tinNugget, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.leadNugget, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.bronzeNugget, generateLootAmount(level,lootRange)) };
 		ItemStack[] lootMaterialsMid = new ItemStack[] {
-				new ItemStack(Items.coal, (1)),
+				new ItemStack(Items.coal, generateLootAmount(level,lootRange)),
 				new ItemStack(Items.saddle),
-				new ItemStack(Items.iron_ingot, (1)),
-				new ItemStack(Items.redstone, (1)),
-				new ItemStack(Items.glowstone_dust, (1)),
-				new ItemStack(RotItems.silverNugget, (1)),
-				new ItemStack(RotItems.platinumNugget, (1)),
-				new ItemStack(RotItems.steelNugget, (1)),
-				new ItemStack(RotItems.copperIngot, (1)),
-				new ItemStack(RotItems.tinIngot, (1)),
-				new ItemStack(RotItems.leadIngot, (1)),
-				new ItemStack(RotItems.bronzeIngot, (1)) };
+				new ItemStack(Items.iron_ingot, generateLootAmount(level,lootRange)),
+				new ItemStack(Items.redstone, generateLootAmount(level,lootRange)),
+				new ItemStack(Items.glowstone_dust, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.silverNugget, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.platinumNugget, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.steelNugget, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.copperIngot, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.tinIngot, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.leadIngot, generateLootAmount(level,lootRange)),
+				new ItemStack(RotItems.bronzeIngot, generateLootAmount(level,lootRange)) };
 		ItemStack[] lootMaterialsHigh = new ItemStack[] {
-				new ItemStack(Items.emerald, (1)),
+				new ItemStack(Items.emerald, generateLootAmount(level,lootRange)),
 				new ItemStack(Items.diamond),
 				new ItemStack(RotItems.rawAmethyst),
 				new ItemStack(RotItems.rawDiamond),
@@ -61,10 +74,19 @@ public class RotLootManager
 				new ItemStack(RotItems.silverIngot, (1)),
 				new ItemStack(RotItems.platinumIngot),
 				new ItemStack(RotItems.steelIngot, (1)), };		
-		return null; // lootMaterials[random.nextInt(lootMaterials.length)];
+		ItemStack[] levelsOfLoot [] = {lootMaterialsLow,lootMaterialsMid,lootMaterialsHigh};
+		ItemStack[] returnLoot = levelsOfLoot[UtilityFunctions.recursiveRandom(
+				MathHelper.clamp_int(levelsOfLoot.length - 1, 0, levelsOfLoot.length - 1), 
+				(0.4f - ((0.02f * level) + (0.03f *lootRange))), 
+				(0.7f + ((0.02f * level) + (0.03f *lootRange))), 
+				0.1f, 
+				level + lootRange, 
+				0.01f)];
+		//return null; // lootMaterials[random.nextInt(lootMaterials.length)];
+		return returnLoot[rand.nextInt(returnLoot.length)];
 	}
 
-	public static ItemStack getWeaponLoot(int level, Random random)
+	public static ItemStack getWeaponLoot(int level, int lootRange)
 	{
 		ItemStack[] lootWeaponsLow = new ItemStack[] {
 				new ItemStack(Items.wooden_sword),
@@ -77,13 +99,18 @@ public class RotLootManager
 		ItemStack[] lootWeaponsHigh = new ItemStack[] {
 				new ItemStack(Items.diamond_sword),
 				new ItemStack(Items.bow) };
-		if (level <= lowLevel) return lootWeaponsLow[random.nextInt(lootWeaponsLow.length)];
-		else if (level <= midLevel) return lootWeaponsMid[random.nextInt(lootWeaponsMid.length)];
-		else if (level <= highLevel) return lootWeaponsHigh[random.nextInt(lootWeaponsHigh.length)];
-		else return getMaterialLoot(level, random);
+		ItemStack[] levelsOfLoot [] = {lootWeaponsLow,lootWeaponsMid,lootWeaponsHigh};
+		ItemStack[] returnLoot = levelsOfLoot[UtilityFunctions.recursiveRandom(
+				MathHelper.clamp_int(levelsOfLoot.length - 1, 0, levelsOfLoot.length - 1), 
+				(0.4f - ((0.02f * level) + (0.03f *lootRange))), 
+				(0.7f + ((0.02f * level) + (0.03f *lootRange))), 
+				0.1f, 
+				level + lootRange, 
+				0.01f)];
+		return returnLoot[rand.nextInt(returnLoot.length)];
 	}
 
-	public static ItemStack getToolLoot(int level, Random random)
+	public static ItemStack getToolLoot(int level, int lootRange)
 	{
 		ItemStack[] lootToolsLow = new ItemStack[] {
 				new ItemStack(Items.wooden_axe),
@@ -103,13 +130,18 @@ public class RotLootManager
 				new ItemStack(Items.diamond_axe),
 				new ItemStack(Items.diamond_pickaxe),
 				new ItemStack(Items.diamond_shovel) };
-		if (level <= lowLevel) return lootToolsLow[random.nextInt(lootToolsLow.length)];
-		else if (level <= midLevel) return lootToolsMid[random.nextInt(lootToolsMid.length)];
-		else if (level <= highLevel) return lootToolsHigh[random.nextInt(lootToolsHigh.length)];
-		else return getMaterialLoot(level, random);
+		ItemStack[] levelsOfLoot [] = {lootToolsLow,lootToolsMid,lootToolsHigh};
+		ItemStack[] returnLoot = levelsOfLoot[UtilityFunctions.recursiveRandom(
+				MathHelper.clamp_int(levelsOfLoot.length - 1, 0, levelsOfLoot.length - 1), 
+				(0.4f - ((0.02f * level) + (0.03f *lootRange))), 
+				(0.7f + ((0.02f * level) + (0.03f *lootRange))), 
+				0.1f, 
+				level + lootRange, 
+				0.01f)];
+		return returnLoot[rand.nextInt(returnLoot.length)];
 	}
 
-	public static ItemStack getArmorLoot(int level, Random random)
+	public static ItemStack getArmorLoot(int level, int lootRange)
 	{
 		ItemStack[] lootArmorsLow = new ItemStack[] {
 				new ItemStack(Items.leather_boots),
@@ -196,45 +228,49 @@ public class RotLootManager
 																	// via
 																	// special
 																	// stuff.
-		if (level <= lowLevel) return lootArmorsLow[random.nextInt(lootArmorsLow.length)];
-		else if (level <= midLevel) return lootArmorsMid[random.nextInt(lootArmorsMid.length)];
-		else if (level <= midHighLevel) return lootArmorsMidHigh[random
-				.nextInt(lootArmorsMid.length)];
-		else if (level <= highLevel) return lootArmorsHigh[random.nextInt(lootArmorsHigh.length)];
-		else return getMaterialLoot(level, random);
+		ItemStack[] levelsOfLoot [] = {lootArmorsLow,lootArmorsMid,lootArmorsMidHigh,lootArmorsHigh};
+		ItemStack[] returnLoot = levelsOfLoot[UtilityFunctions.recursiveRandom(
+				MathHelper.clamp_int(levelsOfLoot.length - 1, 0, levelsOfLoot.length - 1), 
+				(0.4f - ((0.02f * level) + (0.03f *lootRange))), 
+				(0.7f + ((0.02f * level) + (0.03f *lootRange))), 
+				0.1f, 
+				level + lootRange, 
+				0.01f)];
+		return returnLoot[rand.nextInt(returnLoot.length)];
 	}
 
 	/**
 	 * Will return a random loot based on if it's material or equipment and the
 	 * monsters level/rank
 	 **/
-	public static ItemStack getLoot(int rank, Random random, boolean isEquipment)
+	public static ItemStack getLoot(int rank,int lootRange, boolean isEquipment)
 	{
+		Random random = new Random();
 		if (isEquipment)
 		{
 			int itemType = random.nextInt(3);
 			switch (itemType)
 			{
 			case 0:
-				return getWeaponLoot(rank, random);
+				return getWeaponLoot(rank, lootRange);
 			case 1:
-				return getToolLoot(rank, random);
+				return getToolLoot(rank, lootRange);
 			case 2:
-				return getArmorLoot(rank, random);
+				return getArmorLoot(rank, lootRange);
 			}
 		}
-		else return getMaterialLoot(rank, random);
+		else return getMaterialLoot(rank, lootRange);
 
 		return null;
 	}
 
-	public static EntityItem[] addLoot(int range, int rank)
+	public static EntityItem[] addLoot(int range, int rank, EntityLiving entity)
 	{
 		EntityItem[] newList = new EntityItem[0];
 		int numOfItems = 0;
 		int numOfMaterialDrops = 0;
-		float leftPointer = 0.3f, rightPointer= 0.7f;
-		numOfItems = UtilityFunctions.recursiveRandom(numberOfLootDrops, leftPointer, rightPointer, 0.1f, rank - 1, 0.00573f);
+		float leftPointer = 0.2f, rightPointer= 0.8f;
+		numOfItems = UtilityFunctions.recursiveRandom(numberOfLootDrops, leftPointer, rightPointer, 0.1f, rank + range, 0.00573f);
 		numOfMaterialDrops = UtilityFunctions.recursiveRandom(numOfItems, leftPointer, rightPointer, 0.05f, 0, 0.01f);
 		//TODO search for vanilla item drops and do some math to remove numberofItems if it's able to have RotStats on it
 		if (numOfItems != 0)
@@ -245,13 +281,13 @@ public class RotLootManager
 			{
 				if (numOfMaterialDrops > 0)
 				{
-					item = getLoot(rank, entity.worldObj.rand, false);
+					item = getLoot(rank,range, false);
 					numOfMaterialDrops--;
 				}
-				else item = getLoot(rank, entity.worldObj.rand, true);
+				else item = getLoot(rank,range, true);
 				if (item.getItem() instanceof ItemSword || item.getItem() instanceof ItemTool || item
 						.getItem() instanceof ItemArmor || item.getItem() instanceof ItemBow) UtilItemStats
-						.applyItemStats(item, entity.worldObj.rand, new int[] { rank, rank + 2 },
+						.applyItemStats(item, rand, new int[] { rank, rank + 2 },
 								new int[] { rank, rank + 2 });
 				newList[i] = new EntityItem(entity.worldObj, entity.getPosition().getX(), entity
 						.getPosition().getY(), entity.getPosition().getZ(), item);
