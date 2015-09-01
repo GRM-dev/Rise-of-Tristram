@@ -34,10 +34,10 @@ public class RotLootManager
 	
 	private static int generateLootAmount(int level, int lootRange)
 	{
-		float leftPoint = 0.4f, rightPoint = 0.7f,degrade = 0.1f,offsetAmount = 0.035f;
+		float leftPoint = 0.55f,degrade = 0.1f,offsetAmount = 0.035f;
 		return 1 
-				+ (UtilityFunctions.recursiveRandom(stackDropSize, leftPoint, rightPoint, degrade, level + lootRange, offsetAmount) 
-				* UtilityFunctions.recursiveRandom(stackDropSize, leftPoint, rightPoint, degrade, level + lootRange, offsetAmount));
+				+ (UtilityFunctions.recursiveRandom(stackDropSize, leftPoint, degrade, level + lootRange, offsetAmount) 
+				* UtilityFunctions.recursiveRandom(stackDropSize, leftPoint, degrade, level + lootRange, offsetAmount));
 	}
 
 	public static ItemStack getMaterialLoot(int level, int lootRange)
@@ -269,9 +269,9 @@ public class RotLootManager
 		EntityItem[] newList = new EntityItem[0];
 		int numOfItems = 0;
 		int numOfMaterialDrops = 0;
-		float leftPointer = 0.2f, rightPointer= 0.8f;
-		numOfItems = UtilityFunctions.recursiveRandom(numberOfLootDrops, leftPointer, rightPointer, 0.1f, rank + range, 0.00573f);
-		numOfMaterialDrops = UtilityFunctions.recursiveRandom(numOfItems, leftPointer, rightPointer, 0.05f, 0, 0.01f);
+		float leftPointer = 0.2f;
+		numOfItems = UtilityFunctions.recursiveRandom(numberOfLootDrops, leftPointer, 0.1f, rank + range, 0.00573f);
+		numOfMaterialDrops = UtilityFunctions.recursiveRandom(numOfItems, leftPointer, 0.05f, 0, 0.01f);
 		//TODO search for vanilla item drops and do some math to remove numberofItems if it's able to have RotStats on it
 		if (numOfItems != 0)
 		{

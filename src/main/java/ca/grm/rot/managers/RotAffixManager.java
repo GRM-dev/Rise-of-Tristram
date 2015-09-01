@@ -87,16 +87,16 @@ public class RotAffixManager
 
 	/** Prefixes **/
 	public static ItemAffix[] allPrefixes = new ItemAffix[] {
-			new ItemAffix("Vile", 4, 5, UtilNBTKeys.vile, 1f, 1),
-			new ItemAffix("Poisonous", 2, 4, UtilNBTKeys.poison, 1f, 1),
-			new ItemAffix("Venomous", 3, 5, UtilNBTKeys.poison, 2f, 1),
-			new ItemAffix("Toxic", 4, 6, UtilNBTKeys.poison, 3f, 1),
-			new ItemAffix("Sickly", 2, 4, UtilNBTKeys.sickness, 1f, 1),
-			new ItemAffix("Feverish", 3, 5, UtilNBTKeys.sickness, 2f, 1),
-			new ItemAffix("Crippling", 4, 6, UtilNBTKeys.sickness, 3f, 1),
-			new ItemAffix("Mechanic's", 1, 2, UtilNBTKeys.sockets, 1f,3),
-			new ItemAffix("Artisan's", 1, 4, UtilNBTKeys.sockets, 2f,3),
-			new ItemAffix("Jeweler's", 3, 6, UtilNBTKeys.sockets, 3f,3),
+			new ItemAffix("Vile", 3, 10, UtilNBTKeys.vile, 1f, 1),
+			new ItemAffix("Poisonous", 2, 6, UtilNBTKeys.poison, 1f, 1),
+			new ItemAffix("Venomous", 3, 8, UtilNBTKeys.poison, 2f, 1),
+			new ItemAffix("Toxic", 4, 10, UtilNBTKeys.poison, 3f, 1),
+			new ItemAffix("Sickly", 2, 6, UtilNBTKeys.sickness, 1f, 1),
+			new ItemAffix("Feverish", 3, 8, UtilNBTKeys.sickness, 2f, 1),
+			new ItemAffix("Crippling", 4, 10, UtilNBTKeys.sickness, 3f, 1),
+			new ItemAffix("Mechanic's", 1, 5, UtilNBTKeys.sockets, 1f,3),
+			new ItemAffix("Artisan's", 2, 7, UtilNBTKeys.sockets, 2f,3),
+			new ItemAffix("Jeweler's", 4, 10, UtilNBTKeys.sockets, 3f,3),
 			new ItemAffix("Jagged", 1, 2, new String[] {
 					UtilNBTKeys.minDmgStat,
 					UtilNBTKeys.maxDmgStat }, new float[] { 10f, 20f }, 1),
@@ -242,11 +242,11 @@ public class RotAffixManager
 			new ItemAffix("Regrowth", 3, 5, UtilNBTKeys.lifeRegenStat, 15f, 2),
 			new ItemAffix("Revivification", 4, 6, UtilNBTKeys.lifeRegenStat, 20f, 2),
 			new ItemAffix("Immortality", 5, 6, UtilNBTKeys.lifeRegenStat, 25f, 2),
-			new ItemAffix("Self-Repair", 1, 3, new String[] {
+			new ItemAffix("Self-Repair", 1, 10, new String[] {
 					UtilNBTKeys.selfRepairing,
 					UtilNBTKeys.selfRepairTime }, new float[] { 33f, 33f * 20 },3),
-			new ItemAffix("Restoration", 3, 6, new String[] {
+			new ItemAffix("Restoration", 3, 10, new String[] {
 					UtilNBTKeys.selfRepairing,
 					UtilNBTKeys.selfRepairTime }, new float[] { 20f, 20f * 20 },3),
-			new ItemAffix("Ages", 5, 6, UtilNBTKeys.indestructible, 1f,3) };
+			new ItemAffix("Ages", 5, 10, UtilNBTKeys.indestructible, 1f,3) };
 }

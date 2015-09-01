@@ -724,7 +724,6 @@ public class ExtendMob implements IExtendedEntityProperties
 			lootRange -= RotLootManager.lootRange;
 			monsterRank++;
 		}
-		monsterRank+=(int)(depth / 8);
 	}
 
 	public void rollExtendMob(int depth)

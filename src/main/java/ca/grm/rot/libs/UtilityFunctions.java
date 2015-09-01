@@ -60,6 +60,20 @@ public class UtilityFunctions
 			return false;
 		}
 	}
+	
+	public static boolean recursiveRandom(float leftPointer)
+	{
+		Random rand = new Random();
+		float rngRoll = rand.nextFloat();
+		if (rngRoll >= leftPointer)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	public static int recursiveRandom(int loops, float leftPointer, float rightPointer, float degradeAmount, int offset, float offsetAmount)
 	{
@@ -70,9 +84,23 @@ public class UtilityFunctions
 		{
 			if(recursiveRandom(newLeftPointer,newRightPointer))successes++;
 			else break;
-			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.2f);
-			newRightPointer -= MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.2f);
+			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.08f);
+			newRightPointer -= MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.08f);
 			if (newLeftPointer > newRightPointer)return successes;
+		}
+		return successes;
+	}
+	
+	public static int recursiveRandom(int loops, float leftPointer, float degradeAmount, int offset, float offsetAmount)
+	{
+		float newLeftPointer = leftPointer ;
+		int successes = 0;
+		for (int i = 0; i < loops;i++)
+		{
+			if(recursiveRandom(newLeftPointer))successes++;
+			else break;
+			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmount * offset), 0.01f, 0.08f);
+			if (newLeftPointer > 1)return successes;
 		}
 		return successes;
 	}
@@ -95,9 +123,32 @@ public class UtilityFunctions
 		{
 			if(recursiveRandom(newLeftPointer,newRightPointer))successes++;
 			else break;
-			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.2f);
-			newRightPointer -= MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.2f);
+			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.08f);
+			newRightPointer -= MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.08f);
 			if (newLeftPointer > newRightPointer)return successes;
+		}
+		return successes;
+	}
+	
+	public static int recursiveRandom(int loops, float leftPointer, float degradeAmount, int[] offset, float[] offsetAmount)
+	{
+		float newLeftPointer = leftPointer;
+		float offsetAvg = 0;
+		float offsetAmountAvg = 0;
+		for (int i = 0; i < offset.length;i++)
+		{
+			offsetAvg += offset[i];
+			offsetAmountAvg += offsetAmount[i];
+		}
+		offsetAvg /= offset.length;
+		offsetAmountAvg /= offsetAmount.length;
+		int successes = 0;
+		for (int i = 0; i < loops;i++)
+		{
+			if(recursiveRandom(newLeftPointer))successes++;
+			else break;
+			newLeftPointer += MathHelper.clamp_float(degradeAmount - (offsetAmountAvg * offsetAvg), 0.01f, 0.08f);
+			if (newLeftPointer > 1)return successes;
 		}
 		return successes;
 	}

@@ -135,14 +135,15 @@ public class UtilItemStats
 		// System.out.println("Starting the statRoll");
 		for (int i = 0; i < 50; i++)
 		{
-			rngRoll = random.nextFloat();
-			if (rngRoll >= leftChancePointer && rngRoll <= rightChancePointer)
+			if (UtilityFunctions.recursiveRandom(leftChancePointer, rightChancePointer))
 			{
-				// System.out.println("Success rolled a: " + rngRoll
-				// + " between: " + leftChancePointer + "-"
-				// + rightChancePointer);
-				leftChancePointer += (0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)));
-				rightChancePointer -= (0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)));
+
+				leftChancePointer += MathHelper.clamp_float(
+						0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)),
+						0.01f, 0.08f);
+				rightChancePointer -= MathHelper.clamp_float(
+						0.1f - (0.01f * (quality < 0 ? 0 : quality - 1)) - (0.025f * (rank - 1)),
+						0.01f, 0.08f);
 				for (int tries = 0; tries < 50; tries++)
 				{
 					int r = random.nextInt(baseStats.length);
@@ -234,31 +235,33 @@ public class UtilItemStats
 
 	public static void applyPrefix(ItemStack is, Random random, int rank)
 	{
-		//Get a random Roll Chance
-		if (UtilityFunctions.recursiveRandom(0.4f, 1.0f)) //If Roll is a success
+		// Get a random Roll Chance
+		if (UtilityFunctions.recursiveRandom(0.4f, 1.0f)) // If Roll is a
+															// success
 		{
-			//If it is a Held item
+			// If it is a Held item
 			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemBow || is
 					.getItem() instanceof ItemTool)
 			{
-				//Grab a random Prefix
-				ItemAffix affix = RotAffixManager.getPrefix(rank,1);
-				//Some Affixes can have more than one value that they alter
-				for(int a = 0; a < affix.nbtKeys.length;a++)
+				// Grab a random Prefix
+				ItemAffix affix = RotAffixManager.getPrefix(rank, 1);
+				// Some Affixes can have more than one value that they alter
+				for (int a = 0; a < affix.nbtKeys.length; a++)
 				{
-					//Attach their values as a float
+					// Attach their values as a float
 					UtilNBTHelper.setFloat(is, affix.nbtKeys[a], affix.nbtValues[a]);
-					//For things that are saved as an int that will be handled by the methods that retrieve that info
+					// For things that are saved as an int that will be handled
+					// by the methods that retrieve that info
 				}
-				//Attach the Prefix name
-				UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);	
+				// Attach the Prefix name
+				UtilNBTHelper.setString(is, UtilNBTKeys.prefixName, affix.affixName);
 			}
-			//If it is a Worn Item (currently just
+			// If it is a Worn Item (currently just
 			if (is.getItem() instanceof ItemArmor)// TODO create magic trinkets,
 													// rings and amulets
 			{
-				ItemAffix affix = RotAffixManager.getPrefix(rank,2);
-				for(int a = 0; a < affix.nbtKeys.length;a++)
+				ItemAffix affix = RotAffixManager.getPrefix(rank, 2);
+				for (int a = 0; a < affix.nbtKeys.length; a++)
 				{
 					UtilNBTHelper.setFloat(is, affix.nbtKeys[a], affix.nbtValues[a]);
 				}
@@ -268,11 +271,12 @@ public class UtilItemStats
 	}
 
 	public static void applySuffix(ItemStack is, Random random, int rank)
-	{		
-		//Same comments as applyPrefix
+	{
+		// Same comments as applyPrefix
 		if (UtilityFunctions.recursiveRandom(0.4f, 1.0f))
 		{
-			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool|| is.getItem() instanceof ItemBow)
+			if (is.getItem() instanceof ItemSword || is.getItem() instanceof ItemTool || is
+					.getItem() instanceof ItemBow)
 			{
 				ItemAffix affix = RotAffixManager.getSuffix(rank, 1);
 				if (affix.nbtKeys[0] == UtilNBTKeys.indestructible)
@@ -282,7 +286,7 @@ public class UtilItemStats
 				}
 				else
 				{
-					for(int a = 0; a < affix.nbtKeys.length;a++)
+					for (int a = 0; a < affix.nbtKeys.length; a++)
 					{
 						UtilNBTHelper.setFloat(is, affix.nbtKeys[a], affix.nbtValues[a]);
 					}
@@ -301,22 +305,22 @@ public class UtilItemStats
 				}
 				else
 				{
-					for(int a = 0; a < affix.nbtKeys.length;a++)
+					for (int a = 0; a < affix.nbtKeys.length; a++)
 					{
 						UtilNBTHelper.setFloat(is, affix.nbtKeys[a], affix.nbtValues[a]);
 					}
 					UtilNBTHelper.setString(is, UtilNBTKeys.suffixName, affix.affixName);
-				}				
+				}
 			}
 		}
 	}
-	
+
 	/** Collect NBT tags that are common from held and worn items **/
 	private static void getBasicStats(ItemStack is, int[] listCollect, String[] ListSearch)
 	{
 		for (int i = 0; i < listCollect.length; i++)
 		{
-			listCollect[i] += (int)UtilNBTHelper.getFloat(is, ListSearch[i]);
+			listCollect[i] += (int) UtilNBTHelper.getFloat(is, ListSearch[i]);
 		}
 	}
 
@@ -330,13 +334,17 @@ public class UtilItemStats
 
 	private static void selfRepair(ItemStack item)
 	{
+
 		if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairing) > 1f)
 		{
 			if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairTime) == 0)
 			{
-				item.setItemDamage(item.getItemDamage() - 1);
-				UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, UtilNBTHelper.getFloat(
-						item, UtilNBTKeys.selfRepairing) * 20);
+				if (item.getItemDamage() > 0)
+				{
+					item.setItemDamage(item.getItemDamage() - 1);
+					UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, UtilNBTHelper
+							.getFloat(item, UtilNBTKeys.selfRepairing) * 20);
+				}
 			}
 			else
 			{
@@ -344,6 +352,7 @@ public class UtilItemStats
 						item, UtilNBTKeys.selfRepairTime) - 1);
 			}
 		}
+
 	}
 
 	public static void handlePlayerStats(ExtendPlayer props, EntityPlayer player)
@@ -352,9 +361,25 @@ public class UtilItemStats
 		// int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0, intMod = 0,
 		// minDmg = 0, maxDmg = 0, defBonus = 0;
 		int[] stats = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		String[] statsS = new String[] { UtilNBTKeys.strStat, UtilNBTKeys.dexStat, UtilNBTKeys.vitStat, UtilNBTKeys.agiStat, UtilNBTKeys.intStat, UtilNBTKeys.minDmgStat, UtilNBTKeys.maxDmgStat, UtilNBTKeys.defStat };
+		String[] statsS = new String[] {
+				UtilNBTKeys.strStat,
+				UtilNBTKeys.dexStat,
+				UtilNBTKeys.vitStat,
+				UtilNBTKeys.agiStat,
+				UtilNBTKeys.intStat,
+				UtilNBTKeys.minDmgStat,
+				UtilNBTKeys.maxDmgStat,
+				UtilNBTKeys.defStat };
 		float[] bonusStats = new float[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		String[] bonusStatsS = new String[] { UtilNBTKeys.lifeSteal, UtilNBTKeys.manaSteal, UtilNBTKeys.manaStat, UtilNBTKeys.stamStat, UtilNBTKeys.lifeStat, UtilNBTKeys.manaRegenStat, UtilNBTKeys.stamRegenStat, UtilNBTKeys.lifeRegenStat };
+		String[] bonusStatsS = new String[] {
+				UtilNBTKeys.lifeSteal,
+				UtilNBTKeys.manaSteal,
+				UtilNBTKeys.manaStat,
+				UtilNBTKeys.stamStat,
+				UtilNBTKeys.lifeStat,
+				UtilNBTKeys.manaRegenStat,
+				UtilNBTKeys.stamRegenStat,
+				UtilNBTKeys.lifeRegenStat };
 		// float lifeSteal = 0, manaSteal = 0;
 		// float bonusMana = 0, bonusStam = 0, bonusHealth = 0, bonusManaRegen =
 		// 0, bonusStamRegen = 0, bonusHealthRegen = 0;
@@ -465,5 +490,5 @@ public class UtilItemStats
 		{
 			props.setHealthRegen(bonusStats[7]);
 		}
-	}	
+	}
 }
