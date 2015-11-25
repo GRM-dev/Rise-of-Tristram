@@ -334,22 +334,23 @@ public class UtilItemStats
 
 	private static void selfRepair(ItemStack item)
 	{
-
-		if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairing) > 1f)
+		float selfRepairLevel = UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairing);
+		
+		if (selfRepairLevel > 1f)
 		{
-			if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairTime) == 0)
+			float selfRepairBaseTime = UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairing);
+			float selfRepairTime = UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairTime);
+			if (UtilNBTHelper.getFloat(item, UtilNBTKeys.selfRepairTime) <= 0)
 			{
 				if (item.getItemDamage() > 0)
 				{
 					item.setItemDamage(item.getItemDamage() - 1);
-					UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, UtilNBTHelper
-							.getFloat(item, UtilNBTKeys.selfRepairing) * 20);
+					UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, selfRepairBaseTime * 20);
 				}
 			}
 			else
 			{
-				UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, UtilNBTHelper.getFloat(
-						item, UtilNBTKeys.selfRepairTime) - 1);
+				UtilNBTHelper.setFloat(item, UtilNBTKeys.selfRepairTime, selfRepairTime - 10);
 			}
 		}
 
@@ -360,6 +361,10 @@ public class UtilItemStats
 		// Stat handling
 		// int strMod = 0, dexMod = 0, vitMod = 0, agiMod = 0, intMod = 0,
 		// minDmg = 0, maxDmg = 0, defBonus = 0;
+		//equipment is all wearable items that the player can wear that will give stats, including the correct held type
+		ItemStack[] equipment = new ItemStack[]{player.getEquipmentInSlot(0), player.getEquipmentInSlot(1), player
+				.getEquipmentInSlot(2), player.getEquipmentInSlot(3), player
+				.getEquipmentInSlot(4)};
 		int[] stats = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		String[] statsS = new String[] {
 				UtilNBTKeys.strStat,
@@ -386,6 +391,30 @@ public class UtilItemStats
 		ItemStack held = player.getEquipmentInSlot(0), armor1 = player.getEquipmentInSlot(1), armor2 = player
 				.getEquipmentInSlot(2), armor3 = player.getEquipmentInSlot(3), armor4 = player
 				.getEquipmentInSlot(4);
+		
+		for (int i = 0; i < equipment.length; i++)
+		{
+			if (equipment[i] != null)
+			{
+				if (i == 0)
+				{
+					if ((equipment[i].getItem() instanceof ItemSword) || (equipment[i].getItem() instanceof ItemTool) || (equipment[i]
+							.getItem() instanceof ItemBow))
+					{
+						getBasicStats(equipment[i], stats, statsS);
+						getBonusStats(equipment[i], bonusStats, bonusStatsS);
+						//TODO move this function somewhere more controlled to prevent infinite tool 
+						//if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(held);
+					}
+				}
+				else
+				{
+					getBasicStats(equipment[i], stats, statsS);
+					getBonusStats(equipment[i], bonusStats, bonusStatsS);
+					//if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(held);
+				}
+			}
+		}
 
 		if (held != null)
 		{
@@ -394,32 +423,32 @@ public class UtilItemStats
 			{
 				getBasicStats(held, stats, statsS);
 				getBonusStats(held, bonusStats, bonusStatsS);
-				selfRepair(held);
+				if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(held);
 			}
 		}
 		if (armor1 != null)
 		{
 			getBasicStats(armor1, stats, statsS);
 			getBonusStats(armor1, bonusStats, bonusStatsS);
-			selfRepair(armor1);
+			//if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(armor1);
 		}
 		if (armor2 != null)
 		{
 			getBasicStats(armor2, stats, statsS);
 			getBonusStats(armor2, bonusStats, bonusStatsS);
-			selfRepair(armor2);
+			//if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(armor2);
 		}
 		if (armor3 != null)
 		{
 			getBasicStats(armor3, stats, statsS);
 			getBonusStats(armor3, bonusStats, bonusStatsS);
-			selfRepair(armor3);
+			//if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(armor3);
 		}
 		if (armor4 != null)
 		{
 			getBasicStats(armor4, stats, statsS);
 			getBonusStats(armor4, bonusStats, bonusStatsS);
-			selfRepair(armor4);
+			//if (player.worldObj.getWorldTime() % 20 == 0) selfRepair(armor4);
 		}
 
 		if (props.getStrength() != (stats[0] - props.getClassModifers()[0]))
