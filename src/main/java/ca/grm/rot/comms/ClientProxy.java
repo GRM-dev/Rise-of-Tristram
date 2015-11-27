@@ -163,7 +163,8 @@ public class ClientProxy extends CommonProxy
 		 * RotStamGui(Minecraft.getMinecraft()));
 		 */
 		MinecraftForge.EVENT_BUS.register(new GuiExtendedPlayerStats(Minecraft.getMinecraft()));
-		MinecraftForge.EVENT_BUS.register(new RotEventRenderLiving());
+		//TODO enable when fix render code
+		//MinecraftForge.EVENT_BUS.register(new RotEventRenderLiving());
 		// MinecraftForgeClient.registerItemRenderer(RotItems.itemSwordSoul, new
 		// ItemRendererScaled(.75f));
 		/*

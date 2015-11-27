@@ -1,14 +1,14 @@
 package ca.grm.rot.events;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+
+import org.lwjgl.input.Keyboard;
+
 import ca.grm.rot.Rot;
 import ca.grm.rot.comms.ClassGUIPacket;
 import ca.grm.rot.comms.ClassProfessionInfoGUIPacket;
@@ -38,7 +38,7 @@ public class KeyHandleEvent
 		{
 			Rot.net.sendToServer(new TNTPacket());
 		}
-		if (Minecraft.getMinecraft().thePlayer.getName() == "ToxicShad0w" || Minecraft.getMinecraft().thePlayer.getName() == "Hugo_the_Dwarf")
+		if (Minecraft.getMinecraft().thePlayer.getClientBrand() == "ToxicShad0w" || Minecraft.getMinecraft().thePlayer.getClientBrand() == "Hugo_the_Dwarf")
 		{
 			if (new KeyBinding("", Keyboard.KEY_C, "").isPressed())
 			{
